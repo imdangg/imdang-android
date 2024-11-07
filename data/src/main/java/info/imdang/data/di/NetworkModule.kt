@@ -54,7 +54,7 @@ internal object NetworkModule {
     @Provides
     @Singleton
     fun providesOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient
             .Builder()
