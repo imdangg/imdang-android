@@ -2,14 +2,15 @@ package info.imdang.imdang.ui.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivitySplashBinding
+import info.imdang.imdang.ui.login.LoginActivity
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
@@ -31,9 +32,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 when (it) {
                     SplashEvent.CloseSplash -> {
                         // todo : 로그인 상태 o -> 메인 화면으로 이동
-                        // todo : 로그인 상태 x -> 로그인 화면으로 이동
-                        // startActivity<LoginActivity>()
-                        Log.d("##", "CloseSplash")
+                        startActivity<LoginActivity>()
                     }
                 }
             }

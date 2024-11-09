@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "info.imdang.imdang"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
