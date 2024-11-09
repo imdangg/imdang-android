@@ -42,4 +42,6 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.core.splash)
+    implementation(libs.material)
 }
