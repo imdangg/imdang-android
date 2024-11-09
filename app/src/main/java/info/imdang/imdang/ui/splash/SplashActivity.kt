@@ -11,6 +11,7 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivitySplashBinding
 import info.imdang.imdang.ui.login.LoginActivity
+import info.imdang.imdang.ui.main.MainActivity
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
@@ -30,10 +31,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         lifecycleScope.launch {
             viewModel.event.collect {
                 when (it) {
-                    SplashEvent.CloseSplash -> {
-                        // todo : 로그인 상태 o -> 메인 화면으로 이동
-                        startActivity<LoginActivity>()
-                    }
+                    SplashEvent.MoveLoginActivity -> startActivity<LoginActivity>()
+                    SplashEvent.MoveMainActivity -> startActivity<MainActivity>()
                 }
             }
         }

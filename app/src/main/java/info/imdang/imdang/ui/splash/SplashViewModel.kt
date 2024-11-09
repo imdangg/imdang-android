@@ -18,7 +18,8 @@ class SplashViewModel @Inject constructor() : ViewModel() {
     init {
         viewModelScope.launch {
             delay(2000)
-            _event.emit(SplashEvent.CloseSplash)
+            // todo : 로그인 상태 o -> MoveMainActivity
+            _event.emit(SplashEvent.MoveLoginActivity)
         }
     }
 }
