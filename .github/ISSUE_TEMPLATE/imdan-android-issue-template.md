@@ -1,6 +1,6 @@
 ---
 name: imdan-android-issue-template
-about: "\bissue-template"
+about: "issue-template"
 title: ''
 labels: ''
 assignees: ''
@@ -8,4 +8,4 @@ assignees: ''
 ---
 
 ## 작업 내용
-- [ ] :
+- [ ] : 
