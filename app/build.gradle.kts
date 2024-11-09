@@ -90,6 +90,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":component"))
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
