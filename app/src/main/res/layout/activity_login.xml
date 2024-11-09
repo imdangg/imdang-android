@@ -18,43 +18,44 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_imdang"
+            app:layout_constraintBottom_toTopOf="@id/cl_kakao_login"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/cl_kakao_login"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_kakao_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:background="@drawable/selector_kakao_all8"
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.onClickKakaoLoginButton()}"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
-            android:clickable="true"
-            android:background="@drawable/selector_kakao_all8"
+            app:layout_constraintBottom_toTopOf="@id/cl_google_login"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/cl_google_login">
+            app:layout_constraintRight_toRightOf="parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_kakao"
                 android:importantForAccessibility="no"
+                android:src="@drawable/ic_kakao"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/pretendard"
-                android:textFontWeight="600"
-                android:text="@string/kakao_login"
-                android:textSize="16sp"
-                android:textColor="@color/gray_900"
                 android:lineHeight="19sp"
-                android:textAlignment="center"/>
+                android:text="@string/kakao_login"
+                android:textAlignment="center"
+                android:textColor="@color/gray_900"
+                android:textFontWeight="600"
+                android:textSize="16sp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,33 +63,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
+            android:background="@drawable/selector_white_gray100_all8"
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.onClickGoogleLoginButton()}"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
-            android:clickable="true"
-            android:background="@drawable/selector_white_gray100_all8"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintRight_toRightOf="parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_google"
                 android:importantForAccessibility="no"
+                android:src="@drawable/ic_google"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/pretendard"
-                android:textFontWeight="600"
-                android:text="@string/google_login"
-                android:textSize="16sp"
-                android:textColor="@color/gray_900"
                 android:lineHeight="19sp"
-                android:textAlignment="center"/>
+                android:text="@string/google_login"
+                android:textAlignment="center"
+                android:textColor="@color/gray_900"
+                android:textFontWeight="600"
+                android:textSize="16sp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

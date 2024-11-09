@@ -24,16 +24,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        setupObserver()
+        setupCollect()
     }
 
-    private fun setupObserver() {
+    private fun setupCollect() {
         lifecycleScope.launch {
             viewModel.event.collect {
                 when (it) {
                     SplashEvent.MoveLoginActivity -> startActivity<LoginActivity>()
                     SplashEvent.MoveMainActivity -> startActivity<MainActivity>()
                 }
+                finish()
             }
         }
     }
