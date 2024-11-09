@@ -19,10 +19,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 종속성 설치
-      - name: Install dependencies
-        run: ./gradlew build --no-daemon
-
       # Ktlint 실행
       - name: Run ktlint
-        run: ./gradlew ktlintCheck --no-daemon
+        run: ./gradlew ktlintCheck
