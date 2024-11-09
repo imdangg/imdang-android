@@ -1,5 +1,5 @@
 ---
-name: imdan-android-issue-template
+name: imdang-android-issue-template
 about: "issue-template"
 title: ''
 labels: ''
