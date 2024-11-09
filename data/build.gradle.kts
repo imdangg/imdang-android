@@ -1,5 +1,3 @@
-import com.android.utils.TraceUtils.simpleId
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
