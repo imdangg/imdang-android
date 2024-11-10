@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "info.imdang.data"
+    namespace = "info.imdang.component"
     compileSdk = 34
 
     defaultConfig {
@@ -23,7 +22,7 @@ android {
             )
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -42,18 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
 
-    // kotlin-stblib
-    implementation(libs.kotlin.stblib)
-
-    // hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
-    // retrofit
-    implementation(libs.retrofit.gson)
-    implementation(libs.okhttp3.logging)
-
-    // room
+    implementation(libs.androidx.core.splash)
+    implementation(libs.material)
 }

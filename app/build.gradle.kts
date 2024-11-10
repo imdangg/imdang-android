@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "info.imdang.imdang"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -90,15 +90,18 @@ android {
 }
 
 dependencies {
+    implementation(project(":component"))
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
 
     // android
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splash)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle)
 
