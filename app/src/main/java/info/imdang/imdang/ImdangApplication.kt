@@ -10,6 +10,6 @@ class ImdangApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        KakaoSdk.init(this, getString(info.imdang.component.R.string.kakao_native_key))
+        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_KEY)
     }
 }
