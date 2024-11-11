@@ -23,6 +23,8 @@ android {
         applicationId = "info.imdang.imdang"
         minSdk = 28
         targetSdk = 34
+        versionCode = 1
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,6 +43,12 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
+            addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to "b50fa405422b988a1b7a0d119d57db5b"))
+            buildConfigField(
+                "String",
+                "KAKAO_NATIVE_KEY",
+                "\"b50fa405422b988a1b7a0d119d57db5b\""
+            )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -51,6 +59,12 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
+            addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to "59e9eec5c9f86687f9bf55b7c251dc76"))
+            buildConfigField(
+                "String",
+                "KAKAO_NATIVE_KEY",
+                "\"59e9eec5c9f86687f9bf55b7c251dc76\""
+            )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -78,13 +92,9 @@ android {
         create("dev") {
             dimension = "server"
             applicationIdSuffix = ".dev"
-            versionCode = 1
-            versionName = "1.0.0"
         }
         create("product") {
             dimension = "server"
-            versionCode = 1
-            versionName = "1.0.0"
         }
     }
 }
@@ -108,6 +118,9 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // kakao
+    implementation(libs.kakao.login)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
