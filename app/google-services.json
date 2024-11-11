@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "662512948826",
+    "project_id": "imdang-dev-temp",
+    "storage_bucket": "imdang-dev-temp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662512948826:android:b1b8388cf1c179f0bc2a63",
+        "android_client_info": {
+          "package_name": "info.imdang.imdang.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662512948826-ge6oloh812bvv71jejtr6s6geehk60fu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.imdang.imdang.dev",
+            "certificate_hash": "db3d9c9ce30f59a329545ce6f0bcb40f63183941"
+          }
+        },
+        {
+          "client_id": "662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTaAMLWNs-Xo-aj6kgnOdgwSrXwOxKI78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.google.services)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -46,6 +47,11 @@ android {
             addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to "b50fa405422b988a1b7a0d119d57db5b"))
             buildConfigField(
                 "String",
+                "GOOGLE_WEB_CLIENT_ID",
+                "\"662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com\""
+            )
+            buildConfigField(
+                "String",
                 "KAKAO_NATIVE_KEY",
                 "\"b50fa405422b988a1b7a0d119d57db5b\""
             )
@@ -64,6 +70,11 @@ android {
                 "String",
                 "KAKAO_NATIVE_KEY",
                 "\"59e9eec5c9f86687f9bf55b7c251dc76\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_WEB_CLIENT_ID",
+                "\"662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com\""
             )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -118,6 +129,14 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+
+    // google
+    implementation(libs.play.services.auth)
 
     // kakao
     implementation(libs.kakao.login)
