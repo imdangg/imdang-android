@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.login
 
 import android.content.IntentSender
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -45,11 +46,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             firebaseAuth.signInWithCredential(firebaseCredential)
                 .addOnSuccessListener {
                     lifecycleScope.launch {
-                        processSocialLoginResult(it.user?.getIdToken(true)?.await()?.token)
+                        handleSocialLoginResult(it.user?.getIdToken(true)?.await()?.token)
                     }
                 }
                 .addOnFailureListener {
-                    processSocialLoginResult(error = it)
+                    handleSocialLoginResult(error = it)
                 }
         }
     }
@@ -75,11 +76,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private fun kakaoLogin() {
         if (userApiClient.isKakaoTalkLoginAvailable(this)) {
             userApiClient.loginWithKakaoTalk(this) { oAuthToken, error ->
-                processSocialLoginResult(oAuthToken?.idToken, error)
+                handleSocialLoginResult(oAuthToken?.idToken, error)
             }
         } else {
             userApiClient.loginWithKakaoAccount(this) { oAuthToken, error ->
-                processSocialLoginResult(oAuthToken?.idToken, error)
+                handleSocialLoginResult(oAuthToken?.idToken, error)
             }
         }
     }
@@ -101,12 +102,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()
                 )
             } catch (e: IntentSender.SendIntentException) {
-                processSocialLoginResult(error = e)
+                handleSocialLoginResult(error = e)
             }
         }
     }
 
-    private fun processSocialLoginResult(
+    private fun handleSocialLoginResult(
         token: String? = null,
         error: Throwable? = null
     ) {
@@ -114,6 +115,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             showOnboardingBottomSheet(token)
         } else if (error != null) {
             // todo : 로그인 실패 처리
+            Log.e("##", Log.getStackTraceString(error))
         }
     }
 

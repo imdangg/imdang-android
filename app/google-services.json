@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "662512948826",
-    "project_id": "imdang-dev-temp",
-    "storage_bucket": "imdang-dev-temp.firebasestorage.app"
+    "project_number": "838985514590",
+    "project_id": "imdangadmin",
+    "storage_bucket": "imdangadmin.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:662512948826:android:b1b8388cf1c179f0bc2a63",
+        "mobilesdk_app_id": "1:838985514590:android:8d6e9c33e19998b10f7ecf",
         "android_client_info": {
-          "package_name": "info.imdang.imdang.dev"
+          "package_name": "info.imdang.imdang"
         }
       },
       "oauth_client": [
         {
-          "client_id": "662512948826-ge6oloh812bvv71jejtr6s6geehk60fu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "info.imdang.imdang.dev",
-            "certificate_hash": "db3d9c9ce30f59a329545ce6f0bcb40f63183941"
-          }
-        },
-        {
-          "client_id": "662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com",
+          "client_id": "838985514590-rsb1g12vd0h4rr7sv447hterg6gj3trk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTaAMLWNs-Xo-aj6kgnOdgwSrXwOxKI78"
+          "current_key": "AIzaSyDqXYpdocdzeSIH3fxTzx3voSpdtfUcwQ4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com",
+              "client_id": "838985514590-rsb1g12vd0h4rr7sv447hterg6gj3trk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

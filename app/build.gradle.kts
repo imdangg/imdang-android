@@ -18,14 +18,14 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "info.imdang.imdang"
-    compileSdk = 34
+    compileSdk = AppConfig.COMPILE_SDK
 
     defaultConfig {
         applicationId = "info.imdang.imdang"
-        minSdk = 28
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        minSdk = AppConfig.MIN_SDK
+        targetSdk = AppConfig.TARGET_SDK
+        versionCode = AppConfig.VERSION_CODE
+        versionName = AppConfig.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,17 +44,6 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to "b50fa405422b988a1b7a0d119d57db5b"))
-            buildConfigField(
-                "String",
-                "GOOGLE_WEB_CLIENT_ID",
-                "\"662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com\""
-            )
-            buildConfigField(
-                "String",
-                "KAKAO_NATIVE_KEY",
-                "\"b50fa405422b988a1b7a0d119d57db5b\""
-            )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -65,17 +54,6 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
-            addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to "59e9eec5c9f86687f9bf55b7c251dc76"))
-            buildConfigField(
-                "String",
-                "KAKAO_NATIVE_KEY",
-                "\"59e9eec5c9f86687f9bf55b7c251dc76\""
-            )
-            buildConfigField(
-                "String",
-                "GOOGLE_WEB_CLIENT_ID",
-                "\"662512948826-teaol8lvel5dj5pkkd2bfmf98jr02pk3.apps.googleusercontent.com\""
-            )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -103,9 +81,31 @@ android {
         create("dev") {
             dimension = "server"
             applicationIdSuffix = ".dev"
+            addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to DevConfig.KAKAO_NATIVE_KEY))
+            buildConfigField(
+                "String",
+                "KAKAO_NATIVE_KEY",
+                "\"${DevConfig.KAKAO_NATIVE_KEY}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_WEB_CLIENT_ID",
+                "\"${DevConfig.GOOGLE_WEB_CLIENT_ID}\""
+            )
         }
         create("product") {
             dimension = "server"
+            addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to ProductConfig.KAKAO_NATIVE_KEY))
+            buildConfigField(
+                "String",
+                "KAKAO_NATIVE_KEY",
+                "\"${ProductConfig.KAKAO_NATIVE_KEY}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_WEB_CLIENT_ID",
+                "\"${ProductConfig.GOOGLE_WEB_CLIENT_ID}\""
+            )
         }
     }
 }

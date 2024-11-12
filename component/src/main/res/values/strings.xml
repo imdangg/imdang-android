@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">imdang</string>
+    <string name="app_name">아파트임당</string>
     <string name="kakao_login">카카오 로그인</string>
     <string name="google_login">구글 로그인</string>
     <string name="next">다음</string>
