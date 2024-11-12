@@ -4,12 +4,21 @@ import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
-import info.imdang.imdang.databinding.ActivityBasicInformationBinding
+import info.imdang.imdang.databinding.ActivityJoinCompleteBinding
 
 @AndroidEntryPoint
 class JoinCompleteActivity :
-    BaseActivity<ActivityBasicInformationBinding>(R.layout.activity_join_complete) {
+    BaseActivity<ActivityJoinCompleteBinding>(R.layout.activity_join_complete) {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setupListener()
+    }
+
+    private fun setupListener() {
+        binding.btnStartComplete.setOnClickListener {
+            finish()
+        }
     }
 }

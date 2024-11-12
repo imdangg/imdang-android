@@ -1,5 +1,6 @@
 package info.imdang.imdang.ui.login
 
+import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
@@ -20,11 +21,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.BuildConfig
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
-import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.ext.startAndFinishActivity
 import info.imdang.imdang.databinding.ActivityLoginBinding
 import info.imdang.imdang.ui.join.BasicInformationActivity
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheet
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheetListener
+import info.imdang.imdang.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -55,6 +57,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     handleSocialLoginResult(error = it)
                 }
         }
+    }
+
+    private val joinResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) startAndFinishActivity<MainActivity>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,7 +134,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             listener = object : OnboardingBottomSheetListener {
                 override fun onClickLastNextButton() {
                     // todo : token을 가지고 회원가입 화면으로 이동
-                    startActivity<BasicInformationActivity>()
+                    joinResult.launch(
+                        Intent(
+                            this@LoginActivity,
+                            BasicInformationActivity::class.java
+                        )
+                    )
                 }
             }
         ).show(

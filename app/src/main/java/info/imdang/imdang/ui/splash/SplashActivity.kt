@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
-import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.ext.startAndFinishActivity
 import info.imdang.imdang.databinding.ActivitySplashBinding
 import info.imdang.imdang.ui.login.LoginActivity
 import info.imdang.imdang.ui.main.MainActivity
@@ -31,10 +31,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         lifecycleScope.launch {
             viewModel.event.collect {
                 when (it) {
-                    SplashEvent.MoveLoginActivity -> startActivity<LoginActivity>()
-                    SplashEvent.MoveMainActivity -> startActivity<MainActivity>()
+                    SplashEvent.MoveLoginActivity -> startAndFinishActivity<LoginActivity>()
+                    SplashEvent.MoveMainActivity -> startAndFinishActivity<MainActivity>()
                 }
-                finish()
             }
         }
     }
