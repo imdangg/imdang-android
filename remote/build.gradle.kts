@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "info.imdang.remote"
-    compileSdk = 34
+    compileSdk = AppConfig.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 28
+        minSdk = AppConfig.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

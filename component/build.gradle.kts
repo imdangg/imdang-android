@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "info.imdang.component"
-    compileSdk = 34
+    compileSdk = AppConfig.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 28
+        minSdk = AppConfig.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,6 +37,17 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    setFlavorDimensions(listOf("server"))
+
+    productFlavors {
+        create("dev") {
+            dimension = "server"
+        }
+        create("product") {
+            dimension = "server"
+        }
     }
 }
 
