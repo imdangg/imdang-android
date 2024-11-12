@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "999413225080-nvkv9ljg37q88oqdo03kp4u849mi6qjn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.imdang.imdang.dev",
+            "certificate_hash": "db3d9c9ce30f59a329545ce6f0bcb40f63183941"
+          }
+        },
+        {
           "client_id": "999413225080-k2rugvbe1sn71gr8qka5n2jmuq7u692v.apps.googleusercontent.com",
           "client_type": 3
         }
