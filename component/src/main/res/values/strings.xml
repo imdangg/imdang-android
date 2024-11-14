@@ -14,4 +14,10 @@
     <string name="man">남자</string>
     <string name="woman">여자</string>
     <string name="complete">완료</string>
+    <string name="start">시작하기</string>
+    <string name="complete_title">아파트임당 가입 완료</string>
+    <string name="complete_sub_title">아파트임당은 이런 분들을 위해\n1:1 임장 인사이트 교환 서비스를 제공해요</string>
+    <string name="first_insight">동등한 퀄리티의 인사이트를 공유하고 싶어요 </string>
+    <string name="second_insight">의미 있는 인사이트를 공유하고 싶어요</string>
+    <string name="third_insight">지속적으로 양질의 인사이트 공유를 하고 싶어요</string>
 </resources>
