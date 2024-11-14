@@ -27,3 +27,7 @@ inline fun <reified T : Activity> Context.startAndFinishActivity(
     startActivity(intent, transitionBundle)
     if (this is Activity) finish()
 }
+
+fun Context.dpToPx(dp: Int): Int {
+    return Math.round(dp * resources.displayMetrics.density)
+}

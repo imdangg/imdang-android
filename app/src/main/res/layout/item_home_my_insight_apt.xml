@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="info.imdang.imdang.model.insight.InsightAptVo" />
+    </data>
 
     <com.google.android.material.chip.Chip
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="신논현 더 센트럴 푸르지오"
+        android:text="@{item.aptName}"
         android:textAppearance="@style/T_500_14_19_6"
-        android:textColor="@color/white"
-        app:chipBackgroundColor="@color/orange_500"
+        android:textColor="@{item.isSelected ? @color/white : @color/gray_500}"
+        app:chipBackgroundColor="@{item.isSelected ? @color/orange_500 : @color/white}"
         app:chipCornerRadius="33dp"
         app:chipMinTouchTargetSize="33dp"
-        app:chipStrokeWidth="0dp" />
+        app:chipStrokeColor="@{item.isSelected ? @color/orange_500 : @color/gray_100}"
+        tools:text="신논현 더 센트럴 푸르지오" />
 </layout>

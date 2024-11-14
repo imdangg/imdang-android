@@ -17,9 +17,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabBackground="@drawable/selector_dot"
+            app:tabBackground="@drawable/selector_dot_8"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="14dp"
             app:tabPaddingStart="6dp" />
 
         <androidx.viewpager2.widget.ViewPager2
