@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="신논현 더 센트럴 푸르지오"
+        android:textAppearance="@style/T_500_14_19_6"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/orange_500"
+        app:chipCornerRadius="33dp"
+        app:chipMinTouchTargetSize="33dp"
+        app:chipStrokeWidth="0dp" />
+</layout>
