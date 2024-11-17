@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/tv_basic_information_title"
-            style="@style/T_700_26_31_03"
+            style="@style/T_700_26_36_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/tv_basic_information_sub_title"
-            style="@style/T_500_16_24"
+            style="@style/T_500_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
@@ -45,7 +45,7 @@
 
             <TextView
                 android:id="@+id/tv_nickname"
-                style="@style/T_600_14_16_71"
+                style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nickname"
@@ -69,12 +69,12 @@
                 android:layout_marginTop="8dp"
                 android:textColorHint="@color/gray_500"
                 app:hintEnabled="false"
-                app:hintTextAppearance="@style/T_500_16_19_09"
+                app:hintTextAppearance="@style/T_500_16_22_4"
                 app:layout_constraintTop_toBottomOf="@+id/tv_nickname">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_nick_name"
-                    style="@style/T_600_16_19_09"
+                    style="@style/T_600_16_22_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_basic_information_edittext"
@@ -95,7 +95,7 @@
 
             <TextView
                 android:id="@+id/tv_birth_date"
-                style="@style/T_600_14_16_71"
+                style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/birth_date"
@@ -119,12 +119,12 @@
                 android:layout_marginTop="8dp"
                 android:textColorHint="@color/gray_500"
                 app:hintEnabled="false"
-                app:hintTextAppearance="@style/T_500_16_19_09"
+                app:hintTextAppearance="@style/T_500_16_22_4"
                 app:layout_constraintTop_toBottomOf="@+id/tv_birth_date">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_birth_date"
-                    style="@style/T_600_16_19_09"
+                    style="@style/T_600_16_22_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_basic_information_edittext"
@@ -145,7 +145,7 @@
 
             <TextView
                 android:id="@+id/tv_gender"
-                style="@style/T_600_14_16_71"
+                style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gender"
@@ -171,7 +171,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_gender_man"
-                    style="@style/T_500_16_19_09"
+                    style="@style/T_500_16_22_4"
                     android:layout_width="0dp"
                     android:layout_height="52dp"
                     android:layout_weight="1"
@@ -183,7 +183,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_gender_woman"
-                    style="@style/T_600_16_19_09"
+                    style="@style/T_600_16_22_4"
                     android:layout_width="0dp"
                     android:layout_height="52dp"
                     android:layout_marginStart="8dp"
@@ -199,7 +199,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_complete"
-            style="@style/T_600_16_19_2"
+            style="@style/T_600_16_22_4"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginBottom="40dp"

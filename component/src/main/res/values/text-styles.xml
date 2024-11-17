@@ -3,98 +3,53 @@
     <!-- T_fontWeight_textSize_lineHeight 규칙으로 생성 -->
     <!-- fontWeight -> textSize -> lineHeight 순으로 정렬 -->
 
-    <style name="T_400_14_16_8" parent="pretendard400">
+    <style name="T_400_14_19_6" parent="pretendard400">
         <item name="android:textSize">14sp</item>
-        <item name="android:lineHeight">16.8sp</item>
+        <item name="android:lineHeight">19.6dp</item>
     </style>
 
-    <style name="T_500_12_14_32" parent="pretendard500">
+    <style name="T_500_12_16_8" parent="pretendard500">
         <item name="android:textSize">12sp</item>
-        <item name="android:lineHeight">14.32sp</item>
+        <item name="android:lineHeight">16.8dp</item>
     </style>
 
-    <style name="T_500_12_18" parent="pretendard500">
-        <item name="android:textSize">12sp</item>
-        <item name="android:lineHeight">18sp</item>
-    </style>
-
-    <style name="T_500_14_16_71" parent="pretendard500">
+    <style name="T_500_14_19_6" parent="pretendard500">
         <item name="android:textSize">14sp</item>
-        <item name="android:lineHeight">16.71sp</item>
-    </style>
-
-    <style name="T_500_14_16_8" parent="pretendard500">
-        <item name="android:textSize">14sp</item>
-        <item name="android:lineHeight">16.8sp</item>
-    </style>
-
-    <style name="T_500_14_21" parent="pretendard500">
-        <item name="android:textSize">14sp</item>
-        <item name="android:lineHeight">21sp</item>
-    </style>
-
-    <style name="T_500_16_19_09" parent="pretendard500">
-        <item name="android:textSize">16sp</item>
-        <item name="android:lineHeight">19.09sp</item>
+        <item name="android:lineHeight">19.6dp</item>
     </style>
 
     <style name="T_500_16_22_4" parent="pretendard500">
         <item name="android:textSize">16sp</item>
-        <item name="android:lineHeight">22.4sp</item>
+        <item name="android:lineHeight">22.4dp</item>
     </style>
 
-    <style name="T_500_16_24" parent="pretendard500">
-        <item name="android:textSize">16sp</item>
-        <item name="android:lineHeight">24sp</item>
-    </style>
-
-    <style name="T_600_14_16_71" parent="pretendard600">
+    <style name="T_600_14_19_6" parent="pretendard600">
         <item name="android:textSize">14sp</item>
-        <item name="android:lineHeight">16.71sp</item>
-    </style>
-
-    <style name="T_600_14_16_8" parent="pretendard600">
-        <item name="android:textSize">14sp</item>
-        <item name="android:lineHeight">16.8sp</item>
-    </style>
-
-    <style name="T_600_16_19_09" parent="pretendard600">
-        <item name="android:textSize">16sp</item>
-        <item name="android:lineHeight">19.09sp</item>
-    </style>
-
-    <style name="T_600_16_19_2" parent="pretendard600">
-        <item name="android:textSize">16sp</item>
-        <item name="android:lineHeight">19.2sp</item>
+        <item name="android:lineHeight">19.6dp</item>
     </style>
 
     <style name="T_600_16_22_4" parent="pretendard600">
         <item name="android:textSize">16sp</item>
-        <item name="android:lineHeight">22.4sp</item>
+        <item name="android:lineHeight">22.4dp</item>
     </style>
 
-    <style name="T_600_18_21_6" parent="pretendard600">
+    <style name="T_600_18_25_2" parent="pretendard600">
         <item name="android:textSize">18sp</item>
-        <item name="android:lineHeight">21.6sp</item>
+        <item name="android:lineHeight">25.2dp</item>
     </style>
 
-    <style name="T_600_24_28_8" parent="pretendard600">
+    <style name="T_600_24_33_6" parent="pretendard600">
         <item name="android:textSize">24sp</item>
-        <item name="android:lineHeight">28.8sp</item>
+        <item name="android:lineHeight">33.6dp</item>
     </style>
 
-    <style name="T_700_24_28_64" parent="pretendard700">
+    <style name="T_700_24_33_6" parent="pretendard700">
         <item name="android:textSize">24sp</item>
-        <item name="android:lineHeight">28.64sp</item>
+        <item name="android:lineHeight">33.6dp</item>
     </style>
 
-    <style name="T_700_24_28_8" parent="pretendard700">
-        <item name="android:textSize">24sp</item>
-        <item name="android:lineHeight">28.8sp</item>
-    </style>
-
-    <style name="T_700_26_31_03" parent="pretendard700">
+    <style name="T_700_26_36_4" parent="pretendard700">
         <item name="android:textSize">26sp</item>
-        <item name="android:lineHeight">31.03sp</item>
+        <item name="android:lineHeight">36.4dp</item>
     </style>
 </resources>
