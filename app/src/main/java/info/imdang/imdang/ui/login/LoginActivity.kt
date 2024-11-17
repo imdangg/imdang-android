@@ -20,7 +20,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.BuildConfig
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityLoginBinding
+import info.imdang.imdang.ui.join.BasicInformationActivity
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheet
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheetListener
 import kotlinx.coroutines.launch
@@ -124,6 +126,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             listener = object : OnboardingBottomSheetListener {
                 override fun onClickLastNextButton() {
                     // todo : token을 가지고 회원가입 화면으로 이동
+                    startActivity<BasicInformationActivity>()
                 }
             }
         ).show(

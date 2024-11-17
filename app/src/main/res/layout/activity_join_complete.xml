@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_25"
+        tools:context=".ui.join.JoinCompleteActivity">
+
+        <ImageView
+            android:id="@+id/iv_check_complete"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_check"
+            app:layout_constraintBottom_toTopOf="@+id/tv_title_complete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title_complete"
+            style="@style/T_700_24_28_64"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/complete_title"
+            android:textAlignment="center"
+            android:textColor="@color/gray_900"
+            app:layout_constraintBottom_toTopOf="@+id/tv_sub_title_complete" />
+
+        <TextView
+            android:id="@+id/tv_sub_title_complete"
+            style="@style/T_500_16_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:text="@string/complete_sub_title"
+            android:textAlignment="center"
+            android:textColor="@color/gray_700"
+            app:layout_constraintBottom_toTopOf="@+id/tv_first_insight_complete" />
+
+        <TextView
+            android:id="@+id/tv_first_insight_complete"
+            style="@style/T_500_14_21"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="38dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_gray50_all8"
+            android:gravity="center"
+            android:text="@string/first_insight"
+            android:textAlignment="center"
+            android:textColor="@color/gray_900"
+            app:layout_constraintBottom_toTopOf="@id/tv_second_insight_complete"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_second_insight_complete"
+            style="@style/T_500_14_21"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="38dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_gray50_all8"
+            android:gravity="center"
+            android:text="@string/second_insight"
+            android:textAlignment="center"
+            android:textColor="@color/gray_900"
+            app:layout_constraintBottom_toTopOf="@+id/tv_third_insight_complete"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_third_insight_complete"
+            style="@style/T_500_14_21"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="38dp"
+            android:layout_marginBottom="126dp"
+            android:background="@drawable/selector_gray50_all8"
+            android:gravity="center"
+            android:text="@string/third_insight"
+            android:textAlignment="center"
+            android:textColor="@color/gray_900"
+            app:layout_constraintBottom_toTopOf="@+id/btn_start_complete"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_start_complete"
+            style="@style/T_600_16_19_2"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/selector_orange500_all8"
+            android:stateListAnimator="@null"
+            android:text="@string/start"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
