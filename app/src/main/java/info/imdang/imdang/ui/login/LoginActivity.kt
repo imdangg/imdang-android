@@ -22,7 +22,7 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityLoginBinding
-import info.imdang.imdang.ui.basicinformation.BasicInformationActivity
+import info.imdang.imdang.ui.join.BasicInformationActivity
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheet
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheetListener
 import kotlinx.coroutines.launch

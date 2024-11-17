@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/gray_25"
         android:paddingHorizontal="20dp"
-        tools:context=".ui.basicinformation.BasicInformationActivity">
+        tools:context=".ui.join.BasicInformationActivity">
 
         <TextView
             android:id="@+id/tv_basic_information_title"
@@ -30,25 +30,25 @@
             style="@style/T_500_16_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="44dp"
+            android:layout_marginBottom="40dp"
             android:text="@string/basic_information_sub_title"
             android:textColor="@color/gray_700"
-            app:layout_constraintBottom_toTopOf="@+id/cl_nick_name"
+            app:layout_constraintBottom_toTopOf="@+id/cl_nickname"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_nick_name"
+            android:id="@+id/cl_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toTopOf="@+id/cl_birth_date">
 
             <TextView
-                android:id="@+id/tv_nick_name"
+                android:id="@+id/tv_nickname"
                 style="@style/T_600_14_16_71"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/nick_name"
+                android:text="@string/nickname"
                 android:textColor="@color/gray_700"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -57,11 +57,11 @@
                 android:id="@+id/iv_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="6dp"
                 android:src="@drawable/ic_check"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_nick_name"
-                app:layout_constraintStart_toEndOf="@+id/tv_nick_name"
-                app:layout_constraintTop_toTopOf="@+id/tv_nick_name" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
+                app:layout_constraintStart_toEndOf="@+id/tv_nickname"
+                app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                 android:textColorHint="@color/gray_500"
                 app:hintEnabled="false"
                 app:hintTextAppearance="@style/T_500_16_19_09"
-                app:layout_constraintTop_toBottomOf="@+id/tv_nick_name">
+                app:layout_constraintTop_toBottomOf="@+id/tv_nickname">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_nick_name"
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_basic_information_edittext"
-                    android:hint="@string/nick_name_hint"
+                    android:hint="@string/nickname_hint"
                     android:maxLength="10"
                     android:padding="16dp" />
 
@@ -107,7 +107,7 @@
                 android:id="@+id/iv_birth_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="6dp"
                 android:src="@drawable/ic_check"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_birth_date"
                 app:layout_constraintStart_toEndOf="@+id/tv_birth_date"
@@ -157,7 +157,7 @@
                 android:id="@+id/iv_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="6dp"
                 android:src="@drawable/ic_check"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_gender"
                 app:layout_constraintStart_toEndOf="@+id/tv_gender"
@@ -183,7 +183,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_gender_woman"
-                    style="@style/T_500_16_19_09"
+                    style="@style/T_600_16_19_09"
                     android:layout_width="0dp"
                     android:layout_height="52dp"
                     android:layout_marginStart="8dp"
@@ -191,7 +191,7 @@
                     android:background="@drawable/bg_gender_button"
                     android:stateListAnimator="@null"
                     android:text="@string/woman"
-                    android:textColor="@color/gray_500" />
+                    android:textColor="@color/orange_500" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
