@@ -2,14 +2,14 @@
     <style name="Base.Theme.Imdang" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/orange_500</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/gray_25</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.Imdang" parent="Base.Theme.Imdang" />
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/gray_0</item>
+        <item name="windowSplashScreenBackground">@color/gray_25</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_empty</item>
         <item name="windowSplashScreenAnimationDuration">200</item>
         <item name="postSplashScreenTheme">@style/Theme.Imdang</item>
