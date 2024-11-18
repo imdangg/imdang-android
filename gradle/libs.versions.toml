@@ -13,6 +13,7 @@ activity = "1.9.3"
 fragment = "1.8.5"
 constraintlayout = "2.2.0"
 ksp = "1.9.22-1.0.17"
+kapt = "1.9.22"
 hilt = "2.47"
 coroutines = "1.7.3"
 retrofit = "2.11.0"
@@ -22,6 +23,7 @@ kakao = "2.20.6"
 google-services = "4.4.2"
 firebase = "33.5.1"
 play-services-auth = "20.5.0"
+glide = "4.16.0"
 
 [libraries]
 kotlin-stblib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
@@ -48,12 +50,14 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }

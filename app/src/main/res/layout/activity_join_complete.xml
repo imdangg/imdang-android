@@ -18,6 +18,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginBottom="24dp"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_check"
             app:layout_constraintBottom_toTopOf="@+id/tv_title_complete"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +26,7 @@
 
         <TextView
             android:id="@+id/tv_title_complete"
-            style="@style/T_700_24_28_64"
+            style="@style/T_700_24_33_6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -36,7 +37,7 @@
 
         <TextView
             android:id="@+id/tv_sub_title_complete"
-            style="@style/T_500_16_24"
+            style="@style/T_500_16_22_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
@@ -47,7 +48,7 @@
 
         <TextView
             android:id="@+id/tv_first_insight_complete"
-            style="@style/T_500_14_21"
+            style="@style/T_500_14_19_6"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginHorizontal="38dp"
@@ -63,7 +64,7 @@
 
         <TextView
             android:id="@+id/tv_second_insight_complete"
-            style="@style/T_500_14_21"
+            style="@style/T_500_14_19_6"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginHorizontal="38dp"
@@ -79,7 +80,7 @@
 
         <TextView
             android:id="@+id/tv_third_insight_complete"
-            style="@style/T_500_14_21"
+            style="@style/T_500_14_19_6"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginHorizontal="38dp"
@@ -95,7 +96,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start_complete"
-            style="@style/T_600_16_19_2"
+            style="@style/T_600_16_22_4"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginHorizontal="20dp"

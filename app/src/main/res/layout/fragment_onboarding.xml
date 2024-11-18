@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,7 +16,7 @@
 
         <TextView
             android:id="@+id/tv_onboarding_title"
-            style="@style/T_700_24_28_8"
+            style="@style/T_700_24_33_6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -23,7 +24,8 @@
             android:textColor="@color/gray_900"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="가이드로 인사이트 작성하기" />
 
         <TextView
             android:id="@+id/tv_onboarding_content"
@@ -36,6 +38,7 @@
             android:textColor="@color/gray_700"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title"
+            tools:text="가이드라인으로 체계화된 인사이트를\n간편하게 작성할 수 있어요" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
