@@ -1,0 +1,22 @@
+default_platform(:android)
+
+platform :android do
+  lane :dev do
+    gradle(task: "clean assembleDevRelease")
+    firebase_app_distribution(
+      app: "1:999413225080:android:71742a3e44bd870c847f8d",
+      groups: "imdang",
+      apk_path: "./app/build/outputs/apk/dev/release/app-dev-release.apk",
+      firebase_cli_token: "1//0eVgpMDExQljACgYIARAAGA4SNwF-L9Ir2MlQ9OJk8QrUTneVqHRn0-DCTi1mTS2cfKQiPEr3zrWuSfCCSi2OeXPxAecJIrq0lkI"
+    )
+  end
+  lane :product do
+      gradle(task: "clean assembleProductRelease")
+      firebase_app_distribution(
+        app: "1:838985514590:android:8d6e9c33e19998b10f7ecf",
+        groups: "imdang",
+        apk_path: "./app/build/outputs/apk/product/release/app-product-release.apk",
+        firebase_cli_token: "1//0eVgpMDExQljACgYIARAAGA4SNwF-L9Ir2MlQ9OJk8QrUTneVqHRn0-DCTi1mTS2cfKQiPEr3zrWuSfCCSi2OeXPxAecJIrq0lkI"
+      )
+    end
+end
