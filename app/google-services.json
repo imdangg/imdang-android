@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "838985514590-meobtmsd6arpo6384b8r2rstp9upp9ca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.imdang.imdang",
+            "certificate_hash": "ccab8ea491ed290f394dbe0de232fcfefcf1d035"
+          }
+        },
+        {
           "client_id": "838985514590-rsb1g12vd0h4rr7sv447hterg6gj3trk.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "838985514590-rsb1g12vd0h4rr7sv447hterg6gj3trk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "838985514590-odasp663u251cgq5lbk2er5lsfa6us00.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "info.imdang.imdang"
+              }
             }
           ]
         }
