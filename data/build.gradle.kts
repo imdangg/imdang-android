@@ -17,16 +17,12 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
         }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                file("${rootProject.rootDir.absolutePath}/proguard-rules.pro")
             )
         }
     }
@@ -38,6 +34,27 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    setFlavorDimensions(listOf("server"))
+
+    productFlavors {
+        create("dev") {
+            dimension = "server"
+            buildConfigField(
+                "String",
+                "API_SERVER",
+                "\"${DevConfig.API_SERVER}\""
+            )
+        }
+        create("product") {
+            dimension = "server"
+            buildConfigField(
+                "String",
+                "API_SERVER",
+                "\"${ProductConfig.API_SERVER}\""
+            )
+        }
     }
 }
 

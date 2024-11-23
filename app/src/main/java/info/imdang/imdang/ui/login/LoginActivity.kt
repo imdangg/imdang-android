@@ -86,11 +86,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private fun kakaoLogin() {
         if (userApiClient.isKakaoTalkLoginAvailable(this)) {
             userApiClient.loginWithKakaoTalk(this) { oAuthToken, error ->
-                handleSocialLoginResult(oAuthToken?.idToken, error)
+                handleSocialLoginResult(oAuthToken?.accessToken, error)
             }
         } else {
             userApiClient.loginWithKakaoAccount(this) { oAuthToken, error ->
-                handleSocialLoginResult(oAuthToken?.idToken, error)
+                handleSocialLoginResult(oAuthToken?.accessToken, error)
             }
         }
     }
