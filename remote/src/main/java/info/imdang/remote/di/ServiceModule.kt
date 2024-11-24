@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import info.imdang.remote.service.UserService
+import info.imdang.remote.service.AuthService
 import retrofit2.Retrofit
 import retrofit2.create
 import javax.inject.Singleton
@@ -15,7 +15,7 @@ internal object ServiceModule {
 
     @Provides
     @Singleton
-    fun bindUserService(
+    fun bindAuthService(
         retrofit: Retrofit
-    ): UserService = retrofit.create()
+    ): AuthService = retrofit.create()
 }

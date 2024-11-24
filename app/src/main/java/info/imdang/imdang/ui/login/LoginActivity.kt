@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -23,6 +24,7 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startAndFinishActivity
 import info.imdang.imdang.databinding.ActivityLoginBinding
+import info.imdang.imdang.model.auth.LoginType
 import info.imdang.imdang.ui.join.BasicInformationActivity
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheet
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheetListener
@@ -50,7 +52,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             firebaseAuth.signInWithCredential(firebaseCredential)
                 .addOnSuccessListener {
                     lifecycleScope.launch {
-                        handleSocialLoginResult(it.user?.getIdToken(true)?.await()?.token)
+                        handleSocialLoginResult(
+                            loginType = LoginType.GOOGLE,
+                            token = it.user?.getIdToken(true)?.await()?.token
+                        )
                     }
                 }
                 .addOnFailureListener {
@@ -73,6 +78,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         signInClient = Identity.getSignInClient(this)
         firebaseAuth = Firebase.auth
         setupBinding()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -83,14 +89,36 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    is LoginEvent.ShowToast -> Toast.makeText(
+                        this@LoginActivity,
+                        it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
     private fun kakaoLogin() {
         if (userApiClient.isKakaoTalkLoginAvailable(this)) {
             userApiClient.loginWithKakaoTalk(this) { oAuthToken, error ->
-                handleSocialLoginResult(oAuthToken?.accessToken, error)
+                handleSocialLoginResult(
+                    loginType = LoginType.KAKAO,
+                    token = oAuthToken?.accessToken,
+                    error = error
+                )
             }
         } else {
             userApiClient.loginWithKakaoAccount(this) { oAuthToken, error ->
-                handleSocialLoginResult(oAuthToken?.accessToken, error)
+                handleSocialLoginResult(
+                    loginType = LoginType.KAKAO,
+                    token = oAuthToken?.accessToken,
+                    error = error
+                )
             }
         }
     }
@@ -118,11 +146,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     private fun handleSocialLoginResult(
+        loginType: LoginType? = null,
         token: String? = null,
         error: Throwable? = null
     ) {
-        if (token != null) {
-            showOnboardingBottomSheet(token)
+        if (loginType != null && token != null) {
+            lifecycleScope.launch {
+                val loginVo = when (loginType) {
+                    LoginType.KAKAO -> viewModel.kakaoLogin(token)
+                    LoginType.GOOGLE -> viewModel.googleLogin(token)
+                } ?: return@launch
+                if (loginVo.isJoined) {
+                    startAndFinishActivity<MainActivity>()
+                } else {
+                    showOnboardingBottomSheet(token)
+                }
+            }
         } else if (error != null) {
             // todo : 로그인 실패 처리
             Log.e("##", Log.getStackTraceString(error))

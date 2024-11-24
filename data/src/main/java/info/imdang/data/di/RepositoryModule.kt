@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import info.imdang.data.repository.UserRepositoryImpl
-import info.imdang.domain.repository.UserRepository
+import info.imdang.data.repository.AuthRepositoryImpl
+import info.imdang.domain.repository.AuthRepository
 import javax.inject.Singleton
 
 @Module
@@ -14,7 +14,7 @@ internal abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(
-        userRepositoryImpl: UserRepositoryImpl
-    ): UserRepository
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 }
