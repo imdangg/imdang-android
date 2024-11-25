@@ -17,8 +17,13 @@ class JoinCompleteActivity :
     }
 
     private fun setupListener() {
-        binding.btnStartComplete.setOnClickListener {
-            finish()
+        with(binding) {
+            ivBack.setOnClickListener {
+                finish()
+            }
+            btnStartComplete.setOnClickListener {
+                finish()
+            }
         }
     }
 }
