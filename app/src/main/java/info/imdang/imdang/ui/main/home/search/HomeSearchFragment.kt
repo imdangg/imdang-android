@@ -13,7 +13,6 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.SpaceItemDecoration
-import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.databinding.FragmentHomeSearchBinding
 import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightVo
@@ -28,7 +27,6 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
-        setupListener()
         setupCollect()
     }
 
@@ -98,14 +96,6 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                     }
                 )
             }
-        }
-    }
-
-    private fun setupListener() {
-        binding.nsHomeSearch.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            viewModel.toggleVisibleShadow(
-                isVisible = requireContext().dpToPx(96) < scrollY
-            )
         }
     }
 

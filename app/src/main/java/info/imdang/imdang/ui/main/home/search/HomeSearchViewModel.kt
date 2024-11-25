@@ -26,9 +26,6 @@ class HomeSearchViewModel @Inject constructor() : ViewModel() {
     private val _selectedRecommendInsightPage = MutableStateFlow(1)
     val selectedRecommendInsightPage = _selectedRecommendInsightPage.asStateFlow()
 
-    private val _isVisibleShadow = MutableStateFlow(false)
-    val isVisibleShadow = _isVisibleShadow.asStateFlow()
-
     init {
         _myInsightApts.value = listOf(
             InsightAptVo(
@@ -56,9 +53,5 @@ class HomeSearchViewModel @Inject constructor() : ViewModel() {
 
     fun selectRecommendInsightPage(page: Int) {
         _selectedRecommendInsightPage.value = page + 1
-    }
-
-    fun toggleVisibleShadow(isVisible: Boolean) {
-        if (isVisibleShadow.value != isVisible) _isVisibleShadow.value = isVisible
     }
 }
