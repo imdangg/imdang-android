@@ -18,6 +18,9 @@ class BasicInformationActivity :
 
     private fun init() {
         with(binding) {
+            ivBack.setOnClickListener {
+                finish()
+            }
             btnComplete.setOnClickListener {
                 setResult(RESULT_OK)
                 startAndFinishActivity<JoinCompleteActivity>()
