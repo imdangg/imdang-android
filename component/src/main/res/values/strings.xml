@@ -45,6 +45,9 @@
     <string name="all">전체</string>
     <string name="see_by_apt">단지별 보기</string>
     <string name="map">지도</string>
+    <string name="apt">단지</string>
+    <string name="insight">인사이트</string>
+    <string name="see_just_my_insight">내 인사이트만 보기</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
 </resources>

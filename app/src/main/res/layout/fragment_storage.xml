@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.main.storage.StorageViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -110,140 +117,54 @@
                         app:layout_collapseMode="none">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/cl_apt"
+                            android:id="@+id/cl_insight_region"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingHorizontal="20dp"
                             android:paddingVertical="24dp"
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:id="@+id/tv_apt_page"
+                                android:id="@+id/tv_region_page"
                                 style="@style/T_600_14_19_6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
                                 android:background="@drawable/sr_orange50_all100"
                                 android:paddingHorizontal="8dp"
                                 android:paddingVertical="4dp"
-                                android:text="1 / 4"
+                                android:text="@{(viewModel.selectedInsightRegionPage + 1) + ` / ` + viewModel.insightRegions.size()}"
                                 android:textColor="@color/orange_500"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="1 / 4" />
 
                             <TextView
                                 style="@style/T_400_14_19_6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="20dp"
                                 android:text="@string/see_all"
                                 android:textColor="@color/gray_700"
-                                app:layout_constraintBottom_toBottomOf="@id/tv_apt_page"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_region_page"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="@id/tv_apt_page" />
+                                app:layout_constraintTop_toTopOf="@id/tv_region_page" />
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <androidx.viewpager2.widget.ViewPager2
+                                android:id="@+id/vp_insight_region"
+                                bindViewPagerItemList="@{viewModel.insightRegions}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
-                                android:background="@drawable/sr_orange500_all10"
-                                android:padding="20dp"
-                                app:layout_constraintTop_toBottomOf="@id/tv_apt_page">
-
-                                <ImageView
-                                    android:id="@+id/iv_location"
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:importantForAccessibility="no"
-                                    android:src="@drawable/ic_location"
-                                    app:layout_constraintBottom_toBottomOf="@id/tv_location"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="@id/tv_location"
-                                    app:tint="@color/white" />
-
-                                <TextView
-                                    android:id="@+id/tv_location"
-                                    style="@style/T_600_18_25_2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="4dp"
-                                    android:text="서울시 강남구 신논현동"
-                                    android:textColor="@color/white"
-                                    app:layout_constraintStart_toEndOf="@id/iv_location"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:id="@+id/cl_apt_count"
-                                    android:layout_width="0dp"
-                                    android:layout_height="46dp"
-                                    android:layout_marginTop="20dp"
-                                    android:background="@drawable/sr_1affffff_all8"
-                                    android:paddingHorizontal="16dp"
-                                    app:layout_constraintEnd_toStartOf="@id/cl_insight_count"
-                                    app:layout_constraintHorizontal_chainStyle="spread"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/tv_location">
-
-                                    <TextView
-                                        style="@style/T_500_14_19_6"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="단지"
-                                        android:textColor="@color/white"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-
-                                    <TextView
-                                        style="@style/T_600_16_22_4"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="3개"
-                                        android:textColor="@color/white"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:id="@+id/cl_insight_count"
-                                    android:layout_width="0dp"
-                                    android:layout_height="46dp"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginTop="20dp"
-                                    android:background="@drawable/sr_1affffff_all8"
-                                    android:paddingHorizontal="16dp"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_chainStyle="spread"
-                                    app:layout_constraintStart_toEndOf="@id/cl_apt_count"
-                                    app:layout_constraintTop_toBottomOf="@id/tv_location">
-
-                                    <TextView
-                                        style="@style/T_500_14_19_6"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="단지"
-                                        android:textColor="@color/white"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-
-                                    <TextView
-                                        style="@style/T_600_16_22_4"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="3개"
-                                        android:textColor="@color/white"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                                android:clipChildren="false"
+                                android:clipToPadding="false"
+                                app:layout_constraintTop_toBottomOf="@id/tv_region_page" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="8dp"
                             android:background="@color/gray_50"
-                            app:layout_constraintTop_toBottomOf="@id/cl_apt" />
+                            app:layout_constraintTop_toBottomOf="@id/cl_insight_region" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -319,31 +240,35 @@
                             style="@style/T_500_14_19_6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="내 인사이트만 보기"
+                            android:text="@string/see_just_my_insight"
                             android:textColor="@color/gray_700"
                             app:layout_constraintBottom_toBottomOf="@id/tv_insight_count"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_insight_count" />
+                            app:layout_constraintTop_toTopOf="@id/tv_insight_count"
+                            tools:text="내 인사이트만 보기" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:importantForAccessibility="no"
-                            android:src="@drawable/ic_switch_off"
+                            android:onClick="@{() -> viewModel.toggleMyInsightOnly()}"
+                            android:src="@{viewModel.isSeeJustMyInsight ? @drawable/ic_switch_on : @drawable/ic_switch_off}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_insight_count"
                             app:layout_constraintStart_toEndOf="@id/tv_see_my_insight"
-                            app:layout_constraintTop_toTopOf="@id/tv_insight_count" />
+                            app:layout_constraintTop_toTopOf="@id/tv_insight_count"
+                            tools:src="@drawable/ic_switch_off" />
 
                         <TextView
                             android:id="@+id/tv_insight_count"
                             style="@style/T_600_16_22_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="33개"
+                            android:text="@{viewModel.insights.size() + `개`}"
                             android:textColor="@color/gray_900"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="33개" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
@@ -356,9 +281,11 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_storage_insight"
+                bindItemList="@{viewModel.insights}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="true"
+                android:clipToPadding="false"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="24dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
