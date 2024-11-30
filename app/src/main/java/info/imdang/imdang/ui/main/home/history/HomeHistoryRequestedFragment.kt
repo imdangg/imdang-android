@@ -24,6 +24,7 @@ class HomeHistoryRequestedFragment :
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
+        initializeViewModel()
     }
 
     private fun setupBinding() {
@@ -52,6 +53,16 @@ class HomeHistoryRequestedFragment :
                 )
             }
         }
+    }
+
+    private fun initializeViewModel() {
+        viewModel.setChipDescriptions(
+            listOf(
+                getString(info.imdang.component.R.string.waiting_details_existence),
+                getString(info.imdang.component.R.string.refusal_details_existence),
+                getString(info.imdang.component.R.string.exchange_details_existence)
+            )
+        )
     }
 
     companion object {

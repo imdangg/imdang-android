@@ -12,8 +12,6 @@ class HomeExchangeAdapter(
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            else -> HomeHistoryRequestedFragment.instance()
-        }
+        return HomeHistoryRequestedFragment.instance()
     }
 }

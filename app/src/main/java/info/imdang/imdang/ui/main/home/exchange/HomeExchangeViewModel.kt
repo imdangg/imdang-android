@@ -1,6 +1,5 @@
 package info.imdang.imdang.ui.main.home.exchange
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,22 +12,14 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeExchangeViewModel @Inject constructor(
-    application: Application
-) : ViewModel() {
-
-    private val resources = application.resources
+class HomeExchangeViewModel @Inject constructor() : ViewModel() {
 
     private val _selectedChipId = MutableStateFlow(1)
     val selectedChipId = _selectedChipId.asStateFlow()
 
+    private val _chipDescription = MutableStateFlow<List<String>>(emptyList())
     val chipDescription = _selectedChipId.map { chipId ->
-        when (chipId) {
-            1 -> resources.getString(info.imdang.component.R.string.waiting_details_existence)
-            2 -> resources.getString(info.imdang.component.R.string.refusal_details_existence)
-            3 -> resources.getString(info.imdang.component.R.string.exchange_details_existence)
-            else -> ""
-        }
+        _chipDescription.value.getOrNull(chipId - 1) ?: ""
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "")
 
     private val _requestedInsights = MutableStateFlow<List<InsightVo>>(emptyList())
@@ -36,6 +27,10 @@ class HomeExchangeViewModel @Inject constructor(
 
     init {
         updateInsightsForChip(1)
+    }
+
+    fun setChipDescriptions(descriptions: List<String>) {
+        _chipDescription.value = descriptions
     }
 
     fun onChipClicked(chipId: Int) {
