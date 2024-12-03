@@ -14,9 +14,11 @@ import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.dpToPx
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentStorageBinding
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.ui.main.storage.region.InsightRegionActivity
 
 @AndroidEntryPoint
 class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
@@ -76,7 +78,7 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                 }
                 offscreenPageLimit = 1
                 adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.item_insight_region,
+                    layoutResourceId = R.layout.page_insight_region,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@StorageFragment.viewModel),
                     diffUtil = object : DiffUtil.ItemCallback<InsightRegionVo>() {
@@ -99,6 +101,9 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
 
     private fun setupListener() {
         with(binding) {
+            tvInsightRegionSeeAll.setOnClickListener {
+                requireContext().startActivity<InsightRegionActivity>()
+            }
             vpInsightRegion.registerOnPageChangeCallback(
                 object : OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {

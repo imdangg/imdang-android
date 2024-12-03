@@ -1,6 +1,10 @@
 package info.imdang.imdang.model.insight
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 // todo : Sample data, 실제 서버 데이터 나오면 변경 예정
+@Parcelize
 data class InsightVo(
     val thumbnail: String,
     val region: String,
@@ -8,7 +12,7 @@ data class InsightVo(
     val title: String,
     val profileImage: String,
     val nickname: String
-) {
+) : Parcelable {
     companion object {
         fun getSamples(size: Int): List<InsightVo> {
             val samples = mutableListOf<InsightVo>()

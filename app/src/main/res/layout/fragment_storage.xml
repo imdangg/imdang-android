@@ -139,6 +139,7 @@
                                 tools:text="1 / 4" />
 
                             <TextView
+                                android:id="@+id/tv_insight_region_see_all"
                                 style="@style/T_400_14_19_6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
