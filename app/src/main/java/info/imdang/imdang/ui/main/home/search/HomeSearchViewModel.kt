@@ -27,20 +27,7 @@ class HomeSearchViewModel @Inject constructor() : ViewModel() {
     val selectedRecommendInsightPage = _selectedRecommendInsightPage.asStateFlow()
 
     init {
-        _myInsightApts.value = listOf(
-            InsightAptVo(
-                aptName = "신논현 더 센트럴 푸르지오",
-                isSelected = true
-            ),
-            InsightAptVo(
-                aptName = "신논현 더 센트럴 푸르지오",
-                isSelected = false
-            ),
-            InsightAptVo(
-                aptName = "신논현 더 센트럴 푸르지오",
-                isSelected = false
-            )
-        )
+        _myInsightApts.value = InsightAptVo.getSamples(3)
         _myInsights.value = InsightVo.getSamples(size = 3)
         _newInsights.value = InsightVo.getSamples(size = 6)
         _recommendInsights.value = listOf(

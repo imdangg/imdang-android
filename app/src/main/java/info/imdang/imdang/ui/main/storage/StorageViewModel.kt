@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.main.storage
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,9 +24,13 @@ class StorageViewModel @Inject constructor() : ViewModel() {
     private val _isSeeJustMyInsight = MutableStateFlow(false)
     val isSeeJustMyInsight = _isSeeJustMyInsight.asStateFlow()
 
+    private val _insightApts = MutableStateFlow<List<InsightAptVo>>(emptyList())
+    val insightApts = _insightApts.asStateFlow()
+
     init {
         _insightRegions.value = InsightRegionVo.getSamples(10)
         _insights.value = InsightVo.getSamples(10)
+        _insightApts.value = InsightAptVo.getSamples(10)
     }
 
     fun selectInsightRegionPage(page: Int) {

@@ -18,6 +18,7 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentStorageBinding
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.ui.main.storage.bottomsheet.AptBottomSheet
 import info.imdang.imdang.ui.main.storage.region.InsightRegionActivity
 
 @AndroidEntryPoint
@@ -112,6 +113,16 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                     }
                 }
             )
+            clSeeByApt.setOnClickListener {
+                showAptBottomSheet()
+            }
         }
+    }
+
+    private fun showAptBottomSheet() {
+        AptBottomSheet.instance().show(
+            requireActivity().supportFragmentManager,
+            AptBottomSheet::class.java.simpleName
+        )
     }
 }
