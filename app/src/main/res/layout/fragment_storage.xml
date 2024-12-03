@@ -170,7 +170,6 @@
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_see_by_apt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -190,6 +189,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_see_by_apt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
