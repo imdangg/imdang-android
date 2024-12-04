@@ -12,6 +12,7 @@
     <string name="gender">성별</string>
     <string name="man">남자</string>
     <string name="woman">여자</string>
+    <string name="confirm">확인</string>
     <string name="complete">완료</string>
     <string name="start">시작하기</string>
     <string name="complete_title">아파트임당 가입 완료</string>
