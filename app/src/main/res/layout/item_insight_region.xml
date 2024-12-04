@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.main.storage.region.InsightRegionViewModel" />
+
+        <variable
+            name="item"
+            type="info.imdang.imdang.model.insight.InsightRegionVo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:onClick="@{() -> viewModel.onClickInsight(item)}">
+
+        <TextView
+            android:id="@+id/tv_insight_region"
+            style="@style/T_500_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.region}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="서울시 강남구 신논현동" />
+
+        <TextView
+            android:id="@+id/tv_apt_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/apt"
+            android:textColor="@color/gray_700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_insight_region" />
+
+        <TextView
+            android:id="@+id/tv_apt_count"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{item.aptCount + `개`}"
+            android:textColor="@color/orange_500"
+            app:layout_constraintStart_toEndOf="@id/tv_apt_subject"
+            app:layout_constraintTop_toTopOf="@id/tv_apt_subject"
+            tools:text="3개" />
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="1dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/gray_100"
+            app:layout_constraintBottom_toBottomOf="@id/tv_apt_subject"
+            app:layout_constraintStart_toEndOf="@id/tv_apt_count"
+            app:layout_constraintTop_toTopOf="@id/tv_apt_subject" />
+
+        <TextView
+            android:id="@+id/tv_insight_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/insight"
+            android:textColor="@color/gray_700"
+            app:layout_constraintStart_toEndOf="@id/view_divider"
+            app:layout_constraintTop_toTopOf="@id/tv_apt_subject" />
+
+        <TextView
+            android:id="@+id/tv_insight_count"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{item.insightCount + `개`}"
+            android:textColor="@color/orange_500"
+            app:layout_constraintStart_toEndOf="@id/tv_insight_subject"
+            app:layout_constraintTop_toTopOf="@id/tv_apt_subject"
+            tools:text="3개" />
+
+        <ImageView
+            android:id="@+id/iv_radio_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            android:src="@{item.isSelected ? @drawable/ic_radio_on : @drawable/ic_radio_off}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_radio_on" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -42,6 +42,14 @@
     <string name="refusal_details_nonexistence">거절 내역이 없어요.</string>
     <string name="exchange_details_existence">교환한 인사이트는 보관함에 저장되며, 완료 내역은\n최근 7일간의 기록만 표시돼요.</string>
     <string name="exchange_details_nonexistence">교환 완료 내역이 없어요.</string>
+    <string name="all">전체</string>
+    <string name="see_by_apt">단지별 보기</string>
+    <string name="map">지도</string>
+    <string name="apt">단지</string>
+    <string name="insight">인사이트</string>
+    <string name="see_just_my_insight">내 인사이트만 보기</string>
+    <string name="region_all">지역 전체</string>
+    <string name="select_complete">선택 완료</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
 </resources>

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.parcelize)
 }
 
 val keystorePropertiesFile = rootProject.file("key.properties")

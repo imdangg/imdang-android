@@ -29,6 +29,7 @@
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.join.BasicInformationActivity" />
         <activity android:name=".ui.join.JoinCompleteActivity" />
+        <activity android:name=".ui.main.storage.region.InsightRegionActivity" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
