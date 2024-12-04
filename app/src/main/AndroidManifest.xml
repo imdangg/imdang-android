@@ -27,7 +27,8 @@
 
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.join.BasicInformationActivity" />
+        <activity android:name=".ui.join.BasicInformationActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.join.JoinCompleteActivity" />
 
         <activity
