@@ -26,6 +26,7 @@ class BasicInformationActivity :
             setMargin(left = 0, right = 0, top = 0, bottom = 0)
             setBackgroundResource(info.imdang.component.R.color.orange_500)
             text = getString(info.imdang.component.R.string.confirm)
+            setTextColor(getColor(info.imdang.component.R.color.white))
         }
     }
 
@@ -36,6 +37,7 @@ class BasicInformationActivity :
             setMargin(left = 20, right = 20, top = 0, bottom = 40)
             setBackgroundResource(info.imdang.component.R.drawable.bg_complete_button)
             text = getString(info.imdang.component.R.string.complete)
+            setTextColor(getColor(info.imdang.component.R.color.gray_500))
         }
     }
 
