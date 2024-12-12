@@ -1,15 +1,15 @@
 package info.imdang.imdang.ui.login.bottomsheet
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingFragment.Companion.ONBOARDING_POSITION
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : BaseViewModel() {
 
     val content = listOf(
         "가이드로 인사이트 작성하기" to "가이드라인으로 체계화된 인사이트를\n간편하게 작성할 수 있어요",

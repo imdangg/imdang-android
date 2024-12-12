@@ -6,13 +6,18 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="info.imdang.imdang.base.BaseViewModel" />
+
+        <variable
             name="item"
             type="info.imdang.imdang.model.insight.InsightVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> viewModel.onClickItem(item)}">
 
         <ImageView
             android:id="@+id/iv_insight"

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="info.imdang.imdang.ui.main.storage.region.InsightRegionViewModel" />
+            type="info.imdang.imdang.base.BaseViewModel" />
 
         <variable
             name="item"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:onClick="@{() -> viewModel.onClickInsight(item)}">
+        android:onClick="@{() -> viewModel.onClickItem(item)}">
 
         <TextView
             android:id="@+id/tv_insight_region"

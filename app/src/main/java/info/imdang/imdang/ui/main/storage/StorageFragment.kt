@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
@@ -18,8 +19,11 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentStorageBinding
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.main.storage.bottomsheet.AptBottomSheet
 import info.imdang.imdang.ui.main.storage.region.InsightRegionActivity
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
@@ -30,6 +34,7 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
+        setupCollect()
         setupListener()
     }
 
@@ -96,6 +101,18 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                         }
                     }
                 )
+            }
+        }
+    }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    is StorageEvent.OnClickInsight -> {
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
             }
         }
     }
