@@ -58,20 +58,27 @@ class InsightDetailActivity :
                 }
             })
             rvInsightDetail.setOnScrollChangeListener { _, _, _, _, _ ->
-                val layoutManager = binding.rvInsightDetail.layoutManager as LinearLayoutManager
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                binding.tlInsightDetail.setScrollPosition(
-                    firstVisibleItemPosition,
-                    0f,
-                    true
-                )
+                if (!this@InsightDetailActivity.viewModel.isScrolling.value) {
+                    val layoutManager = binding.rvInsightDetail.layoutManager as LinearLayoutManager
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                    binding.tlInsightDetail.setScrollPosition(
+                        firstVisibleItemPosition,
+                        0f,
+                        true
+                    )
+                }
             }
         }
     }
 
     private fun scrollToPosition(position: Int) {
+        viewModel.onClickTab()
         val layoutManager = binding.rvInsightDetail.layoutManager as LinearLayoutManager
-        layoutManager.scrollToPositionWithOffset(position, 0)
+        if (this@InsightDetailActivity.viewModel.isEnableTabMove()) {
+            layoutManager.scrollToPositionWithOffset(position, 0)
+        } else {
+            layoutManager.scrollToPositionWithOffset(if (position == 0) 0 else 1, 0)
+        }
         if (position > 0) binding.ablInsightDetail.setExpanded(false)
     }
 
@@ -98,6 +105,10 @@ class InsightDetailActivity :
         GoodNewsHolder(
             layoutResourceId = R.layout.item_insight_detail_good_news,
             bindingItemId = BR.item
+        ),
+        InvisibleHolder(
+            layoutResourceId = R.layout.item_insight_detail_invisible,
+            bindingItemId = BR._all
         )
     }
 }

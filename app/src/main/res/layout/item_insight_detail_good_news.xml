@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="info.imdang.imdang.model.insight.InsightDetailState" />
+
         <variable
             name="viewModel"
             type="info.imdang.imdang.ui.insight.InsightDetailViewModel" />
@@ -15,6 +17,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        bindMarginBottom="@{viewModel.insightDetailState == InsightDetailState.ExchangeComplete ? 40 : 0}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"

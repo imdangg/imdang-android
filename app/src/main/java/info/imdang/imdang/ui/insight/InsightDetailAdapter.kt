@@ -35,6 +35,7 @@ class InsightDetailAdapter(
                 InsightDetailHolderType.AptFacilityHolder
             }
             is InsightDetailItem.GoodNews -> InsightDetailHolderType.GoodNewsHolder
+            InsightDetailItem.Invisible -> InsightDetailHolderType.InvisibleHolder
         }
     },
     private val viewHolderType: KClass<out ViewHolderType> = InsightDetailHolderType::class,
