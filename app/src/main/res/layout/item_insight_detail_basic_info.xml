@@ -62,13 +62,20 @@
             app:layout_constraintTop_toBottomOf="@id/cl_address"
             tools:text="서울특별시 영등포구 당산 2동 123-467\n(당산아이파크1차)" />
 
-        <View
-            android:id="@+id/view_map"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_map_insight_detail"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="24dp"
-            android:background="@color/orange_50"
-            app:layout_constraintTop_toBottomOf="@id/tv_apt_address" />
+            android:background="@drawable/sr_white_gray100_all8"
+            android:padding="1dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_apt_address">
+
+            <com.naver.maps.map.MapView
+                android:id="@+id/map_insight_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_date_time"
@@ -76,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_map">
+            app:layout_constraintTop_toBottomOf="@id/cl_map_insight_detail">
 
             <ImageView
                 android:id="@+id/iv_calendar"
@@ -147,8 +154,8 @@
         <TextView
             android:id="@+id/tv_traffic"
             style="@style/T_500_16_22_4"
-            bindTextList="@{item.basicInfo.traffic}"
             bindSeparator="@{`, `}"
+            bindTextList="@{item.basicInfo.traffic}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

@@ -24,6 +24,7 @@ google-services = "4.4.2"
 firebase = "33.5.1"
 play-services-auth = "20.5.0"
 glide = "4.16.0"
+naver-map = "3.20.0"
 
 [libraries]
 kotlin-stblib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
@@ -51,6 +52,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+naver-map = { group = "com.naver.maps", name = "map-sdk", version.ref = "naver-map" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

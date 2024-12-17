@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import info.imdang.imdang.base.BaseViewHolder
+import info.imdang.imdang.model.insight.InsightDetailItem
+import info.imdang.imdang.ui.insight.InsightDetailAdapter
 import kotlin.reflect.KClass
 
 @BindingAdapter("bindItemList")
@@ -24,6 +26,14 @@ fun RecyclerView.bindItemList(item: List<Any>?) {
         val newItems = mutableListOf<Any>()
         item.forEach {
             newItems.add(it)
+        }
+        submitList(newItems)
+    }
+
+    (adapter as? InsightDetailAdapter)?.run {
+        val newItems = mutableListOf<InsightDetailItem>()
+        item.forEach {
+            newItems.add(it as InsightDetailItem)
         }
         submitList(newItems)
     }

@@ -3,7 +3,6 @@ package info.imdang.imdang.ui.insight
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.library.baseAdapters.BR
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -11,10 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.DividerItemDecoration
-import info.imdang.imdang.common.bindingadapter.BaseMultiViewAdapter
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
 import info.imdang.imdang.databinding.ActivityInsightDetailBinding
-import info.imdang.imdang.model.insight.InsightDetailItem
 
 @AndroidEntryPoint
 class InsightDetailActivity :
@@ -33,43 +30,13 @@ class InsightDetailActivity :
         with(binding) {
             viewModel = this@InsightDetailActivity.viewModel
             rvInsightDetail.run {
-                val viewHolderMapper: (InsightDetailItem) -> ViewHolderType = {
-                    when (it) {
-                        is InsightDetailItem.BasicInfo -> InsightDetailHolderType.BasicInfoHolder
-                        is InsightDetailItem.Infra -> InsightDetailHolderType.InfraHolder
-                        is InsightDetailItem.AptEnvironment -> {
-                            InsightDetailHolderType.AptEnvironmentHolder
-                        }
-                        is InsightDetailItem.AptFacility -> {
-                            InsightDetailHolderType.AptFacilityHolder
-                        }
-                        is InsightDetailItem.GoodNews -> InsightDetailHolderType.GoodNewsHolder
-                    }
-                }
                 addItemDecoration(
                     DividerItemDecoration(
                         height = 8,
                         color = getColor(info.imdang.component.R.color.gray_50)
                     )
                 )
-                adapter = BaseMultiViewAdapter(
-                    viewHolderMapper = viewHolderMapper,
-                    viewHolderType = InsightDetailHolderType::class,
-                    viewModel = mapOf(BR.viewModel to this@InsightDetailActivity.viewModel),
-                    diffUtil = object : DiffUtil.ItemCallback<InsightDetailItem>() {
-                        override fun areItemsTheSame(
-                            oldItem: InsightDetailItem,
-                            newItem: InsightDetailItem
-                        ): Boolean = oldItem == newItem
-
-                        override fun areContentsTheSame(
-                            oldItem: InsightDetailItem,
-                            newItem: InsightDetailItem
-                        ): Boolean {
-                            return oldItem == newItem
-                        }
-                    }
-                )
+                adapter = InsightDetailAdapter(viewModel = this@InsightDetailActivity.viewModel)
             }
         }
     }
