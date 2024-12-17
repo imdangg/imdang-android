@@ -46,7 +46,7 @@ class BaseSingleViewAdapter<ITEM : Any>(
     diffUtil: DiffUtil.ItemCallback<ITEM>
 ) : ListAdapter<ITEM, BaseViewHolder>(diffUtil) {
 
-    private var itemClickListener: ((item: Any, pos: Int) -> Unit)? = null
+    var itemClickListener: ((item: Any, pos: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         BaseViewHolder(

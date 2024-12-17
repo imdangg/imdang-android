@@ -1,22 +1,15 @@
 package info.imdang.imdang.ui.main.home.search
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightVo
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeSearchViewModel @Inject constructor() : BaseViewModel() {
-
-    private val _event = MutableSharedFlow<HomeSearchEvent>()
-    val event = _event.asSharedFlow()
 
     private val _myInsightApts = MutableStateFlow<List<InsightAptVo>>(emptyList())
     val myInsightApts = _myInsightApts.asStateFlow()
@@ -43,14 +36,6 @@ class HomeSearchViewModel @Inject constructor() : BaseViewModel() {
             InsightVo.getSamples(3),
             InsightVo.getSamples(1)
         )
-    }
-
-    override fun <T> onClickItem(item: T) {
-        if (item is InsightVo) {
-            viewModelScope.launch {
-                _event.emit(HomeSearchEvent.OnClickInsight(item))
-            }
-        }
     }
 
     fun selectRecommendInsightPage(page: Int) {

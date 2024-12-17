@@ -77,7 +77,11 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { _, _ ->
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
             }
             rvHomeNewInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
@@ -98,21 +102,16 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                             return oldItem == newItem
                         }
                     }
-                )
-            }
-        }
-    }
-
-    private fun setupCollect() {
-        lifecycleScope.launch {
-            viewModel.event.collect {
-                when (it) {
-                    is HomeSearchEvent.OnClickInsight -> {
+                ).apply {
+                    itemClickListener = { _, _ ->
                         requireContext().startActivity<InsightDetailActivity>()
                     }
                 }
             }
         }
+    }
+
+    private fun setupCollect() {
         lifecycleScope.launch {
             viewModel.recommendInsights.collect {
                 if (it.isNotEmpty()) setupViewPager()

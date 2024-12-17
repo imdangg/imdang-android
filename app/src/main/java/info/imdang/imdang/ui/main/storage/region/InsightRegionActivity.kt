@@ -47,7 +47,11 @@ class InsightRegionActivity :
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { item, _ ->
+                        this@InsightRegionActivity.viewModel.onClickRegion(item)
+                    }
+                }
             }
         }
     }
