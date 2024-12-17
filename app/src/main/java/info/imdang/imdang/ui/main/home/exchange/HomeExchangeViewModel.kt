@@ -4,21 +4,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.InsightVo
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeExchangeViewModel @Inject constructor() : BaseViewModel() {
-
-    private val _event = MutableSharedFlow<HomeExchangeEvent>()
-    val event = _event.asSharedFlow()
 
     private val _selectedChipId = MutableStateFlow(1)
     val selectedChipId = _selectedChipId.asStateFlow()
@@ -33,14 +27,6 @@ class HomeExchangeViewModel @Inject constructor() : BaseViewModel() {
 
     init {
         updateInsightsForChip(1)
-    }
-
-    override fun <T> onClickItem(item: T) {
-        if (item is InsightVo) {
-            viewModelScope.launch {
-                _event.emit(HomeExchangeEvent.OnClickInsight(item))
-            }
-        }
     }
 
     fun setChipDescriptions(descriptions: List<String>) {

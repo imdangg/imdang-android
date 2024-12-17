@@ -21,7 +21,7 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
     private val _insightDetails = MutableStateFlow<List<InsightDetailItem>>(emptyList())
     val insightDetails = _insightDetails.asStateFlow()
 
-    private val _insightDetailState = MutableStateFlow(InsightDetailState.ExchangeRequest)
+    private val _insightDetailState = MutableStateFlow(InsightDetailState.ExchangeComplete)
     val insightDetailState = _insightDetailState.asStateFlow()
 
     private val _isScrolling = MutableStateFlow(false)

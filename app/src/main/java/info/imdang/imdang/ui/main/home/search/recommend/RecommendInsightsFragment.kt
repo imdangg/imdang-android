@@ -5,18 +5,17 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentRecommendInsightsBinding
 import info.imdang.imdang.model.insight.InsightVo
-import info.imdang.imdang.ui.main.home.search.HomeSearchEvent
+import info.imdang.imdang.ui.insight.InsightDetailActivity
 import java.io.Serializable
-import kotlinx.coroutines.launch
 
 @Suppress("UNCHECKED_CAST")
 @AndroidEntryPoint
@@ -31,7 +30,6 @@ class RecommendInsightsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
-        setupCollect()
     }
 
     private fun setupBinding() {
@@ -56,16 +54,10 @@ class RecommendInsightsFragment :
                             return oldItem == newItem
                         }
                     }
-                )
-            }
-        }
-    }
-
-    private fun setupCollect() {
-        lifecycleScope.launch {
-            viewModel.event.collect {
-                when (it) {
-                    is HomeSearchEvent.OnClickInsight -> listener.onClickInsight(it.insightVo)
+                ).apply {
+                    itemClickListener = { _, _ ->
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
                 }
             }
         }

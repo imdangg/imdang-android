@@ -17,7 +17,7 @@ class InsightRegionViewModel @Inject constructor() : BaseViewModel() {
         _insightRegions.value = InsightRegionVo.getSamples(10)
     }
 
-    override fun <T> onClickItem(item: T) {
+    fun onClickRegion(item: Any) {
         if (item is InsightRegionVo) {
             _insightRegions.value = insightRegions.value.map {
                 it.copy(isSelected = it.regionId == item.regionId)

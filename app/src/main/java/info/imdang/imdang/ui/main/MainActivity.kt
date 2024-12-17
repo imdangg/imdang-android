@@ -16,8 +16,6 @@ import info.imdang.imdang.ui.write.WriteInsightActivity
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private val viewModel by viewModels<MainViewModel>()
-    private lateinit var homeFragment: HomeFragment
-    private lateinit var storageFragment: StorageFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +32,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
             bnvMain.setOnItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.menu_home -> replaceFragment(homeFragment)
-                    R.id.menu_storage -> replaceFragment(storageFragment)
+                    R.id.menu_home -> replaceFragment(HomeFragment())
+                    R.id.menu_storage -> replaceFragment(StorageFragment())
                 }
                 true
             }
@@ -43,9 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun setupFragment() {
-        homeFragment = HomeFragment()
-        storageFragment = StorageFragment()
-        replaceFragment(homeFragment)
+        replaceFragment(HomeFragment())
     }
 
     private fun replaceFragment(fragment: Fragment) {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
@@ -15,9 +14,7 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentHomeHistoryRequestedBinding
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
-import info.imdang.imdang.ui.main.home.exchange.HomeExchangeEvent
 import info.imdang.imdang.ui.main.home.exchange.HomeExchangeViewModel
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeHistoryRequestedFragment :
@@ -29,7 +26,6 @@ class HomeHistoryRequestedFragment :
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
-        setupCollect()
         initializeViewModel()
     }
 
@@ -56,16 +52,8 @@ class HomeHistoryRequestedFragment :
                             return oldItem == newItem
                         }
                     }
-                )
-            }
-        }
-    }
-
-    private fun setupCollect() {
-        lifecycleScope.launch {
-            viewModel.event.collect {
-                when (it) {
-                    is HomeExchangeEvent.OnClickInsight -> {
+                ).apply {
+                    itemClickListener = { _, _ ->
                         requireContext().startActivity<InsightDetailActivity>()
                     }
                 }
