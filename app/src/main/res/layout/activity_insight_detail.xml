@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="info.imdang.imdang.model.insight.InsightDetailState" />
+
         <variable
             name="viewModel"
             type="info.imdang.imdang.ui.insight.InsightDetailViewModel" />
@@ -67,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/gray_25"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cl_insight_detail_buttons"
             app:layout_constraintTop_toBottomOf="@id/tb_insight_detail">
 
             <com.google.android.material.appbar.AppBarLayout
@@ -261,5 +263,72 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/item_insight_detail_basic_info" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <View
+            bindVisible="@{viewModel.insightDetailState != InsightDetailState.ExchangeCompleteAfter7Days}"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/gradient_gray25_100"
+            app:layout_constraintBottom_toTopOf="@id/cl_insight_detail_buttons" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_insight_detail_buttons"
+            bindVisible="@{viewModel.insightDetailState != InsightDetailState.ExchangeCompleteAfter7Days}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_insight_detail_state"
+                style="@style/T_600_16_22_4"
+                bindVisible="@{viewModel.insightDetailState != InsightDetailState.ExchangeRequested}"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_complete_button"
+                android:enabled="@{viewModel.insightDetailState == InsightDetailState.ExchangeRequest}"
+                android:onClick="@{() -> viewModel.onClickStateButton()}"
+                android:stateListAnimator="@null"
+                android:text="@{viewModel.insightDetailState.text}"
+                android:textColor="@color/color_white_gray500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="교환 요청" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_exchange_reject"
+                style="@style/T_600_16_22_4"
+                bindVisible="@{viewModel.insightDetailState == InsightDetailState.ExchangeRequested}"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@drawable/sr_white_orange500_all8"
+                android:onClick="@{() -> viewModel.onClickRejectButton()}"
+                android:stateListAnimator="@null"
+                android:text="@string/reject"
+                android:textColor="@color/orange_500"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/btn_exchange_accept"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_exchange_accept"
+                style="@style/T_600_16_22_4"
+                bindVisible="@{viewModel.insightDetailState == InsightDetailState.ExchangeRequested}"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/sr_orange500_all8"
+                android:onClick="@{() -> viewModel.onClickAcceptButton()}"
+                android:stateListAnimator="@null"
+                android:text="@string/accept"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_exchange_reject"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

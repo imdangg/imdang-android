@@ -117,6 +117,9 @@
     <string name="industry">산업</string>
     <string name="policy">정책</string>
     <string name="good_news_review">호재 총평</string>
+    <string name="exchange_request">교환 요청</string>
+    <string name="reject">거절</string>
+    <string name="accept">수락</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>

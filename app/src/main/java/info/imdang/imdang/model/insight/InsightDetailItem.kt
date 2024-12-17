@@ -11,4 +11,6 @@ sealed class InsightDetailItem {
     data class AptFacility(val aptFacility: InsightDetailAptFacility) : InsightDetailItem()
 
     data class GoodNews(val goodNews: InsightDetailGoodNews) : InsightDetailItem()
+
+    data object Invisible : InsightDetailItem()
 }
