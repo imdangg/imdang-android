@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.insight.InsightDetailViewModel" />
+
+        <variable
+            name="item"
+            type="info.imdang.imdang.model.insight.InsightDetailItem.Infra" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="32dp">
+
+        <TextView
+            android:id="@+id/tv_traffic_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/traffic"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_traffic"
+            bindInsightDetailChips="@{item.infra.traffic}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:chipSpacing="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_traffic_subject">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="주차 편리" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="지하철역 주변" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tv_school_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/school_district"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_traffic" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_school"
+            bindInsightDetailChips="@{item.infra.school}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_school_subject">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="주차 편리" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="지하철역 주변" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tv_life_facility_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/life_facility"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_school" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_life_facility"
+            bindInsightDetailChips="@{item.infra.lifeFacility}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_life_facility_subject">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="주차 편리" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="지하철역 주변" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tv_culture_facility_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/culture_facility"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_life_facility" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_culture_facility"
+            bindInsightDetailChips="@{item.infra.cultureFacility}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_culture_facility_subject">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="주차 편리" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="지하철역 주변" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tv_surrounding_environment_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/surrounding_environment"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_culture_facility" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_surrounding_environment"
+            bindInsightDetailChips="@{item.infra.surroundingEnvironment}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_surrounding_environment_subject">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="주차 편리" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="지하철역 주변" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tv_landmark_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/landmark"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_surrounding_environment" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_landmark"
+            bindInsightDetailChips="@{item.infra.landmark}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_landmark_subject">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="주차 편리" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="지하철역 주변" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tv_avoid_facility_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/avoid_facility"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_landmark" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_avoid_facility"
+            bindInsightDetailChips="@{item.infra.avoidFacility}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_avoid_facility_subject">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="주차 편리" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/T_600_14_19_6"
+                android:textColor="@color/orange_500"
+                app:chipBackgroundColor="@color/orange_50"
+                app:chipCornerRadius="8dp"
+                app:chipMinTouchTargetSize="20dp"
+                app:chipStrokeColor="@color/orange_500"
+                tools:text="지하철역 주변" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tv_review_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/infra_review"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_avoid_facility" />
+
+        <TextView
+            style="@style/T_500_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.infra.infraReview}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_review_subject"
+            tools:text="단지는 전반적으로 관리 상태가 양호했으며, 주변에 대형 마트와 초등학교가 가까워 생활 편의성이 뛰어납니다. 다만 주차 공간이 협소하고, 단지 내 보안 카메라 설치가 부족한 점이 아쉬워요. 단지는 전반적으로 관리 상태가 양호했으며, 주변에 대형 마트와 초등학교가 가까워 생활 편의성이 뛰어납니다." />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

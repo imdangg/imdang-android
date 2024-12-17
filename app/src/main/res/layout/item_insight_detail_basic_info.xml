@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.insight.InsightDetailViewModel" />
+
+        <variable
+            name="item"
+            type="info.imdang.imdang.model.insight.InsightDetailItem.BasicInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="32dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_map"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_location"
+                app:layout_constraintBottom_toBottomOf="@id/tv_apt_address_subject"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_apt_address_subject"
+                app:tint="@color/gray_600" />
+
+            <TextView
+                android:id="@+id/tv_apt_address_subject"
+                style="@style/T_500_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/apt_address"
+                android:textColor="@color/gray_600"
+                app:layout_constraintStart_toEndOf="@id/iv_map"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_apt_address"
+            style="@style/T_500_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.basicInfo.address}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_address"
+            tools:text="서울특별시 영등포구 당산 2동 123-467\n(당산아이파크1차)" />
+
+        <View
+            android:id="@+id/view_map"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/orange_50"
+            app:layout_constraintTop_toBottomOf="@id/tv_apt_address" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_map">
+
+            <ImageView
+                android:id="@+id/iv_calendar"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintBottom_toBottomOf="@id/tv_date_time_subject"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_date_time_subject"
+                app:tint="@color/gray_600" />
+
+            <TextView
+                android:id="@+id/tv_date_time_subject"
+                style="@style/T_500_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/visit_date_time"
+                android:textColor="@color/gray_600"
+                app:layout_constraintStart_toEndOf="@id/iv_calendar"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_date_time"
+            style="@style/T_500_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.basicInfo.visitDate + ` / ` + item.basicInfo.visitTime}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_date_time"
+            tools:text="2024.01.01 / 저녁" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_traffic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_time">
+
+            <ImageView
+                android:id="@+id/iv_car"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_car"
+                app:layout_constraintBottom_toBottomOf="@id/tv_traffic_subject"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_subject"
+                app:tint="@color/gray_600" />
+
+            <TextView
+                android:id="@+id/tv_traffic_subject"
+                style="@style/T_500_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/traffic_method"
+                android:textColor="@color/gray_600"
+                app:layout_constraintStart_toEndOf="@id/iv_car"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_traffic"
+            style="@style/T_500_16_22_4"
+            bindTextList="@{item.basicInfo.traffic}"
+            bindSeparator="@{`, `}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_traffic"
+            tools:text="자차, 도보" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_entrance_limit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_traffic">
+
+            <ImageView
+                android:id="@+id/iv_info"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_info"
+                app:layout_constraintBottom_toBottomOf="@id/tv_entrance_limit_subject"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_entrance_limit_subject"
+                app:tint="@color/gray_600" />
+
+            <TextView
+                android:id="@+id/tv_entrance_limit_subject"
+                style="@style/T_500_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/entrance_limit"
+                android:textColor="@color/gray_600"
+                app:layout_constraintStart_toEndOf="@id/iv_info"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_entrance_limit"
+            style="@style/T_500_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.basicInfo.entranceLimit}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_entrance_limit"
+            tools:text="자유로움" />
+
+        <TextView
+            android:id="@+id/tv_insight_summary_subject"
+            style="@style/T_500_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/insight_summary"
+            android:textColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_entrance_limit" />
+
+        <TextView
+            style="@style/T_500_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.basicInfo.insightSummary}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_insight_summary_subject"
+            tools:text="단지는 전반적으로 관리 상태가 양호했으며, 주변에 대형 마트와 초등학교가 가까워 생활 편의성이 뛰어납니다. 다만 주차 공간이 협소하고, 단지 내 보안 카메라 설치가 부족한 점이 아쉬워요. 단지는 전반적으로 관리 상태가 양호했으며, 주변에 대형 마트와 초등학교가 가까워 생활 편의성이 뛰어납니다. 다만 주차 공간이 협소하고, 단지 내 보안 카메라 설치가 부족한 점이 아쉬워요. 단지는 전반적으로 관리 상태가 양호했으며, 주변에 대형 마트와 초등학교가 가까워 생활 편의성이 뛰어납니다. 다만 주차 공간이 협소하고, 단지 내 보안 카메라 설치가 부족한 점이 아쉬워요." />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
