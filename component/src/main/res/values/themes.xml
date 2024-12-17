@@ -18,7 +18,7 @@
     <style name="Rounded12BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Rounded12BottomSheet</item>
     </style>
-    
+
     <style name="Rounded12BottomSheet">
         <item name="android:background">@drawable/sr_white_top12</item>
     </style>

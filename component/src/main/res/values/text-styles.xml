@@ -58,6 +58,11 @@
         <item name="android:lineHeight">28dp</item>
     </style>
 
+    <style name="T_700_22_30_8" parent="pretendard700">
+        <item name="android:textSize">22sp</item>
+        <item name="android:lineHeight">30.8dp</item>
+    </style>
+
     <style name="T_700_24_33_6" parent="pretendard700">
         <item name="android:textSize">24sp</item>
         <item name="android:lineHeight">33.6dp</item>
