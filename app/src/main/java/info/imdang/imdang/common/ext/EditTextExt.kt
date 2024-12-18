@@ -28,6 +28,19 @@ fun EditText.nicknameValidation(
             targetTextView.apply {
                 text = " ($currentLength/$maxLength)"
                 visibility = if (currentLength > 0) View.VISIBLE else View.GONE
+                setTextColor(
+                    if (currentLength < 2) {
+                        ContextCompat.getColor(
+                            context,
+                            info.imdang.component.R.color.red
+                        )
+                    } else {
+                        ContextCompat.getColor(
+                            context,
+                            info.imdang.component.R.color.orange_500
+                        )
+                    }
+                )
             }
         }
 
