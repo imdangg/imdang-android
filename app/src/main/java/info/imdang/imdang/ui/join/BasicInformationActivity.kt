@@ -1,5 +1,6 @@
 package info.imdang.imdang.ui.join
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -33,6 +34,21 @@ class BasicInformationActivity :
         with(binding.btnComplete) {
             setMargin(left = 0, right = 0, top = 0, bottom = 0)
             text = getString(info.imdang.component.R.string.confirm)
+
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(
+                            info.imdang.component.R.color.gray_100
+                        )
+                    }
+                )
+                cornerRadius = 0f
+            }
+            background = drawable
         }
     }
 
@@ -42,6 +58,23 @@ class BasicInformationActivity :
         with(binding.btnComplete) {
             setMargin(left = 20, right = 20, top = 0, bottom = 40)
             text = getString(info.imdang.component.R.string.complete)
+
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(
+                            info.imdang.component.R.color.gray_100
+                        )
+                    }
+                )
+                cornerRadius =
+                    resources.getDimension(info.imdang.component.R.dimen.default_corner_radius)
+            }
+            background = drawable
+
             binding.etNickName.clearFocus()
             binding.etBirthDate.clearFocus()
         }
@@ -85,14 +118,14 @@ class BasicInformationActivity :
                 if (hasFocus) {
                     lifecycleScope.launch {
                         basicInformationViewModel.isNicknameValid.collect { isValid ->
-                            btnComplete.isEnabled = isValid
+                            updateButtonState(isValid)
                             checkButtonEnabled()
                         }
                     }
                 } else {
                     lifecycleScope.launch {
                         basicInformationViewModel.isFinalButtonEnabled.collect { isValid ->
-                            btnComplete.isEnabled = isValid
+                            updateButtonState(isValid)
                             checkButtonEnabled()
                         }
                     }
@@ -103,14 +136,14 @@ class BasicInformationActivity :
                 if (hasFocus) {
                     lifecycleScope.launch {
                         basicInformationViewModel.isBirthDateValid.collect { isValid ->
-                            btnComplete.isEnabled = isValid
+                            updateButtonState(isValid)
                             checkButtonEnabled()
                         }
                     }
                 } else {
                     lifecycleScope.launch {
                         basicInformationViewModel.isFinalButtonEnabled.collect { isValid ->
-                            btnComplete.isEnabled = isValid
+                            updateButtonState(isValid)
                             checkButtonEnabled()
                         }
                     }
@@ -222,6 +255,31 @@ class BasicInformationActivity :
 
             ivGender.setImageResource(info.imdang.component.R.drawable.ic_check)
             basicInformationViewModel.updateFinalGenderValid(true)
+        }
+    }
+
+    private fun updateButtonState(isEnabled: Boolean) {
+        with(binding.btnComplete) {
+            this.isEnabled = isEnabled
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(
+                            info.imdang.component.R.color.gray_100
+                        )
+                    }
+                )
+                cornerRadius =
+                    if (isVisibleKeyboard) {
+                        0f
+                    } else {
+                        resources.getDimension(info.imdang.component.R.dimen.default_corner_radius)
+                    }
+            }
+            background = drawable
         }
     }
 }
