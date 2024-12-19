@@ -1,8 +1,8 @@
 package info.imdang.imdang.ui.main.home.exchange
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.InsightVo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeExchangeViewModel @Inject constructor() : ViewModel() {
+class HomeExchangeViewModel @Inject constructor() : BaseViewModel() {
 
     private val _selectedChipId = MutableStateFlow(1)
     val selectedChipId = _selectedChipId.asStateFlow()

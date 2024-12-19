@@ -1,7 +1,7 @@
 package info.imdang.imdang.ui.main.home.search
 
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightVo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeSearchViewModel @Inject constructor() : ViewModel() {
+class HomeSearchViewModel @Inject constructor() : BaseViewModel() {
 
     private val _myInsightApts = MutableStateFlow<List<InsightAptVo>>(emptyList())
     val myInsightApts = _myInsightApts.asStateFlow()

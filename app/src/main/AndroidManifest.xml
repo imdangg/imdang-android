@@ -35,6 +35,7 @@
         <activity
             android:name=".ui.write.WriteInsightActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.insight.InsightDetailActivity" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
@@ -50,5 +51,9 @@
                     android:scheme="kakao${KAKAO_NATIVE_KEY}" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVER_CLIENT_ID}" />
     </application>
 </manifest>

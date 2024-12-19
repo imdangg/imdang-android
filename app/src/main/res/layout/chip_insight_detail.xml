@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp"
+    android:textAppearance="@style/T_600_14_19_6"
+    android:textColor="@color/orange_500"
+    app:chipBackgroundColor="@color/orange_50"
+    app:chipCornerRadius="8dp"
+    app:chipMinTouchTargetSize="20dp"
+    app:chipStrokeColor="@color/orange_500"
+    tools:text="해당없음" />

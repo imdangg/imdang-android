@@ -10,8 +10,10 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentHomeHistoryRequestedBinding
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.main.home.exchange.HomeExchangeViewModel
 
 @AndroidEntryPoint
@@ -50,7 +52,11 @@ class HomeHistoryRequestedFragment :
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { _, _ ->
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
             }
         }
     }

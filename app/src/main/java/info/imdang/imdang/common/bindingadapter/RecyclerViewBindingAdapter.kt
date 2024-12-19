@@ -1,12 +1,17 @@
 package info.imdang.imdang.common.bindingadapter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import info.imdang.imdang.base.BaseViewHolder
+import info.imdang.imdang.model.insight.InsightDetailItem
+import info.imdang.imdang.ui.insight.InsightDetailAdapter
+import kotlin.reflect.KClass
 
 @BindingAdapter("bindItemList")
 fun RecyclerView.bindItemList(item: List<Any>?) {
@@ -15,6 +20,24 @@ fun RecyclerView.bindItemList(item: List<Any>?) {
     @Suppress("UNCHECKED_CAST")
     (adapter as? BaseSingleViewAdapter<Any>)?.run {
         submitList(item)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    (adapter as? BaseMultiViewAdapter<Any>)?.run {
+        val newItems = mutableListOf<Any>()
+        item.forEach {
+            newItems.add(it)
+        }
+        submitList(newItems)
+    }
+
+    (adapter as? InsightDetailAdapter)?.run {
+        val newItems = mutableListOf<InsightDetailItem>()
+        item.forEach {
+            newItems.add(it as InsightDetailItem)
+        }
+        Log.d("##", "$item")
+        submitList(newItems)
     }
 }
 
@@ -25,7 +48,7 @@ class BaseSingleViewAdapter<ITEM : Any>(
     diffUtil: DiffUtil.ItemCallback<ITEM>
 ) : ListAdapter<ITEM, BaseViewHolder>(diffUtil) {
 
-    private var itemClickListener: ((item: Any, pos: Int) -> Unit)? = null
+    var itemClickListener: ((item: Any, pos: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         BaseViewHolder(
@@ -54,4 +77,41 @@ class BaseSingleViewAdapter<ITEM : Any>(
             }
         )
     }
+}
+
+class BaseMultiViewAdapter<ITEM : Any>(
+    private val viewHolderMapper: (ITEM) -> ViewHolderType,
+    private val viewHolderType: KClass<out ViewHolderType>,
+    private val viewModel: Map<Int, ViewModel>,
+    diffUtil: DiffUtil.ItemCallback<ITEM>,
+    private val hasStableIds: Boolean = false
+) : ListAdapter<ITEM, BaseViewHolder>(diffUtil) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        val viewHolderType = viewHolderType.java.enumConstants[viewType]
+        return BaseViewHolder(
+            parent = parent,
+            layoutResourceId = viewHolderType.layoutResourceId,
+            bindingItemId = viewHolderType.bindingItemId,
+            viewModel = viewModel
+        )
+    }
+
+    override fun getItemViewType(position: Int): Int =
+        (viewHolderMapper(getItem(position)) as Enum<*>).ordinal
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) =
+        holder.bind(getItem(position))
+
+    override fun getItemId(position: Int): Long = if (hasStableIds) {
+        position.toLong()
+    } else {
+        super.getItemId(position)
+    }
+}
+
+interface ViewHolderType {
+
+    val layoutResourceId: Int
+    val bindingItemId: Int
 }

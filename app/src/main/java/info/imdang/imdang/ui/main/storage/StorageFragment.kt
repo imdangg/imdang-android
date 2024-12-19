@@ -18,6 +18,7 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentStorageBinding
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.main.storage.bottomsheet.AptBottomSheet
 import info.imdang.imdang.ui.main.storage.region.InsightRegionActivity
 
@@ -55,7 +56,11 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { _, _ ->
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
             }
             vpInsightRegion.run {
                 val currentVisibleItemPx = requireContext().dpToPx(20)

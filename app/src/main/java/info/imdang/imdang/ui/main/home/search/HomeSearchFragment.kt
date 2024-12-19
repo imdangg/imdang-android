@@ -13,9 +13,13 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.SpaceItemDecoration
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentHomeSearchBinding
 import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
+import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -73,7 +77,11 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { _, _ ->
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
             }
             rvHomeNewInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
@@ -94,7 +102,11 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { _, _ ->
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
             }
         }
     }
@@ -109,9 +121,14 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
 
     private fun setupViewPager() {
         binding.vpHomeRecommendInsight.run {
-            adapter = RecommendInsightPagerAdapter(
+            adapter = RecommendInsightsPagerAdapter(
                 fragmentActivity = requireActivity(),
-                insights = this@HomeSearchFragment.viewModel.recommendInsights.value
+                insights = this@HomeSearchFragment.viewModel.recommendInsights.value,
+                listener = object : RecommendInsightsListener {
+                    override fun onClickInsight(insightVo: InsightVo) {
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
             )
             TabLayoutMediator(binding.tlIndicator, this) { _, _ -> }.attach()
             registerOnPageChangeCallback(object : OnPageChangeCallback() {

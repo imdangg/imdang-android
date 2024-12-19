@@ -1,7 +1,7 @@
 package info.imdang.imdang.ui.main.storage
 
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class StorageViewModel @Inject constructor() : ViewModel() {
+class StorageViewModel @Inject constructor() : BaseViewModel() {
 
     private val _selectedInsightRegionPage = MutableStateFlow(-1)
     val selectedInsightRegionPage = _selectedInsightRegionPage.asStateFlow()

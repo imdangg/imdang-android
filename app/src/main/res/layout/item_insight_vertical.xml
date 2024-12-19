@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="info.imdang.imdang.base.BaseViewModel" />
+
+        <variable
             name="item"
             type="info.imdang.imdang.model.insight.InsightVo" />
     </data>
@@ -16,8 +20,8 @@
 
         <ImageView
             android:id="@+id/iv_insight"
-            bindImage="@{item.thumbnail}"
             bindCornerRadius="@{4}"
+            bindImage="@{item.thumbnail}"
             android:layout_width="200dp"
             android:layout_height="160dp"
             android:importantForAccessibility="no"
