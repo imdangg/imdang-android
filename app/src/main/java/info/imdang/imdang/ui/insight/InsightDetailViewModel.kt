@@ -29,9 +29,7 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
 
     init {
         _insightDetails.value =
-            if (insightDetailState.value == InsightDetailState.ExchangeComplete ||
-                insightDetailState.value == InsightDetailState.ExchangeCompleteAfter7Days
-            ) {
+            if (insightDetailState.value == InsightDetailState.ExchangeComplete) {
                 listOf(
                     InsightDetailItem.BasicInfo(insight.value.basicInfo),
                     InsightDetailItem.Infra(insight.value.infra),
@@ -47,9 +45,7 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
             }
     }
 
-    fun isEnableTabMove() =
-        insightDetailState.value == InsightDetailState.ExchangeComplete ||
-            insightDetailState.value == InsightDetailState.ExchangeCompleteAfter7Days
+    fun isEnableTabMove() = insightDetailState.value == InsightDetailState.ExchangeComplete
 
     fun onClickTab() {
         _isScrolling.value = true
