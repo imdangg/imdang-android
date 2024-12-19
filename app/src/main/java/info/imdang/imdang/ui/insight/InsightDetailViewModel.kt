@@ -55,6 +55,10 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
+    fun onClickRecommend() {
+        _insight.value = insight.value.copy(isRecommended = !insight.value.isRecommended)
+    }
+
     fun onClickExchangeRequestButton() {
         // todo : 교환 요청, 아래 코드는 테스트용
         _insightDetailState.value = InsightDetailState.ExchangeRequested

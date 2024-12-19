@@ -14,6 +14,7 @@ data class InsightDetailVo(
     val profileImage: String,
     val nickname: String,
     val recommendCount: Int,
+    val isRecommended: Boolean,
     val basicInfo: InsightDetailBasicInfo,
     val infra: InsightDetailInfra,
     val aptEnvironment: InsightDetailAptEnvironment,
@@ -25,6 +26,7 @@ data class InsightDetailVo(
             profileImage = "",
             nickname = "홍길동",
             recommendCount = 24,
+            isRecommended = false,
             basicInfo = InsightDetailBasicInfo(
                 thumbnail = "https://www.hyundai.co.kr/image/upload/asset_library/" +
                     "MDA00000000000003878/ff36eb6226674c648106fd06ff971e6c.jpg",

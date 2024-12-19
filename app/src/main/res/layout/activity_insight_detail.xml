@@ -139,29 +139,48 @@
                                 android:id="@+id/cl_insight_detail_recommend"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/sr_white_gray100_all4"
+                                android:background="@{viewModel.insight.recommended ? @drawable/sr_orange50_orange500_all4 : @drawable/sr_white_gray100_all4}"
+                                android:onClick="@{() -> viewModel.onClickRecommend()}"
                                 android:paddingHorizontal="12dp"
                                 android:paddingVertical="8dp"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:background="@drawable/sr_white_gray100_all4">
 
                                 <ImageView
                                     android:id="@+id/iv_good"
                                     android:layout_width="16dp"
                                     android:layout_height="16dp"
                                     android:importantForAccessibility="no"
-                                    android:src="@drawable/ic_good"
+                                    android:src="@{viewModel.insight.recommended ? @drawable/ic_good_on : @drawable/ic_good}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:src="@drawable/ic_good" />
 
                                 <TextView
                                     style="@style/T_500_14_19_6"
+                                    bindVisible="@{!viewModel.insight.recommended}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="2dp"
                                     android:text="@{`추천 ` + viewModel.insight.recommendCount}"
                                     android:textColor="@color/gray_700"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@id/iv_good"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="추천 24" />
+
+                                <TextView
+                                    style="@style/T_600_14_19_6"
+                                    bindVisible="@{viewModel.insight.recommended}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="2dp"
+                                    android:text="@{`추천 ` + viewModel.insight.recommendCount}"
+                                    android:textColor="@color/orange_500"
+                                    android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/iv_good"
