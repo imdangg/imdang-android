@@ -21,7 +21,7 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
     private val _insightDetails = MutableStateFlow<List<InsightDetailItem>>(emptyList())
     val insightDetails = _insightDetails.asStateFlow()
 
-    private val _insightDetailState = MutableStateFlow(InsightDetailState.ExchangeComplete)
+    private val _insightDetailState = MutableStateFlow(InsightDetailState.ExchangeRequest)
     val insightDetailState = _insightDetailState.asStateFlow()
 
     private val _isScrolling = MutableStateFlow(false)
@@ -40,7 +40,7 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
             } else {
                 listOf(
                     InsightDetailItem.BasicInfo(insight.value.basicInfo),
-                    InsightDetailItem.Invisible
+                    InsightDetailItem.Invisible(insightDetailState.value)
                 )
             }
     }
@@ -55,20 +55,31 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun onClickStateButton() {
-        if (insightDetailState.value == InsightDetailState.ExchangeRequest) {
-            // todo : 교환 요청, 아래 코드는 테스트용
-            _insightDetailState.value = InsightDetailState.ExchangeRequested
+    fun onClickExchangeRequestButton() {
+        // todo : 교환 요청, 아래 코드는 테스트용
+        _insightDetailState.value = InsightDetailState.ExchangeRequested
+        _insightDetails.value = insightDetails.value.map {
+            if (it is InsightDetailItem.Invisible) it.copy(insightDetailState.value) else it
         }
     }
 
     fun onClickRejectButton() {
         // todo : 교환 거절, 아래 코드는 테스트용
         _insightDetailState.value = InsightDetailState.ExchangeWaiting
+        _insightDetails.value = insightDetails.value.map {
+            if (it is InsightDetailItem.Invisible) it.copy(insightDetailState.value) else it
+        }
     }
 
     fun onClickAcceptButton() {
         // todo : 교환 수락, 아래 코드는 테스트용
         _insightDetailState.value = InsightDetailState.ExchangeComplete
+        _insightDetails.value = listOf(
+            InsightDetailItem.BasicInfo(insight.value.basicInfo),
+            InsightDetailItem.Infra(insight.value.infra),
+            InsightDetailItem.AptEnvironment(insight.value.aptEnvironment),
+            InsightDetailItem.AptFacility(insight.value.aptFacility),
+            InsightDetailItem.GoodNews(insight.value.goodNews)
+        )
     }
 }

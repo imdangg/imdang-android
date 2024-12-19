@@ -12,5 +12,5 @@ sealed class InsightDetailItem {
 
     data class GoodNews(val goodNews: InsightDetailGoodNews) : InsightDetailItem()
 
-    data object Invisible : InsightDetailItem()
+    data class Invisible(val insightDetailState: InsightDetailState) : InsightDetailItem()
 }

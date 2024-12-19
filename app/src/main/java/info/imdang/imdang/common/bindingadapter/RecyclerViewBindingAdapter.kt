@@ -1,5 +1,6 @@
 package info.imdang.imdang.common.bindingadapter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.BindingAdapter
@@ -35,6 +36,7 @@ fun RecyclerView.bindItemList(item: List<Any>?) {
         item.forEach {
             newItems.add(it as InsightDetailItem)
         }
+        Log.d("##", "$item")
         submitList(newItems)
     }
 }

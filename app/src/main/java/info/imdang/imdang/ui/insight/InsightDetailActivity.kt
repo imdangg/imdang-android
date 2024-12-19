@@ -108,7 +108,7 @@ class InsightDetailActivity :
         ),
         InvisibleHolder(
             layoutResourceId = R.layout.item_insight_detail_invisible,
-            bindingItemId = BR._all
+            bindingItemId = BR.item
         )
     }
 }

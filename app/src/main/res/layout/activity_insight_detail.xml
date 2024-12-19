@@ -286,7 +286,7 @@
                 android:layout_height="56dp"
                 android:background="@drawable/bg_complete_button"
                 android:enabled="@{viewModel.insightDetailState == InsightDetailState.ExchangeRequest}"
-                android:onClick="@{() -> viewModel.onClickStateButton()}"
+                android:onClick="@{() -> viewModel.onClickExchangeRequestButton()}"
                 android:stateListAnimator="@null"
                 android:text="@{viewModel.insightDetailState.text}"
                 android:textColor="@color/color_white_gray500"
