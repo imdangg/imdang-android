@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.join.BasicInformationViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +68,7 @@
                     android:id="@+id/cl_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="54dp"
+                    android:layout_marginTop="57dp"
                     app:layout_constraintTop_toBottomOf="@id/tv_basic_information_sub_title">
 
                     <TextView
@@ -84,15 +88,40 @@
                         android:layout_marginStart="6dp"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_check"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
                         app:layout_constraintStart_toEndOf="@+id/tv_nickname"
                         app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
 
+                    <TextView
+                        style="@style/T_500_12_16_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nickname_input_standard"
+                        android:textColor="@color/gray_500"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_nickname_count"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_nickname_count"
+                        style="@style/T_500_12_16_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/orange_500"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text=" (3/10)" />
+
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_nickname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textColorHint="@color/gray_500"
+                        app:endIconContentDescription="취소"
+                        app:endIconDrawable="@drawable/ic_cancel"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@null"
                         app:hintEnabled="false"
                         app:hintTextAppearance="@style/T_500_16_22_4"
                         app:layout_constraintTop_toBottomOf="@+id/tv_nickname">
@@ -104,10 +133,23 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_basic_information_edittext"
                             android:hint="@string/nickname_hint"
+                            android:inputType="text"
                             android:maxLength="10"
                             android:padding="16dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tv_nickname_error"
+                        style="@style/T_500_12_16_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/red"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tl_nickname"
+                        tools:text="@string/nickname_error_type_count"
+                        tools:visibility="visible" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -134,15 +176,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:src="@drawable/ic_check"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_birth_date"
                         app:layout_constraintStart_toEndOf="@+id/tv_birth_date"
                         app:layout_constraintTop_toTopOf="@+id/tv_birth_date" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_birth_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textColorHint="@color/gray_500"
+                        app:endIconContentDescription="취소"
+                        app:endIconDrawable="@drawable/ic_cancel"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@null"
                         app:hintEnabled="false"
                         app:hintTextAppearance="@style/T_500_16_22_4"
                         app:layout_constraintTop_toBottomOf="@+id/tv_birth_date">
@@ -154,10 +202,23 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_basic_information_edittext"
                             android:hint="@string/birth_date_hint"
+                            android:inputType="number"
                             android:maxLength="10"
                             android:padding="16dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tv_birth_date_error"
+                        style="@style/T_500_12_16_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/red"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tl_birth_date"
+                        tools:text="@string/birth_date_error_type_empty"
+                        tools:visibility="visible" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -184,7 +245,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_check"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_gender"
                         app:layout_constraintStart_toEndOf="@+id/tv_gender"
                         app:layout_constraintTop_toTopOf="@+id/tv_gender" />
@@ -201,11 +261,10 @@
                             android:layout_width="0dp"
                             android:layout_height="52dp"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_gender_button"
-                            android:enabled="false"
+                            android:background="@drawable/sr_white_gray100_all8"
                             android:stateListAnimator="@null"
                             android:text="@string/man"
-                            android:textColor="@color/gray_500" />
+                            android:textColor="@color/gray_400" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_gender_woman"
@@ -214,10 +273,10 @@
                             android:layout_height="52dp"
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_gender_button"
+                            android:background="@drawable/sr_white_gray100_all8"
                             android:stateListAnimator="@null"
                             android:text="@string/woman"
-                            android:textColor="@color/orange_500" />
+                            android:textColor="@color/gray_400" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -233,6 +292,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="40dp"
             android:background="@drawable/bg_complete_button"
+            android:enabled="false"
             android:stateListAnimator="@null"
             android:text="@string/complete"
             android:textColor="@color/white"
