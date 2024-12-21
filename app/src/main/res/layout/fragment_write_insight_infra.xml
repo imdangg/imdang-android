@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_25"
+        android:clipToPadding="false"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="40dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_traffic_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/traffic"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterisk"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toEndOf="@id/tv_traffic_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_subject" />
+
+            <TextView
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiple_selection"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_traffic_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_subject" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_traffic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_traffic_subject">
+
+                <TextView
+                    android:id="@+id/tv_traffic_not"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/not_applicable"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_traffic_convenient"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_traffic_convenient"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/convenient_parking"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_traffic_not"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_traffic_subway"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/around_subway_station"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_traffic_bus"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_traffic_not" />
+
+                <TextView
+                    android:id="@+id/tv_traffic_bus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/around_the_bus_stop"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_traffic_subway"
+                    app:layout_constraintTop_toTopOf="@id/tv_traffic_subway" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_school_district_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/school_district"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_traffic" />
+
+            <TextView
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterisk"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toEndOf="@id/tv_school_district_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_school_district_subject" />
+
+            <TextView
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiple_selection"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_school_district_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_school_district_subject" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_school_district"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_school_district_subject">
+
+                <TextView
+                    android:id="@+id/tv_school_district_not"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/not_applicable"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_school_district_apartment_with_elementary_school"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_school_district_apartment_with_elementary_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/apartment_with_elementary_school"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_school_district_not"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_school_district_daycare_center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/daycare_center"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_school_district_middle_school"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_school_district_not" />
+
+                <TextView
+                    android:id="@+id/tv_school_district_middle_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/middle_school"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_school_district_daycare_center"
+                    app:layout_constraintTop_toTopOf="@id/tv_school_district_daycare_center" />
+
+                <TextView
+                    android:id="@+id/tv_school_district_high_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/high_school"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_school_district_academy_district"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_school_district_daycare_center" />
+
+                <TextView
+                    android:id="@+id/tv_school_district_academy_district"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/academy_district"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_school_district_high_school"
+                    app:layout_constraintTop_toTopOf="@id/tv_school_district_high_school" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_living_amenities_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/living_amenities"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_school_district" />
+
+            <TextView
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterisk"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toEndOf="@id/tv_living_amenities_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_living_amenities_subject" />
+
+            <TextView
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiple_selection"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_living_amenities_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_living_amenities_subject" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_living_amenities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_living_amenities_subject">
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_not"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/not_applicable"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_living_amenities_community_center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_community_center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/community_center"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_living_amenities_not"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_convenience_store"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/convenience_store"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_living_amenities_small_mart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_living_amenities_not" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_small_mart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/small_mart"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_living_amenities_convenience_store"
+                    app:layout_constraintTop_toTopOf="@id/tv_living_amenities_convenience_store" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_large_mart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/large_mart"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_living_amenities_hospital"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_living_amenities_convenience_store" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_hospital"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/hospital"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_living_amenities_large_mart"
+                    app:layout_constraintTop_toTopOf="@id/tv_living_amenities_large_mart" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_bank"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/bank"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_living_amenities_cafe"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_living_amenities_large_mart" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_cafe"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/cafe"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_living_amenities_bank"
+                    app:layout_constraintTop_toTopOf="@id/tv_living_amenities_bank" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_beauty_salon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/beauty_salon"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_living_amenities_pharmacy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_living_amenities_large_mart" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_pharmacy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/pharmacy"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_living_amenities_beauty_salon"
+                    app:layout_constraintTop_toTopOf="@id/tv_living_amenities_beauty_salon" />
+
+                <TextView
+                    android:id="@+id/tv_living_amenities_post_office"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/post_office"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/view_living_amenities_empty"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_living_amenities_beauty_salon" />
+
+                <View
+                    android:id="@+id/view_living_amenities_empty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_living_amenities_post_office"
+                    app:layout_constraintTop_toTopOf="@id/tv_living_amenities_post_office" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_facilities_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/cultural_and_leisure_facilities"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_living_amenities" />
+
+            <TextView
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterisk"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toEndOf="@id/tv_facilities_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_facilities_subject" />
+
+            <TextView
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiple_selection"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_facilities_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_facilities_subject" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_facilities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_facilities_subject">
+
+                <TextView
+                    android:id="@+id/tv_facilities_not"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/not_applicable"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_facilities_library"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_library"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/library"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_facilities_not"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_cinema"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/cinema"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_facilities_gym"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_facilities_not" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_gym"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/gym"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_facilities_cinema"
+                    app:layout_constraintTop_toTopOf="@id/tv_facilities_cinema" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_fitness_center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/fitness_center"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_facilities_swimming_pool"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_facilities_cinema" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_swimming_pool"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/swimming_pool"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_facilities_fitness_center"
+                    app:layout_constraintTop_toTopOf="@id/tv_facilities_fitness_center" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_badminton_court"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/badminton_court"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_facilities_tennis_court"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_facilities_fitness_center" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_tennis_court"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/tennis_court"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_facilities_badminton_court"
+                    app:layout_constraintTop_toTopOf="@id/tv_facilities_badminton_court" />
+
+                <TextView
+                    android:id="@+id/tv_facilities_golf_driving_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/golf_driving_range"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/view_facilities_empty"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_facilities_badminton_court" />
+
+                <View
+                    android:id="@+id/view_facilities_empty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_facilities_golf_driving_range"
+                    app:layout_constraintTop_toTopOf="@id/tv_facilities_golf_driving_range" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_environment_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/surrounding_environment"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_facilities" />
+
+            <TextView
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterisk"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toEndOf="@id/tv_environment_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_environment_subject" />
+
+            <TextView
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiple_selection"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_environment_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_environment_subject" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_environment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_environment_subject">
+
+                <TextView
+                    android:id="@+id/tv_environment_not"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/not_applicable"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_environment_river"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_environment_river"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/river"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_environment_not"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_environment_ocean"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/ocean"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_environment_mountain"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_environment_not" />
+
+                <TextView
+                    android:id="@+id/tv_environment_mountain"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/mountain"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_environment_ocean"
+                    app:layout_constraintTop_toTopOf="@id/tv_environment_ocean" />
+
+                <TextView
+                    android:id="@+id/tv_environment_park"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/park"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_environment_walking_trail"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_environment_ocean" />
+
+                <TextView
+                    android:id="@+id/tv_environment_walking_trail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/walking_trail"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_environment_park"
+                    app:layout_constraintTop_toTopOf="@id/tv_environment_park" />
+
+                <TextView
+                    android:id="@+id/tv_environment_church"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/church"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_environment_cathedral"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_environment_park" />
+
+                <TextView
+                    android:id="@+id/tv_environment_cathedral"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/cathedral"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_environment_church"
+                    app:layout_constraintTop_toTopOf="@id/tv_environment_church" />
+
+                <TextView
+                    android:id="@+id/tv_environment_restaurant_area"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/restaurant_area"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_environment_market"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_environment_church" />
+
+                <TextView
+                    android:id="@+id/tv_environment_market"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/market"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_environment_restaurant_area"
+                    app:layout_constraintTop_toTopOf="@id/tv_environment_restaurant_area" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_landmark_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/landmark"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_environment" />
+
+            <TextView
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterisk"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toEndOf="@id/tv_landmark_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_landmark_subject" />
+
+            <TextView
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiple_selection"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_landmark_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_landmark_subject" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_landmark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_landmark_subject">
+
+                <TextView
+                    android:id="@+id/tv_landmark_not"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/not_applicable"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_landmark_amusement_park"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_amusement_park"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/amusement_park"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_landmark_not"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_complex_shopping_mall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/complex_shopping_mall"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_landmark_old_palace"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_landmark_not" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_old_palace"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/old_palace"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_landmark_complex_shopping_mall"
+                    app:layout_constraintTop_toTopOf="@id/tv_landmark_complex_shopping_mall" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_observatory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/observatory"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_landmark_national_park"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_landmark_complex_shopping_mall" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_national_park"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/national_park"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_landmark_observatory"
+                    app:layout_constraintTop_toTopOf="@id/tv_landmark_observatory" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_hanok_village"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/hanok_village"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_landmark_temple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_landmark_observatory" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_temple"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/temple"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_landmark_hanok_village"
+                    app:layout_constraintTop_toTopOf="@id/tv_landmark_hanok_village" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_art_gallery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/art_gallery"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_landmark_museum"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_landmark_hanok_village" />
+
+                <TextView
+                    android:id="@+id/tv_landmark_museum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/museum"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_landmark_art_gallery"
+                    app:layout_constraintTop_toTopOf="@id/tv_landmark_art_gallery" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_avoid_facility_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/avoid_facility"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_landmark" />
+
+            <TextView
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterisk"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_subject" />
+
+            <TextView
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiple_selection"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_avoid_facility_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_subject" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_avoid_facility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_avoid_facility_subject">
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_not"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/not_applicable"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_avoid_facility_highway"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_highway"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/highway"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_not"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_railway"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/railway"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_avoid_facility_entertainment_street"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_avoid_facility_not" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_entertainment_street"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/entertainment_street"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_railway"
+                    app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_railway" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_industrial_complex"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/industrial_complex"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_avoid_facility_factory"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_avoid_facility_railway" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_factory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/factory"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_industrial_complex"
+                    app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_industrial_complex" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_garbage_incinerator"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/garbage_incinerator"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/tv_avoid_facility_high_rise_building"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_avoid_facility_industrial_complex" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_high_rise_building"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/high_rise_building"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_garbage_incinerator"
+                    app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_garbage_incinerator" />
+
+                <TextView
+                    android:id="@+id/tv_avoid_facility_building_under_construction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/building_under_construction"
+                    android:textColor="@color/gray_400"
+                    app:layout_constraintEnd_toStartOf="@id/view_avoid_facility_empty"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_avoid_facility_garbage_incinerator" />
+
+                <View
+                    android:id="@+id/view_avoid_facility_empty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sr_white_gray100_all8"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_building_under_construction"
+                    app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_building_under_construction" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_infra_overall_review_subject"
+                style="@style/T_600_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/infra_overall_review"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_avoid_facility" />
+
+            <TextView
+                android:id="@+id/tv_infra_overall_review_count"
+                style="@style/T_500_12_16_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최소30자-최대200자"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_infra_overall_review_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_infra_overall_review_subject" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/sr_white_gray100_all8"
+                android:padding="16dp"
+                android:textColor="@color/gray_400"
+                app:layout_constraintTop_toBottomOf="@id/tv_infra_overall_review_subject" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>
