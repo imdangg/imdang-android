@@ -1,6 +1,6 @@
 package info.imdang.remote.datasource
 
-import info.imdang.data.datasource.AuthRemoteDataSource
+import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.data.model.request.auth.LoginRequest
 import info.imdang.data.model.response.auth.LoginResponse
 import info.imdang.remote.service.AuthService

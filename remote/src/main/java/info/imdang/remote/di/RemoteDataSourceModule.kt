@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import info.imdang.data.datasource.AuthRemoteDataSource
+import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.remote.datasource.AuthRemoteDataSourceImpl
 import javax.inject.Singleton
 

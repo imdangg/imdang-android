@@ -1,4 +1,4 @@
-package info.imdang.data.datasource
+package info.imdang.data.datasource.remote
 
 import info.imdang.data.model.request.auth.LoginRequest
 import info.imdang.data.model.response.auth.LoginResponse
