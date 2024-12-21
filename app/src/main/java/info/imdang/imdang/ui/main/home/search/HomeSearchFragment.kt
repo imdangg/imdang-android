@@ -3,6 +3,7 @@ package info.imdang.imdang.ui.main.home.search
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.library.baseAdapters.BR
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
@@ -18,6 +19,7 @@ import info.imdang.imdang.databinding.FragmentHomeSearchBinding
 import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
 import kotlinx.coroutines.launch
@@ -25,12 +27,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment_home_search) {
 
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val viewModel by viewModels<HomeSearchViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
+        setupListener()
         setupCollect()
     }
 
@@ -79,6 +83,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                     }
                 ).apply {
                     itemClickListener = { _, _ ->
+                        mainViewModel.hideTooltip()
                         requireContext().startActivity<InsightDetailActivity>()
                     }
                 }
@@ -104,6 +109,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                     }
                 ).apply {
                     itemClickListener = { _, _ ->
+                        mainViewModel.hideTooltip()
                         requireContext().startActivity<InsightDetailActivity>()
                     }
                 }
@@ -119,6 +125,20 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
         }
     }
 
+    private fun setupListener() {
+        with(binding) {
+            nsvHomeSearch.setOnScrollChangeListener { _, _, _, _, _ ->
+                mainViewModel.hideTooltip()
+            }
+            tvHomeMyInsightSeeAll.setOnClickListener {
+                mainViewModel.hideTooltip()
+            }
+            tvHomeNewInsightSeeAll.setOnClickListener {
+                mainViewModel.hideTooltip()
+            }
+        }
+    }
+
     private fun setupViewPager() {
         binding.vpHomeRecommendInsight.run {
             adapter = RecommendInsightsPagerAdapter(
@@ -126,6 +146,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                 insights = this@HomeSearchFragment.viewModel.recommendInsights.value,
                 listener = object : RecommendInsightsListener {
                     override fun onClickInsight(insightVo: InsightVo) {
+                        mainViewModel.hideTooltip()
                         requireContext().startActivity<InsightDetailActivity>()
                     }
                 }
@@ -134,6 +155,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
             registerOnPageChangeCallback(object : OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    mainViewModel.hideTooltip()
                     viewModel.selectRecommendInsightPage(position)
                 }
             })
@@ -141,6 +163,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
     }
 
     companion object {
+
         fun instance(): HomeSearchFragment = HomeSearchFragment()
     }
 }
