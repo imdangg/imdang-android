@@ -182,6 +182,25 @@
     <string name="normal">평범해요</string>
     <string name="not_very_good">별로에요</string>
     <string name="review_count_standard">최소30자-최대200자</string>
+    <string name="senior_center">경로당</string>
+    <string name="multipurpose_room">다목적실</string>
+    <string name="resident_representative_conference_room">입주자 대표 회의실</string>
+    <string name="public_laundry">공용 세탁소</string>
+    <string name="public_lounge">공용 휴게실</string>
+    <string name="leisure_fitness_center">피트니스 센터</string>
+    <string name="reading_room">독서실</string>
+    <string name="sauna">사우나</string>
+    <string name="baths">목욕탕</string>
+    <string name="screen_golf_course">스크린 골프장</string>
+    <string name="study_room">공부방</string>
+    <string name="guest_house">게스트하우스</string>
+    <string name="water_park">워터파크</string>
+    <string name="breakfast">조식</string>
+    <string name="lawn">잔디밭</string>
+    <string name="sculpture">조형물</string>
+    <string name="bench">벤치</string>
+    <string name="tables_and_chairs">테이블 및 의자</string>
+    <string name="fountain">분수</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
