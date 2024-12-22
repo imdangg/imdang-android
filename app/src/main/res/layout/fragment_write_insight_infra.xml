@@ -1160,7 +1160,7 @@
                 style="@style/T_500_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="최소30자-최대200자"
+                android:text="@string/review_count_standard"
                 android:textColor="@color/gray_500"
                 app:layout_constraintBottom_toBottomOf="@id/tv_infra_overall_review_subject"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -176,6 +176,12 @@
     <string name="high_rise_building">고층 건물</string>
     <string name="building_under_construction">공사중 건물</string>
     <string name="infra_overall_review">인프라 총평</string>
+    <string name="i_am_not_sure">잘 모르겠어요</string>
+    <string name="best">최고예요</string>
+    <string name="great">좋아요</string>
+    <string name="normal">평범해요</string>
+    <string name="not_very_good">별로에요</string>
+    <string name="review_count_standard">최소30자-최대200자</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
