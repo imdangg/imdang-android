@@ -14,17 +14,25 @@ internal class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun kakaoLogin(authorizationCode: String): LoginDto =
         authRemoteDataSource.kakaoLogin(
-            LoginRequest(authorizationCode = authorizationCode)
+            LoginRequest(accessToken = authorizationCode)
         ).mapper()
 
     override suspend fun googleLogin(authorizationCode: String): LoginDto =
         authRemoteDataSource.googleLogin(
-            LoginRequest(authorizationCode = authorizationCode)
+            LoginRequest(accessToken = authorizationCode)
         ).mapper()
 
-    override suspend fun saveToken(token: String) = authLocalDataSource.saveToken(token)
+    override suspend fun saveAccessToken(accessToken: String) {
+        authLocalDataSource.saveAccessToken(accessToken)
+    }
 
-    override suspend fun getToken(): String = authLocalDataSource.getToken()
+    override suspend fun saveRefreshToken(refreshToken: String) {
+        authLocalDataSource.saveRefreshToken(refreshToken)
+    }
+
+    override suspend fun getAccessToken(): String = authLocalDataSource.getAccessToken()
+
+    override suspend fun getRefreshToken(): String = authLocalDataSource.getRefreshToken()
 
     override suspend fun removeToken() = authLocalDataSource.removeToken()
 }

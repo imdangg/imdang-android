@@ -4,5 +4,5 @@ data class LoginDto(
     val accessToken: String,
     val refreshToken: String,
     val expiresIn: Long,
-    val isJoined: Boolean
+    val joined: Boolean
 )

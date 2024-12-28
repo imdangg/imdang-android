@@ -6,10 +6,10 @@ import info.imdang.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class GetTokenUseCase @Inject constructor(
+class SaveRefreshTokenUseCase @Inject constructor(
     private val repository: AuthRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<Unit, String>(coroutineDispatcher = dispatcher) {
+) : UseCase<String, Unit>(coroutineDispatcher = dispatcher) {
 
-    override suspend fun execute(parameters: Unit): String = repository.getAccessToken()
+    override suspend fun execute(parameters: String) = repository.saveRefreshToken(parameters)
 }

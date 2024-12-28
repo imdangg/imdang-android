@@ -8,9 +8,13 @@ interface AuthRepository {
 
     suspend fun googleLogin(authorizationCode: String): LoginDto
 
-    suspend fun saveToken(token: String)
+    suspend fun saveAccessToken(accessToken: String)
 
-    suspend fun getToken(): String
+    suspend fun saveRefreshToken(refreshToken: String)
+
+    suspend fun getAccessToken(): String
+
+    suspend fun getRefreshToken(): String
 
     suspend fun removeToken()
 }

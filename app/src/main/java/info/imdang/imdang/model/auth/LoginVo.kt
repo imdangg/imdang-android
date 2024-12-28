@@ -13,5 +13,5 @@ fun LoginDto.mapper(): LoginVo = LoginVo(
     accessToken = accessToken,
     refreshToken = refreshToken,
     expiresIn = expiresIn,
-    isJoined = isJoined
+    isJoined = joined
 )
