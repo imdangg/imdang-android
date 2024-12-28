@@ -8,7 +8,7 @@ import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.databinding.FragmentWriteInsightComplexEnvironmentBinding
 
 @AndroidEntryPoint
-class WriteInsightComplexEnvironment :
+class WriteInsightComplexEnvironmentFragment :
     BaseFragment<FragmentWriteInsightComplexEnvironmentBinding>(
         R.layout.fragment_write_insight_complex_environment
     ) {
@@ -18,6 +18,7 @@ class WriteInsightComplexEnvironment :
     }
 
     companion object {
-        fun instance(): WriteInsightComplexEnvironment = WriteInsightComplexEnvironment()
+        fun instance(): WriteInsightComplexEnvironmentFragment =
+            WriteInsightComplexEnvironmentFragment()
     }
 }
