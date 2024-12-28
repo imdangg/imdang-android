@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.usecase.auth.GoogleLoginUseCase
 import info.imdang.domain.usecase.auth.KakaoLoginUseCase
+import info.imdang.domain.usecase.google.GetGoogleAccessTokenUseCase
 import info.imdang.imdang.model.auth.LoginVo
 import info.imdang.imdang.model.auth.mapper
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase,
-    private val googleLoginUseCase: GoogleLoginUseCase
+    private val googleLoginUseCase: GoogleLoginUseCase,
+    private val getGoogleAccessTokenUseCase: GetGoogleAccessTokenUseCase
 ) : ViewModel() {
 
     private val _event = MutableSharedFlow<LoginEvent>()
@@ -31,5 +33,17 @@ class LoginViewModel @Inject constructor(
 
     suspend fun googleLogin(token: String): LoginVo? {
         return googleLoginUseCase(token, showToast)?.mapper()
+    }
+
+    fun getGoogleAccessToken(
+        authCode: String,
+        onSuccess: (String) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        viewModelScope.launch {
+            getGoogleAccessTokenUseCase(authCode, onError)?.let {
+                onSuccess(it.accessToken)
+            }
+        }
     }
 }
