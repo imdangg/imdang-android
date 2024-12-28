@@ -125,6 +125,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
+    implementation(project(":local"))
 
     // android
     implementation(libs.androidx.core.ktx)

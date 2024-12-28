@@ -10,10 +10,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import info.imdang.data.BuildConfig
 import info.imdang.data.constant.API_SERVER
+import info.imdang.data.constant.GOOGLE_API_SERVER
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -53,6 +55,7 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
+    @Named("imdang")
     fun providesOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
@@ -64,12 +67,41 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @Named("google")
+    fun providesGoogleOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
+        return OkHttpClient
+            .Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("imdang")
+    fun providesRetrofit(
+        @Named("imdang") okHttpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit
             .Builder()
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(API_SERVER)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("google")
+    fun providesGoogleRetrofit(
+        @Named("google") okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit
+            .Builder()
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(GOOGLE_API_SERVER)
             .build()
     }
 }

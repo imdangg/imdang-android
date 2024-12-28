@@ -1,7 +1,16 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
+}
+
+val localPropertiesFile = rootProject.file("local.properties")
+val localProperties = Properties()
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
 }
 
 android {
@@ -46,6 +55,16 @@ android {
                 "API_SERVER",
                 "\"${DevConfig.API_SERVER}\""
             )
+            buildConfigField(
+                "String",
+                "GOOGLE_WEB_CLIENT_ID",
+                "\"${DevConfig.GOOGLE_WEB_CLIENT_ID}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_WEB_CLIENT_SECRET",
+                "\"${localProperties["GOOGLE_WEB_CLIENT_SECRET_DEV"]}\""
+            )
         }
         create("product") {
             dimension = "server"
@@ -53,6 +72,16 @@ android {
                 "String",
                 "API_SERVER",
                 "\"${ProductConfig.API_SERVER}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_WEB_CLIENT_ID",
+                "\"${DevConfig.GOOGLE_WEB_CLIENT_ID}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_WEB_CLIENT_SECRET",
+                "\"${localProperties["GOOGLE_WEB_CLIENT_SECRET"]}\""
             )
         }
     }

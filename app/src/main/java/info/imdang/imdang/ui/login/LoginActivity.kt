@@ -4,17 +4,18 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.IntentSenderRequest
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,12 +24,12 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startAndFinishActivity
 import info.imdang.imdang.databinding.ActivityLoginBinding
+import info.imdang.imdang.model.auth.LoginType
 import info.imdang.imdang.ui.join.BasicInformationActivity
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheet
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheetListener
 import info.imdang.imdang.ui.main.MainActivity
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -39,23 +40,24 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private lateinit var firebaseAuth: FirebaseAuth
 
     private val googleLoginResult = registerForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult()
+        ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val credential = signInClient.getSignInCredentialFromIntent(result.data)
-            val firebaseCredential = GoogleAuthProvider.getCredential(
-                credential.googleIdToken,
-                null
-            )
-            firebaseAuth.signInWithCredential(firebaseCredential)
-                .addOnSuccessListener {
-                    lifecycleScope.launch {
-                        handleSocialLoginResult(it.user?.getIdToken(true)?.await()?.token)
+            val googleSignInAccount = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            googleSignInAccount.getResult(ApiException::class.java).serverAuthCode?.let {
+                viewModel.getGoogleAccessToken(
+                    it,
+                    onSuccess = { accessToken ->
+                        handleSocialLoginResult(
+                            loginType = LoginType.GOOGLE,
+                            token = accessToken
+                        )
+                    },
+                    onError = {
+                        handleSocialLoginResult(error = it)
                     }
-                }
-                .addOnFailureListener {
-                    handleSocialLoginResult(error = it)
-                }
+                )
+            }
         }
     }
 
@@ -73,6 +75,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         signInClient = Identity.getSignInClient(this)
         firebaseAuth = Firebase.auth
         setupBinding()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -83,34 +86,49 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    is LoginEvent.ShowToast -> Toast.makeText(
+                        this@LoginActivity,
+                        it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
     private fun kakaoLogin() {
         if (userApiClient.isKakaoTalkLoginAvailable(this)) {
             userApiClient.loginWithKakaoTalk(this) { oAuthToken, error ->
-                handleSocialLoginResult(oAuthToken?.accessToken, error)
+                handleSocialLoginResult(
+                    loginType = LoginType.KAKAO,
+                    token = oAuthToken?.accessToken,
+                    error = error
+                )
             }
         } else {
             userApiClient.loginWithKakaoAccount(this) { oAuthToken, error ->
-                handleSocialLoginResult(oAuthToken?.accessToken, error)
+                handleSocialLoginResult(
+                    loginType = LoginType.KAKAO,
+                    token = oAuthToken?.accessToken,
+                    error = error
+                )
             }
         }
     }
 
     private fun googleLogin() {
-        val signInRequest = BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    .setServerClientId(BuildConfig.GOOGLE_WEB_CLIENT_ID)
-                    .setFilterByAuthorizedAccounts(false)
-                    .build()
-            )
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestServerAuthCode(BuildConfig.GOOGLE_WEB_CLIENT_ID)
             .build()
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val signInIntent = googleSignInClient.signInIntent
         lifecycleScope.launch {
             try {
-                val signInResult = signInClient.beginSignIn(signInRequest).await()
-                googleLoginResult.launch(
-                    IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()
-                )
+                googleLoginResult.launch(signInIntent)
             } catch (e: IntentSender.SendIntentException) {
                 handleSocialLoginResult(error = e)
             }
@@ -118,11 +136,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     private fun handleSocialLoginResult(
+        loginType: LoginType? = null,
         token: String? = null,
         error: Throwable? = null
     ) {
-        if (token != null) {
-            showOnboardingBottomSheet(token)
+        if (loginType != null && token != null) {
+            lifecycleScope.launch {
+                val loginVo = when (loginType) {
+                    LoginType.KAKAO -> viewModel.kakaoLogin(token)
+                    LoginType.GOOGLE -> viewModel.googleLogin(token)
+                } ?: return@launch
+                if (loginVo.isJoined) {
+                    startAndFinishActivity<MainActivity>()
+                } else {
+                    showOnboardingBottomSheet(loginVo.accessToken)
+                }
+            }
         } else if (error != null) {
             // todo : 로그인 실패 처리
             Log.e("##", Log.getStackTraceString(error))
