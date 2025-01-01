@@ -5,7 +5,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import info.imdang.data.datasource.lcoal.AuthLocalDataSource
+import info.imdang.data.datasource.lcoal.HomeLocalDataSource
 import info.imdang.local.datasource.AuthLocalDataSourceImpl
+import info.imdang.local.datasource.HomeLocalDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -17,4 +19,10 @@ internal abstract class LocalDataSourceModule {
     abstract fun bindAuthLocalDatasource(
         authLocalDataSourceImpl: AuthLocalDataSourceImpl
     ): AuthLocalDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindHomeLocalDatasource(
+        homeLocalDataSourceImpl: HomeLocalDataSourceImpl
+    ): HomeLocalDataSource
 }

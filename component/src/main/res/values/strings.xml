@@ -231,6 +231,11 @@
     <string name="deregulation">규제 완화</string>
     <string name="special_zone_designation">특구 지정</string>
     <string name="job_creation_policy">일자리 창출 정책</string>
+    <string name="free_pass_title">무료 패스권 도착!</string>
+    <string name="free_pass_sub_title">처음 아파트임당을 사용하시는 분들을 위해\n무료 패스권을 제공해요</string>
+    <string name="free_pass_description">무료 패스권 사용시 다른 사람들도\n길동님의 인사이트를 무료 패스권으로 볼 수 있어요</string>
+    <string name="not_show_today">오늘 그만보기</string>
+    <string name="agree_and_receive">동의하고 받기</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
