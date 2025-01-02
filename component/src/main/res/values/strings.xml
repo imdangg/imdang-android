@@ -236,6 +236,9 @@
     <string name="free_pass_description">무료 패스권 사용시 다른 사람들도\n길동님의 인사이트를 무료 패스권으로 볼 수 있어요</string>
     <string name="not_show_today">오늘 그만보기</string>
     <string name="agree_and_receive">동의하고 받기</string>
+    <string name="search_by_map">지도로 탐색</string>
+    <string name="see_by_map">지도로 보기</string>
+    <string name="map_service_info_message">지도 서비스는 현재 중비중이에요.\n조금만 더 기다려 주세요.</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
