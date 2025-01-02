@@ -17,6 +17,7 @@ import info.imdang.imdang.ui.login.LoginActivity
 import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.bottomsheet.HomeFreePassBottomSheet
 import info.imdang.imdang.ui.main.home.bottomsheet.HomeFreePassBottomSheetListener
+import info.imdang.imdang.ui.my.MyActivity
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -54,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
             ivHomeProfile.setOnClickListener {
                 this@HomeFragment.mainViewModel.hideTooltip()
-                this@HomeFragment.viewModel.logout()
+                requireActivity().startActivity<MyActivity>()
             }
             tlHome.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {

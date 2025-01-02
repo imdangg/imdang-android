@@ -240,6 +240,14 @@
     <string name="see_by_map">지도로 보기</string>
     <string name="map_service_info_message">지도 서비스는 현재 중비중이에요.\n조금만 더 기다려 주세요.</string>
     <string name="insight_detail_exchange_description">어떤 인사이트와 교환할까요?</string>
+    <string name="my_page">MY 페이지</string>
+    <string name="logout">로그아웃</string>
+    <string name="written_insight">작성한 인사이트</string>
+    <string name="total_exchange">누적 교환</string>
+    <string name="service_introduction">서비스 소개</string>
+    <string name="service_term">서비스 이용 약관</string>
+    <string name="version_info">버전 정보</string>
+    <string name="account_withdraw">계정 탈퇴</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
