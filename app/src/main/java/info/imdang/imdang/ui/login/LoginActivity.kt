@@ -31,6 +31,7 @@ import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheet
 import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheetListener
 import info.imdang.imdang.ui.main.MainActivity
 import info.imdang.imdang.ui.my.MyActivity.Companion.LOGOUT
+import info.imdang.imdang.ui.my.withdraw.WithdrawActivity.Companion.WITHDRAW
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -108,6 +109,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         if (isLogout) {
             showCommonDialog(
                 message = getString(info.imdang.component.R.string.logout_success_message),
+                positiveButtonText = getString(info.imdang.component.R.string.confirm)
+            )
+        }
+
+        val isWithdraw = intent.getBooleanExtra(WITHDRAW, false)
+        if (isWithdraw) {
+            showCommonDialog(
+                message = getString(info.imdang.component.R.string.withdraw_success_message),
                 positiveButtonText = getString(info.imdang.component.R.string.confirm)
             )
         }

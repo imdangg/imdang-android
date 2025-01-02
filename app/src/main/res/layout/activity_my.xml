@@ -294,6 +294,7 @@
             app:layout_constraintTop_toBottomOf="@id/cl_my_version_info" />
 
         <TextView
+            android:id="@+id/tv_withdraw"
             style="@style/T_600_14_19_6"
             android:layout_width="wrap_content"
             android:layout_height="42dp"

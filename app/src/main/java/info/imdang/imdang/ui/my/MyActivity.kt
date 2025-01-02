@@ -13,6 +13,7 @@ import info.imdang.imdang.databinding.ActivityMyBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.login.LoginActivity
 import info.imdang.imdang.ui.my.term.ServiceTermActivity
+import info.imdang.imdang.ui.my.withdraw.WithdrawActivity
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -52,6 +53,9 @@ class MyActivity : BaseActivity<ActivityMyBinding>(R.layout.activity_my) {
             }
             clMyServiceTerm.setOnClickListener {
                 startActivity<ServiceTermActivity>()
+            }
+            tvWithdraw.setOnClickListener {
+                startActivity<WithdrawActivity>()
             }
         }
     }
