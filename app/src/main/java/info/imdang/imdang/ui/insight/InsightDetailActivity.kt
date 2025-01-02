@@ -3,15 +3,22 @@ package info.imdang.imdang.ui.insight
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
+import info.imdang.imdang.base.BaseDialog
 import info.imdang.imdang.common.DividerItemDecoration
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
+import info.imdang.imdang.common.bindingadapter.bindVisible
 import info.imdang.imdang.databinding.ActivityInsightDetailBinding
+import info.imdang.imdang.databinding.DialogExchangeBinding
+import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheet
+import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheetListener
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InsightDetailActivity :
@@ -24,6 +31,7 @@ class InsightDetailActivity :
 
         setupBinding()
         setupListener()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -81,6 +89,63 @@ class InsightDetailActivity :
         }
         if (position > 0) binding.ablInsightDetail.setExpanded(false)
     }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    InsightDetailEvent.ShowMyInsightsBottomSheet -> {
+                        MyInsightsBottomSheet.instance(
+                            listener = object : MyInsightsBottomSheetListener {
+                                override fun onClickConfirmButton() {
+                                    viewModel.requestExchange()
+                                }
+                            }
+                        ).show(
+                            supportFragmentManager,
+                            MyInsightsBottomSheet::class.java.simpleName
+                        )
+                    }
+                    is InsightDetailEvent.ShowExchangeDialog -> {
+                        showExchangeDialog(
+                            message = it.message,
+                            checkButtonText = it.checkButtonText
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showExchangeDialog(message: String, checkButtonText: String? = null) {
+        BaseDialog<DialogExchangeBinding>(
+            context = this,
+            layoutResourceId = R.layout.dialog_exchange
+        ).onShow { binding ->
+            with(binding) {
+                tvMessage.text = message
+                tvExchangeCheckButton.text = checkButtonText
+                tvExchangeCheckButton.bindVisible(checkButtonText != null)
+                tvExchangeCheckButton.setOnClickListener {
+                    if (isExchangeButton(checkButtonText)) {
+                        // todo : 교환소 화면으로 이동
+                    }
+                    if (isStorageButton(checkButtonText)) {
+                        // todo : 보관함 화면으로 이동
+                    }
+                }
+                tvConfirmButton.setOnClickListener { dismiss() }
+            }
+        }.show()
+    }
+
+    private fun isExchangeButton(checkButtonText: String?) = checkButtonText?.contains(
+        getString(info.imdang.component.R.string.home_exchange)
+    ) == true
+
+    private fun isStorageButton(checkButtonText: String?) = checkButtonText?.contains(
+        getString(info.imdang.component.R.string.storage)
+    ) == true
 
     enum class InsightDetailHolderType(
         override val layoutResourceId: Int,
