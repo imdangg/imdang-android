@@ -248,6 +248,8 @@
     <string name="service_term">서비스 이용 약관</string>
     <string name="version_info">버전 정보</string>
     <string name="account_withdraw">계정 탈퇴</string>
+    <string name="privacy_term">개인 정보 수집 및 이용</string>
+    <string name="use_term">이용 약관</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>

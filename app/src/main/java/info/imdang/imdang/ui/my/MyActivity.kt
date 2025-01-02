@@ -5,7 +5,9 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityMyBinding
+import info.imdang.imdang.ui.my.term.ServiceTermActivity
 
 @AndroidEntryPoint
 class MyActivity : BaseActivity<ActivityMyBinding>(R.layout.activity_my) {
@@ -29,6 +31,9 @@ class MyActivity : BaseActivity<ActivityMyBinding>(R.layout.activity_my) {
         with(binding) {
             ivBack.setOnClickListener {
                 finish()
+            }
+            clMyServiceTerm.setOnClickListener {
+                startActivity<ServiceTermActivity>()
             }
         }
     }

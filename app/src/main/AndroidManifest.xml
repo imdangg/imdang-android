@@ -40,6 +40,7 @@
         <activity android:name=".ui.main.home.search.map.SearchByMapActivity" />
         <activity android:name=".ui.main.storage.map.StorageByMapActivity" />
         <activity android:name=".ui.my.MyActivity" />
+        <activity android:name=".ui.my.term.ServiceTermActivity" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
