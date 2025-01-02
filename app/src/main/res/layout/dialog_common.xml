@@ -16,14 +16,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/iv_check"
+                android:id="@+id/iv_dialog_info"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_check_for_dialog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_check" />
 
             <TextView
                 android:id="@+id/tv_message"
@@ -35,11 +35,11 @@
                 android:textColor="@color/gray_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_check"
+                app:layout_constraintTop_toBottomOf="@id/iv_dialog_info"
                 tools:text="교환 요청을 완료했어요.\n교환 내역은 교환소에서 확인해보세요." />
 
             <TextView
-                android:id="@+id/tv_exchange_check_button"
+                android:id="@+id/tv_sub_button"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
@@ -55,20 +55,37 @@
                 tools:text="교환소 확인하기" />
 
             <TextView
-                android:id="@+id/tv_confirm_button"
+                android:id="@+id/tv_negative_button"
                 style="@style/T_600_16_22_4"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/selector_white_cbd5e0_all8"
+                android:clickable="true"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_positive_button"
+                app:layout_constraintTop_toBottomOf="@id/tv_sub_button"
+                tools:text="취소" />
+
+            <TextView
+                android:id="@+id/tv_positive_button"
+                style="@style/T_600_16_22_4"
+                android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/selector_orange500_all8"
                 android:clickable="true"
                 android:gravity="center"
-                android:text="@string/confirm"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_exchange_check_button" />
+                app:layout_constraintStart_toEndOf="@id/tv_negative_button"
+                app:layout_constraintTop_toBottomOf="@id/tv_sub_button"
+                tools:text="@string/confirm" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

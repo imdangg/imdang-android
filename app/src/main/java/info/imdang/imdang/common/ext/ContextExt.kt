@@ -7,12 +7,12 @@ import android.os.Bundle
 
 inline fun <reified T : Activity> Context.startActivity(
     bundle: Bundle? = null,
-    transitionBundle: Bundle? = null
+    transitionBundle: Bundle? = null,
+    flags: Int? = null
 ) {
     val intent = Intent(this, T::class.java)
-    if (bundle != null) {
-        intent.putExtras(bundle)
-    }
+    bundle?.let(intent::putExtras)
+    flags?.let(intent::addFlags)
     startActivity(intent, transitionBundle)
 }
 
@@ -21,9 +21,7 @@ inline fun <reified T : Activity> Context.startAndFinishActivity(
     transitionBundle: Bundle? = null
 ) {
     val intent = Intent(this, T::class.java)
-    if (bundle != null) {
-        intent.putExtras(bundle)
-    }
+    bundle?.let(intent::putExtras)
     startActivity(intent, transitionBundle)
     if (this is Activity) finish()
 }

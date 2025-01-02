@@ -3,7 +3,6 @@ package info.imdang.imdang.ui.main.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.imdang.domain.usecase.auth.RemoveTokenUseCase
 import info.imdang.domain.usecase.home.GetCloseTimeOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.SetCloseTimeOfHomeFreePassUseCase
 import info.imdang.imdang.common.util.isToday
@@ -16,8 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCloseTimeOfHomeFreePassUseCase: GetCloseTimeOfHomeFreePassUseCase,
-    private val setCloseTimeOfHomeFreePassUseCase: SetCloseTimeOfHomeFreePassUseCase,
-    private val removeTokenUseCase: RemoveTokenUseCase
+    private val setCloseTimeOfHomeFreePassUseCase: SetCloseTimeOfHomeFreePassUseCase
 ) : ViewModel() {
 
     private val _event = MutableSharedFlow<HomeEvent>()
@@ -35,13 +33,6 @@ class HomeViewModel @Inject constructor(
     fun setCloseTimeOfHomeFreePass() {
         viewModelScope.launch {
             setCloseTimeOfHomeFreePassUseCase(System.currentTimeMillis())
-        }
-    }
-
-    fun logout() {
-        viewModelScope.launch {
-            removeTokenUseCase(Unit)
-            _event.emit(HomeEvent.Logout)
         }
     }
 }
