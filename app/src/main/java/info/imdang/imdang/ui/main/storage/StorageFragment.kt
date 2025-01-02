@@ -19,6 +19,7 @@ import info.imdang.imdang.databinding.FragmentStorageBinding
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.storage.bottomsheet.AptBottomSheet
 import info.imdang.imdang.ui.main.storage.region.InsightRegionActivity
 
@@ -107,6 +108,9 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
 
     private fun setupListener() {
         with(binding) {
+            clStorageMap.setOnClickListener {
+                requireContext().startActivity<SearchByMapActivity>()
+            }
             tvInsightRegionSeeAll.setOnClickListener {
                 requireContext().startActivity<InsightRegionActivity>()
             }
