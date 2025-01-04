@@ -20,6 +20,7 @@ import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.main.MainViewModel
+import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
 import kotlinx.coroutines.launch
@@ -127,6 +128,9 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
 
     private fun setupListener() {
         with(binding) {
+            clHomeMap.setOnClickListener {
+                requireContext().startActivity<SearchByMapActivity>()
+            }
             nsvHomeSearch.setOnScrollChangeListener { _, _, _, _, _ ->
                 mainViewModel.hideTooltip()
             }
