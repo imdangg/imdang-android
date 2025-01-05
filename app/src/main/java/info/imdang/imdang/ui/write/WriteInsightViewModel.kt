@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.imdang.common.util.SelectionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,13 +56,57 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
     val isInsightEntranceCheckImageVisible = insightSelectedEntrances.map { it != null }
         .asLiveData()
 
+    // 인프라
+    val infraTrafficManager = SelectionManager()
+    val infraSchoolManager = SelectionManager()
+    val infraLivingAmenityManager = SelectionManager()
+    val infraFacilitiesManager = SelectionManager()
+    val infraEnvironmentManager = SelectionManager()
+    val infraLandmarkManager = SelectionManager()
+    val infraAvoidFacilityManager = SelectionManager()
+
+    val isInfraTrafficCheckImageVisible = infraTrafficManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isInfraSchoolCheckImageVisible = infraSchoolManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isInfraLivingAmenityCheckImageVisible = infraLivingAmenityManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isInfraFacilitiesCheckImageVisible = infraFacilitiesManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isInfraEnvironmentCheckImageVisible = infraEnvironmentManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isInfraLandmarkCheckImageVisible = infraLandmarkManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isInfraAvoidFacilityCheckImageVisible = infraAvoidFacilityManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
     private val allValidationStates = listOf(
         isInsightTitleValid,
         isInsightAptAddressValid,
         isInsightDateValid,
         insightSelectedTimes.map { it.isNotEmpty() },
         insightSelectedTraffics.map { it.isNotEmpty() },
-        insightSelectedEntrances.map { it != null }
+        insightSelectedEntrances.map { it != null },
+        infraTrafficManager.selectedItems.map { it.isNotEmpty() },
+        infraSchoolManager.selectedItems.map { it.isNotEmpty() },
+        infraLivingAmenityManager.selectedItems.map { it.isNotEmpty() },
+        infraFacilitiesManager.selectedItems.map { it.isNotEmpty() },
+        infraEnvironmentManager.selectedItems.map { it.isNotEmpty() },
+        infraLandmarkManager.selectedItems.map { it.isNotEmpty() },
+        infraAvoidFacilityManager.selectedItems.map { it.isNotEmpty() }
     )
 
     val isFinalButtonEnabled = combine(allValidationStates) { states ->

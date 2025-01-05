@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.write.WriteInsightViewModel" />
+
     </data>
 
     <ScrollView
@@ -31,6 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_traffic_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,6 +45,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_traffic_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_traffic_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_traffic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isInfraTrafficCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_traffic_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_traffic_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -124,6 +144,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_traffic" />
 
             <TextView
+                android:id="@+id/tv_school_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,6 +152,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_school_district_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_school_district_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_school"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isInfraSchoolCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_school_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_school_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_school_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -245,6 +279,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_school_district" />
 
             <TextView
+                android:id="@+id/tv_living_amenities_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -252,6 +287,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_living_amenities_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_living_amenities_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_living_amenities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isInfraLivingAmenityCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_living_amenities_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_living_amenities_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_living_amenities_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -448,6 +496,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_living_amenities" />
 
             <TextView
+                android:id="@+id/tv_facilities_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -455,6 +504,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_facilities_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_facilities_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_facilities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isInfraFacilitiesCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_facilities_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_facilities_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_facilities_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -624,6 +686,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_facilities" />
 
             <TextView
+                android:id="@+id/tv_environment_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -631,6 +694,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_environment_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_environment_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_environment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isInfraEnvironmentCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_environment_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_environment_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_environment_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -802,6 +878,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_environment" />
 
             <TextView
+                android:id="@+id/tv_landmark_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -809,6 +886,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_landmark_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_landmark_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_landmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isInfraLandmarkCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_landmark_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_landmark_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_landmark_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -980,6 +1070,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_landmark" />
 
             <TextView
+                android:id="@+id/tv_avoid_facility_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -987,6 +1078,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_subject" />
+
+            <ImageView
+                android:id="@+id/iv_avoid_facility_landmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isInfraAvoidFacilityCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_avoid_facility_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
