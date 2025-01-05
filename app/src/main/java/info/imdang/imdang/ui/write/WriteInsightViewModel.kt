@@ -93,6 +93,31 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
         .map { it.isNotEmpty() }
         .asLiveData()
 
+    // 단지 환경
+    val complexEnvironmentBuildingManager = SelectionManager(isSingleSelection = true)
+    val complexEnvironmentSafetyManager = SelectionManager(isSingleSelection = true)
+    val complexEnvironmentChildrenFacilityManager = SelectionManager(isSingleSelection = true)
+    val complexEnvironmentSilverFacilityManager = SelectionManager(isSingleSelection = true)
+
+    val isComplexEnvironmentBuildingCheckImageVisible =
+        complexEnvironmentBuildingManager.selectedItems
+            .map { it.isNotEmpty() }
+            .asLiveData()
+
+    val isComplexEnvironmentSafetyCheckImageVisible = complexEnvironmentSafetyManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isComplexEnvironmentChildrenFacilityCheckImageVisible =
+        complexEnvironmentChildrenFacilityManager.selectedItems
+            .map { it.isNotEmpty() }
+            .asLiveData()
+
+    val isComplexEnvironmentSilverFacilityCheckImageVisible =
+        complexEnvironmentSilverFacilityManager.selectedItems
+            .map { it.isNotEmpty() }
+            .asLiveData()
+
     private val allValidationStates = listOf(
         isInsightTitleValid,
         isInsightAptAddressValid,
@@ -106,7 +131,11 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
         infraFacilitiesManager.selectedItems.map { it.isNotEmpty() },
         infraEnvironmentManager.selectedItems.map { it.isNotEmpty() },
         infraLandmarkManager.selectedItems.map { it.isNotEmpty() },
-        infraAvoidFacilityManager.selectedItems.map { it.isNotEmpty() }
+        infraAvoidFacilityManager.selectedItems.map { it.isNotEmpty() },
+        complexEnvironmentBuildingManager.selectedItems.map { it.isNotEmpty() },
+        complexEnvironmentSafetyManager.selectedItems.map { it.isNotEmpty() },
+        complexEnvironmentChildrenFacilityManager.selectedItems.map { it.isNotEmpty() },
+        complexEnvironmentSilverFacilityManager.selectedItems.map { it.isNotEmpty() }
     )
 
     val isFinalButtonEnabled = combine(allValidationStates) { states ->
