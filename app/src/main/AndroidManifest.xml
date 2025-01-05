@@ -42,6 +42,7 @@
         <activity android:name=".ui.my.MyActivity" />
         <activity android:name=".ui.my.term.ServiceTermActivity" />
         <activity android:name=".ui.my.withdraw.WithdrawActivity" />
+        <activity android:name=".ui.write.address.KakaoAddressActivity" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

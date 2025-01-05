@@ -1,7 +1,9 @@
 package info.imdang.imdang.ui.write
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
@@ -9,6 +11,9 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.hideKeyboard
 import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.databinding.ActivityWriteInsightBinding
+import info.imdang.imdang.ui.write.fragment.WriteInsightBasicInfoFragment
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class WriteInsightActivity :
@@ -21,6 +26,7 @@ class WriteInsightActivity :
 
         setupBinding()
         setupListener()
+        observe()
     }
 
     override fun onShowKeyboard(keyboardHeight: Int) {
@@ -28,9 +34,22 @@ class WriteInsightActivity :
 
         with(binding.tvWriteCompleteButton) {
             setMargin(left = 0, right = 0, top = 0, bottom = 0)
-            setBackgroundResource(info.imdang.component.R.color.orange_500)
             text = getString(info.imdang.component.R.string.confirm)
-            setTextColor(getColor(info.imdang.component.R.color.white))
+
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(
+                            info.imdang.component.R.color.gray_100
+                        )
+                    }
+                )
+                cornerRadius = 0f
+            }
+            background = drawable
         }
     }
 
@@ -39,9 +58,29 @@ class WriteInsightActivity :
 
         with(binding.tvWriteCompleteButton) {
             setMargin(left = 20, right = 20, top = 0, bottom = 40)
-            setBackgroundResource(info.imdang.component.R.drawable.bg_complete_button)
             text = getString(info.imdang.component.R.string.write_complete)
-            setTextColor(getColor(info.imdang.component.R.color.gray_500))
+
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(
+                            info.imdang.component.R.color.gray_100
+                        )
+                    }
+                )
+                cornerRadius =
+                    resources.getDimension(info.imdang.component.R.dimen.default_corner_radius)
+            }
+            background = drawable
+        }
+
+        supportFragmentManager.fragments.forEach { fragment ->
+            if (fragment is WriteInsightBasicInfoFragment) {
+                fragment.clearEditTextFocus()
+            }
         }
     }
 
@@ -68,10 +107,98 @@ class WriteInsightActivity :
             tvWriteCompleteButton.setOnClickListener {
                 if (isVisibleKeyboard) {
                     hideKeyboard()
+                    val isTitleFocused = viewModel?.isInsightTitleFocused?.value ?: false
+                    val isTitleValid = viewModel?.isInsightTitleValid?.value ?: false
+                    if (isTitleFocused && isTitleValid) {
+                        viewModel?.updateInsightTitleCheckImageVisible(true)
+                    }
+
+                    val isDateFocused = viewModel?.isInsightDateFocused?.value ?: false
+                    val isDateValid = viewModel?.isInsightDateValid?.value ?: false
+
+                    if (isDateFocused && isDateValid) {
+                        viewModel?.updateInsightDateCheckImageVisible(true)
+                        supportFragmentManager.fragments.forEach { fragment ->
+                            if (fragment is WriteInsightBasicInfoFragment) {
+                                fragment.updateDateIcon(true)
+                            }
+                        }
+                    }
                 } else {
                     // todo : 작성 완료
                 }
             }
+        }
+    }
+
+    private fun observe() {
+        lifecycleScope.launch {
+            launch {
+                viewModel.isInsightTitleFocused
+                    .flatMapLatest { isFocused ->
+                        if (isFocused) {
+                            viewModel.isInsightTitleValid
+                        } else {
+                            viewModel.isFinalButtonEnabled
+                        }
+                    }
+                    .collect { isInsightTitleValid ->
+                        updateButtonState(isInsightTitleValid)
+                    }
+            }
+
+            launch {
+                viewModel.isInsightDateFocused
+                    .flatMapLatest { isFocused ->
+                        if (isFocused) {
+                            viewModel.isInsightDateValid
+                        } else {
+                            viewModel.isFinalButtonEnabled
+                        }
+                    }
+                    .collect { isInsightDateValid ->
+                        updateButtonState(isInsightDateValid)
+                    }
+            }
+
+            launch {
+                viewModel.isFinalButtonEnabled.collect { isEnabled ->
+                    updateButtonState(isEnabled)
+                }
+            }
+        }
+    }
+
+    // 버튼의 배경 상태 확인
+    private fun updateButtonState(isEnabled: Boolean) {
+        with(binding.tvWriteCompleteButton) {
+            this.isEnabled = isEnabled
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(
+                            info.imdang.component.R.color.gray_100
+                        )
+                    }
+                )
+                setTextColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.white)
+                    } else {
+                        getColor(info.imdang.component.R.color.gray_500)
+                    }
+                )
+                cornerRadius =
+                    if (isVisibleKeyboard) {
+                        0f
+                    } else {
+                        resources.getDimension(info.imdang.component.R.dimen.default_corner_radius)
+                    }
+            }
+            background = drawable
         }
     }
 }
