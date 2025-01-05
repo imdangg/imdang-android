@@ -10,12 +10,10 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
-import info.imdang.imdang.base.BaseDialog
 import info.imdang.imdang.common.DividerItemDecoration
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
-import info.imdang.imdang.common.bindingadapter.bindVisible
 import info.imdang.imdang.databinding.ActivityInsightDetailBinding
-import info.imdang.imdang.databinding.DialogExchangeBinding
+import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheet
 import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheetListener
 import kotlinx.coroutines.launch
@@ -107,36 +105,23 @@ class InsightDetailActivity :
                         )
                     }
                     is InsightDetailEvent.ShowExchangeDialog -> {
-                        showExchangeDialog(
+                        showCommonDialog(
                             message = it.message,
-                            checkButtonText = it.checkButtonText
+                            positiveButtonText = getString(info.imdang.component.R.string.confirm),
+                            subButtonText = it.checkButtonText,
+                            onClickSubButton = {
+                                if (isExchangeButton(it.checkButtonText)) {
+                                    // todo : 교환소 화면으로 이동
+                                }
+                                if (isStorageButton(it.checkButtonText)) {
+                                    // todo : 보관함 화면으로 이동
+                                }
+                            }
                         )
                     }
                 }
             }
         }
-    }
-
-    private fun showExchangeDialog(message: String, checkButtonText: String? = null) {
-        BaseDialog<DialogExchangeBinding>(
-            context = this,
-            layoutResourceId = R.layout.dialog_exchange
-        ).onShow { binding ->
-            with(binding) {
-                tvMessage.text = message
-                tvExchangeCheckButton.text = checkButtonText
-                tvExchangeCheckButton.bindVisible(checkButtonText != null)
-                tvExchangeCheckButton.setOnClickListener {
-                    if (isExchangeButton(checkButtonText)) {
-                        // todo : 교환소 화면으로 이동
-                    }
-                    if (isStorageButton(checkButtonText)) {
-                        // todo : 보관함 화면으로 이동
-                    }
-                }
-                tvConfirmButton.setOnClickListener { dismiss() }
-            }
-        }.show()
     }
 
     private fun isExchangeButton(checkButtonText: String?) = checkButtonText?.contains(

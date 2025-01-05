@@ -240,6 +240,26 @@
     <string name="see_by_map">지도로 보기</string>
     <string name="map_service_info_message">지도 서비스는 현재 중비중이에요.\n조금만 더 기다려 주세요.</string>
     <string name="insight_detail_exchange_description">어떤 인사이트와 교환할까요?</string>
+    <string name="my_page">MY 페이지</string>
+    <string name="logout">로그아웃</string>
+    <string name="written_insight">작성한 인사이트</string>
+    <string name="total_exchange">누적 교환</string>
+    <string name="service_introduction">서비스 소개</string>
+    <string name="service_term">서비스 이용 약관</string>
+    <string name="version_info">버전 정보</string>
+    <string name="account_withdraw">계정 탈퇴</string>
+    <string name="privacy_term">개인 정보 수집 및 이용</string>
+    <string name="use_term">이용 약관</string>
+    <string name="logout_info_message">로그아웃 시 서비스 사용이\n제한돼요. 그래도 로그아웃할까요?</string>
+    <string name="logout_success_message">정상적으로 로그아웃 되었어요.</string>
+    <string name="cancel">취소</string>
+    <string name="withdraw_caution_title">탈퇴 시 아래 주의사항을 꼭 확인해 주세요.</string>
+    <string name="withdraw_caution_content_1">1. 탈퇴한 계정의 이용 내역, 쿠폰, 혜택은 복구되지 않습니다.</string>
+    <string name="withdraw_caution_content_2">2. 작성하신 인사이트 및 댓글은 삭제되지 않습니다. 삭제 희망시 탈퇴 전 고객센터로 요청해 주시길 바랍니다.</string>
+    <string name="withdraw_caution_content_3">3. 탈퇴 시, 고객님의 정보는 소비자 보호에 관한 법률에 의거한 고객 정보 보호 정책에 따라 관리됩니다.</string>
+    <string name="withdraw_agree">유의사항을 모두 확인했으며, 이에 동의합니다.</string>
+    <string name="withdraw">탈퇴하기</string>
+    <string name="withdraw_success_message">계정이 정상적으로 탈퇴되었어요.</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
