@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("java-library")
     id("kotlin")
@@ -15,4 +17,10 @@ dependencies {
 
     // coroutines
     implementation(libs.coroutines)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }

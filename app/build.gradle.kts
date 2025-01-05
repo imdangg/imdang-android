@@ -48,7 +48,7 @@ android {
             isShrinkResources = false
         }
         release {
-            isDebuggable = true
+            isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
@@ -94,7 +94,7 @@ android {
             buildConfigField(
                 "String",
                 "NAVER_CLIENT_ID",
-                "\"${ProductConfig.NAVER_CLIENT_ID}\""
+                "\"${DevConfig.NAVER_CLIENT_ID}\""
             )
         }
         create("product") {

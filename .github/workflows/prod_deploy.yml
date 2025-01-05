@@ -1,0 +1,58 @@
+name: Product CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    name: 운영 배포
+    runs-on: ubuntu-latest
+
+    env:
+      KEYSTORE_PATH: imdang_key_store.jks
+      KEY_PROPERTIES_PATH: key.properties
+      LOCAL_PROPERTIES_PATH: local.properties
+
+    steps:
+      # GitHub 저장소 클론
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # JDK 설정
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+
+      # Ktlint 실행
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck
+
+      # Fastlane 설치
+      - name: Install fastlane
+        run: gem install fastlane
+
+      # GitHub secrets에 저장된 release keystore decoding
+      - name: Decode release keystore
+        run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 --decode > ${{ env.KEYSTORE_PATH }}
+
+      # GitHub secrets에 저장된 key.properties decoding
+      - name: Decode key properties
+        run: echo "${{ secrets.RELEASE_KEY_PROPERTIES }}" | base64 --decode > ${{ env.KEY_PROPERTIES_PATH }}
+
+      # Github secrets에 저장된 local.properties decoding
+      - name: Decode local properties
+        run: echo "${{ secrets.LOCAL_PROPERTIES }}" | base64 --decode > ${{ env.LOCAL_PROPERTIES_PATH }}
+
+      # Fastlane 실행
+      - name: Run Fastlane
+        run: fastlane android product

@@ -76,7 +76,7 @@ android {
             buildConfigField(
                 "String",
                 "GOOGLE_WEB_CLIENT_ID",
-                "\"${DevConfig.GOOGLE_WEB_CLIENT_ID}\""
+                "\"${ProductConfig.GOOGLE_WEB_CLIENT_ID}\""
             )
             buildConfigField(
                 "String",
