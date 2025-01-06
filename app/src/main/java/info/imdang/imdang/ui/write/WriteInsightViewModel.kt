@@ -142,6 +142,44 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
             .map { it.isNotEmpty() }
             .asLiveData()
 
+    // 호재
+    val goodNewsTrafficManager = SelectionManager()
+    val goodNewsDevelopmentManager = SelectionManager()
+    val goodNewsEducationManager = SelectionManager()
+    val goodNewsNaturalEnvironmentManager = SelectionManager()
+    val goodNewsCultureManager = SelectionManager()
+    val goodNewsIndustryManager = SelectionManager()
+    val goodNewsPolicyManager = SelectionManager()
+
+    val isGoodNewsTrafficCheckImageVisible = goodNewsTrafficManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isGoodNewsDevelopmentCheckImageVisible = goodNewsDevelopmentManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isGoodNewsEducationCheckImageVisible = goodNewsEducationManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isGoodNewsNaturalEnvironmentCheckImageVisible =
+        goodNewsNaturalEnvironmentManager.selectedItems
+            .map { it.isNotEmpty() }
+            .asLiveData()
+
+    val isGoodNewsCultureCheckImageVisible = goodNewsCultureManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isGoodNewsIndustryCheckImageVisible = goodNewsIndustryManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isGoodNewsPolicyCheckImageVisible = goodNewsPolicyManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
     private val allValidationStates = listOf(
         isInsightTitleValid,
         isInsightAptAddressValid,
@@ -163,7 +201,14 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
         complexFacilityFamilyManager.selectedItems.map { it.isNotEmpty() },
         complexFacilityMultiPurposeManager.selectedItems.map { it.isNotEmpty() },
         complexFacilityLeisureManager.selectedItems.map { it.isNotEmpty() },
-        complexFacilityEnvironmentManager.selectedItems.map { it.isNotEmpty() }
+        complexFacilityEnvironmentManager.selectedItems.map { it.isNotEmpty() },
+        goodNewsTrafficManager.selectedItems.map { it.isNotEmpty() },
+        goodNewsDevelopmentManager.selectedItems.map { it.isNotEmpty() },
+        goodNewsEducationManager.selectedItems.map { it.isNotEmpty() },
+        goodNewsNaturalEnvironmentManager.selectedItems.map { it.isNotEmpty() },
+        goodNewsCultureManager.selectedItems.map { it.isNotEmpty() },
+        goodNewsIndustryManager.selectedItems.map { it.isNotEmpty() },
+        goodNewsPolicyManager.selectedItems.map { it.isNotEmpty() }
     )
 
     val isFinalButtonEnabled = combine(allValidationStates) { states ->
