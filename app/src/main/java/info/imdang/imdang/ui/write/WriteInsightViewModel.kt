@@ -118,6 +118,30 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
             .map { it.isNotEmpty() }
             .asLiveData()
 
+    // 단지 시설
+    val complexFacilityFamilyManager = SelectionManager()
+    val complexFacilityMultiPurposeManager = SelectionManager()
+    val complexFacilityLeisureManager = SelectionManager()
+    val complexFacilityEnvironmentManager = SelectionManager()
+
+    val isComplexFacilityFamilyCheckImageVisible = complexFacilityFamilyManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isComplexFacilityMultiPurposeCheckImageVisible =
+        complexFacilityMultiPurposeManager.selectedItems
+            .map { it.isNotEmpty() }
+            .asLiveData()
+
+    val isComplexFacilityLeisureCheckImageVisible = complexFacilityLeisureManager.selectedItems
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    val isComplexFacilityEnvironmentCheckImageVisible =
+        complexFacilityEnvironmentManager.selectedItems
+            .map { it.isNotEmpty() }
+            .asLiveData()
+
     private val allValidationStates = listOf(
         isInsightTitleValid,
         isInsightAptAddressValid,
@@ -135,7 +159,11 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
         complexEnvironmentBuildingManager.selectedItems.map { it.isNotEmpty() },
         complexEnvironmentSafetyManager.selectedItems.map { it.isNotEmpty() },
         complexEnvironmentChildrenFacilityManager.selectedItems.map { it.isNotEmpty() },
-        complexEnvironmentSilverFacilityManager.selectedItems.map { it.isNotEmpty() }
+        complexEnvironmentSilverFacilityManager.selectedItems.map { it.isNotEmpty() },
+        complexFacilityFamilyManager.selectedItems.map { it.isNotEmpty() },
+        complexFacilityMultiPurposeManager.selectedItems.map { it.isNotEmpty() },
+        complexFacilityLeisureManager.selectedItems.map { it.isNotEmpty() },
+        complexFacilityEnvironmentManager.selectedItems.map { it.isNotEmpty() }
     )
 
     val isFinalButtonEnabled = combine(allValidationStates) { states ->
