@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.write
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
@@ -11,6 +12,7 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.hideKeyboard
 import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.databinding.ActivityWriteInsightBinding
+import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.write.fragment.WriteInsightBasicInfoFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
@@ -106,6 +108,19 @@ class WriteInsightActivity :
 
     private fun setupListener() {
         with(binding) {
+            onBackPressedDispatcher.addCallback {
+                showCommonDialog(
+                    message = getString(info.imdang.component.R.string.write_insight_back_message),
+                    positiveButtonText = getString(info.imdang.component.R.string.yes_its_ok),
+                    negativeButtonText = getString(info.imdang.component.R.string.cancel),
+                    onClickPositiveButton = {
+                        finish()
+                    }
+                )
+            }
+            ivBack.setOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
             tvWriteCompleteButton.setOnClickListener {
                 if (isVisibleKeyboard) {
                     hideKeyboard()

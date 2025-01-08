@@ -210,11 +210,9 @@ class WriteInsightComplexEnvironmentFragment :
     private fun resetSelectionDialog(manager: SelectionManager) {
         val resetItem = "잘 모르겠어요"
         requireContext().showCommonDialog(
-            message = "해당 없음, 잘 모르겠어요 \n" +
-                "선택시 다른 항목들은 \n" +
-                "선택이 해제돼요. 괜찮으신가요?",
-            positiveButtonText = "네, 괜찮아요",
-            negativeButtonText = "취소",
+            message = getString(info.imdang.component.R.string.write_insight_unselect_message),
+            positiveButtonText = getString(info.imdang.component.R.string.yes_its_ok),
+            negativeButtonText = getString(info.imdang.component.R.string.cancel),
             onClickPositiveButton = { manager.confirmReset(resetItem) },
             onClickNegativeButton = { manager.cancelReset() }
         )
