@@ -28,6 +28,11 @@ class WriteInsightActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        showCommonDialog(
+            message = getString(info.imdang.component.R.string.write_insight_message),
+            positiveButtonText = getString(info.imdang.component.R.string.confirm)
+        )
+
         setupBinding()
         setupListener()
         observe()
