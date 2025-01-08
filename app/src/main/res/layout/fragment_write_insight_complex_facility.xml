@@ -48,16 +48,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_family"
+                bindVisible="@{viewModel.isComplexFacilityFamilyCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexFacilityFamilyCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_family_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_family_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_family_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_family_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -154,16 +153,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_multipurpose"
+                bindVisible="@{viewModel.isComplexFacilityMultiPurposeCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexFacilityMultiPurposeCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_multipurpose_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_multipurpose_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_multipurpose_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_multipurpose_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -287,16 +285,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_leisure"
+                bindVisible="@{viewModel.isComplexFacilityLeisureCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexFacilityLeisureCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_leisure_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_leisure_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_leisure_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_leisure_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -535,16 +532,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_environment"
+                bindVisible="@{viewModel.isComplexFacilityEnvironmentCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexFacilityEnvironmentCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_environment_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_environment_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_environment_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_environment_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"

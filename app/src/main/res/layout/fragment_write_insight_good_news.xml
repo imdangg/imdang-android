@@ -48,16 +48,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_traffic"
+                bindVisible="@{viewModel.isGoodNewsTrafficCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isGoodNewsTrafficCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_traffic_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_traffic_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -156,16 +155,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_development"
+                bindVisible="@{viewModel.isGoodNewsDevelopmentCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isGoodNewsDevelopmentCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_development_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_development_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_development_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_development_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -345,16 +343,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_education"
+                bindVisible="@{viewModel.isGoodNewsEducationCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isGoodNewsEducationCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_education_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_education_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_education_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_education_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -506,16 +503,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_natural_environment"
+                bindVisible="@{viewModel.isGoodNewsNaturalEnvironmentCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isGoodNewsNaturalEnvironmentCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_natural_environment_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_natural_environment_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_natural_environment_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_natural_environment_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -614,16 +610,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_culture"
+                bindVisible="@{viewModel.isGoodNewsCultureCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isGoodNewsCultureCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_culture_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_culture_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_culture_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_culture_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -750,16 +745,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_industry"
+                bindVisible="@{viewModel.isGoodNewsIndustryCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isGoodNewsIndustryCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_industry_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_industry_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_industry_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_industry_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -858,16 +852,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_policy"
+                bindVisible="@{viewModel.isGoodNewsPolicyCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isGoodNewsPolicyCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_policy_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_policy_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_policy_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_policy_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"

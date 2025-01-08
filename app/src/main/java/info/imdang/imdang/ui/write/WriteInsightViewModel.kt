@@ -1,9 +1,8 @@
 package info.imdang.imdang.ui.write
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.util.SelectionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,7 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class WriteInsightViewModel @Inject constructor() : ViewModel() {
+class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     // 기본 정보
     private val _isInsightTitleFocused = MutableStateFlow(false)
@@ -27,7 +26,7 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
     val isInsightTitleCheckImageVisible = _isInsightTitleCheckImageVisible.asStateFlow()
 
     private val _isInsightAptAddressValid = MutableStateFlow(false)
-    val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
+    private val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
 
     private val _isInsightDateFocused = MutableStateFlow(false)
     val isInsightDateFocused = _isInsightDateFocused.asStateFlow()
@@ -41,20 +40,17 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
     private val _insightSelectedTimes = MutableStateFlow<Set<String>>(emptySet())
     val insightSelectedTimes = _insightSelectedTimes.asStateFlow()
 
-    val isInsightTimeCheckImageVisible = insightSelectedTimes.map { it.isNotEmpty() }
-        .asLiveData()
+    val isInsightTimeCheckImageVisible = insightSelectedTimes.isCheckVisible()
 
     private val _insightSelectedTraffics = MutableStateFlow<Set<String>>(emptySet())
     val insightSelectedTraffics = _insightSelectedTraffics.asStateFlow()
 
-    val isInsightTrafficCheckImageVisible = insightSelectedTraffics.map { it.isNotEmpty() }
-        .asLiveData()
+    val isInsightTrafficCheckImageVisible = insightSelectedTraffics.isCheckVisible()
 
     private val _insightSelectedEntrances = MutableStateFlow<String?>(null)
     val insightSelectedEntrances = _insightSelectedEntrances.asStateFlow()
 
-    val isInsightEntranceCheckImageVisible = insightSelectedEntrances.map { it != null }
-        .asLiveData()
+    val isInsightEntranceCheckImageVisible = insightSelectedEntrances.isCheckVisible()
 
     // 인프라
     val infraTrafficManager = SelectionManager()
@@ -65,33 +61,21 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
     val infraLandmarkManager = SelectionManager()
     val infraAvoidFacilityManager = SelectionManager()
 
-    val isInfraTrafficCheckImageVisible = infraTrafficManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isInfraTrafficCheckImageVisible = infraTrafficManager.selectedItems.isCheckVisible()
 
-    val isInfraSchoolCheckImageVisible = infraSchoolManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isInfraSchoolCheckImageVisible = infraSchoolManager.selectedItems.isCheckVisible()
 
-    val isInfraLivingAmenityCheckImageVisible = infraLivingAmenityManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isInfraLivingAmenityCheckImageVisible =
+        infraLivingAmenityManager.selectedItems.isCheckVisible()
 
-    val isInfraFacilitiesCheckImageVisible = infraFacilitiesManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isInfraFacilitiesCheckImageVisible = infraFacilitiesManager.selectedItems.isCheckVisible()
 
-    val isInfraEnvironmentCheckImageVisible = infraEnvironmentManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isInfraEnvironmentCheckImageVisible = infraEnvironmentManager.selectedItems.isCheckVisible()
 
-    val isInfraLandmarkCheckImageVisible = infraLandmarkManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isInfraLandmarkCheckImageVisible = infraLandmarkManager.selectedItems.isCheckVisible()
 
-    val isInfraAvoidFacilityCheckImageVisible = infraAvoidFacilityManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isInfraAvoidFacilityCheckImageVisible =
+        infraAvoidFacilityManager.selectedItems.isCheckVisible()
 
     // 단지 환경
     val complexEnvironmentBuildingManager = SelectionManager(isSingleSelection = true)
@@ -100,23 +84,16 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
     val complexEnvironmentSilverFacilityManager = SelectionManager(isSingleSelection = true)
 
     val isComplexEnvironmentBuildingCheckImageVisible =
-        complexEnvironmentBuildingManager.selectedItems
-            .map { it.isNotEmpty() }
-            .asLiveData()
+        complexEnvironmentBuildingManager.selectedItems.isCheckVisible()
 
-    val isComplexEnvironmentSafetyCheckImageVisible = complexEnvironmentSafetyManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isComplexEnvironmentSafetyCheckImageVisible =
+        complexEnvironmentSafetyManager.selectedItems.isCheckVisible()
 
     val isComplexEnvironmentChildrenFacilityCheckImageVisible =
-        complexEnvironmentChildrenFacilityManager.selectedItems
-            .map { it.isNotEmpty() }
-            .asLiveData()
+        complexEnvironmentChildrenFacilityManager.selectedItems.isCheckVisible()
 
     val isComplexEnvironmentSilverFacilityCheckImageVisible =
-        complexEnvironmentSilverFacilityManager.selectedItems
-            .map { it.isNotEmpty() }
-            .asLiveData()
+        complexEnvironmentSilverFacilityManager.selectedItems.isCheckVisible()
 
     // 단지 시설
     val complexFacilityFamilyManager = SelectionManager()
@@ -124,23 +101,17 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
     val complexFacilityLeisureManager = SelectionManager()
     val complexFacilityEnvironmentManager = SelectionManager()
 
-    val isComplexFacilityFamilyCheckImageVisible = complexFacilityFamilyManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isComplexFacilityFamilyCheckImageVisible =
+        complexFacilityFamilyManager.selectedItems.isCheckVisible()
 
     val isComplexFacilityMultiPurposeCheckImageVisible =
-        complexFacilityMultiPurposeManager.selectedItems
-            .map { it.isNotEmpty() }
-            .asLiveData()
+        complexFacilityMultiPurposeManager.selectedItems.isCheckVisible()
 
-    val isComplexFacilityLeisureCheckImageVisible = complexFacilityLeisureManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isComplexFacilityLeisureCheckImageVisible =
+        complexFacilityLeisureManager.selectedItems.isCheckVisible()
 
     val isComplexFacilityEnvironmentCheckImageVisible =
-        complexFacilityEnvironmentManager.selectedItems
-            .map { it.isNotEmpty() }
-            .asLiveData()
+        complexFacilityEnvironmentManager.selectedItems.isCheckVisible()
 
     // 호재
     val goodNewsTrafficManager = SelectionManager()
@@ -151,34 +122,22 @@ class WriteInsightViewModel @Inject constructor() : ViewModel() {
     val goodNewsIndustryManager = SelectionManager()
     val goodNewsPolicyManager = SelectionManager()
 
-    val isGoodNewsTrafficCheckImageVisible = goodNewsTrafficManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isGoodNewsTrafficCheckImageVisible = goodNewsTrafficManager.selectedItems.isCheckVisible()
 
-    val isGoodNewsDevelopmentCheckImageVisible = goodNewsDevelopmentManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isGoodNewsDevelopmentCheckImageVisible =
+        goodNewsDevelopmentManager.selectedItems.isCheckVisible()
 
-    val isGoodNewsEducationCheckImageVisible = goodNewsEducationManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isGoodNewsEducationCheckImageVisible =
+        goodNewsEducationManager.selectedItems.isCheckVisible()
 
     val isGoodNewsNaturalEnvironmentCheckImageVisible =
-        goodNewsNaturalEnvironmentManager.selectedItems
-            .map { it.isNotEmpty() }
-            .asLiveData()
+        goodNewsNaturalEnvironmentManager.selectedItems.isCheckVisible()
 
-    val isGoodNewsCultureCheckImageVisible = goodNewsCultureManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isGoodNewsCultureCheckImageVisible = goodNewsCultureManager.selectedItems.isCheckVisible()
 
-    val isGoodNewsIndustryCheckImageVisible = goodNewsIndustryManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isGoodNewsIndustryCheckImageVisible = goodNewsIndustryManager.selectedItems.isCheckVisible()
 
-    val isGoodNewsPolicyCheckImageVisible = goodNewsPolicyManager.selectedItems
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isGoodNewsPolicyCheckImageVisible = goodNewsPolicyManager.selectedItems.isCheckVisible()
 
     private val allValidationStates = listOf(
         isInsightTitleValid,

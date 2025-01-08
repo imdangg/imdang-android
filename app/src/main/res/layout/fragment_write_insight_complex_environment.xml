@@ -48,16 +48,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_traffic"
+                bindVisible="@{viewModel.isComplexEnvironmentBuildingCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexEnvironmentBuildingCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_building_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_building_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_building_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_building_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -195,16 +194,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_safety"
+                bindVisible="@{viewModel.isComplexEnvironmentSafetyCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexEnvironmentSafetyCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_safety_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_safety_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_safety_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_safety_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -342,16 +340,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_children_facility"
+                bindVisible="@{viewModel.isComplexEnvironmentChildrenFacilityCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexEnvironmentChildrenFacilityCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_children_facility_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_children_facility_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_children_facility_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_children_facility_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -489,16 +486,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_silver_facility"
+                bindVisible="@{viewModel.isComplexEnvironmentSilverFacilityCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isComplexEnvironmentSilverFacilityCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_silver_facility_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_silver_facility_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_silver_facility_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_silver_facility_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"

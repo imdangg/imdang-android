@@ -48,16 +48,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_traffic"
+                bindVisible="@{viewModel.isInfraTrafficCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInfraTrafficCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_traffic_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_traffic_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -155,16 +154,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_school"
+                bindVisible="@{viewModel.isInfraSchoolCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInfraSchoolCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_school_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_school_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_school_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_school_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -290,16 +288,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_living_amenities"
+                bindVisible="@{viewModel.isInfraLivingAmenityCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInfraLivingAmenityCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_living_amenities_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_living_amenities_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_living_amenities_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_living_amenities_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -507,16 +504,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_facilities"
+                bindVisible="@{viewModel.isInfraFacilitiesCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInfraFacilitiesCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_facilities_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_facilities_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_facilities_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_facilities_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -697,16 +693,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_environment"
+                bindVisible="@{viewModel.isInfraEnvironmentCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInfraEnvironmentCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_environment_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_environment_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_environment_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_environment_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -889,16 +884,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_landmark"
+                bindVisible="@{viewModel.isInfraLandmarkCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInfraLandmarkCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_landmark_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_landmark_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_landmark_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_landmark_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -1081,16 +1075,15 @@
 
             <ImageView
                 android:id="@+id/iv_avoid_facility_landmark"
+                bindVisible="@{viewModel.isInfraAvoidFacilityCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInfraAvoidFacilityCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_avoid_facility_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_avoid_facility_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_avoid_facility_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"

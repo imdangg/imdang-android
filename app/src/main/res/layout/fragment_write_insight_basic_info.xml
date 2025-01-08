@@ -121,16 +121,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_title"
+                bindVisible="@{viewModel.isInsightTitleCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightTitleCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_title_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_title_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_title_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_title_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -280,16 +279,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_date"
+                bindVisible="@{viewModel.isInsightDateCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightDateCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_date_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_date_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_date_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_date_asterisk" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_date"
@@ -318,7 +316,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/tv__date_error"
+                android:id="@+id/tv_date_error"
                 style="@style/T_500_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -326,8 +324,7 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_date"
-                tools:text="@string/insight_date_error_type_before"
-                tools:visibility="visible" />
+                tools:text="@string/insight_date_error_type_before" />
 
             <TextView
                 android:id="@+id/tv_time_subject"
@@ -352,16 +349,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_time"
+                bindVisible="@{viewModel.isInsightTimeCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightTimeCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_time_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_time_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_time_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_time_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -459,16 +455,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_traffic"
+                bindVisible="@{viewModel.isInsightTrafficCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightTrafficCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_traffic_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_traffic_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -564,16 +559,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_entrance"
+                bindVisible="@{viewModel.isInsightEntranceCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightEntranceCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_entrance_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_entrance_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_entrance_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_entrance_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
