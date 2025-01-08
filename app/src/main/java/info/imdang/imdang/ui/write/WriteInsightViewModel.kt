@@ -14,6 +14,15 @@ import javax.inject.Inject
 @HiltViewModel
 class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
+    private val _isPreviousButtonVisible = MutableStateFlow(false)
+    val isPreviousButtonVisible = _isPreviousButtonVisible.asStateFlow()
+
+    private val _selectedPage = MutableStateFlow(0)
+    val selectedPage = _selectedPage.asStateFlow()
+
+    private val _isTooltipVisible = MutableStateFlow(false)
+    val isTooltipVisible = _isTooltipVisible.asStateFlow()
+
     // 기본 정보
     private val _isInsightTitleFocused = MutableStateFlow(false)
     val isInsightTitleFocused = _isInsightTitleFocused.asStateFlow()
@@ -132,44 +141,58 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     val isGoodNewsPolicyCheckImageVisible = goodNewsPolicyManager.selectedItems.isCheckVisible()
 
-    val isFinalButtonEnabled = combine(
-        listOf(
-            isInsightTitleValid,
-            isInsightAptAddressValid,
-            isInsightDateValid,
-            insightSelectedTimes.isCheckVisible(),
-            insightSelectedTraffics.isCheckVisible(),
-            insightSelectedEntrances.isCheckVisible(),
-            infraTrafficManager.selectedItems.isCheckVisible(),
-            infraSchoolManager.selectedItems.isCheckVisible(),
-            infraLivingAmenityManager.selectedItems.isCheckVisible(),
-            infraFacilitiesManager.selectedItems.isCheckVisible(),
-            infraEnvironmentManager.selectedItems.isCheckVisible(),
-            infraLandmarkManager.selectedItems.isCheckVisible(),
-            infraAvoidFacilityManager.selectedItems.isCheckVisible(),
-            complexEnvironmentBuildingManager.selectedItems.isCheckVisible(),
-            complexEnvironmentSafetyManager.selectedItems.isCheckVisible(),
-            complexEnvironmentChildrenFacilityManager.selectedItems.isCheckVisible(),
-            complexEnvironmentSilverFacilityManager.selectedItems.isCheckVisible(),
-            complexFacilityFamilyManager.selectedItems.isCheckVisible(),
-            complexFacilityMultiPurposeManager.selectedItems.isCheckVisible(),
-            complexFacilityLeisureManager.selectedItems.isCheckVisible(),
-            complexFacilityEnvironmentManager.selectedItems.isCheckVisible(),
-            goodNewsTrafficManager.selectedItems.isCheckVisible(),
-            goodNewsDevelopmentManager.selectedItems.isCheckVisible(),
-            goodNewsEducationManager.selectedItems.isCheckVisible(),
-            goodNewsNaturalEnvironmentManager.selectedItems.isCheckVisible(),
-            goodNewsCultureManager.selectedItems.isCheckVisible(),
-            goodNewsIndustryManager.selectedItems.isCheckVisible(),
-            goodNewsPolicyManager.selectedItems.isCheckVisible()
-        )
-    ) { states ->
-        states.all { it }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = false
+    private val basicInfoValid = listOf(
+        isInsightTitleValid,
+        isInsightAptAddressValid,
+        isInsightDateValid,
+        insightSelectedTimes.isCheckVisible(),
+        insightSelectedTraffics.isCheckVisible(),
+        insightSelectedEntrances.isCheckVisible()
     )
+
+    private val infraValid = listOf(
+        infraTrafficManager.selectedItems.isCheckVisible(),
+        infraSchoolManager.selectedItems.isCheckVisible(),
+        infraLivingAmenityManager.selectedItems.isCheckVisible(),
+        infraFacilitiesManager.selectedItems.isCheckVisible(),
+        infraEnvironmentManager.selectedItems.isCheckVisible(),
+        infraLandmarkManager.selectedItems.isCheckVisible(),
+        infraAvoidFacilityManager.selectedItems.isCheckVisible()
+    )
+
+    private val complexEnvironmentValid = listOf(
+        complexEnvironmentBuildingManager.selectedItems.isCheckVisible(),
+        complexEnvironmentSafetyManager.selectedItems.isCheckVisible(),
+        complexEnvironmentChildrenFacilityManager.selectedItems.isCheckVisible(),
+        complexEnvironmentSilverFacilityManager.selectedItems.isCheckVisible()
+    )
+
+    private val complexFacilityValid = listOf(
+        complexFacilityFamilyManager.selectedItems.isCheckVisible(),
+        complexFacilityMultiPurposeManager.selectedItems.isCheckVisible(),
+        complexFacilityLeisureManager.selectedItems.isCheckVisible(),
+        complexFacilityEnvironmentManager.selectedItems.isCheckVisible()
+    )
+
+    private val goodNewsValid = listOf(
+        goodNewsTrafficManager.selectedItems.isCheckVisible(),
+        goodNewsDevelopmentManager.selectedItems.isCheckVisible(),
+        goodNewsEducationManager.selectedItems.isCheckVisible(),
+        goodNewsNaturalEnvironmentManager.selectedItems.isCheckVisible(),
+        goodNewsCultureManager.selectedItems.isCheckVisible(),
+        goodNewsIndustryManager.selectedItems.isCheckVisible(),
+        goodNewsPolicyManager.selectedItems.isCheckVisible()
+    )
+
+    fun updateSelectedPage(page: Int) {
+        _selectedPage.value = page
+        _isPreviousButtonVisible.value = page in 1..3
+        updateTooltipVisible(page == 4)
+    }
+
+    fun updateTooltipVisible(isVisible: Boolean) {
+        _isTooltipVisible.value = isVisible
+    }
 
     fun updateInsightTitleFocused(isFocused: Boolean) {
         _isInsightTitleFocused.value = isFocused
@@ -212,4 +235,20 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     fun selectEntrance(entrance: String) {
         _insightSelectedEntrances.value = entrance
     }
+
+    fun isFinalButtonEnabled() = combine(
+        when (selectedPage.value) {
+            0 -> basicInfoValid
+            1 -> infraValid
+            2 -> complexEnvironmentValid
+            3 -> complexFacilityValid
+            else -> goodNewsValid
+        }
+    ) { states ->
+        states.all { it }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = false
+    )
 }

@@ -1,12 +1,14 @@
 package info.imdang.imdang.ui.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
-import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityMainBinding
 import info.imdang.imdang.ui.main.home.HomeFragment
 import info.imdang.imdang.ui.main.storage.StorageFragment
@@ -19,6 +21,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var homeFragment: HomeFragment
     private lateinit var storageFragment: StorageFragment
+
+    private val writeInsightResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            binding.bnvMain.selectedItemId = R.id.menu_storage
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +48,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         with(binding) {
             fabMain.setOnClickListener {
                 this@MainActivity.viewModel.hideTooltip()
-                startActivity<WriteInsightActivity>()
+                writeInsightResult.launch(
+                    Intent(this@MainActivity, WriteInsightActivity::class.java)
+                )
             }
             bnvMain.setOnItemSelectedListener { item ->
                 when (item.itemId) {

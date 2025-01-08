@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
@@ -41,8 +41,10 @@ class WriteInsightActivity :
     override fun onShowKeyboard(keyboardHeight: Int) {
         super.onShowKeyboard(keyboardHeight)
 
-        with(binding.tvWriteCompleteButton) {
+        with(binding.clWriteButton) {
             setMargin(left = 0, right = 0, top = 0, bottom = 0)
+        }
+        with(binding.tvWriteCompleteButton) {
             text = getString(info.imdang.component.R.string.confirm)
 
             val drawable = GradientDrawable().apply {
@@ -65,9 +67,11 @@ class WriteInsightActivity :
     override fun onHideKeyboard() {
         super.onHideKeyboard()
 
-        with(binding.tvWriteCompleteButton) {
+        with(binding.clWriteButton) {
             setMargin(left = 20, right = 20, top = 0, bottom = 40)
-            text = getString(info.imdang.component.R.string.write_complete)
+        }
+        with(binding.tvWriteCompleteButton) {
+            text = getString(info.imdang.component.R.string.next)
 
             val drawable = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
@@ -99,15 +103,6 @@ class WriteInsightActivity :
             vpWriteInsight.adapter = WriteInsightPagerAdapter(
                 fragmentActivity = this@WriteInsightActivity
             )
-            TabLayoutMediator(tlWriteInsight, vpWriteInsight) { tab, position ->
-                tab.text = when (position) {
-                    0 -> getString(info.imdang.component.R.string.basic_info)
-                    1 -> getString(info.imdang.component.R.string.infra)
-                    2 -> getString(info.imdang.component.R.string.apt_environment)
-                    3 -> getString(info.imdang.component.R.string.apt_facility)
-                    else -> getString(info.imdang.component.R.string.good_news)
-                }
-            }.attach()
         }
     }
 
@@ -126,11 +121,50 @@ class WriteInsightActivity :
             ivBack.setOnClickListener {
                 onBackPressedDispatcher.onBackPressed()
             }
+            vpWriteInsight.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    this@WriteInsightActivity.viewModel.updateSelectedPage(position)
+                    tvWriteCompleteButton.text = getString(
+                        if (position < 4) {
+                            info.imdang.component.R.string.next
+                        } else {
+                            info.imdang.component.R.string.write_complete_and_upload
+                        }
+                    )
+                }
+            })
+            tvWritePreviousButton.setOnClickListener {
+                vpWriteInsight.currentItem =
+                    this@WriteInsightActivity.viewModel.selectedPage.value - 1
+            }
             tvWriteCompleteButton.setOnClickListener {
                 if (isVisibleKeyboard) {
                     hideKeyboard()
                 } else {
-                    // todo : 작성 완료
+                    with(this@WriteInsightActivity.viewModel) {
+                        if (selectedPage.value < 4) {
+                            vpWriteInsight.currentItem = selectedPage.value + 1
+                        } else {
+                            // todo : 작성 완료
+                            showCommonDialog(
+                                message = getString(
+                                    info.imdang.component.R.string.write_insight_complete_message
+                                ),
+                                positiveButtonText = getString(
+                                    info.imdang.component.R.string.confirm
+                                ),
+                                subButtonText = "보관함 확인하기",
+                                onClickPositiveButton = {
+                                    finish()
+                                },
+                                onClickSubButton = {
+                                    setResult(RESULT_OK)
+                                    finish()
+                                }
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -145,7 +179,7 @@ class WriteInsightActivity :
                         if (isFocused) {
                             viewModel.isInsightTitleValid
                         } else {
-                            viewModel.isFinalButtonEnabled
+                            viewModel.isFinalButtonEnabled()
                         }
                     }
                     .collect { isInsightTitleValid ->
@@ -159,7 +193,7 @@ class WriteInsightActivity :
                         if (isFocused) {
                             viewModel.isInsightDateValid
                         } else {
-                            viewModel.isFinalButtonEnabled
+                            viewModel.isFinalButtonEnabled()
                         }
                     }
                     .collect { isInsightDateValid ->
@@ -168,7 +202,9 @@ class WriteInsightActivity :
             }
 
             launch {
-                viewModel.isFinalButtonEnabled.collect { isEnabled ->
+                viewModel.selectedPage.flatMapLatest {
+                    viewModel.isFinalButtonEnabled()
+                }.collect { isEnabled ->
                     updateButtonState(isEnabled)
                 }
             }
@@ -185,9 +221,7 @@ class WriteInsightActivity :
                     if (isEnabled) {
                         getColor(info.imdang.component.R.color.orange_500)
                     } else {
-                        getColor(
-                            info.imdang.component.R.color.gray_100
-                        )
+                        getColor(info.imdang.component.R.color.gray_100)
                     }
                 )
                 setTextColor(

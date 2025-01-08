@@ -47,6 +47,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         traffics.forEach { (traffic, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsTrafficManager.toggleSelection(traffic, "잘 모르겠어요")
             }
         }
@@ -75,6 +76,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         developments.forEach { (development, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsDevelopmentManager.toggleSelection(development, "잘 모르겠어요")
             }
         }
@@ -99,6 +101,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         educations.forEach { (education, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsEducationManager.toggleSelection(education, "잘 모르겠어요")
             }
         }
@@ -117,6 +120,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         naturalEnvironments.forEach { (naturalEnvironment, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsNaturalEnvironmentManager
                     .toggleSelection(naturalEnvironment, "잘 모르겠어요")
             }
@@ -140,6 +144,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         cultures.forEach { (culture, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsCultureManager.toggleSelection(culture, "잘 모르겠어요")
             }
         }
@@ -158,6 +163,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         industries.forEach { (industry, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsIndustryManager.toggleSelection(industry, "잘 모르겠어요")
             }
         }
@@ -178,6 +184,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         policies.forEach { (policy, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsPolicyManager.toggleSelection(policy, "잘 모르겠어요")
             }
         }

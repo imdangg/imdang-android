@@ -1,6 +1,7 @@
 package info.imdang.imdang.common.bindingadapter
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -54,4 +55,25 @@ fun ImageView.bindInsightDetailInvisibleImage(insightDetailState: InsightDetailS
             }
         )
     )
+}
+
+@BindingAdapter(
+    value = ["bindSelectedPage", "bindCurrentPage"],
+    requireAll = true
+)
+fun ImageView.bindWriteInsightStepImage(
+    selectedPage: Int,
+    currentPage: Int
+) {
+    setImageResource(
+        when (selectedPage) {
+            currentPage -> info.imdang.component.R.drawable.ic_step
+            else -> info.imdang.component.R.drawable.ic_check
+        }
+    )
+    imageTintList = if (selectedPage < currentPage) {
+        ColorStateList.valueOf(context.getColor(info.imdang.component.R.color.gray_200))
+    } else {
+        null
+    }
 }
