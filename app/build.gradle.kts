@@ -96,6 +96,11 @@ android {
                 "NAVER_CLIENT_ID",
                 "\"${DevConfig.NAVER_CLIENT_ID}\""
             )
+            buildConfigField(
+                "String",
+                "KAKAO_ADDRESS_SEARCH_SERVER",
+                "\"${DevConfig.KAKAO_ADDRESS_SEARCH_SERVER}\""
+            )
         }
         create("product") {
             dimension = "server"
@@ -115,6 +120,11 @@ android {
                 "String",
                 "NAVER_CLIENT_ID",
                 "\"${ProductConfig.NAVER_CLIENT_ID}\""
+            )
+            buildConfigField(
+                "String",
+                "KAKAO_ADDRESS_SEARCH_SERVER",
+                "\"${DevConfig.KAKAO_ADDRESS_SEARCH_SERVER}\""
             )
         }
     }

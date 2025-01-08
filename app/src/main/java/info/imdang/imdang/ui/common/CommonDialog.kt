@@ -14,6 +14,7 @@ fun Context.showCommonDialog(
     negativeButtonText: String? = null,
     subButtonText: String? = null,
     onClickPositiveButton: () -> Unit = {},
+    onClickNegativeButton: () -> Unit = {},
     onClickSubButton: () -> Unit = {}
 ) {
     BaseDialog<DialogCommonBinding>(this, R.layout.dialog_common).onShow { binding ->
@@ -26,7 +27,10 @@ fun Context.showCommonDialog(
 
             tvNegativeButton.text = negativeButtonText
             tvNegativeButton.bindVisible(negativeButtonText != null)
-            tvNegativeButton.setOnClickListener { dismiss() }
+            tvNegativeButton.setOnClickListener {
+                dismiss()
+                onClickNegativeButton()
+            }
 
             tvPositiveButton.text = positiveButtonText
             tvPositiveButton.setOnClickListener {

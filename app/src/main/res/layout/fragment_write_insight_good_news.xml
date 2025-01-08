@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.write.WriteInsightViewModel" />
 
     </data>
 
@@ -30,6 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_traffic_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,6 +45,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_traffic_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_traffic_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_traffic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isGoodNewsTrafficCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_traffic_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_traffic_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -124,6 +145,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_traffic" />
 
             <TextView
+                android:id="@+id/tv_development_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,6 +153,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_development_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_development_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_development"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isGoodNewsDevelopmentCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_development_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_development_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_development_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -299,6 +334,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_development" />
 
             <TextView
+                android:id="@+id/tv_education_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -306,6 +342,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_education_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_education_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_education"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isGoodNewsEducationCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_education_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_education_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_education_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -446,6 +495,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_education" />
 
             <TextView
+                android:id="@+id/tv_natural_environment_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -453,6 +503,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_natural_environment_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_natural_environment_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_natural_environment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isGoodNewsNaturalEnvironmentCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_natural_environment_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_natural_environment_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_natural_environment_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -540,6 +603,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_natural_environment" />
 
             <TextView
+                android:id="@+id/tv_culture_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -547,6 +611,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_culture_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_culture_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_culture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isGoodNewsCultureCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_culture_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_culture_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_culture_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -662,6 +739,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_culture" />
 
             <TextView
+                android:id="@+id/tv_industry_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -669,6 +747,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_industry_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_industry_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_industry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isGoodNewsIndustryCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_industry_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_industry_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_industry_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -756,6 +847,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_industry" />
 
             <TextView
+                android:id="@+id/tv_policy_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -763,6 +855,19 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/tv_policy_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_policy_subject" />
+
+            <ImageView
+                android:id="@+id/iv_check_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                android:visibility="@{viewModel.isGoodNewsPolicyCheckImageVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_policy_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_policy_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_policy_asterisk"
+                tools:visibility="visible" />
 
             <TextView
                 style="@style/T_500_12_16_8"
