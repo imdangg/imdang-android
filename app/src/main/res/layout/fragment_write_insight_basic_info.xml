@@ -121,7 +121,7 @@
 
             <ImageView
                 android:id="@+id/iv_check_title"
-                bindVisible="@{viewModel.isInsightTitleCheckImageVisible}"
+                bindVisible="@{viewModel.isInsightTitleValid}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -200,16 +200,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_apt_address"
+                bindVisible="@{viewModel.isInsightAptAddressValid}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_apt_address_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_apt_address_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_apt_address_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_apt_address_asterisk" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_apt_address"
@@ -279,15 +278,16 @@
 
             <ImageView
                 android:id="@+id/iv_check_date"
-                bindVisible="@{viewModel.isInsightDateCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_date_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_date_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_date_asterisk" />
+                app:layout_constraintTop_toTopOf="@id/tv_date_asterisk"
+                tools:visibility="visible" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_date"

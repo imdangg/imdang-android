@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -22,20 +21,14 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     private val _isInsightTitleValid = MutableStateFlow(false)
     val isInsightTitleValid = _isInsightTitleValid.asStateFlow()
 
-    private val _isInsightTitleCheckImageVisible = MutableStateFlow(false)
-    val isInsightTitleCheckImageVisible = _isInsightTitleCheckImageVisible.asStateFlow()
-
     private val _isInsightAptAddressValid = MutableStateFlow(false)
-    private val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
+    val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
 
     private val _isInsightDateFocused = MutableStateFlow(false)
     val isInsightDateFocused = _isInsightDateFocused.asStateFlow()
 
     private val _isInsightDateValid = MutableStateFlow(false)
     val isInsightDateValid = _isInsightDateValid.asStateFlow()
-
-    private val _isInsightDateCheckImageVisible = MutableStateFlow(false)
-    val isInsightDateCheckImageVisible = _isInsightDateCheckImageVisible.asStateFlow()
 
     private val _insightSelectedTimes = MutableStateFlow<Set<String>>(emptySet())
     val insightSelectedTimes = _insightSelectedTimes.asStateFlow()
@@ -139,38 +132,38 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     val isGoodNewsPolicyCheckImageVisible = goodNewsPolicyManager.selectedItems.isCheckVisible()
 
-    private val allValidationStates = listOf(
-        isInsightTitleValid,
-        isInsightAptAddressValid,
-        isInsightDateValid,
-        insightSelectedTimes.map { it.isNotEmpty() },
-        insightSelectedTraffics.map { it.isNotEmpty() },
-        insightSelectedEntrances.map { it != null },
-        infraTrafficManager.selectedItems.map { it.isNotEmpty() },
-        infraSchoolManager.selectedItems.map { it.isNotEmpty() },
-        infraLivingAmenityManager.selectedItems.map { it.isNotEmpty() },
-        infraFacilitiesManager.selectedItems.map { it.isNotEmpty() },
-        infraEnvironmentManager.selectedItems.map { it.isNotEmpty() },
-        infraLandmarkManager.selectedItems.map { it.isNotEmpty() },
-        infraAvoidFacilityManager.selectedItems.map { it.isNotEmpty() },
-        complexEnvironmentBuildingManager.selectedItems.map { it.isNotEmpty() },
-        complexEnvironmentSafetyManager.selectedItems.map { it.isNotEmpty() },
-        complexEnvironmentChildrenFacilityManager.selectedItems.map { it.isNotEmpty() },
-        complexEnvironmentSilverFacilityManager.selectedItems.map { it.isNotEmpty() },
-        complexFacilityFamilyManager.selectedItems.map { it.isNotEmpty() },
-        complexFacilityMultiPurposeManager.selectedItems.map { it.isNotEmpty() },
-        complexFacilityLeisureManager.selectedItems.map { it.isNotEmpty() },
-        complexFacilityEnvironmentManager.selectedItems.map { it.isNotEmpty() },
-        goodNewsTrafficManager.selectedItems.map { it.isNotEmpty() },
-        goodNewsDevelopmentManager.selectedItems.map { it.isNotEmpty() },
-        goodNewsEducationManager.selectedItems.map { it.isNotEmpty() },
-        goodNewsNaturalEnvironmentManager.selectedItems.map { it.isNotEmpty() },
-        goodNewsCultureManager.selectedItems.map { it.isNotEmpty() },
-        goodNewsIndustryManager.selectedItems.map { it.isNotEmpty() },
-        goodNewsPolicyManager.selectedItems.map { it.isNotEmpty() }
-    )
-
-    val isFinalButtonEnabled = combine(allValidationStates) { states ->
+    val isFinalButtonEnabled = combine(
+        listOf(
+            isInsightTitleValid,
+            isInsightAptAddressValid,
+            isInsightDateValid,
+            insightSelectedTimes.isCheckVisible(),
+            insightSelectedTraffics.isCheckVisible(),
+            insightSelectedEntrances.isCheckVisible(),
+            infraTrafficManager.selectedItems.isCheckVisible(),
+            infraSchoolManager.selectedItems.isCheckVisible(),
+            infraLivingAmenityManager.selectedItems.isCheckVisible(),
+            infraFacilitiesManager.selectedItems.isCheckVisible(),
+            infraEnvironmentManager.selectedItems.isCheckVisible(),
+            infraLandmarkManager.selectedItems.isCheckVisible(),
+            infraAvoidFacilityManager.selectedItems.isCheckVisible(),
+            complexEnvironmentBuildingManager.selectedItems.isCheckVisible(),
+            complexEnvironmentSafetyManager.selectedItems.isCheckVisible(),
+            complexEnvironmentChildrenFacilityManager.selectedItems.isCheckVisible(),
+            complexEnvironmentSilverFacilityManager.selectedItems.isCheckVisible(),
+            complexFacilityFamilyManager.selectedItems.isCheckVisible(),
+            complexFacilityMultiPurposeManager.selectedItems.isCheckVisible(),
+            complexFacilityLeisureManager.selectedItems.isCheckVisible(),
+            complexFacilityEnvironmentManager.selectedItems.isCheckVisible(),
+            goodNewsTrafficManager.selectedItems.isCheckVisible(),
+            goodNewsDevelopmentManager.selectedItems.isCheckVisible(),
+            goodNewsEducationManager.selectedItems.isCheckVisible(),
+            goodNewsNaturalEnvironmentManager.selectedItems.isCheckVisible(),
+            goodNewsCultureManager.selectedItems.isCheckVisible(),
+            goodNewsIndustryManager.selectedItems.isCheckVisible(),
+            goodNewsPolicyManager.selectedItems.isCheckVisible()
+        )
+    ) { states ->
         states.all { it }
     }.stateIn(
         scope = viewModelScope,
@@ -186,10 +179,6 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
         _isInsightTitleValid.value = isValid
     }
 
-    fun updateInsightTitleCheckImageVisible(isVisible: Boolean) {
-        _isInsightTitleCheckImageVisible.value = isVisible
-    }
-
     fun updateAptAddressValid(isValid: Boolean) {
         _isInsightAptAddressValid.value = isValid
     }
@@ -200,10 +189,6 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     fun updateInsightDateValid(isValid: Boolean) {
         _isInsightDateValid.value = isValid
-    }
-
-    fun updateInsightDateCheckImageVisible(isVisible: Boolean) {
-        _isInsightDateCheckImageVisible.value = isVisible
     }
 
     fun toggleTimeSelection(time: String) {

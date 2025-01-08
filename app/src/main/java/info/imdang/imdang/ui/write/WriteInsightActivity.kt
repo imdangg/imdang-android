@@ -12,6 +12,7 @@ import info.imdang.imdang.common.ext.hideKeyboard
 import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.databinding.ActivityWriteInsightBinding
 import info.imdang.imdang.ui.write.fragment.WriteInsightBasicInfoFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,7 @@ class WriteInsightActivity :
 
     private val viewModel by viewModels<WriteInsightViewModel>()
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -107,23 +109,6 @@ class WriteInsightActivity :
             tvWriteCompleteButton.setOnClickListener {
                 if (isVisibleKeyboard) {
                     hideKeyboard()
-                    val isTitleFocused = viewModel?.isInsightTitleFocused?.value ?: false
-                    val isTitleValid = viewModel?.isInsightTitleValid?.value ?: false
-                    if (isTitleFocused && isTitleValid) {
-                        viewModel?.updateInsightTitleCheckImageVisible(true)
-                    }
-
-                    val isDateFocused = viewModel?.isInsightDateFocused?.value ?: false
-                    val isDateValid = viewModel?.isInsightDateValid?.value ?: false
-
-                    if (isDateFocused && isDateValid) {
-                        viewModel?.updateInsightDateCheckImageVisible(true)
-                        supportFragmentManager.fragments.forEach { fragment ->
-                            if (fragment is WriteInsightBasicInfoFragment) {
-                                fragment.updateDateIcon(true)
-                            }
-                        }
-                    }
                 } else {
                     // todo : 작성 완료
                 }
@@ -131,6 +116,7 @@ class WriteInsightActivity :
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun observe() {
         lifecycleScope.launch {
             launch {

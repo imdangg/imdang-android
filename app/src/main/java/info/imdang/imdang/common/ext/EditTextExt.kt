@@ -305,7 +305,6 @@ fun EditText.insightTitleValidation(
 }
 
 fun EditText.inSightAptAddressValidation(
-    targetImageView: ImageView,
     onValidStateChanged: (Boolean) -> Unit
 ) {
     this.addTextChangedListener(object : TextWatcher {
@@ -317,7 +316,6 @@ fun EditText.inSightAptAddressValidation(
             val currentLength = s?.length ?: 0
             val isValid = currentLength > 0
 
-            targetImageView.visibility = if (isValid) View.VISIBLE else View.GONE
             onValidStateChanged(isValid)
         }
     })
@@ -335,14 +333,13 @@ fun EditText.inSightDateValidation(
         private var deletingDot = false
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            statusImageView.visibility = View.VISIBLE
             deletingDot = count == 1 && s?.getOrNull(start) == '.'
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         override fun afterTextChanged(s: Editable?) {
-            statusImageView.visibility = View.VISIBLE
-
             if (s.isNullOrEmpty()) {
                 errorTextView.text =
                     context.getString(info.imdang.component.R.string.insight_date_error_type_empty)

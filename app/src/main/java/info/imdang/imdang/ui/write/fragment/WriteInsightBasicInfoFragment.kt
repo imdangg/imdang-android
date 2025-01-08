@@ -63,9 +63,9 @@ class WriteInsightBasicInfoFragment :
                 maxLength = 20,
                 targetTextView = tvTitleCount,
                 onValidStateChanged = { isValid ->
-                    this@WriteInsightBasicInfoFragment.viewModel.updateInsightTitleValid(isValid)
-                    this@WriteInsightBasicInfoFragment.viewModel
-                        .updateInsightTitleCheckImageVisible(false)
+                    with(this@WriteInsightBasicInfoFragment.viewModel) {
+                        updateInsightTitleValid(isValid)
+                    }
                 }
             )
 
@@ -75,7 +75,6 @@ class WriteInsightBasicInfoFragment :
             }
 
             etAptAddress.inSightAptAddressValidation(
-                targetImageView = ivCheckAptAddress,
                 onValidStateChanged = { isValid ->
                     this@WriteInsightBasicInfoFragment.viewModel.updateAptAddressValid(isValid)
                 }
@@ -97,6 +96,9 @@ class WriteInsightBasicInfoFragment :
                 parentLayout = tilDate,
                 onValidStateChanged = { isValid ->
                     this@WriteInsightBasicInfoFragment.viewModel.updateInsightDateValid(isValid)
+                    if (isValid) {
+                        ivCheckDate.setImageResource(info.imdang.component.R.drawable.ic_check)
+                    }
                 }
             )
         }
