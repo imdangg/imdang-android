@@ -166,7 +166,7 @@ class WriteInsightBasicInfoFragment :
             tvImageEdit.setOnClickListener {
                 showSelectImageBottomSheet()
             }
-            viewInsightSummary.setOnClickListener {
+            tvInsightSummary.setOnClickListener {
                 insightSummaryResult.launch(
                     Intent(requireContext(), WriteInsightSummaryActivity::class.java).apply {
                         putExtra(

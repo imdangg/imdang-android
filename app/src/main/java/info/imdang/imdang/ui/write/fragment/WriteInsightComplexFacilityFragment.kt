@@ -232,21 +232,28 @@ class WriteInsightComplexFacilityFragment :
     private fun setupListener() {
         with(binding) {
             viewAptFacilityOverallReview.setOnClickListener {
-                overallReviewResult.launch(
-                    Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
-                        putExtra(
-                            OVERALL_REVIEW_TITLE,
-                            getString(info.imdang.component.R.string.apt_facility_review)
-                        )
-                        putExtra(
-                            OVERALL_REVIEW,
-                            this@WriteInsightComplexFacilityFragment
-                                .viewModel.complexFacilityReview.value
-                        )
-                    }
-                )
+                openWriteOverallReviewActivity()
+            }
+            tvAptFacilityReview.setOnClickListener {
+                openWriteOverallReviewActivity()
             }
         }
+    }
+
+    private fun openWriteOverallReviewActivity() {
+        overallReviewResult.launch(
+            Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
+                putExtra(
+                    OVERALL_REVIEW_TITLE,
+                    getString(info.imdang.component.R.string.apt_facility_review)
+                )
+                putExtra(
+                    OVERALL_REVIEW,
+                    this@WriteInsightComplexFacilityFragment
+                        .viewModel.complexFacilityReview.value
+                )
+            }
+        )
     }
 
     private fun resetSelectionDialog(manager: SelectionManager) {

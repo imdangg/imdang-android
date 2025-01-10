@@ -662,6 +662,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_apt_environment_review_subject">
 
                 <TextView
+                    android:id="@+id/tv_apt_environment_review"
                     style="@style/T_500_16_22_4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -674,6 +675,7 @@
 
             <View
                 android:id="@+id/view_apt_environment_overall_review"
+                bindVisible="@{!viewModel.complexEnvironmentReviewValid}"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 app:layout_constraintBottom_toBottomOf="@id/nsv_apt_environment_overall_review"

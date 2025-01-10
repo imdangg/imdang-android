@@ -2,13 +2,16 @@ package info.imdang.imdang.ui.write.review
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.bindingadapter.bindVisible
+import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.databinding.ActivityWriteOverallReviewBinding
 
 @AndroidEntryPoint
@@ -20,6 +23,48 @@ class WriteOverallReviewActivity :
 
         setupListener()
         setupExtra()
+    }
+
+    @SuppressLint("ServiceCast", "InternalInsetResource", "DiscouragedApi")
+    override fun onShowKeyboard(keyboardHeight: Int) {
+        super.onShowKeyboard(keyboardHeight)
+
+        val statusBarId = resources.getIdentifier(
+            "status_bar_height",
+            "dimen",
+            "android"
+        )
+        val statusBarHeight = if (statusBarId > 0) {
+            resources.getDimensionPixelSize(statusBarId)
+        } else {
+            0
+        }
+        val screenHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            windowManager.currentWindowMetrics.bounds.height()
+        } else {
+            val displayMetrics = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+            displayMetrics.heightPixels
+        }
+        val inputHeight = screenHeight - keyboardHeight - statusBarHeight - dpToPx(194)
+        val maxHeight = dpToPx(290)
+
+        val layoutParams = binding.tilOverallReview.layoutParams
+        layoutParams.height = if (inputHeight > maxHeight) {
+            maxHeight
+        } else {
+            inputHeight
+        }
+        binding.tilOverallReview.layoutParams = layoutParams
+    }
+
+    override fun onHideKeyboard() {
+        super.onHideKeyboard()
+
+        val layoutParams = binding.tilOverallReview.layoutParams
+        layoutParams.height = dpToPx(290)
+        binding.tilOverallReview.layoutParams = layoutParams
     }
 
     private fun setupListener() {

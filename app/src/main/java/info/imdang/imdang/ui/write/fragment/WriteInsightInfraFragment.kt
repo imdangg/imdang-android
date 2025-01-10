@@ -391,20 +391,27 @@ class WriteInsightInfraFragment :
     private fun setupListener() {
         with(binding) {
             viewInfraOverallReview.setOnClickListener {
-                overallReviewResult.launch(
-                    Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
-                        putExtra(
-                            OVERALL_REVIEW_TITLE,
-                            getString(info.imdang.component.R.string.infra_overall_review)
-                        )
-                        putExtra(
-                            OVERALL_REVIEW,
-                            this@WriteInsightInfraFragment.viewModel.infraReview.value
-                        )
-                    }
-                )
+                openWriteOverallReviewActivity()
+            }
+            tvInfraOverallReview.setOnClickListener {
+                openWriteOverallReviewActivity()
             }
         }
+    }
+
+    private fun openWriteOverallReviewActivity() {
+        overallReviewResult.launch(
+            Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
+                putExtra(
+                    OVERALL_REVIEW_TITLE,
+                    getString(info.imdang.component.R.string.infra_overall_review)
+                )
+                putExtra(
+                    OVERALL_REVIEW,
+                    this@WriteInsightInfraFragment.viewModel.infraReview.value
+                )
+            }
+        )
     }
 
     private fun resetSelectionDialog(manager: SelectionManager) {

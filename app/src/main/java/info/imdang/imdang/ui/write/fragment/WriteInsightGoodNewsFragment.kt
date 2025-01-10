@@ -30,6 +30,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.getStringExtra(OVERALL_REVIEW)?.let {
+                viewModel.updateTooltipVisible(false)
                 viewModel.updateGoodNewsReview(it)
             }
         }
@@ -345,20 +346,27 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
     private fun setupListener() {
         with(binding) {
             viewGoodNewsOverallReview.setOnClickListener {
-                overallReviewResult.launch(
-                    Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
-                        putExtra(
-                            OVERALL_REVIEW_TITLE,
-                            getString(info.imdang.component.R.string.good_news_review)
-                        )
-                        putExtra(
-                            OVERALL_REVIEW,
-                            this@WriteInsightGoodNewsFragment.viewModel.goodNewsReview.value
-                        )
-                    }
-                )
+                openWriteOverallReviewActivity()
+            }
+            tvGoodNewsReview.setOnClickListener {
+                openWriteOverallReviewActivity()
             }
         }
+    }
+
+    private fun openWriteOverallReviewActivity() {
+        overallReviewResult.launch(
+            Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
+                putExtra(
+                    OVERALL_REVIEW_TITLE,
+                    getString(info.imdang.component.R.string.good_news_review)
+                )
+                putExtra(
+                    OVERALL_REVIEW,
+                    this@WriteInsightGoodNewsFragment.viewModel.goodNewsReview.value
+                )
+            }
+        )
     }
 
     private fun resetSelectionDialog(manager: SelectionManager) {

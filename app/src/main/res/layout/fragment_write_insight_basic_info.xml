@@ -13,7 +13,7 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray_25"
@@ -741,6 +741,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_insight_summary_subject">
 
                 <TextView
+                    android:id="@+id/tv_insight_summary"
                     style="@style/T_500_16_22_4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -751,13 +752,6 @@
                     tools:text="@string/insight_summary_example"
                     tools:textColor="@color/gray_400" />
             </androidx.core.widget.NestedScrollView>
-
-            <View
-                android:id="@+id/view_insight_summary"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                app:layout_constraintBottom_toBottomOf="@id/nsv_insight_summary"
-                app:layout_constraintTop_toTopOf="@id/nsv_insight_summary" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 </layout>

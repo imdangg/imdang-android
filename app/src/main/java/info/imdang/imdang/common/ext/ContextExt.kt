@@ -29,3 +29,7 @@ inline fun <reified T : Activity> Context.startAndFinishActivity(
 fun Context.dpToPx(dp: Int): Int {
     return Math.round(dp * resources.displayMetrics.density)
 }
+
+fun Context.pxToDp(pixel: Int): Int {
+    return Math.round(pixel / resources.displayMetrics.density)
+}

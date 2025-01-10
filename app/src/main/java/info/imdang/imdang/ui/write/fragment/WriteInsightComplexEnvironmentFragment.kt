@@ -227,21 +227,28 @@ class WriteInsightComplexEnvironmentFragment :
     private fun setupListener() {
         with(binding) {
             viewAptEnvironmentOverallReview.setOnClickListener {
-                overallReviewResult.launch(
-                    Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
-                        putExtra(
-                            OVERALL_REVIEW_TITLE,
-                            getString(info.imdang.component.R.string.apt_environment_review)
-                        )
-                        putExtra(
-                            OVERALL_REVIEW,
-                            this@WriteInsightComplexEnvironmentFragment
-                                .viewModel.complexEnvironmentReview.value
-                        )
-                    }
-                )
+                openWriteOverallReviewActivity()
+            }
+            tvAptEnvironmentReview.setOnClickListener {
+                openWriteOverallReviewActivity()
             }
         }
+    }
+
+    private fun openWriteOverallReviewActivity() {
+        overallReviewResult.launch(
+            Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
+                putExtra(
+                    OVERALL_REVIEW_TITLE,
+                    getString(info.imdang.component.R.string.apt_environment_review)
+                )
+                putExtra(
+                    OVERALL_REVIEW,
+                    this@WriteInsightComplexEnvironmentFragment
+                        .viewModel.complexEnvironmentReview.value
+                )
+            }
+        )
     }
 
     private fun resetSelectionDialog(manager: SelectionManager) {
