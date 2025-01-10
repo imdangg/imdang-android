@@ -685,6 +685,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_entrance" />
 
             <TextView
+                android:id="@+id/tv_insight_summary_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -693,16 +694,40 @@
                 app:layout_constraintStart_toEndOf="@id/tv_insight_summary_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_insight_summary_subject" />
 
+            <ImageView
+                android:id="@+id/iv_check_insight_summary"
+                bindVisible="@{viewModel.insightSummaryValid}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_insight_summary_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_insight_summary_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_insight_summary_asterisk" />
+
             <TextView
-                android:id="@+id/tv_insight_summary_count"
                 style="@style/T_500_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/insight_summary_input_count_guide"
                 android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_insight_summary_subject"
+                app:layout_constraintEnd_toStartOf="@id/tv_insight_summary_count"
+                app:layout_constraintTop_toTopOf="@id/tv_insight_summary_subject" />
+
+            <TextView
+                android:id="@+id/tv_insight_summary_count"
+                style="@style/T_500_12_16_8"
+                bindVisible="@{viewModel.insightSummaryValid}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{` (` + viewModel.insightSummary.length() + `/200)`}"
+                android:textColor="@color/orange_500"
                 app:layout_constraintBottom_toBottomOf="@id/tv_insight_summary_subject"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_insight_summary_subject"
-                tools:text="최소30자-최대200자" />
+                tools:text=" (21/200)" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nsv_insight_summary"

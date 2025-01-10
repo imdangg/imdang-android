@@ -654,16 +654,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_environment" />
 
+            <ImageView
+                android:id="@+id/iv_check_insight_summary"
+                bindVisible="@{viewModel.complexFacilityReviewValid}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_apt_facility_review_subject"
+                app:layout_constraintStart_toEndOf="@id/tv_apt_facility_review_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_apt_facility_review_subject" />
+
             <TextView
-                android:id="@+id/tv_apt_facility_review_count"
                 style="@style/T_500_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/review_count_standard"
                 android:textColor="@color/gray_500"
                 app:layout_constraintBottom_toBottomOf="@id/tv_apt_facility_review_subject"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_apt_facility_review_count"
                 app:layout_constraintTop_toTopOf="@id/tv_apt_facility_review_subject" />
+
+            <TextView
+                android:id="@+id/tv_apt_facility_review_count"
+                style="@style/T_500_12_16_8"
+                bindVisible="@{viewModel.complexFacilityReviewValid}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{` (` + viewModel.complexFacilityReview.length() + `/200)`}"
+                android:textColor="@color/orange_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_apt_facility_review_subject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_apt_facility_review_subject"
+                tools:text=" (21/200)" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -674,7 +698,34 @@
                 android:textColor="@color/gray_400"
                 app:layout_constraintTop_toBottomOf="@id/tv_apt_facility_review_subject" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_apt_facility_overall_review"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/sr_white_gray100_all8"
+                android:clipToPadding="false"
+                android:padding="16dp"
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toBottomOf="@id/tv_apt_facility_review_subject">
 
+                <TextView
+                    style="@style/T_500_16_22_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:text="@{viewModel.complexFacilityReview}"
+                    android:textColor="@{viewModel.complexFacilityReview.length() > 0 ? @color/gray_900 : @color/gray_400}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:textColor="@color/gray_400" />
+            </androidx.core.widget.NestedScrollView>
+
+            <View
+                android:id="@+id/view_apt_facility_overall_review"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:layout_constraintBottom_toBottomOf="@id/nsv_apt_facility_overall_review"
+                app:layout_constraintTop_toTopOf="@id/nsv_apt_facility_overall_review" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

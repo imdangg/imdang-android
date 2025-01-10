@@ -54,6 +54,7 @@
         <activity android:name=".ui.my.withdraw.WithdrawActivity" />
         <activity android:name=".ui.write.address.KakaoAddressActivity" />
         <activity android:name=".ui.write.summary.WriteInsightSummaryActivity" />
+        <activity android:name=".ui.write.review.WriteOverallReviewActivity" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

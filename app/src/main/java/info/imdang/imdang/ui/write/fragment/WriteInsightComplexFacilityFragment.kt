@@ -1,7 +1,10 @@
 package info.imdang.imdang.ui.write.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import info.imdang.imdang.R
@@ -11,6 +14,9 @@ import info.imdang.imdang.common.util.SelectionUtils.updateMultiSelectionUI
 import info.imdang.imdang.databinding.FragmentWriteInsightComplexFacilityBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.write.WriteInsightViewModel
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity.Companion.OVERALL_REVIEW
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity.Companion.OVERALL_REVIEW_TITLE
 import kotlinx.coroutines.launch
 
 class WriteInsightComplexFacilityFragment :
@@ -20,10 +26,21 @@ class WriteInsightComplexFacilityFragment :
 
     private val viewModel by activityViewModels<WriteInsightViewModel>()
 
+    private val overallReviewResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getStringExtra(OVERALL_REVIEW)?.let {
+                viewModel.updateComplexFacilityReview(it)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         init()
+        setupListener()
         observe()
     }
 
@@ -208,6 +225,26 @@ class WriteInsightComplexFacilityFragment :
                         resetSelectionDialog(viewModel.complexFacilityEnvironmentManager)
                     }
                 }
+            }
+        }
+    }
+
+    private fun setupListener() {
+        with(binding) {
+            viewAptFacilityOverallReview.setOnClickListener {
+                overallReviewResult.launch(
+                    Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
+                        putExtra(
+                            OVERALL_REVIEW_TITLE,
+                            getString(info.imdang.component.R.string.apt_facility_review)
+                        )
+                        putExtra(
+                            OVERALL_REVIEW,
+                            this@WriteInsightComplexFacilityFragment
+                                .viewModel.complexFacilityReview.value
+                        )
+                    }
+                )
             }
         }
     }

@@ -61,7 +61,7 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     private val _insightSummary = MutableStateFlow("")
     val insightSummary = _insightSummary.asStateFlow()
 
-    private val insightSummaryValid = _insightSummary.isValid()
+    val insightSummaryValid = _insightSummary.isValid()
 
     // 인프라
     val infraTrafficManager = SelectionManager()
@@ -88,6 +88,11 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     val isInfraAvoidFacilityCheckImageVisible =
         infraAvoidFacilityManager.selectedItems.isCheckVisible()
 
+    private val _infraReview = MutableStateFlow("")
+    val infraReview = _infraReview.asStateFlow()
+
+    val infraReviewValid = _infraReview.isValid()
+
     // 단지 환경
     val complexEnvironmentBuildingManager = SelectionManager(isSingleSelection = true)
     val complexEnvironmentSafetyManager = SelectionManager(isSingleSelection = true)
@@ -106,6 +111,11 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     val isComplexEnvironmentSilverFacilityCheckImageVisible =
         complexEnvironmentSilverFacilityManager.selectedItems.isCheckVisible()
 
+    private val _complexEnvironmentReview = MutableStateFlow("")
+    val complexEnvironmentReview = _complexEnvironmentReview.asStateFlow()
+
+    val complexEnvironmentReviewValid = _complexEnvironmentReview.isValid()
+
     // 단지 시설
     val complexFacilityFamilyManager = SelectionManager()
     val complexFacilityMultiPurposeManager = SelectionManager()
@@ -123,6 +133,11 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     val isComplexFacilityEnvironmentCheckImageVisible =
         complexFacilityEnvironmentManager.selectedItems.isCheckVisible()
+
+    private val _complexFacilityReview = MutableStateFlow("")
+    val complexFacilityReview = _complexFacilityReview.asStateFlow()
+
+    val complexFacilityReviewValid = _complexFacilityReview.isValid()
 
     // 호재
     val goodNewsTrafficManager = SelectionManager()
@@ -149,6 +164,11 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     val isGoodNewsIndustryCheckImageVisible = goodNewsIndustryManager.selectedItems.isCheckVisible()
 
     val isGoodNewsPolicyCheckImageVisible = goodNewsPolicyManager.selectedItems.isCheckVisible()
+
+    private val _goodNewsReview = MutableStateFlow("")
+    val goodNewsReview = _goodNewsReview.asStateFlow()
+
+    val goodNewsReviewValid = _goodNewsReview.isValid()
 
     private val basicInfoValid = listOf(
         coverImageUri.isCheckVisible(),
@@ -253,6 +273,22 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     fun updateInsightSummary(insightSummary: String) {
         _insightSummary.value = insightSummary
+    }
+
+    fun updateInfraReview(infraReview: String) {
+        _infraReview.value = infraReview
+    }
+
+    fun updateComplexEnvironmentReview(complexEnvironmentReview: String) {
+        _complexEnvironmentReview.value = complexEnvironmentReview
+    }
+
+    fun updateComplexFacilityReview(complexFacility: String) {
+        _complexFacilityReview.value = complexFacility
+    }
+
+    fun updateGoodNewsReview(goodNews: String) {
+        _goodNewsReview.value = goodNews
     }
 
     fun isFinalButtonEnabled() = combine(

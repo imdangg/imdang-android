@@ -1,7 +1,10 @@
 package info.imdang.imdang.ui.write.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +16,9 @@ import info.imdang.imdang.common.util.SelectionUtils.updateMultiSelectionUI
 import info.imdang.imdang.databinding.FragmentWriteInsightInfraBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.write.WriteInsightViewModel
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity.Companion.OVERALL_REVIEW
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity.Companion.OVERALL_REVIEW_TITLE
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -21,10 +27,21 @@ class WriteInsightInfraFragment :
 
     private val viewModel by activityViewModels<WriteInsightViewModel>()
 
+    private val overallReviewResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getStringExtra(OVERALL_REVIEW)?.let {
+                viewModel.updateInfraReview(it)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         init()
+        setupListener()
         observe()
     }
 
@@ -367,6 +384,25 @@ class WriteInsightInfraFragment :
                         resetSelectionDialog(viewModel.infraAvoidFacilityManager)
                     }
                 }
+            }
+        }
+    }
+
+    private fun setupListener() {
+        with(binding) {
+            viewInfraOverallReview.setOnClickListener {
+                overallReviewResult.launch(
+                    Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
+                        putExtra(
+                            OVERALL_REVIEW_TITLE,
+                            getString(info.imdang.component.R.string.infra_overall_review)
+                        )
+                        putExtra(
+                            OVERALL_REVIEW,
+                            this@WriteInsightInfraFragment.viewModel.infraReview.value
+                        )
+                    }
+                )
             }
         }
     }
