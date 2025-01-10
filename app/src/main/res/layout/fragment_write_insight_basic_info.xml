@@ -13,7 +13,7 @@
 
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray_25"
@@ -704,15 +704,35 @@
                 app:layout_constraintTop_toTopOf="@id/tv_insight_summary_subject"
                 tools:text="최소30자-최대200자" />
 
-            <TextView
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_insight_summary"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/sr_white_gray100_all8"
+                android:clipToPadding="false"
                 android:padding="16dp"
-                android:text="@string/insight_summary_example"
-                android:textColor="@color/gray_400"
-                app:layout_constraintTop_toBottomOf="@id/tv_insight_summary_subject" />
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toBottomOf="@id/tv_insight_summary_subject">
+
+                <TextView
+                    style="@style/T_500_16_22_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:text="@{viewModel.insightSummary.length() > 0 ? viewModel.insightSummary : @string/insight_summary_example}"
+                    android:textColor="@{viewModel.insightSummary.length() > 0 ? @color/gray_900 : @color/gray_400}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/insight_summary_example"
+                    tools:textColor="@color/gray_400" />
+            </androidx.core.widget.NestedScrollView>
+
+            <View
+                android:id="@+id/view_insight_summary"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:layout_constraintBottom_toBottomOf="@id/nsv_insight_summary"
+                app:layout_constraintTop_toTopOf="@id/nsv_insight_summary" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

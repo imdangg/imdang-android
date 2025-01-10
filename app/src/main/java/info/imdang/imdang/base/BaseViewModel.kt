@@ -16,4 +16,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         if (it is Set<*>) it.isNotEmpty() else it != null
     }
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    fun StateFlow<String>.isValid() = map { it.isNotBlank() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 }

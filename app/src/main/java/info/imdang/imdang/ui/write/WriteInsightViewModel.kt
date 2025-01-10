@@ -58,6 +58,11 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     val isInsightEntranceCheckImageVisible = insightSelectedEntrances.isCheckVisible()
 
+    private val _insightSummary = MutableStateFlow("")
+    val insightSummary = _insightSummary.asStateFlow()
+
+    private val insightSummaryValid = _insightSummary.isValid()
+
     // 인프라
     val infraTrafficManager = SelectionManager()
     val infraSchoolManager = SelectionManager()
@@ -152,7 +157,8 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
         isInsightDateValid,
         insightSelectedTimes.isCheckVisible(),
         insightSelectedTraffics.isCheckVisible(),
-        insightSelectedEntrances.isCheckVisible()
+        insightSelectedEntrances.isCheckVisible(),
+        insightSummaryValid
     )
 
     private val infraValid = listOf(
@@ -243,6 +249,10 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     fun selectEntrance(entrance: String) {
         _insightSelectedEntrances.value = entrance
+    }
+
+    fun updateInsightSummary(insightSummary: String) {
+        _insightSummary.value = insightSummary
     }
 
     fun isFinalButtonEnabled() = combine(

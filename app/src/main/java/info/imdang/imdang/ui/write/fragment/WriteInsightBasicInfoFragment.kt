@@ -29,6 +29,8 @@ import info.imdang.imdang.ui.write.WriteInsightViewModel
 import info.imdang.imdang.ui.write.address.KakaoAddressActivity
 import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheet
 import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheetListener
+import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity
+import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity.Companion.INSIGHT_SUMMARY
 import java.io.File
 import kotlinx.coroutines.launch
 
@@ -68,6 +70,16 @@ class WriteInsightBasicInfoFragment :
         if (result.resultCode == Activity.RESULT_OK) {
             viewModel.updateCoverImageUri(takePictureUri)
             takePictureUri = null
+        }
+    }
+
+    private val insightSummaryResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getStringExtra(INSIGHT_SUMMARY)?.let {
+                viewModel.updateInsightSummary(it)
+            }
         }
     }
 
@@ -153,6 +165,16 @@ class WriteInsightBasicInfoFragment :
             }
             tvImageEdit.setOnClickListener {
                 showSelectImageBottomSheet()
+            }
+            viewInsightSummary.setOnClickListener {
+                insightSummaryResult.launch(
+                    Intent(requireContext(), WriteInsightSummaryActivity::class.java).apply {
+                        putExtra(
+                            INSIGHT_SUMMARY,
+                            this@WriteInsightBasicInfoFragment.viewModel.insightSummary.value
+                        )
+                    }
+                )
             }
         }
     }
