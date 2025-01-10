@@ -3,6 +3,7 @@ package info.imdang.imdang.common.bindingadapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -28,6 +29,30 @@ fun ImageView.bindImage(
     }
     Glide.with(context)
         .load(url)
+        .apply(
+            requestOptions
+                .error(placeHolder)
+                .placeholder(placeHolder)
+        )
+        .into(this)
+}
+
+@BindingAdapter(
+    value = ["bindImageUri", "bindCornerRadius", "bindPlaceHolder"],
+    requireAll = false
+)
+fun ImageView.bindImageUri(
+    uri: Uri?,
+    cornerRadius: Int = 0,
+    placeHolder: Drawable? = null
+) {
+    val requestOptions = if (cornerRadius > 0) {
+        RequestOptions().transform(CenterCrop(), RoundedCorners(context.dpToPx(cornerRadius)))
+    } else {
+        RequestOptions().transform(CenterCrop())
+    }
+    Glide.with(context)
+        .load(uri)
         .apply(
             requestOptions
                 .error(placeHolder)

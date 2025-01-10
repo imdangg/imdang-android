@@ -1,5 +1,6 @@
 package info.imdang.imdang.ui.write
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.imdang.base.BaseViewModel
@@ -24,6 +25,9 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     val isTooltipVisible = _isTooltipVisible.asStateFlow()
 
     // 기본 정보
+    private val _coverImageUri = MutableStateFlow<Uri?>(null)
+    val coverImageUri = _coverImageUri.asStateFlow()
+
     private val _isInsightTitleFocused = MutableStateFlow(false)
     val isInsightTitleFocused = _isInsightTitleFocused.asStateFlow()
 
@@ -142,6 +146,7 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     val isGoodNewsPolicyCheckImageVisible = goodNewsPolicyManager.selectedItems.isCheckVisible()
 
     private val basicInfoValid = listOf(
+        coverImageUri.isCheckVisible(),
         isInsightTitleValid,
         isInsightAptAddressValid,
         isInsightDateValid,
@@ -192,6 +197,10 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     fun updateTooltipVisible(isVisible: Boolean) {
         _isTooltipVisible.value = isVisible
+    }
+
+    fun updateCoverImageUri(uri: Uri?) {
+        _coverImageUri.value = uri
     }
 
     fun updateInsightTitleFocused(isFocused: Boolean) {

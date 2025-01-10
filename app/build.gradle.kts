@@ -146,6 +146,7 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.camera.core)
 
     // hilt
     implementation(libs.hilt.android)

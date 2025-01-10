@@ -26,6 +26,7 @@ play-services-auth = "20.5.0"
 glide = "4.16.0"
 naver-map = "3.20.0"
 security-crypto = "1.0.0"
+cameraCore = "1.4.1"
 
 [libraries]
 kotlin-stblib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
@@ -55,6 +56,7 @@ play-services-auth = { group = "com.google.android.gms", name = "play-services-a
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 naver-map = { group = "com.naver.maps", name = "map-sdk", version.ref = "naver-map" }
 security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto" }
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

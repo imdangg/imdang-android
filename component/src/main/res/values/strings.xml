@@ -61,6 +61,7 @@
     <string name="write_complete_and_upload">작성 완료 및 업로드</string>
     <string name="cover_image">표지 이미지</string>
     <string name="image_add">이미지 추가</string>
+    <string name="image_edit">이미지 수정</string>
     <string name="title">제목</string>
     <string name="apt_address">단지 주소</string>
     <string name="date_of_visit">다녀온 날짜</string>
@@ -273,6 +274,8 @@
     <string name="write_insight_message">작성 완료시 인사이트가\n바로 업로드 돼요. 여유로운 시간에\n신중하게 작성해주세요.</string>
     <string name="write_insight_complete_tool_tip_message">작성 완료 시 인사이트가 바로 업로드돼요</string>
     <string name="write_insight_complete_message">인사이트 업로드가 완료되었어요.\n작성한 내 인사이트는 보관함에서\n확인할 수 있어요.</string>
+    <string name="select_from_album">앨범에서 선택</string>
+    <string name="take_picture">사진 촬영</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
