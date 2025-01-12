@@ -3,6 +3,8 @@ package info.imdang.imdang.ui.join
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.model.auth.OnboardingDto
+import info.imdang.domain.usecase.auth.OnboardingJoinUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +13,9 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class BasicInformationViewModel @Inject constructor() : ViewModel() {
+class BasicInformationViewModel @Inject constructor(
+    private val onboardingJoinUseCase: OnboardingJoinUseCase
+) : ViewModel() {
 
     private val _isNicknameValid = MutableStateFlow(false)
     val isNicknameValid = _isNicknameValid.asStateFlow()
@@ -52,5 +56,9 @@ class BasicInformationViewModel @Inject constructor() : ViewModel() {
 
     fun updateFinalGenderValid(isValid: Boolean) {
         finalGenderValid.value = isValid
+    }
+
+    suspend fun onboardingJoin(onboardingDto: OnboardingDto) {
+        onboardingJoinUseCase(onboardingDto)
     }
 }

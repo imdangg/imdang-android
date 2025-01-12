@@ -2,10 +2,12 @@ package info.imdang.imdang.ui.join
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import info.imdang.domain.model.auth.OnboardingDto
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.birthDateValidation
@@ -202,6 +204,28 @@ class BasicInformationActivity :
                         }
                     }
                 } else {
+                    val nickname = binding.etNickName.text.toString()
+                    val birthDate = binding.etBirthDate.text.toString()
+                    val gender = if (binding.btnGenderMan.background.constantState ==
+                        ContextCompat.getDrawable(this@BasicInformationActivity, info.imdang.component.R.drawable.sr_orange50_orange500_all8)?.constantState
+                    ) {
+                        "MALE"
+                    } else {
+                        "FEMALE"
+                    }
+
+                    Log.d("aaaaa", "nickname: $nickname, birthDate: $birthDate, gender: $gender")
+
+                    val onboardingDto = OnboardingDto(
+                        nickname = nickname,
+                        birthDate = birthDate,
+                        gender = gender
+                    )
+
+                    lifecycleScope.launch {
+                        basicInformationViewModel.onboardingJoin(onboardingDto)
+                    }
+
                     setResult(RESULT_OK)
                     startAndFinishActivity<JoinCompleteActivity>()
                 }
