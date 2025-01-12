@@ -2,13 +2,13 @@ package info.imdang.data.datasource.lcoal
 
 interface AuthLocalDataSource {
 
-    suspend fun saveAccessToken(accessToken: String)
+    fun saveAccessToken(accessToken: String)
 
-    suspend fun saveRefreshToken(refreshToken: String)
+    fun saveRefreshToken(refreshToken: String)
 
-    suspend fun getAccessToken(): String
+    fun getAccessToken(): String
 
-    suspend fun getRefreshToken(): String
+    fun getRefreshToken(): String
 
-    suspend fun removeToken()
+    fun removeToken()
 }
