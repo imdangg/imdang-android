@@ -99,6 +99,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         it.message,
                         Toast.LENGTH_SHORT
                     ).show()
+                    LoginEvent.MoveMainActivity -> startAndFinishActivity<MainActivity>()
+                    LoginEvent.MoveOnboardingActivity -> onboardingResult.launch(
+                        Intent(
+                            this@LoginActivity,
+                            OnboardingActivity::class.java
+                        )
+                    )
                 }
             }
         }
@@ -163,21 +170,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         error: Throwable? = null
     ) {
         if (loginType != null && token != null) {
-            lifecycleScope.launch {
-                val loginVo = when (loginType) {
-                    LoginType.KAKAO -> viewModel.kakaoLogin(token)
-                    LoginType.GOOGLE -> viewModel.googleLogin(token)
-                } ?: return@launch
-                if (loginVo.isJoined) {
-                    startAndFinishActivity<MainActivity>()
-                } else {
-                    onboardingResult.launch(
-                        Intent(
-                            this@LoginActivity,
-                            OnboardingActivity::class.java
-                        )
-                    )
-                }
+            when (loginType) {
+                LoginType.KAKAO -> viewModel.kakaoLogin(token)
+                LoginType.GOOGLE -> viewModel.googleLogin(token)
             }
         } else if (error != null) {
             // todo : 로그인 실패 처리
