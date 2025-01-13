@@ -21,8 +21,10 @@ import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
+import info.imdang.imdang.ui.main.home.search.newinsight.NewInsightListActivity
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
+import info.imdang.imdang.ui.main.home.search.visitcomplex.VisitComplexInsightListActivity
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -42,10 +44,10 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
     private fun setupBinding() {
         with(binding) {
             viewModel = this@HomeSearchFragment.viewModel
-            rvHomeMyInsightApt.run {
+            rvHomeVisitComplexInsightApt.run {
                 addItemDecoration(SpaceItemDecoration(space = 8))
                 adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.item_home_my_insight_apt,
+                    layoutResourceId = R.layout.item_visit_complex_insight_apt,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@HomeSearchFragment.viewModel),
                     diffUtil = object : DiffUtil.ItemCallback<InsightAptVo>() {
@@ -63,7 +65,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                     }
                 )
             }
-            rvHomeMyInsight.run {
+            rvHomeVisitComplexInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
                 adapter = BaseSingleViewAdapter(
                     layoutResourceId = R.layout.item_insight_horizontal,
@@ -134,11 +136,13 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
             nsvHomeSearch.setOnScrollChangeListener { _, _, _, _, _ ->
                 mainViewModel.hideTooltip()
             }
-            tvHomeMyInsightSeeAll.setOnClickListener {
+            tvHomeVisitComplexInsightSeeAll.setOnClickListener {
                 mainViewModel.hideTooltip()
+                requireContext().startActivity<VisitComplexInsightListActivity>()
             }
             tvHomeNewInsightSeeAll.setOnClickListener {
                 mainViewModel.hideTooltip()
+                requireContext().startActivity<NewInsightListActivity>()
             }
         }
     }

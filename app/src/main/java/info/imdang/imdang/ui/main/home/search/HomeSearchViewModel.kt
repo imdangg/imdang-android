@@ -11,11 +11,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeSearchViewModel @Inject constructor() : BaseViewModel() {
 
-    private val _myInsightApts = MutableStateFlow<List<InsightAptVo>>(emptyList())
-    val myInsightApts = _myInsightApts.asStateFlow()
+    private val _visitComplexInsightApts = MutableStateFlow<List<InsightAptVo>>(emptyList())
+    val visitComplexInsightApts = _visitComplexInsightApts.asStateFlow()
 
-    private val _myInsights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val myInsights = _myInsights.asStateFlow()
+    private val _visitComplexInsights = MutableStateFlow<List<InsightVo>>(emptyList())
+    val visitComplexInsights = _visitComplexInsights.asStateFlow()
 
     private val _newInsights = MutableStateFlow<List<InsightVo>>(emptyList())
     val newInsights = _newInsights.asStateFlow()
@@ -27,8 +27,8 @@ class HomeSearchViewModel @Inject constructor() : BaseViewModel() {
     val selectedRecommendInsightPage = _selectedRecommendInsightPage.asStateFlow()
 
     init {
-        _myInsightApts.value = InsightAptVo.getSamples(3)
-        _myInsights.value = InsightVo.getSamples(size = 3)
+        _visitComplexInsightApts.value = InsightAptVo.getSamples(3)
+        _visitComplexInsights.value = InsightVo.getSamples(size = 3)
         _newInsights.value = InsightVo.getSamples(size = 6)
         _recommendInsights.value = listOf(
             InsightVo.getSamples(3),

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.main.home.search.visitcomplex.VisitComplexInsightListViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_25">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_visit_complex_insight_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/T_700_20_28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/home_visit_complex_insight_subject"
+                android:textColor="@color/gray_900"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_back"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_100"
+            app:layout_constraintTop_toBottomOf="@id/cl_visit_complex_insight_top_bar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_visit_complex_insight_apt"
+            bindItemList="@{viewModel.visitComplexInsightApts}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_visit_complex_insight_apt" />
+
+        <TextView
+            android:id="@+id/tv_visit_complex_insight_count"
+            style="@style/T_600_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="@{viewModel.visitComplexInsights.size() + `개`}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_visit_complex_insight_apt"
+            tools:text="33개" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_visit_complex_insight"
+            bindItemList="@{viewModel.visitComplexInsights}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_visit_complex_insight_count"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_insight_horizontal" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

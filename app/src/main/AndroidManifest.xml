@@ -39,6 +39,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.insight.InsightDetailActivity" />
         <activity android:name=".ui.main.home.search.map.SearchByMapActivity" />
+        <activity android:name=".ui.main.home.search.visitcomplex.VisitComplexInsightListActivity" />
+        <activity android:name=".ui.main.home.search.newinsight.NewInsightListActivity" />
         <activity android:name=".ui.main.storage.map.StorageByMapActivity" />
         <activity android:name=".ui.my.MyActivity" />
         <activity android:name=".ui.my.term.ServiceTermActivity" />
