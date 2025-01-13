@@ -147,6 +147,7 @@ class WriteInsightActivity :
                             vpWriteInsight.currentItem = selectedPage.value + 1
                         } else {
                             // todo : 작성 완료
+                            this@WriteInsightActivity.viewModel.writeInsight()
                             showCommonDialog(
                                 message = getString(
                                     info.imdang.component.R.string.write_insight_complete_message
@@ -205,6 +206,7 @@ class WriteInsightActivity :
                 viewModel.selectedPage.flatMapLatest {
                     viewModel.isFinalButtonEnabled()
                 }.collect { isEnabled ->
+                    viewModel.updateProgress()
                     updateButtonState(isEnabled)
                 }
             }

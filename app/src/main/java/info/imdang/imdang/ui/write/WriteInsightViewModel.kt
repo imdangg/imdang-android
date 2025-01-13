@@ -1,19 +1,37 @@
 package info.imdang.imdang.ui.write
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.model.insight.request.AddressDto
+import info.imdang.domain.model.insight.request.ApartmentComplexDto
+import info.imdang.domain.model.insight.request.ComplexEnvironmentDto
+import info.imdang.domain.model.insight.request.ComplexFacilityDto
+import info.imdang.domain.model.insight.request.FavorableNewsDto
+import info.imdang.domain.model.insight.request.InfraDto
+import info.imdang.domain.model.insight.request.MultiChoiceDto
+import info.imdang.domain.model.insight.request.SingleChoiceDto
+import info.imdang.domain.model.insight.request.WriteInsightDto
+import info.imdang.domain.usecase.insight.WriteInsightUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.util.SelectionManager
+import java.util.Locale
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
+class WriteInsightViewModel @Inject constructor(
+    private val writeInsightUseCase: WriteInsightUseCase
+) : BaseViewModel() {
+
+    private val _progress = MutableStateFlow("00%")
+    val progress = _progress.asStateFlow()
 
     private val _isPreviousButtonVisible = MutableStateFlow(false)
     val isPreviousButtonVisible = _isPreviousButtonVisible.asStateFlow()
@@ -28,14 +46,26 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
     private val _coverImageUri = MutableStateFlow<Uri?>(null)
     val coverImageUri = _coverImageUri.asStateFlow()
 
+    private val _insightTitle = MutableStateFlow("")
+    private val insightTitle = _insightTitle.asStateFlow()
+
     private val _isInsightTitleFocused = MutableStateFlow(false)
     val isInsightTitleFocused = _isInsightTitleFocused.asStateFlow()
 
     private val _isInsightTitleValid = MutableStateFlow(false)
     val isInsightTitleValid = _isInsightTitleValid.asStateFlow()
 
+    private val _insightAptAddress = MutableStateFlow("")
+    val insightAptAddress = _insightAptAddress.asStateFlow()
+
+    private val _insightAptName = MutableStateFlow("")
+    val insightAptName = _insightAptName.asStateFlow()
+
     private val _isInsightAptAddressValid = MutableStateFlow(false)
     val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
+
+    private val _insightVisitDate = MutableStateFlow("")
+    private val insightVisitDate = _insightVisitDate.asStateFlow()
 
     private val _isInsightDateFocused = MutableStateFlow(false)
     val isInsightDateFocused = _isInsightDateFocused.asStateFlow()
@@ -215,6 +245,19 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
         goodNewsPolicyManager.selectedItems.isCheckVisible()
     )
 
+    fun updateProgress() {
+        var progress = if (basicInfoValid.all { it.value }) 20 else 0
+        progress += if (infraValid.all { it.value }) 10 else 0
+        progress += if (infraReviewValid.value) 10 else 0
+        progress += if (complexEnvironmentValid.all { it.value }) 10 else 0
+        progress += if (complexEnvironmentReviewValid.value) 10 else 0
+        progress += if (complexFacilityValid.all { it.value }) 10 else 0
+        progress += if (complexFacilityReviewValid.value) 10 else 0
+        progress += if (goodNewsValid.all { it.value }) 10 else 0
+        progress += if (goodNewsReviewValid.value) 10 else 0
+        _progress.value = "${String.format(Locale.KOREA, "%02d", progress)}%"
+    }
+
     fun updateSelectedPage(page: Int) {
         _selectedPage.value = page
         _isPreviousButtonVisible.value = page in 1..3
@@ -229,6 +272,10 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
         _coverImageUri.value = uri
     }
 
+    fun updateInsightTitle(title: String) {
+        _insightTitle.value = title
+    }
+
     fun updateInsightTitleFocused(isFocused: Boolean) {
         _isInsightTitleFocused.value = isFocused
     }
@@ -237,8 +284,20 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
         _isInsightTitleValid.value = isValid
     }
 
+    fun updateInsightAptAddress(address: String) {
+        _insightAptAddress.value = address
+    }
+
+    fun updateInsightAptName(name: String) {
+        _insightAptName.value = name
+    }
+
     fun updateAptAddressValid(isValid: Boolean) {
         _isInsightAptAddressValid.value = isValid
+    }
+
+    fun updateInsightVisitDate(visitDate: String) {
+        _insightVisitDate.value = visitDate
     }
 
     fun updateInsightDateFocused(isFocused: Boolean) {
@@ -277,18 +336,22 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
 
     fun updateInfraReview(infraReview: String) {
         _infraReview.value = infraReview
+        updateProgress()
     }
 
     fun updateComplexEnvironmentReview(complexEnvironmentReview: String) {
         _complexEnvironmentReview.value = complexEnvironmentReview
+        updateProgress()
     }
 
     fun updateComplexFacilityReview(complexFacility: String) {
         _complexFacilityReview.value = complexFacility
+        updateProgress()
     }
 
     fun updateGoodNewsReview(goodNews: String) {
         _goodNewsReview.value = goodNews
+        updateProgress()
     }
 
     fun isFinalButtonEnabled() = combine(
@@ -306,4 +369,127 @@ class WriteInsightViewModel @Inject constructor() : BaseViewModel() {
         started = SharingStarted.Eagerly,
         initialValue = false
     )
+
+    fun writeInsight() {
+        viewModelScope.launch {
+            val writeInsightDto = WriteInsightDto(
+                score = progress.value.replace("%", "").toInt(),
+                address = AddressDto(
+                    siGunGu = insightAptAddress.value,
+                    dong = insightAptAddress.value
+                ),
+                apartmentComplex = ApartmentComplexDto(
+                    name = "${insightAptAddress.value[0]} ${insightAptAddress.value[1]}",
+                    key = "${insightAptAddress.value[2]} ${insightAptAddress.value[3]}"
+                ),
+                title = insightTitle.value,
+                contents = "",
+                mainImage = "",
+                summary = insightSummary.value,
+                visitAt = insightVisitDate.value,
+                visitMethod = insightSelectedTraffics.value.first(), // todo : insightSelectedTraffics.value
+                access = insightSelectedEntrances.value ?: return@launch,
+                infra = InfraDto(
+                    transportation = MultiChoiceDto(
+                        choice = infraTrafficManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    schoolDistrict = MultiChoiceDto(
+                        choice = infraSchoolManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    amenity = MultiChoiceDto(
+                        choice = infraLivingAmenityManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    facility = MultiChoiceDto(
+                        choice = infraFacilitiesManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    surroundings = MultiChoiceDto(
+                        choice = infraEnvironmentManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    landmark = MultiChoiceDto(
+                        choice = infraLandmarkManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    unpleasantFacility = MultiChoiceDto(
+                        choice = infraAvoidFacilityManager.selectedItems.value.toList(),
+                        text = ""
+                    )
+                ),
+                complexEnvironment = ComplexEnvironmentDto(
+                    buildingCondition = SingleChoiceDto(
+                        choice = complexEnvironmentBuildingManager.selectedItems.value.firstOrNull() ?: "",
+                        text = ""
+                    ),
+                    security = SingleChoiceDto(
+                        choice = complexEnvironmentSafetyManager.selectedItems.value.firstOrNull() ?: "",
+                        text = ""
+                    ),
+                    childrenFacility = SingleChoiceDto(
+                        choice = complexEnvironmentChildrenFacilityManager.selectedItems.value.firstOrNull() ?: "",
+                        text = ""
+                    ),
+                    seniorFacility = SingleChoiceDto(
+                        choice = complexEnvironmentSilverFacilityManager.selectedItems.value.firstOrNull() ?: "",
+                        text = ""
+                    )
+                ),
+                complexFacility = ComplexFacilityDto(
+                    family = MultiChoiceDto(
+                        choice = complexFacilityFamilyManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    multipurpose = MultiChoiceDto(
+                        choice = complexFacilityMultiPurposeManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    leisure = MultiChoiceDto(
+                        choice = complexFacilityLeisureManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    surroundings = MultiChoiceDto(
+                        choice = complexFacilityEnvironmentManager.selectedItems.value.toList(),
+                        text = ""
+                    )
+                ),
+                favorableNews = FavorableNewsDto(
+                    transportation = MultiChoiceDto(
+                        choice = goodNewsTrafficManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    development = MultiChoiceDto(
+                        choice = goodNewsDevelopmentManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    education = MultiChoiceDto(
+                        choice = goodNewsEducationManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    environment = MultiChoiceDto(
+                        choice = goodNewsNaturalEnvironmentManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    culture = MultiChoiceDto(
+                        choice = goodNewsCultureManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    industry = MultiChoiceDto(
+                        choice = goodNewsIndustryManager.selectedItems.value.toList(),
+                        text = ""
+                    ),
+                    policy = MultiChoiceDto(
+                        choice = goodNewsPolicyManager.selectedItems.value.toList(),
+                        text = ""
+                    )
+                )
+            )
+
+            Log.d("##", "$writeInsightDto")
+
+            writeInsightUseCase(writeInsightDto)
+        }
+    }
 }

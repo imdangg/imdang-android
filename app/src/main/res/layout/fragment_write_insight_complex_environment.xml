@@ -631,7 +631,7 @@
             <TextView
                 android:id="@+id/tv_apt_environment_review_count"
                 style="@style/T_500_12_16_8"
-                bindVisible="@{viewModel.infraReviewValid}"
+                bindVisible="@{viewModel.complexEnvironmentReviewValid}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{` (` + viewModel.complexEnvironmentReview.length() + `/200)`}"

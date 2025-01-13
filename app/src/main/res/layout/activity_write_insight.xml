@@ -57,6 +57,7 @@
                     style="@style/T_600_14_19_6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.progress}"
                     android:textColor="@color/orange_500"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

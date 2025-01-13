@@ -27,6 +27,8 @@ import info.imdang.imdang.common.util.nowDateTimeToString
 import info.imdang.imdang.databinding.FragmentWriteInsightBasicInfoBinding
 import info.imdang.imdang.ui.write.WriteInsightViewModel
 import info.imdang.imdang.ui.write.address.KakaoAddressActivity
+import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.APT_NAME
+import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.APT_ADDRESS
 import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheet
 import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheetListener
 import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity
@@ -44,11 +46,13 @@ class WriteInsightBasicInfoFragment :
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val roadAddress = result.data?.getStringExtra("roadAddress").orEmpty()
-            val aptName = result.data?.getStringExtra("aptName").orEmpty()
+            val aptAddress = result.data?.getStringExtra(APT_ADDRESS).orEmpty()
+            val aptName = result.data?.getStringExtra(APT_NAME).orEmpty()
 
-            binding.etAptAddress.setText(roadAddress)
-            binding.etAptName.setText(aptName)
+            with(viewModel) {
+                updateInsightAptAddress(aptAddress)
+                updateInsightAptName(aptName)
+            }
         }
     }
 
@@ -112,6 +116,7 @@ class WriteInsightBasicInfoFragment :
                 targetTextView = tvTitleCount,
                 onValidStateChanged = { isValid ->
                     with(this@WriteInsightBasicInfoFragment.viewModel) {
+                        updateInsightTitle(etTitle.text.toString())
                         updateInsightTitleValid(isValid)
                     }
                 }
@@ -143,7 +148,10 @@ class WriteInsightBasicInfoFragment :
                 invalidIconResId = info.imdang.component.R.drawable.ic_exclamation_mark_red,
                 parentLayout = tilDate,
                 onValidStateChanged = { isValid ->
-                    this@WriteInsightBasicInfoFragment.viewModel.updateInsightDateValid(isValid)
+                    with(this@WriteInsightBasicInfoFragment.viewModel) {
+                        updateInsightVisitDate(etDate.text.toString())
+                        updateInsightDateValid(isValid)
+                    }
                     if (isValid) {
                         ivCheckDate.setImageResource(info.imdang.component.R.drawable.ic_check)
                     }
