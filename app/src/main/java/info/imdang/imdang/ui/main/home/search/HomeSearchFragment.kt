@@ -21,6 +21,7 @@ import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
+import info.imdang.imdang.ui.main.home.search.newinsight.NewInsightListActivity
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
 import info.imdang.imdang.ui.main.home.search.visitcomplex.VisitComplexInsightListActivity
@@ -141,6 +142,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
             }
             tvHomeNewInsightSeeAll.setOnClickListener {
                 mainViewModel.hideTooltip()
+                requireContext().startActivity<NewInsightListActivity>()
             }
         }
     }
