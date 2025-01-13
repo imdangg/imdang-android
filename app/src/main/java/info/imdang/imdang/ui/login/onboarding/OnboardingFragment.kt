@@ -1,4 +1,4 @@
-package info.imdang.imdang.ui.login.bottomsheet
+package info.imdang.imdang.ui.login.onboarding
 
 import android.os.Bundle
 import android.view.View

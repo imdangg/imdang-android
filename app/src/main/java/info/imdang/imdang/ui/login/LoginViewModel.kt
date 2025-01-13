@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.usecase.auth.GoogleLoginUseCase
 import info.imdang.domain.usecase.auth.KakaoLoginUseCase
 import info.imdang.domain.usecase.google.GetGoogleAccessTokenUseCase
-import info.imdang.imdang.model.auth.LoginVo
 import info.imdang.imdang.model.auth.mapper
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -27,12 +26,32 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch { _event.emit(LoginEvent.ShowToast(it.toString())) }
     }
 
-    suspend fun kakaoLogin(token: String): LoginVo? {
-        return kakaoLoginUseCase(token, showToast)?.mapper()
+    fun kakaoLogin(token: String) {
+        viewModelScope.launch {
+            kakaoLoginUseCase(token, showToast)?.mapper()?.let {
+                _event.emit(
+                    if (it.isJoined) {
+                        LoginEvent.MoveMainActivity
+                    } else {
+                        LoginEvent.MoveOnboardingActivity
+                    }
+                )
+            }
+        }
     }
 
-    suspend fun googleLogin(token: String): LoginVo? {
-        return googleLoginUseCase(token, showToast)?.mapper()
+    fun googleLogin(token: String) {
+        viewModelScope.launch {
+            googleLoginUseCase(token, showToast)?.mapper()?.let {
+                _event.emit(
+                    if (it.isJoined) {
+                        LoginEvent.MoveMainActivity
+                    } else {
+                        LoginEvent.MoveOnboardingActivity
+                    }
+                )
+            }
+        }
     }
 
     fun getGoogleAccessToken(

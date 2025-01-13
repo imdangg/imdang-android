@@ -7,12 +7,26 @@
 
         <variable
             name="viewModel"
-            type="info.imdang.imdang.ui.login.bottomsheet.OnboardingViewModel" />
+            type="info.imdang.imdang.ui.login.onboarding.OnboardingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_onboarding"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/gray_50"
+            android:layout_marginBottom="74dp"
+            android:importantForAccessibility="no"
+            android:paddingTop="40dp"
+            android:src="@drawable/bg_onboarding_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_onboarding_title"/>
 
         <TextView
             android:id="@+id/tv_onboarding_title"
@@ -20,11 +34,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
             android:text="@{viewModel.content.first}"
             android:textColor="@color/gray_900"
+            app:layout_constraintBottom_toTopOf="@id/tv_onboarding_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="가이드로 인사이트 작성하기" />
 
         <TextView
@@ -32,13 +47,13 @@
             style="@style/T_500_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
             android:text="@{viewModel.content.second}"
             android:textAlignment="center"
             android:textColor="@color/gray_700"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title"
             tools:text="가이드라인으로 체계화된 인사이트를\n간편하게 작성할 수 있어요" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
