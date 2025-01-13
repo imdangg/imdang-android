@@ -1,9 +1,9 @@
-package info.imdang.imdang.ui.login.bottomsheet
+package info.imdang.imdang.ui.login.onboarding
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.imdang.base.BaseViewModel
-import info.imdang.imdang.ui.login.bottomsheet.OnboardingFragment.Companion.ONBOARDING_POSITION
+import info.imdang.imdang.ui.login.onboarding.OnboardingFragment.Companion.ONBOARDING_POSITION
 import javax.inject.Inject
 
 @HiltViewModel

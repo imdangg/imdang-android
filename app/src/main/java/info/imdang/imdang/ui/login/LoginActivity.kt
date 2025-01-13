@@ -26,9 +26,7 @@ import info.imdang.imdang.common.ext.startAndFinishActivity
 import info.imdang.imdang.databinding.ActivityLoginBinding
 import info.imdang.imdang.model.auth.LoginType
 import info.imdang.imdang.ui.common.showCommonDialog
-import info.imdang.imdang.ui.join.BasicInformationActivity
-import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheet
-import info.imdang.imdang.ui.login.bottomsheet.OnboardingBottomSheetListener
+import info.imdang.imdang.ui.login.onboarding.OnboardingActivity
 import info.imdang.imdang.ui.main.MainActivity
 import info.imdang.imdang.ui.my.MyActivity.Companion.LOGOUT
 import info.imdang.imdang.ui.my.withdraw.WithdrawActivity.Companion.WITHDRAW
@@ -66,7 +64,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
-    private val joinResult = registerForActivityResult(
+    private val onboardingResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) startAndFinishActivity<MainActivity>()
@@ -173,31 +171,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 if (loginVo.isJoined) {
                     startAndFinishActivity<MainActivity>()
                 } else {
-                    showOnboardingBottomSheet(loginVo.accessToken)
+                    onboardingResult.launch(
+                        Intent(
+                            this@LoginActivity,
+                            OnboardingActivity::class.java
+                        )
+                    )
                 }
             }
         } else if (error != null) {
             // todo : 로그인 실패 처리
             Log.e("##", Log.getStackTraceString(error))
         }
-    }
-
-    private fun showOnboardingBottomSheet(token: String) {
-        OnboardingBottomSheet.instance(
-            listener = object : OnboardingBottomSheetListener {
-                override fun onClickLastNextButton() {
-                    // todo : token을 가지고 회원가입 화면으로 이동
-                    joinResult.launch(
-                        Intent(
-                            this@LoginActivity,
-                            BasicInformationActivity::class.java
-                        )
-                    )
-                }
-            }
-        ).show(
-            supportFragmentManager,
-            OnboardingBottomSheet::class.java.simpleName
-        )
     }
 }

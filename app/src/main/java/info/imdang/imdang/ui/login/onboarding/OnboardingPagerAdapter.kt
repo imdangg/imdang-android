@@ -1,4 +1,4 @@
-package info.imdang.imdang.ui.login.bottomsheet
+package info.imdang.imdang.ui.login.onboarding
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
