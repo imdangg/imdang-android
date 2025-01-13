@@ -23,6 +23,7 @@ import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
+import info.imdang.imdang.ui.main.home.search.visitcomplex.VisitComplexInsightListActivity
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -45,7 +46,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
             rvHomeVisitComplexInsightApt.run {
                 addItemDecoration(SpaceItemDecoration(space = 8))
                 adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.item_home_visit_complex_insight_apt,
+                    layoutResourceId = R.layout.item_visit_complex_insight_apt,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@HomeSearchFragment.viewModel),
                     diffUtil = object : DiffUtil.ItemCallback<InsightAptVo>() {
@@ -136,6 +137,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
             }
             tvHomeVisitComplexInsightSeeAll.setOnClickListener {
                 mainViewModel.hideTooltip()
+                requireContext().startActivity<VisitComplexInsightListActivity>()
             }
             tvHomeNewInsightSeeAll.setOnClickListener {
                 mainViewModel.hideTooltip()

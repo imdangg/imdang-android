@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="info.imdang.imdang.base.BaseViewModel" />
-
-        <variable
             name="item"
             type="info.imdang.imdang.model.insight.InsightVo" />
     </data>

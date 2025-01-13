@@ -179,7 +179,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_home_visit_complex_insight_subject"
                         tools:itemCount="2"
-                        tools:listitem="@layout/item_home_visit_complex_insight_apt" />
+                        tools:listitem="@layout/item_visit_complex_insight_apt" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_home_visit_complex_insight"
