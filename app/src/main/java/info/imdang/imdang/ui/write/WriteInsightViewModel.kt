@@ -387,7 +387,8 @@ class WriteInsightViewModel @Inject constructor(
                 mainImage = "",
                 summary = insightSummary.value,
                 visitAt = insightVisitDate.value,
-                visitMethod = insightSelectedTraffics.value.first(), // todo : insightSelectedTraffics.value
+                visitMethod = insightSelectedTraffics.value.first(),
+                // todo : insightSelectedTraffics.value
                 access = insightSelectedEntrances.value ?: return@launch,
                 infra = InfraDto(
                     transportation = MultiChoiceDto(
@@ -421,19 +422,23 @@ class WriteInsightViewModel @Inject constructor(
                 ),
                 complexEnvironment = ComplexEnvironmentDto(
                     buildingCondition = SingleChoiceDto(
-                        choice = complexEnvironmentBuildingManager.selectedItems.value.firstOrNull() ?: "",
+                        choice = complexEnvironmentBuildingManager
+                            .selectedItems.value.firstOrNull() ?: "",
                         text = ""
                     ),
                     security = SingleChoiceDto(
-                        choice = complexEnvironmentSafetyManager.selectedItems.value.firstOrNull() ?: "",
+                        choice = complexEnvironmentSafetyManager
+                            .selectedItems.value.firstOrNull() ?: "",
                         text = ""
                     ),
                     childrenFacility = SingleChoiceDto(
-                        choice = complexEnvironmentChildrenFacilityManager.selectedItems.value.firstOrNull() ?: "",
+                        choice = complexEnvironmentChildrenFacilityManager
+                            .selectedItems.value.firstOrNull() ?: "",
                         text = ""
                     ),
                     seniorFacility = SingleChoiceDto(
-                        choice = complexEnvironmentSilverFacilityManager.selectedItems.value.firstOrNull() ?: "",
+                        choice = complexEnvironmentSilverFacilityManager
+                            .selectedItems.value.firstOrNull() ?: "",
                         text = ""
                     )
                 ),
