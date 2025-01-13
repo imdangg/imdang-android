@@ -21,6 +21,9 @@ class StorageViewModel @Inject constructor() : BaseViewModel() {
     private val _insights = MutableStateFlow<List<InsightVo>>(emptyList())
     val insights = _insights.asStateFlow()
 
+    private val _myInsights = MutableStateFlow<List<InsightVo>>(emptyList())
+    val myInsights = _myInsights.asStateFlow()
+
     private val _isSeeJustMyInsight = MutableStateFlow(false)
     val isSeeJustMyInsight = _isSeeJustMyInsight.asStateFlow()
 
@@ -30,6 +33,7 @@ class StorageViewModel @Inject constructor() : BaseViewModel() {
     init {
         _insightRegions.value = InsightRegionVo.getSamples(10)
         _insights.value = InsightVo.getSamples(10)
+        _myInsights.value = InsightVo.getSamples(3)
         _insightApts.value = InsightAptVo.getSamples(10)
     }
 

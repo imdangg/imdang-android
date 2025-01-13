@@ -208,8 +208,9 @@
                         android:background="@drawable/sr_dash_gray50_gray100_all8"
                         android:gravity="center"
                         android:paddingVertical="16dp"
-                        android:text="@string/home_visit_complex_insight_empty_message"
+                        android:text="@string/home_insight_empty_message"
                         android:textColor="@color/gray_500"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@id/tv_home_visit_complex_insight_subject" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

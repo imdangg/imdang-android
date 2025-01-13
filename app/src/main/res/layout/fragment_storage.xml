@@ -286,6 +286,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_storage_insight"
                 bindItemList="@{viewModel.insights}"
+                bindVisible="@{!viewModel.isSeeJustMyInsight}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -295,6 +296,34 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:itemCount="10"
                 tools:listitem="@layout/item_insight_horizontal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_storage_my_insight"
+                bindItemList="@{viewModel.myInsights}"
+                bindVisible="@{viewModel.isSeeJustMyInsight}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="24dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_insight_horizontal" />
+
+            <TextView
+                style="@style/T_500_14_19_6"
+                bindVisible="@{viewModel.isSeeJustMyInsight &amp;&amp; viewModel.myInsights.size() == 0}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/sr_dash_gray50_gray100_all8"
+                android:gravity="center"
+                android:paddingVertical="16dp"
+                android:text="@string/home_insight_empty_message"
+                android:textColor="@color/gray_500"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
