@@ -93,6 +93,7 @@
         </Toolbar>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            bindVisible="@{viewModel.insightRegions.size() > 0}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/gray_25"
@@ -295,5 +296,52 @@
                 tools:itemCount="10"
                 tools:listitem="@layout/item_insight_horizontal" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            bindVisible="@{viewModel.insightRegions.size() == 0}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/gray_25"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tb_storage">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sr_gray50_all100"
+                android:padding="12dp"
+                app:layout_constraintBottom_toTopOf="@id/tv_empty_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <ImageView
+                    android:id="@+id/iv_ban"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_ban"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_empty_message"
+                style="@style/T_600_18_25_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="@string/storage_empty_message"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_empty" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

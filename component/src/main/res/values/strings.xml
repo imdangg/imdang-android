@@ -22,6 +22,7 @@
     <string name="third_insight">지속적으로 양질의 인사이트 공유를 하고 싶어요</string>
     <string name="home">홈</string>
     <string name="storage">보관함</string>
+    <string name="storage_empty_message">작성 혹은 교환한 인사이트가 없어요.\n임장을 다녀온 후 인사이트를\n작성하고 교환해 보세요.</string>
     <string name="home_search">탐색</string>
     <string name="home_exchange">교환소</string>
     <string name="home_banner_content">아파트임당은\n왜 1:1 교환시스템을 도입했을까요?</string>
