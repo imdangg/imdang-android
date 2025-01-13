@@ -137,8 +137,10 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                 mainViewModel.hideTooltip()
             }
             tvHomeVisitComplexInsightSeeAll.setOnClickListener {
-                mainViewModel.hideTooltip()
-                requireContext().startActivity<VisitComplexInsightListActivity>()
+                if (this@HomeSearchFragment.viewModel.visitComplexInsights.value.isNotEmpty()) {
+                    mainViewModel.hideTooltip()
+                    requireContext().startActivity<VisitComplexInsightListActivity>()
+                }
             }
             tvHomeNewInsightSeeAll.setOnClickListener {
                 mainViewModel.hideTooltip()
