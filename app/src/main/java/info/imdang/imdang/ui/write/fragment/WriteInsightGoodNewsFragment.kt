@@ -1,7 +1,10 @@
 package info.imdang.imdang.ui.write.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import info.imdang.imdang.R
@@ -11,6 +14,9 @@ import info.imdang.imdang.common.util.SelectionUtils.updateMultiSelectionUI
 import info.imdang.imdang.databinding.FragmentWriteInsightGoodNewsBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.write.WriteInsightViewModel
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity.Companion.OVERALL_REVIEW
+import info.imdang.imdang.ui.write.review.WriteOverallReviewActivity.Companion.OVERALL_REVIEW_TITLE
 import kotlinx.coroutines.launch
 
 class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBinding>(
@@ -19,10 +25,22 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
     private val viewModel by activityViewModels<WriteInsightViewModel>()
 
+    private val overallReviewResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getStringExtra(OVERALL_REVIEW)?.let {
+                viewModel.updateTooltipVisible(false)
+                viewModel.updateGoodNewsReview(it)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         init()
+        setupListener()
         observe()
     }
 
@@ -47,6 +65,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         traffics.forEach { (traffic, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsTrafficManager.toggleSelection(traffic, "잘 모르겠어요")
             }
         }
@@ -75,6 +94,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         developments.forEach { (development, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsDevelopmentManager.toggleSelection(development, "잘 모르겠어요")
             }
         }
@@ -99,6 +119,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         educations.forEach { (education, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsEducationManager.toggleSelection(education, "잘 모르겠어요")
             }
         }
@@ -117,6 +138,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         naturalEnvironments.forEach { (naturalEnvironment, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsNaturalEnvironmentManager
                     .toggleSelection(naturalEnvironment, "잘 모르겠어요")
             }
@@ -140,6 +162,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         cultures.forEach { (culture, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsCultureManager.toggleSelection(culture, "잘 모르겠어요")
             }
         }
@@ -158,6 +181,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         industries.forEach { (industry, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsIndustryManager.toggleSelection(industry, "잘 모르겠어요")
             }
         }
@@ -178,6 +202,7 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
 
         policies.forEach { (policy, textView) ->
             textView.setOnClickListener {
+                viewModel.updateTooltipVisible(false)
                 viewModel.goodNewsPolicyManager.toggleSelection(policy, "잘 모르겠어요")
             }
         }
@@ -318,14 +343,38 @@ class WriteInsightGoodNewsFragment : BaseFragment<FragmentWriteInsightGoodNewsBi
         }
     }
 
+    private fun setupListener() {
+        with(binding) {
+            viewGoodNewsOverallReview.setOnClickListener {
+                openWriteOverallReviewActivity()
+            }
+            tvGoodNewsReview.setOnClickListener {
+                openWriteOverallReviewActivity()
+            }
+        }
+    }
+
+    private fun openWriteOverallReviewActivity() {
+        overallReviewResult.launch(
+            Intent(requireContext(), WriteOverallReviewActivity::class.java).apply {
+                putExtra(
+                    OVERALL_REVIEW_TITLE,
+                    getString(info.imdang.component.R.string.good_news_review)
+                )
+                putExtra(
+                    OVERALL_REVIEW,
+                    this@WriteInsightGoodNewsFragment.viewModel.goodNewsReview.value
+                )
+            }
+        )
+    }
+
     private fun resetSelectionDialog(manager: SelectionManager) {
         val resetItem = "잘 모르겠어요"
         requireContext().showCommonDialog(
-            message = "해당 없음, 잘 모르겠어요 \n" +
-                "선택시 다른 항목들은 \n" +
-                "선택이 해제돼요. 괜찮으신가요?",
-            positiveButtonText = "네, 괜찮아요",
-            negativeButtonText = "취소",
+            message = getString(info.imdang.component.R.string.write_insight_unselect_message),
+            positiveButtonText = getString(info.imdang.component.R.string.yes_its_ok),
+            negativeButtonText = getString(info.imdang.component.R.string.cancel),
             onClickPositiveButton = { manager.confirmReset(resetItem) },
             onClickNegativeButton = { manager.cancelReset() }
         )

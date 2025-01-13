@@ -45,8 +45,20 @@
                 app:layout_constraintStart_toEndOf="@id/tv_cover_image_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_cover_image_subject" />
 
+            <ImageView
+                android:id="@+id/iv_cover_image"
+                bindCornerRadius="@{4}"
+                bindImageUri="@{viewModel.coverImageUri}"
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_cover_image_subject" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_image_container"
+                bindVisible="@{viewModel.coverImageUri == null}"
                 android:layout_width="140dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
@@ -67,36 +79,56 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_image_add"
+                bindVisible="@{viewModel.coverImageUri == null}"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/sr_white_gray100_all6"
                 android:paddingHorizontal="12dp"
-                app:layout_constraintBottom_toBottomOf="@id/cl_image_container"
-                app:layout_constraintStart_toEndOf="@id/cl_image_container"
-                app:layout_constraintTop_toTopOf="@id/cl_image_container">
+                app:layout_constraintBottom_toBottomOf="@id/iv_cover_image"
+                app:layout_constraintStart_toEndOf="@id/iv_cover_image"
+                app:layout_constraintTop_toTopOf="@id/iv_cover_image">
 
                 <ImageView
                     android:id="@+id/iv_image_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
                     android:importantForAccessibility="no"
                     android:src="@drawable/ic_plus"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_image_add"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_image_add"
                     style="@style/T_600_12_16_8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:text="@string/image_add"
                     android:textColor="@color/gray_700"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_image_add"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_image_edit"
+                style="@style/T_600_12_16_8"
+                bindVisible="@{viewModel.coverImageUri != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/sr_white_gray100_all6"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="@string/image_edit"
+                android:textColor="@color/gray_700"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/iv_cover_image"
+                app:layout_constraintStart_toEndOf="@id/iv_cover_image"
+                app:layout_constraintTop_toTopOf="@id/iv_cover_image" />
 
             <TextView
                 android:id="@+id/tv_title_subject"
@@ -107,7 +139,7 @@
                 android:text="@string/title"
                 android:textColor="@color/gray_700"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_image_container" />
+                app:layout_constraintTop_toBottomOf="@id/iv_cover_image" />
 
             <TextView
                 android:id="@+id/tv_title_asterisk"
@@ -121,16 +153,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_title"
+                bindVisible="@{viewModel.isInsightTitleValid}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightTitleCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_title_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_title_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_title_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_title_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -201,16 +232,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_apt_address"
+                bindVisible="@{viewModel.isInsightAptAddressValid}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_apt_address_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_apt_address_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_apt_address_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_apt_address_asterisk" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_apt_address"
@@ -232,6 +262,7 @@
                     android:hint="@string/hint_apt_address"
                     android:padding="16dp"
                     android:singleLine="true"
+                    android:text="@{viewModel.insightAptAddress}"
                     android:textColor="@color/gray_900" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -254,6 +285,7 @@
                     android:enabled="false"
                     android:hint="@string/hint_apt_name"
                     android:padding="16dp"
+                    android:text="@{viewModel.insightAptName}"
                     android:textColor="@color/gray_900" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -285,7 +317,7 @@
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightDateCheckImageVisible ? View.VISIBLE : View.GONE}"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_date_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_date_asterisk"
                 app:layout_constraintTop_toTopOf="@id/tv_date_asterisk"
@@ -311,6 +343,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_basic_information_edittext"
                     android:hint="@string/hint_date_of_visit"
+                    android:inputType="number"
                     android:maxLength="10"
                     android:padding="16dp"
                     android:singleLine="true"
@@ -318,7 +351,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/tv__date_error"
+                android:id="@+id/tv_date_error"
                 style="@style/T_500_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -326,8 +359,7 @@
                 android:textColor="@color/red"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_date"
-                tools:text="@string/insight_date_error_type_before"
-                tools:visibility="visible" />
+                tools:text="@string/insight_date_error_type_before" />
 
             <TextView
                 android:id="@+id/tv_time_subject"
@@ -352,16 +384,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_time"
+                bindVisible="@{viewModel.isInsightTimeCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightTimeCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_time_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_time_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_time_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_time_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -459,16 +490,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_traffic"
+                bindVisible="@{viewModel.isInsightTrafficCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightTrafficCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_traffic_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_traffic_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_traffic_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -564,16 +594,15 @@
 
             <ImageView
                 android:id="@+id/iv_check_entrance"
+                bindVisible="@{viewModel.isInsightEntranceCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                android:visibility="@{viewModel.isInsightEntranceCheckImageVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_entrance_asterisk"
                 app:layout_constraintStart_toEndOf="@id/tv_entrance_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_entrance_asterisk"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/tv_entrance_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -658,6 +687,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_entrance" />
 
             <TextView
+                android:id="@+id/tv_insight_summary_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -666,26 +696,64 @@
                 app:layout_constraintStart_toEndOf="@id/tv_insight_summary_subject"
                 app:layout_constraintTop_toTopOf="@id/tv_insight_summary_subject" />
 
+            <ImageView
+                android:id="@+id/iv_check_insight_summary"
+                bindVisible="@{viewModel.insightSummaryValid}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_insight_summary_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_insight_summary_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_insight_summary_asterisk" />
+
             <TextView
-                android:id="@+id/tv_insight_summary_count"
                 style="@style/T_500_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/insight_summary_input_count_guide"
                 android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="@id/tv_insight_summary_subject"
+                app:layout_constraintEnd_toStartOf="@id/tv_insight_summary_count"
+                app:layout_constraintTop_toTopOf="@id/tv_insight_summary_subject" />
+
+            <TextView
+                android:id="@+id/tv_insight_summary_count"
+                style="@style/T_500_12_16_8"
+                bindVisible="@{viewModel.insightSummaryValid}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{` (` + viewModel.insightSummary.length() + `/200)`}"
+                android:textColor="@color/orange_500"
                 app:layout_constraintBottom_toBottomOf="@id/tv_insight_summary_subject"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_insight_summary_subject"
-                tools:text="최소30자-최대200자" />
+                tools:text=" (21/200)" />
 
-            <TextView
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_insight_summary"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/sr_white_gray100_all8"
+                android:clipToPadding="false"
                 android:padding="16dp"
-                android:text="@string/insight_summary_example"
-                android:textColor="@color/gray_400"
-                app:layout_constraintTop_toBottomOf="@id/tv_insight_summary_subject" />
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toBottomOf="@id/tv_insight_summary_subject">
+
+                <TextView
+                    android:id="@+id/tv_insight_summary"
+                    style="@style/T_500_16_22_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:text="@{viewModel.insightSummary.length() > 0 ? viewModel.insightSummary : @string/insight_summary_example}"
+                    android:textColor="@{viewModel.insightSummary.length() > 0 ? @color/gray_900 : @color/gray_400}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/insight_summary_example"
+                    tools:textColor="@color/gray_400" />
+            </androidx.core.widget.NestedScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="40dp">
+
+        <TextView
+            android:id="@+id/tv_select_image_subject"
+            style="@style/T_600_18_25_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/image_add"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_select_image_close"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="@id/tv_select_image_subject"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_select_image_subject" />
+
+        <TextView
+            android:id="@+id/tv_select_image_from_album_button"
+            style="@style/T_600_16_22_4"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/selector_white_gray100_all8"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/select_from_album"
+            android:textColor="@color/gray_700"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_image_subject" />
+
+        <TextView
+            android:id="@+id/tv_select_image_from_picture_button"
+            style="@style/T_600_16_22_4"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/selector_white_gray100_all8"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/take_picture"
+            android:textColor="@color/gray_700"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_image_from_album_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

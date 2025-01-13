@@ -4,13 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.webkit.JavascriptInterface
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.BuildConfig
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.databinding.ActivityKakaoAddressBinding
+import info.imdang.imdang.model.address.KakaoAddressVo
 import org.json.JSONException
-import org.json.JSONObject
 
 @AndroidEntryPoint
 class KakaoAddressActivity :
@@ -39,13 +40,10 @@ class KakaoAddressActivity :
         @JavascriptInterface
         fun processDATA(address: String) {
             try {
-                val jsonObject = JSONObject(address)
-                val roadAddress = jsonObject.optString("roadAddress", "")
-                val buildingName = jsonObject.optString("buildingName", "")
-
+                val kakaoAddressVo = Gson().fromJson(address, KakaoAddressVo::class.java)
                 val intent = Intent().apply {
-                    putExtra("roadAddress", roadAddress)
-                    putExtra("aptName", buildingName)
+                    putExtra(APT_ADDRESS, kakaoAddressVo.jibunAddress)
+                    putExtra(APT_NAME, kakaoAddressVo.buildingName)
                 }
 
                 setResult(RESULT_OK, intent)
@@ -54,5 +52,10 @@ class KakaoAddressActivity :
                 Log.e("imdang", "JSON 파싱 오류: ${e.message}")
             }
         }
+    }
+
+    companion object {
+        const val APT_ADDRESS = "aptAddress"
+        const val APT_NAME = "aptName"
     }
 }

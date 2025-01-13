@@ -1,7 +1,9 @@
 package info.imdang.imdang.common.bindingadapter
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -35,6 +37,30 @@ fun ImageView.bindImage(
         .into(this)
 }
 
+@BindingAdapter(
+    value = ["bindImageUri", "bindCornerRadius", "bindPlaceHolder"],
+    requireAll = false
+)
+fun ImageView.bindImageUri(
+    uri: Uri?,
+    cornerRadius: Int = 0,
+    placeHolder: Drawable? = null
+) {
+    val requestOptions = if (cornerRadius > 0) {
+        RequestOptions().transform(CenterCrop(), RoundedCorners(context.dpToPx(cornerRadius)))
+    } else {
+        RequestOptions().transform(CenterCrop())
+    }
+    Glide.with(context)
+        .load(uri)
+        .apply(
+            requestOptions
+                .error(placeHolder)
+                .placeholder(placeHolder)
+        )
+        .into(this)
+}
+
 @SuppressLint("UseCompatLoadingForDrawables")
 @BindingAdapter("bindInsightDetailInvisibleImage")
 fun ImageView.bindInsightDetailInvisibleImage(insightDetailState: InsightDetailState) {
@@ -54,4 +80,25 @@ fun ImageView.bindInsightDetailInvisibleImage(insightDetailState: InsightDetailS
             }
         )
     )
+}
+
+@BindingAdapter(
+    value = ["bindSelectedPage", "bindCurrentPage"],
+    requireAll = true
+)
+fun ImageView.bindWriteInsightStepImage(
+    selectedPage: Int,
+    currentPage: Int
+) {
+    setImageResource(
+        when (selectedPage) {
+            currentPage -> info.imdang.component.R.drawable.ic_step
+            else -> info.imdang.component.R.drawable.ic_check
+        }
+    )
+    imageTintList = if (selectedPage < currentPage) {
+        ColorStateList.valueOf(context.getColor(info.imdang.component.R.color.gray_200))
+    } else {
+        null
+    }
 }

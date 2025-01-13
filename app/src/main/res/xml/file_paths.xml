@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="dev_files"
+        path="Android/data/info.imdang.imdang.dev/files/Pictures"/>
+
+    <external-path
+        name="files"
+        path="Android/data/info.imdang.imdang/files/Pictures"/>
+</paths>

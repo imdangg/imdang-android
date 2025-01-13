@@ -1,10 +1,17 @@
 package info.imdang.imdang.ui.write.fragment
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,9 +23,17 @@ import info.imdang.imdang.common.ext.insightTitleValidation
 import info.imdang.imdang.common.util.SelectionUtils.setupSelectionHandlers
 import info.imdang.imdang.common.util.SelectionUtils.updateMultiSelectionUI
 import info.imdang.imdang.common.util.SelectionUtils.updateSingleSelectionUI
+import info.imdang.imdang.common.util.nowDateTimeToString
 import info.imdang.imdang.databinding.FragmentWriteInsightBasicInfoBinding
 import info.imdang.imdang.ui.write.WriteInsightViewModel
 import info.imdang.imdang.ui.write.address.KakaoAddressActivity
+import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.APT_NAME
+import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.APT_ADDRESS
+import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheet
+import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheetListener
+import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity
+import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity.Companion.INSIGHT_SUMMARY
+import java.io.File
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -31,21 +46,58 @@ class WriteInsightBasicInfoFragment :
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val roadAddress = result.data?.getStringExtra("roadAddress").orEmpty()
-            val aptName = result.data?.getStringExtra("aptName").orEmpty()
+            val aptAddress = result.data?.getStringExtra(APT_ADDRESS).orEmpty()
+            val aptName = result.data?.getStringExtra(APT_NAME).orEmpty()
 
-            binding.etAptAddress.setText(roadAddress)
-            binding.etAptName.setText(aptName)
+            with(viewModel) {
+                updateInsightAptAddress(aptAddress)
+                updateInsightAptName(aptName)
+            }
         }
     }
+
+    private val selectImageResult = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        viewModel.updateCoverImageUri(uri)
+    }
+
+    private val requestPermissionResult = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) takePicture()
+    }
+
+    private val imageCaptureResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.updateCoverImageUri(takePictureUri)
+            takePictureUri = null
+        }
+    }
+
+    private val insightSummaryResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getStringExtra(INSIGHT_SUMMARY)?.let {
+                viewModel.updateInsightSummary(it)
+            }
+        }
+    }
+
+    private var takePictureUri: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         init()
+        setupListener()
         observe()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun init() {
         with(binding) {
             viewModel = this@WriteInsightBasicInfoFragment.viewModel
@@ -63,9 +115,10 @@ class WriteInsightBasicInfoFragment :
                 maxLength = 20,
                 targetTextView = tvTitleCount,
                 onValidStateChanged = { isValid ->
-                    this@WriteInsightBasicInfoFragment.viewModel.updateInsightTitleValid(isValid)
-                    this@WriteInsightBasicInfoFragment.viewModel
-                        .updateInsightTitleCheckImageVisible(false)
+                    with(this@WriteInsightBasicInfoFragment.viewModel) {
+                        updateInsightTitle(etTitle.text.toString())
+                        updateInsightTitleValid(isValid)
+                    }
                 }
             )
 
@@ -75,7 +128,6 @@ class WriteInsightBasicInfoFragment :
             }
 
             etAptAddress.inSightAptAddressValidation(
-                targetImageView = ivCheckAptAddress,
                 onValidStateChanged = { isValid ->
                     this@WriteInsightBasicInfoFragment.viewModel.updateAptAddressValid(isValid)
                 }
@@ -96,9 +148,42 @@ class WriteInsightBasicInfoFragment :
                 invalidIconResId = info.imdang.component.R.drawable.ic_exclamation_mark_red,
                 parentLayout = tilDate,
                 onValidStateChanged = { isValid ->
-                    this@WriteInsightBasicInfoFragment.viewModel.updateInsightDateValid(isValid)
+                    with(this@WriteInsightBasicInfoFragment.viewModel) {
+                        updateInsightVisitDate(etDate.text.toString())
+                        updateInsightDateValid(isValid)
+                    }
+                    if (isValid) {
+                        ivCheckDate.setImageResource(info.imdang.component.R.drawable.ic_check)
+                    }
                 }
             )
+        }
+    }
+
+    private fun setupListener() {
+        with(binding) {
+            clImageContainer.setOnClickListener {
+                showSelectImageBottomSheet()
+            }
+            clImageAdd.setOnClickListener {
+                showSelectImageBottomSheet()
+            }
+            ivCoverImage.setOnClickListener {
+                showSelectImageBottomSheet()
+            }
+            tvImageEdit.setOnClickListener {
+                showSelectImageBottomSheet()
+            }
+            tvInsightSummary.setOnClickListener {
+                insightSummaryResult.launch(
+                    Intent(requireContext(), WriteInsightSummaryActivity::class.java).apply {
+                        putExtra(
+                            INSIGHT_SUMMARY,
+                            this@WriteInsightBasicInfoFragment.viewModel.insightSummary.value
+                        )
+                    }
+                )
+            }
         }
     }
 
@@ -170,16 +255,53 @@ class WriteInsightBasicInfoFragment :
         }
     }
 
+    private fun showSelectImageBottomSheet() {
+        SelectImageBottomSheet.instance(
+            listener = object : SelectImageBottomSheetListener {
+                override fun onClickSelectFromAlbum() {
+                    selectImageResult.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
+                }
+
+                override fun onClickTakePicture() {
+                    requestPermissionResult.launch(Manifest.permission.CAMERA)
+                }
+            }
+        ).show(
+            requireActivity().supportFragmentManager,
+            SelectImageBottomSheet::class.java.simpleName
+        )
+    }
+
+    private fun takePicture() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            createImageFile()?.let {
+                takePictureUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().packageName,
+                    it
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, takePictureUri)
+                imageCaptureResult.launch(intent)
+            }
+        }
+    }
+
+    private fun createImageFile(): File? {
+        val imageFileName = "imdang_${nowDateTimeToString("yyyy_MM_dd_HH_mm_ss")}"
+        return File.createTempFile(
+            imageFileName,
+            ".jpg",
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        )
+    }
+
     fun clearEditTextFocus() {
         with(binding) {
             etTitle.clearFocus()
             etDate.clearFocus()
-        }
-    }
-
-    fun updateDateIcon(isVisible: Boolean) {
-        if (isVisible) {
-            binding.ivCheckDate.setImageResource(info.imdang.component.R.drawable.ic_check)
         }
     }
 

@@ -6,8 +6,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.data.datasource.remote.GoogleRemoteDataSource
+import info.imdang.data.datasource.remote.InsightRemoteDataSource
 import info.imdang.remote.datasource.AuthRemoteDataSourceImpl
 import info.imdang.remote.datasource.GoogleRemoteDataSourceImpl
+import info.imdang.remote.datasource.InsightRemoteDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +27,10 @@ internal abstract class RemoteDataSourceModule {
     abstract fun bindGoogleRemoteDatasource(
         googleRemoteDataSourceImpl: GoogleRemoteDataSourceImpl
     ): GoogleRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindInsightRemoteDatasource(
+        insightRemoteDataSourceImpl: InsightRemoteDataSourceImpl
+    ): InsightRemoteDataSource
 }

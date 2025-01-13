@@ -11,6 +11,8 @@ import dagger.hilt.components.SingletonComponent
 import info.imdang.data.BuildConfig
 import info.imdang.data.constant.API_SERVER
 import info.imdang.data.constant.GOOGLE_API_SERVER
+import info.imdang.data.datasource.lcoal.AuthLocalDataSource
+import info.imdang.data.interceptor.TokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -21,6 +23,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun providesTokenInterceptor(
+        authLocalDataSource: AuthLocalDataSource
+    ): TokenInterceptor = TokenInterceptor(authLocalDataSource)
 
     @Provides
     @Singleton
@@ -57,10 +65,12 @@ internal object NetworkModule {
     @Singleton
     @Named("imdang")
     fun providesOkHttpClient(
+        tokenInterceptor: TokenInterceptor,
         httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient
             .Builder()
+            .addInterceptor(tokenInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }

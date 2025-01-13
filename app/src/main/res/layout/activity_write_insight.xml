@@ -57,6 +57,7 @@
                     style="@style/T_600_14_19_6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.progress}"
                     android:textColor="@color/orange_500"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -73,70 +74,197 @@
             android:background="@color/gray_100"
             app:layout_constraintTop_toBottomOf="@id/cl_write_insight_top_bar" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tl_write_insight"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_write_step"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="8dp"
-            android:background="@color/gray_25"
-            android:overScrollMode="ifContentScrolls"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_divider"
-            app:tabBackground="@color/gray_25"
-            app:tabGravity="start"
-            app:tabIndicator="@color/gray_900"
-            app:tabIndicatorColor="@color/gray_900"
-            app:tabIndicatorHeight="2dp"
-            app:tabMaxWidth="0dp"
-            app:tabMinWidth="25dp"
-            app:tabMode="scrollable"
-            app:tabPaddingEnd="12dp"
-            app:tabPaddingStart="12dp"
-            app:tabPaddingTop="16dp"
-            app:tabPaddingBottom="8dp"
-            app:tabSelectedTextAppearance="@style/T_600_14_19_6"
-            app:tabSelectedTextColor="@color/gray_900"
-            app:tabTextAppearance="@style/T_600_14_19_6"
-            app:tabTextColor="@color/gray_500">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            app:layout_constraintTop_toBottomOf="@id/view_divider">
 
-            <com.google.android.material.tabs.TabItem
+            <ImageView
+                android:id="@+id/iv_step_basic_info"
+                bindSelectedPage="@{viewModel.selectedPage}"
+                bindCurrentPage="@{0}"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_step"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/T_600_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/basic_info" />
+                android:layout_marginTop="4dp"
+                android:text="@string/basic_info"
+                android:textColor="@{viewModel.selectedPage == 0 ? @color/orange_500 : @color/gray_300}"
+                app:layout_constraintStart_toStartOf="@id/iv_step_basic_info"
+                app:layout_constraintTop_toBottomOf="@id/iv_step_basic_info"
+                tools:textColor="@color/orange_500" />
 
-            <com.google.android.material.tabs.TabItem
+            <View
+                android:id="@+id/view_step_divider_1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@{viewModel.selectedPage &lt; 1 ? @color/gray_200 : @color/orange_500}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_step_basic_info"
+                app:layout_constraintEnd_toStartOf="@id/iv_step_infra"
+                app:layout_constraintStart_toEndOf="@id/iv_step_basic_info"
+                app:layout_constraintTop_toTopOf="@id/iv_step_basic_info"
+                tools:background="@color/gray_200" />
+
+            <ImageView
+                android:id="@+id/iv_step_infra"
+                bindSelectedPage="@{viewModel.selectedPage}"
+                bindCurrentPage="@{1}"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                app:layout_constraintEnd_toStartOf="@id/view_step_divider_2"
+                app:layout_constraintStart_toEndOf="@id/view_step_divider_1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray_200" />
+
+            <TextView
+                style="@style/T_600_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/infra" />
+                android:layout_marginTop="4dp"
+                android:text="@string/infra"
+                android:textColor="@{viewModel.selectedPage == 1 ? @color/orange_500 : @color/gray_300}"
+                app:layout_constraintStart_toStartOf="@id/iv_step_infra"
+                app:layout_constraintEnd_toEndOf="@id/iv_step_infra"
+                app:layout_constraintTop_toBottomOf="@id/iv_step_basic_info"
+                tools:textColor="@color/gray_300" />
 
-            <com.google.android.material.tabs.TabItem
+            <View
+                android:id="@+id/view_step_divider_2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@{viewModel.selectedPage &lt; 2 ? @color/gray_200 : @color/orange_500}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_step_basic_info"
+                app:layout_constraintEnd_toStartOf="@id/iv_step_apt_environment"
+                app:layout_constraintStart_toEndOf="@id/iv_step_infra"
+                app:layout_constraintTop_toTopOf="@id/iv_step_basic_info"
+                tools:background="@color/gray_200" />
+
+            <ImageView
+                android:id="@+id/iv_step_apt_environment"
+                bindSelectedPage="@{viewModel.selectedPage}"
+                bindCurrentPage="@{2}"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                app:layout_constraintEnd_toStartOf="@id/view_step_divider_3"
+                app:layout_constraintStart_toEndOf="@id/view_step_divider_2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray_200" />
+
+            <TextView
+                style="@style/T_600_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/apt_environment" />
+                android:layout_marginTop="4dp"
+                android:text="@string/apt_environment"
+                android:textColor="@{viewModel.selectedPage == 2 ? @color/orange_500 : @color/gray_300}"
+                app:layout_constraintStart_toStartOf="@id/iv_step_apt_environment"
+                app:layout_constraintEnd_toEndOf="@id/iv_step_apt_environment"
+                app:layout_constraintTop_toBottomOf="@id/iv_step_basic_info"
+                tools:textColor="@color/gray_300" />
 
-            <com.google.android.material.tabs.TabItem
+            <View
+                android:id="@+id/view_step_divider_3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@{viewModel.selectedPage &lt; 3 ? @color/gray_200 : @color/orange_500}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_step_basic_info"
+                app:layout_constraintEnd_toStartOf="@id/iv_step_apt_facility"
+                app:layout_constraintStart_toEndOf="@id/iv_step_apt_environment"
+                app:layout_constraintTop_toTopOf="@id/iv_step_basic_info"
+                tools:background="@color/gray_200" />
+
+            <ImageView
+                android:id="@+id/iv_step_apt_facility"
+                bindSelectedPage="@{viewModel.selectedPage}"
+                bindCurrentPage="@{3}"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                app:layout_constraintEnd_toStartOf="@id/view_step_divider_4"
+                app:layout_constraintStart_toEndOf="@id/view_step_divider_3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray_200" />
+
+            <TextView
+                style="@style/T_600_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/apt_facility" />
+                android:layout_marginTop="4dp"
+                android:text="@string/apt_facility"
+                android:textColor="@{viewModel.selectedPage == 3 ? @color/orange_500 : @color/gray_300}"
+                app:layout_constraintStart_toStartOf="@id/iv_step_apt_facility"
+                app:layout_constraintEnd_toEndOf="@id/iv_step_apt_facility"
+                app:layout_constraintTop_toBottomOf="@id/iv_step_basic_info"
+                tools:textColor="@color/gray_300" />
 
-            <com.google.android.material.tabs.TabItem
+            <View
+                android:id="@+id/view_step_divider_4"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@{viewModel.selectedPage &lt; 4 ? @color/gray_200 : @color/orange_500}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_step_basic_info"
+                app:layout_constraintEnd_toStartOf="@id/iv_step_good_news"
+                app:layout_constraintStart_toEndOf="@id/iv_step_apt_facility"
+                app:layout_constraintTop_toTopOf="@id/iv_step_basic_info"
+                tools:background="@color/gray_200" />
+
+            <ImageView
+                android:id="@+id/iv_step_good_news"
+                bindSelectedPage="@{viewModel.selectedPage}"
+                bindCurrentPage="@{4}"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view_step_divider_4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray_200" />
+
+            <TextView
+                style="@style/T_600_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/good_news" />
-        </com.google.android.material.tabs.TabLayout>
+                android:layout_marginTop="4dp"
+                android:text="@string/good_news"
+                android:textColor="@{viewModel.selectedPage == 4 ? @color/orange_500 : @color/gray_300}"
+                app:layout_constraintEnd_toEndOf="@id/iv_step_good_news"
+                app:layout_constraintTop_toBottomOf="@id/iv_step_basic_info"
+                tools:textColor="@color/gray_300" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/view_divider_2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_100"
-            app:layout_constraintTop_toBottomOf="@id/tl_write_insight" />
+            app:layout_constraintTop_toBottomOf="@id/cl_write_step" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_write_insight"
+            bindUserInputEnabled="@{true}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/tv_write_complete_button"
+            app:layout_constraintBottom_toTopOf="@id/cl_write_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_divider_2" />
@@ -145,23 +273,83 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/gradient_gray25_100"
-            app:layout_constraintBottom_toTopOf="@id/tv_write_complete_button"/>
+            app:layout_constraintBottom_toTopOf="@id/cl_write_button" />
 
-        <TextView
-            android:id="@+id/tv_write_complete_button"
-            style="@style/T_600_16_22_4"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            bindVisible="@{viewModel.isTooltipVisible}"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cl_write_button">
+
+            <TextView
+                android:id="@+id/tv_write_complete_tool_tip"
+                style="@style/T_500_14_19_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sr_orange500_all8"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:paddingHorizontal="17dp"
+                android:paddingVertical="14dp"
+                android:text="@string/write_insight_complete_tool_tip_message"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/iv_polygon_down" />
+
+            <ImageView
+                android:id="@+id/iv_polygon_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                android:importantForAccessibility="no"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/ic_polygon_down"
+                app:layout_constraintStart_toStartOf="@id/tv_write_complete_tool_tip"
+                app:layout_constraintEnd_toEndOf="@id/tv_write_complete_tool_tip"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_write_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/sr_gray100_all8"
-            android:gravity="center"
-            android:paddingHorizontal="20dp"
-            android:text="@string/write_complete"
-            android:textAlignment="center"
-            android:textColor="@color/gray_500"
+            android:layout_marginHorizontal="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tv_write_previous_button"
+                style="@style/T_600_16_22_4"
+                bindVisible="@{viewModel.isPreviousButtonVisible}"
+                android:layout_width="80dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/sr_white_gray100_all8"
+                android:gravity="center"
+                android:text="@string/previous"
+                android:textAlignment="center"
+                android:textColor="@color/gray_700"
+                app:layout_constraintEnd_toStartOf="@id/tv_write_complete_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_write_complete_button"
+                style="@style/T_600_16_22_4"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@drawable/sr_gray100_all8"
+                android:gravity="center"
+                android:text="@string/next"
+                android:textAlignment="center"
+                android:textColor="@color/gray_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_write_previous_button" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
