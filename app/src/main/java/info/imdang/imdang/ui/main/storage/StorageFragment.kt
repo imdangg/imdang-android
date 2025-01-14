@@ -63,6 +63,31 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                     }
                 }
             }
+            rvStorageMyInsight.run {
+                addItemDecoration(SpaceItemDecoration(space = 12))
+                adapter = BaseSingleViewAdapter(
+                    layoutResourceId = R.layout.item_insight_horizontal,
+                    bindingItemId = BR.item,
+                    viewModel = mapOf(BR.viewModel to this@StorageFragment.viewModel),
+                    diffUtil = object : DiffUtil.ItemCallback<InsightVo>() {
+                        override fun areItemsTheSame(
+                            oldItem: InsightVo,
+                            newItem: InsightVo
+                        ): Boolean = oldItem.title == newItem.title
+
+                        override fun areContentsTheSame(
+                            oldItem: InsightVo,
+                            newItem: InsightVo
+                        ): Boolean {
+                            return oldItem == newItem
+                        }
+                    }
+                ).apply {
+                    itemClickListener = { _, _ ->
+                        requireContext().startActivity<InsightDetailActivity>()
+                    }
+                }
+            }
             vpInsightRegion.run {
                 val currentVisibleItemPx = requireContext().dpToPx(20)
                 val nextVisibleItemPx = requireContext().dpToPx(8)
