@@ -202,6 +202,21 @@ class BasicInformationActivity :
                         }
                     }
                 } else {
+                    val nickname = binding.etNickName.text.toString()
+                    val birthDate = binding.etBirthDate.text.toString()
+                    val gender = if (binding.btnGenderMan.background.constantState ==
+                        ContextCompat.getDrawable(
+                            this@BasicInformationActivity,
+                            info.imdang.component.R.drawable.sr_orange50_orange500_all8
+                        )?.constantState
+                    ) {
+                        "MALE"
+                    } else {
+                        "FEMALE"
+                    }
+
+                    basicInformationViewModel.onboardingJoin(nickname, birthDate, gender)
+
                     setResult(RESULT_OK)
                     startAndFinishActivity<JoinCompleteActivity>()
                 }
