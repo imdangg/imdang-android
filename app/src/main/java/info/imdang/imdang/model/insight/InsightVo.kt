@@ -12,8 +12,7 @@ data class InsightVo(
     val recommendCount: Int,
     val title: String,
     val profileImage: String,
-    val nickname: String,
-    val isSelected: Boolean = false
+    val nickname: String
 ) : Parcelable {
     companion object {
         fun getSamples(size: Int): List<InsightVo> {
@@ -28,8 +27,7 @@ data class InsightVo(
                         recommendCount = 24,
                         title = "초역세권 대단지 아파트 후기",
                         profileImage = "",
-                        nickname = "홍길동",
-                        isSelected = it == 0
+                        nickname = "홍길동"
                     )
                 )
             }

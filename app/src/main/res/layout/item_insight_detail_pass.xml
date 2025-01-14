@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.insight.ExchangeItem.Insight" />
+            type="info.imdang.imdang.model.insight.ExchangeItem.Pass" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,63 +21,47 @@
         android:paddingVertical="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_insight_region"
+            android:id="@+id/cl_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/sr_gray50_all2"
+            android:background="@drawable/sr_orange50_all2"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/iv_insight_region"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:id="@+id/iv_ticket"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_location"
+                android:src="@drawable/ic_ticket"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/gray_700" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 style="@style/T_500_12_16_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:text="@{item.insightVo.region}"
-                android:textColor="@color/gray_700"
+                android:text="@{item.count + `개 보유`}"
+                android:textColor="@color/orange_500"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/iv_insight_region"
+                app:layout_constraintLeft_toRightOf="@id/iv_ticket"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="강남구 신논현동" />
+                tools:text="3개 보유" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            style="@style/T_500_12_16_8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/sr_orange50_all2"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:text="@{`추천 ` + item.insightVo.recommendCount}"
-            android:textColor="@color/orange_500"
-            app:layout_constraintLeft_toRightOf="@id/cl_insight_region"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="추천 24" />
 
         <TextView
             style="@style/T_500_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@{item.insightVo.title}"
+            android:text="@string/imdang_pass_use"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_insight_region"
-            tools:text="초역세권 대단지 아파트 후기" />
+            app:layout_constraintTop_toBottomOf="@id/cl_count" />
 
         <ImageView
             android:id="@+id/iv_radio_button"

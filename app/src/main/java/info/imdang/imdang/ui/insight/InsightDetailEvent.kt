@@ -4,8 +4,12 @@ sealed class InsightDetailEvent {
 
     data object ShowMyInsightsBottomSheet : InsightDetailEvent()
 
-    data class ShowExchangeDialog(
-        val message: String,
-        val checkButtonText: String? = null
+    data class ShowCommonDialog(
+        val dialogType: InsightDetailDialogType,
+        val onClickSubButton: () -> Unit = {}
     ) : InsightDetailEvent()
+
+    data object MoveHomeExchange : InsightDetailEvent()
+
+    data object MoveStorage : InsightDetailEvent()
 }
