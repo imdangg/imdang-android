@@ -85,6 +85,8 @@ class BaseMultiViewAdapter<ITEM : Any>(
     private val hasStableIds: Boolean = false
 ) : ListAdapter<ITEM, BaseViewHolder>(diffUtil) {
 
+    var itemClickListener: ((item: Any, pos: Int) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val viewHolderType = viewHolderType.java.enumConstants[viewType]
         return BaseViewHolder(
@@ -98,8 +100,13 @@ class BaseMultiViewAdapter<ITEM : Any>(
     override fun getItemViewType(position: Int): Int =
         (viewHolderMapper(getItem(position)) as Enum<*>).ordinal
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) =
-        holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        if (itemClickListener == null) {
+            holder.bind(getItem(position))
+        } else {
+            holder.bind(getItem(position), itemClickListener!!, position)
+        }
+    }
 
     override fun getItemId(position: Int): Long = if (hasStableIds) {
         position.toLong()

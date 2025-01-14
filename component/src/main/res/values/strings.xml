@@ -281,6 +281,7 @@
     <string name="write_insight_summary_description">교환을 위해 미리 공개하는 내용이에요. 잘 작성할수록 교환 성공률이 올라가요. 작성시 장점과 단점을 균형있게 작성해주세요.</string>
     <string name="insight_summary_input_count_guide">최소30자-최대200자</string>
     <string name="insight_summary_hint">예시)\n지하철역과 도보 10분 거리로 접근성이 좋지만, 근처 공사로 소음 문제가 있을 수 있을 것 같아요. 하지만 단지 내 공원이 잘 조성되어 있어 가족 단위 거주자에게 적합할 것 같아요.</string>
+    <string name="imdang_pass_use">아파트 임당 패스권 사용</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>

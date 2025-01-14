@@ -3,6 +3,7 @@ package info.imdang.imdang.ui.insight
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.insight.ExchangeItem
 import info.imdang.imdang.model.insight.InsightDetailItem
 import info.imdang.imdang.model.insight.InsightDetailState
 import info.imdang.imdang.model.insight.InsightDetailVo
@@ -28,7 +29,13 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
     val insightDetails = _insightDetails.asStateFlow()
 
     private val _myInsights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val myInsights = _myInsights.asStateFlow()
+    private val myInsights = _myInsights.asStateFlow()
+
+    private val _exchangePassCount = MutableStateFlow(0)
+    private val exchangePassCount = _exchangePassCount.asStateFlow()
+
+    private val _exchangeItems = MutableStateFlow<List<ExchangeItem>>(emptyList())
+    val exchangeItems = _exchangeItems.asStateFlow()
 
     private val _insightDetailState = MutableStateFlow(InsightDetailState.ExchangeRequest)
     val insightDetailState = _insightDetailState.asStateFlow()
@@ -53,6 +60,13 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
                 )
             }
         _myInsights.value = InsightVo.getSamples(10)
+        _exchangePassCount.value = 3
+        _exchangeItems.value = mutableListOf<ExchangeItem>().apply {
+            if (exchangePassCount.value > 0) add(ExchangeItem.Pass(exchangePassCount.value))
+            if (myInsights.value.isNotEmpty()) {
+                addAll(myInsights.value.map { ExchangeItem.Insight(it) })
+            }
+        }
     }
 
     fun isEnableTabMove() = insightDetailState.value == InsightDetailState.ExchangeComplete
@@ -66,19 +80,33 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun onClickRecommend() {
-        _insight.value = insight.value.copy(isRecommended = !insight.value.isRecommended)
+        if (insightDetailState.value == InsightDetailState.ExchangeComplete) {
+            _insight.value = insight.value.copy(isRecommended = !insight.value.isRecommended)
+        } else {
+            viewModelScope.launch {
+                _event.emit(
+                    InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.RECOMMEND_INFO)
+                )
+            }
+        }
     }
 
     fun onClickExchangeRequestButton() {
         viewModelScope.launch {
-            _event.emit(InsightDetailEvent.ShowMyInsightsBottomSheet)
+            if (myInsights.value.isNotEmpty() || exchangePassCount.value > 0) {
+                _event.emit(InsightDetailEvent.ShowMyInsightsBottomSheet)
+            } else {
+                _event.emit(
+                    InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.EXCHANGE_INFO)
+                )
+            }
         }
     }
 
     fun onClickRejectButton() {
         viewModelScope.launch {
             _event.emit(
-                InsightDetailEvent.ShowExchangeDialog(message = "교환을 거절했어요.")
+                InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.EXCHANGE_REJECT)
             )
         }
     }
@@ -94,9 +122,13 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
                 InsightDetailItem.GoodNews(insight.value.goodNews)
             )
             _event.emit(
-                InsightDetailEvent.ShowExchangeDialog(
-                    message = "교환 요청을 수락했어요.\n보관함에서 확인해보세요.",
-                    checkButtonText = "보관함 확인하기"
+                InsightDetailEvent.ShowCommonDialog(
+                    dialogType = InsightDetailDialogType.EXCHANGE_ACCEPT,
+                    onClickSubButton = {
+                        viewModelScope.launch {
+                            _event.emit(InsightDetailEvent.MoveStorage)
+                        }
+                    }
                 )
             )
         }
@@ -104,22 +136,48 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
 
     fun requestExchange() {
         viewModelScope.launch {
+            val selectedExchangeItem = exchangeItems.value.firstOrNull {
+                (it is ExchangeItem.Pass && it.isSelected) ||
+                    (it is ExchangeItem.Insight && it.isSelected)
+            } ?: return@launch
             _insightDetailState.value = InsightDetailState.ExchangeWaiting
             _insightDetails.value = insightDetails.value.map {
                 if (it is InsightDetailItem.Invisible) it.copy(insightDetailState.value) else it
             }
             _event.emit(
-                InsightDetailEvent.ShowExchangeDialog(
-                    message = "교환 요청을 완료했어요.\n교환 내역은 교환소에서 확인해보세요.",
-                    checkButtonText = "교환소 확인하기"
+                InsightDetailEvent.ShowCommonDialog(
+                    dialogType = InsightDetailDialogType.EXCHANGE_REQUEST,
+                    onClickSubButton = {
+                        viewModelScope.launch {
+                            _event.emit(InsightDetailEvent.MoveHomeExchange)
+                        }
+                    }
                 )
             )
         }
     }
 
-    fun onClickMyInsight(myInsight: InsightVo) {
-        _myInsights.value = myInsights.value.map {
-            it.copy(isSelected = it.insightId == myInsight.insightId)
+    fun onClickExchangeItem(exchangeItem: ExchangeItem) {
+        _exchangeItems.value = exchangeItems.value.map {
+            when (exchangeItem) {
+                is ExchangeItem.Pass -> {
+                    when (it) {
+                        is ExchangeItem.Pass -> it.copy(isSelected = true)
+                        is ExchangeItem.Insight -> it.copy(isSelected = false)
+                    }
+                }
+                is ExchangeItem.Insight -> {
+                    when (it) {
+                        is ExchangeItem.Pass -> it.copy(isSelected = false)
+                        is ExchangeItem.Insight -> {
+                            it.copy(
+                                isSelected = exchangeItem.insightVo.insightId
+                                    == it.insightVo.insightId
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

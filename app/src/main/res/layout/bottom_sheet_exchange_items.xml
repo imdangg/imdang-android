@@ -37,8 +37,8 @@
             app:layout_constraintTop_toBottomOf="@id/view_handle" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_my_insights"
-            bindItemList="@{viewModel.myInsights}"
+            android:id="@+id/rv_exchange_item"
+            bindItemList="@{viewModel.exchangeItems}"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="16dp"
@@ -48,7 +48,7 @@
             app:layout_constraintBottom_toTopOf="@id/tv_confirm_button"
             app:layout_constraintTop_toBottomOf="@id/tv_exchange_description"
             tools:itemCount="10"
-            tools:listitem="@layout/item_insight_detail_my_insight" />
+            tools:listitem="@layout/item_insight_detail_exchange_item" />
 
         <View
             android:layout_width="match_parent"

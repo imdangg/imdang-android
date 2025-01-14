@@ -14,7 +14,7 @@ import info.imdang.imdang.common.DividerItemDecoration
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
 import info.imdang.imdang.databinding.ActivityInsightDetailBinding
 import info.imdang.imdang.ui.common.showCommonDialog
-import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheet
+import info.imdang.imdang.ui.insight.bottomsheet.ExchangeItemsBottomSheet
 import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheetListener
 import kotlinx.coroutines.launch
 
@@ -93,7 +93,7 @@ class InsightDetailActivity :
             viewModel.event.collect {
                 when (it) {
                     InsightDetailEvent.ShowMyInsightsBottomSheet -> {
-                        MyInsightsBottomSheet.instance(
+                        ExchangeItemsBottomSheet.instance(
                             listener = object : MyInsightsBottomSheetListener {
                                 override fun onClickConfirmButton() {
                                     viewModel.requestExchange()
@@ -101,36 +101,27 @@ class InsightDetailActivity :
                             }
                         ).show(
                             supportFragmentManager,
-                            MyInsightsBottomSheet::class.java.simpleName
+                            ExchangeItemsBottomSheet::class.java.simpleName
                         )
                     }
-                    is InsightDetailEvent.ShowExchangeDialog -> {
+                    is InsightDetailEvent.ShowCommonDialog -> {
                         showCommonDialog(
-                            message = it.message,
+                            message = it.dialogType.message,
                             positiveButtonText = getString(info.imdang.component.R.string.confirm),
-                            subButtonText = it.checkButtonText,
-                            onClickSubButton = {
-                                if (isExchangeButton(it.checkButtonText)) {
-                                    // todo : 교환소 화면으로 이동
-                                }
-                                if (isStorageButton(it.checkButtonText)) {
-                                    // todo : 보관함 화면으로 이동
-                                }
-                            }
+                            subButtonText = it.dialogType.subButtonText,
+                            onClickSubButton = it.onClickSubButton
                         )
+                    }
+                    InsightDetailEvent.MoveHomeExchange -> {
+                        // todo : 교환소로 이동
+                    }
+                    InsightDetailEvent.MoveStorage -> {
+                        // todo : 보관함으로 이동
                     }
                 }
             }
         }
     }
-
-    private fun isExchangeButton(checkButtonText: String?) = checkButtonText?.contains(
-        getString(info.imdang.component.R.string.home_exchange)
-    ) == true
-
-    private fun isStorageButton(checkButtonText: String?) = checkButtonText?.contains(
-        getString(info.imdang.component.R.string.storage)
-    ) == true
 
     enum class InsightDetailHolderType(
         override val layoutResourceId: Int,
