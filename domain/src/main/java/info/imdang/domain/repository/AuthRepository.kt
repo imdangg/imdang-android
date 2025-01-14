@@ -1,6 +1,7 @@
 package info.imdang.domain.repository
 
 import info.imdang.domain.model.auth.LoginDto
+import info.imdang.domain.model.auth.OnboardingDto
 
 interface AuthRepository {
 
@@ -17,4 +18,6 @@ interface AuthRepository {
     suspend fun getRefreshToken(): String
 
     suspend fun removeToken()
+
+    suspend fun onboardingJoin(onboardingRequest: OnboardingDto)
 }

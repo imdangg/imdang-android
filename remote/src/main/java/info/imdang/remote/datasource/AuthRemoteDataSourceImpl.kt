@@ -2,8 +2,10 @@ package info.imdang.remote.datasource
 
 import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.data.model.request.auth.LoginRequest
+import info.imdang.data.model.request.auth.OnboardingRequest
 import info.imdang.data.model.response.auth.LoginResponse
 import info.imdang.remote.service.AuthService
+import retrofit2.Response
 import javax.inject.Inject
 
 internal class AuthRemoteDataSourceImpl @Inject constructor(
@@ -15,4 +17,9 @@ internal class AuthRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun googleLogin(loginRequest: LoginRequest): LoginResponse =
         authService.googleLogin(loginRequest)
+
+    override suspend fun onboardingJoin(
+        onboardingRequest: OnboardingRequest
+    ): Response<Unit> =
+        authService.onboardingJoin(onboardingRequest)
 }
