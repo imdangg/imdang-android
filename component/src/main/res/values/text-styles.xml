@@ -8,6 +8,11 @@
         <item name="android:lineHeight">19.6dp</item>
     </style>
 
+    <style name="T_400_16_22_4" parent="pretendard400">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22.4dp</item>
+    </style>
+
     <style name="T_500_12_16_8" parent="pretendard500">
         <item name="android:textSize">12sp</item>
         <item name="android:lineHeight">16.8dp</item>

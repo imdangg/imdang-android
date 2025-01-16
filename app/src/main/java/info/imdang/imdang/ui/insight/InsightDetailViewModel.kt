@@ -180,4 +180,12 @@ class InsightDetailViewModel @Inject constructor() : BaseViewModel() {
             }
         }
     }
+
+    fun reportInsight() {
+        if (!insight.value.isReported) {
+            viewModelScope.launch {
+                // todo : 인사이트 신고
+            }
+        }
+    }
 }
