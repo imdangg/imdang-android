@@ -286,6 +286,7 @@
     <string name="report_sub_message">허위, 과다 신고시 불이익이\n발생할 수 있어요</string>
     <string name="already_report_message">이미 신고한 인사이트에요</string>
     <string name="already_report_sub_message">동일한 인사이트를 중복으로\n신고할 수 없어요</string>
+    <string name="notification">알림</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>

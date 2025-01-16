@@ -16,6 +16,7 @@ import info.imdang.imdang.databinding.FragmentHomeBinding
 import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.bottomsheet.HomeFreePassBottomSheet
 import info.imdang.imdang.ui.main.home.bottomsheet.HomeFreePassBottomSheetListener
+import info.imdang.imdang.ui.main.home.notification.NotificationActivity
 import info.imdang.imdang.ui.my.MyActivity
 import kotlinx.coroutines.launch
 
@@ -51,10 +52,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         with(binding) {
             ivHomeAlarm.setOnClickListener {
                 this@HomeFragment.mainViewModel.hideTooltip()
+                requireContext().startActivity<NotificationActivity>()
             }
             ivHomeProfile.setOnClickListener {
                 this@HomeFragment.mainViewModel.hideTooltip()
-                requireActivity().startActivity<MyActivity>()
+                requireContext().startActivity<MyActivity>()
             }
             tlHome.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
