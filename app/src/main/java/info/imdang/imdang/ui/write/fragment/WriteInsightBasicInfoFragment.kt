@@ -205,10 +205,10 @@ class WriteInsightBasicInfoFragment :
         )
 
         val entrances = mapOf(
-            getString(info.imdang.component.R.string.limited) to binding.tvEntranceLimited,
+            getString(info.imdang.component.R.string.limited) to binding.tvAccessLimited,
             getString(info.imdang.component.R.string.need_permission) to
-                binding.tvEntranceNeedPermission,
-            getString(info.imdang.component.R.string.free_entrance) to binding.tvEntranceFree
+                binding.tvAccessNeedPermission,
+            getString(info.imdang.component.R.string.free_entrance) to binding.tvAccessFree
         )
 
         times.forEach { (time, textView) ->

@@ -32,7 +32,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_family"
-            bindInsightDetailChips="@{item.aptFacility.family}"
+            bindInsightDetailChips="@{item.complexFacility.familyFacilities}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -76,7 +76,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_multipurpose"
-            bindInsightDetailChips="@{item.aptFacility.multipurpose}"
+            bindInsightDetailChips="@{item.complexFacility.multipurposeFacilities}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -119,7 +119,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_leisure"
-            bindInsightDetailChips="@{item.aptFacility.leisure}"
+            bindInsightDetailChips="@{item.complexFacility.leisureFacilities}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -162,7 +162,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_environment"
-            bindInsightDetailChips="@{item.aptFacility.environment}"
+            bindInsightDetailChips="@{item.complexFacility.environments}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -208,7 +208,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.aptFacility.aptFacilityReview}"
+            android:text="@{item.complexFacility.complexFacilityReview}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_apt_facility_review_subject"

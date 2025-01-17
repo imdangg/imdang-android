@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.main.home.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,6 +20,7 @@ import info.imdang.imdang.databinding.FragmentHomeSearchBinding
 import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.home.search.newinsight.NewInsightListActivity
@@ -91,9 +93,13 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                         }
                     }
                 ).apply {
-                    itemClickListener = { _, _ ->
+                    itemClickListener = { item, _ ->
                         mainViewModel.hideTooltip()
-                        requireContext().startActivity<InsightDetailActivity>()
+                        if (item is InsightVo) {
+                            requireContext().startActivity<InsightDetailActivity>(
+                                bundle = bundleOf(INSIGHT_ID to item.insightId)
+                            )
+                        }
                     }
                 }
             }
@@ -117,9 +123,13 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                         }
                     }
                 ).apply {
-                    itemClickListener = { _, _ ->
+                    itemClickListener = { item, _ ->
                         mainViewModel.hideTooltip()
-                        requireContext().startActivity<InsightDetailActivity>()
+                        if (item is InsightVo) {
+                            requireContext().startActivity<InsightDetailActivity>(
+                                bundle = bundleOf(INSIGHT_ID to item.insightId)
+                            )
+                        }
                     }
                 }
             }
@@ -163,7 +173,9 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                 listener = object : RecommendInsightsListener {
                     override fun onClickInsight(insightVo: InsightVo) {
                         mainViewModel.hideTooltip()
-                        requireContext().startActivity<InsightDetailActivity>()
+                        requireContext().startActivity<InsightDetailActivity>(
+                            bundle = bundleOf(INSIGHT_ID to insightVo.insightId)
+                        )
                     }
                 }
             )

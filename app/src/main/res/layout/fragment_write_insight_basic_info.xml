@@ -572,37 +572,37 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tv_entrance_subject"
+                android:id="@+id/tv_access_subject"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="@string/entrance_limit"
+                android:text="@string/access"
                 android:textColor="@color/gray_700"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_traffic" />
 
             <TextView
-                android:id="@+id/tv_entrance_asterisk"
+                android:id="@+id/tv_access_asterisk"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/asterisk"
                 android:textColor="#E93528"
-                app:layout_constraintStart_toEndOf="@id/tv_entrance_subject"
-                app:layout_constraintTop_toTopOf="@id/tv_entrance_subject" />
+                app:layout_constraintStart_toEndOf="@id/tv_access_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_access_subject" />
 
             <ImageView
-                android:id="@+id/iv_check_entrance"
+                android:id="@+id/iv_check_access"
                 bindVisible="@{viewModel.isInsightEntranceCheckImageVisible}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_check"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_entrance_asterisk"
-                app:layout_constraintStart_toEndOf="@id/tv_entrance_asterisk"
-                app:layout_constraintTop_toTopOf="@id/tv_entrance_asterisk" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_access_asterisk"
+                app:layout_constraintStart_toEndOf="@id/tv_access_asterisk"
+                app:layout_constraintTop_toTopOf="@id/tv_access_asterisk" />
 
             <TextView
                 style="@style/T_500_12_16_8"
@@ -610,19 +610,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/single_selection"
                 android:textColor="@color/gray_500"
-                app:layout_constraintBottom_toBottomOf="@id/tv_entrance_subject"
+                app:layout_constraintBottom_toBottomOf="@id/tv_access_subject"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_entrance_subject" />
+                app:layout_constraintTop_toTopOf="@id/tv_access_subject" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_entrance"
+                android:id="@+id/cl_access"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_entrance_subject">
+                app:layout_constraintTop_toBottomOf="@id/tv_access_subject">
 
                 <TextView
-                    android:id="@+id/tv_entrance_limited"
+                    android:id="@+id/tv_access_limited"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -631,12 +631,12 @@
                     android:padding="16dp"
                     android:text="@string/limited"
                     android:textColor="@color/gray_400"
-                    app:layout_constraintEnd_toStartOf="@id/tv_entrance_need_permission"
+                    app:layout_constraintEnd_toStartOf="@id/tv_access_need_permission"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_entrance_need_permission"
+                    android:id="@+id/tv_access_need_permission"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/sr_white_gray100_all8"
@@ -645,11 +645,11 @@
                     android:text="@string/need_permission"
                     android:textColor="@color/gray_400"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_entrance_limited"
+                    app:layout_constraintStart_toEndOf="@id/tv_access_limited"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_entrance_free"
+                    android:id="@+id/tv_access_free"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -661,7 +661,7 @@
                     android:textColor="@color/gray_400"
                     app:layout_constraintEnd_toStartOf="@id/view_empty2"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_entrance_limited" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_access_limited" />
 
                 <View
                     android:id="@+id/view_empty2"
@@ -671,8 +671,8 @@
                     android:gravity="center"
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_entrance_free"
-                    app:layout_constraintTop_toTopOf="@id/tv_entrance_free" />
+                    app:layout_constraintStart_toEndOf="@id/tv_access_free"
+                    app:layout_constraintTop_toTopOf="@id/tv_access_free" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -684,7 +684,7 @@
                 android:text="@string/insight_summary"
                 android:textColor="@color/gray_700"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_entrance" />
+                app:layout_constraintTop_toBottomOf="@id/cl_access" />
 
             <TextView
                 android:id="@+id/tv_insight_summary_asterisk"

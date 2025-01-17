@@ -20,7 +20,6 @@ import info.imdang.imdang.common.bindingadapter.ViewHolderType
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.databinding.ItemInsightDetailBasicInfoBinding
 import info.imdang.imdang.model.insight.InsightDetailItem
-import info.imdang.imdang.ui.insight.InsightDetailActivity.InsightDetailHolderType
 import kotlin.reflect.KClass
 
 class InsightDetailAdapter(
@@ -115,15 +114,15 @@ class InsightDetailViewHolder(
                 CameraUpdate.toCameraPosition(
                     CameraPosition(
                         LatLng(
-                            item.basicInfo.latitude + 0.0003,
-                            item.basicInfo.longitude
+                            item.latitude + 0.0003,
+                            item.longitude
                         ),
                         14.5
                     )
                 )
             )
             Marker().apply {
-                position = LatLng(item.basicInfo.latitude, item.basicInfo.longitude)
+                position = LatLng(item.latitude, item.longitude)
                 icon = OverlayImage.fromResource(info.imdang.component.R.drawable.ic_pin)
                 width = parent.context.dpToPx(32)
                 height = parent.context.dpToPx(32)

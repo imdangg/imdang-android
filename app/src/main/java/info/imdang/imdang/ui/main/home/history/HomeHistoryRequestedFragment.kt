@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.main.home.history
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
@@ -14,6 +15,7 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentHomeHistoryRequestedBinding
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.main.home.exchange.HomeExchangeViewModel
 
 @AndroidEntryPoint
@@ -53,8 +55,12 @@ class HomeHistoryRequestedFragment :
                         }
                     }
                 ).apply {
-                    itemClickListener = { _, _ ->
-                        requireContext().startActivity<InsightDetailActivity>()
+                    itemClickListener = { item, _ ->
+                        if (item is InsightVo) {
+                            requireContext().startActivity<InsightDetailActivity>(
+                                bundle = bundleOf(INSIGHT_ID to item.insightId)
+                            )
+                        }
                     }
                 }
             }

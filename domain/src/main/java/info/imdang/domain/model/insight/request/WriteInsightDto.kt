@@ -1,6 +1,11 @@
 package info.imdang.domain.model.insight.request
 
 import info.imdang.domain.model.common.AddressDto
+import info.imdang.domain.model.insight.ApartmentComplexDto
+import info.imdang.domain.model.insight.ComplexEnvironmentDto
+import info.imdang.domain.model.insight.ComplexFacilityDto
+import info.imdang.domain.model.insight.FavorableNewsDto
+import info.imdang.domain.model.insight.InfraDto
 
 data class WriteInsightDto(
     val score: Int,
@@ -16,46 +21,4 @@ data class WriteInsightDto(
     val complexEnvironment: ComplexEnvironmentDto,
     val complexFacility: ComplexFacilityDto,
     val favorableNews: FavorableNewsDto
-)
-
-data class ApartmentComplexDto(
-    val name: String
-)
-
-data class InfraDto(
-    val transportations: List<String>,
-    val schoolDistricts: List<String>,
-    val amenities: List<String>,
-    val facilities: List<String>,
-    val surroundings: List<String>,
-    val landmarks: List<String>,
-    val unpleasantFacilities: List<String>,
-    val text: String
-)
-
-data class ComplexEnvironmentDto(
-    val buildingCondition: String,
-    val security: String,
-    val childrenFacility: String,
-    val seniorFacility: String,
-    val text: String
-)
-
-data class ComplexFacilityDto(
-    val familyFacilities: List<String>,
-    val multipurposeFacilities: List<String>,
-    val leisureFacilities: List<String>,
-    val surroundings: List<String>,
-    val text: String
-)
-
-data class FavorableNewsDto(
-    val transportations: List<String>,
-    val developments: List<String>,
-    val educations: List<String>,
-    val environments: List<String>,
-    val cultures: List<String>,
-    val industries: List<String>,
-    val policies: List<String>,
-    val text: String
 )

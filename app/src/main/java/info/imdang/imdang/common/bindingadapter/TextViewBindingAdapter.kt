@@ -24,11 +24,3 @@ fun TextView.bindSpan(text: String, spanText: String) {
         )
     }
 }
-
-@BindingAdapter(
-    value = ["bindTextList", "bindSeparator"],
-    requireAll = true
-)
-fun TextView.bindTextList(textList: List<String>?, separator: String) {
-    text = textList?.joinToString(separator) ?: ""
-}

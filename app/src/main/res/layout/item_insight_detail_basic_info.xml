@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.basicInfo.address}"
+            android:text="@{item.address}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_address"
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.basicInfo.visitDate + ` / ` + item.basicInfo.visitTime}"
+            android:text="@{item.visitAt + ` / ` + item.visitTimes}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_date_time"
@@ -157,18 +157,17 @@
         <TextView
             android:id="@+id/tv_traffic"
             style="@style/T_500_16_22_4"
-            bindSeparator="@{`, `}"
-            bindTextList="@{item.basicInfo.traffic}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:text="@{item.visitMethods}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_traffic"
             tools:text="자차, 도보" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_entrance_limit"
+            android:id="@+id/cl_access"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -181,33 +180,33 @@
                 android:layout_height="16dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_info"
-                app:layout_constraintBottom_toBottomOf="@id/tv_entrance_limit_subject"
+                app:layout_constraintBottom_toBottomOf="@id/tv_access_subject"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_entrance_limit_subject"
+                app:layout_constraintTop_toTopOf="@id/tv_access_subject"
                 app:tint="@color/gray_600" />
 
             <TextView
-                android:id="@+id/tv_entrance_limit_subject"
+                android:id="@+id/tv_access_subject"
                 style="@style/T_500_14_19_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/entrance_limit"
+                android:text="@string/access"
                 android:textColor="@color/gray_600"
                 app:layout_constraintStart_toEndOf="@id/iv_info"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tv_entrance_limit"
+            android:id="@+id/tv_access"
             style="@style/T_500_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.basicInfo.entranceLimit}"
+            android:text="@{item.access}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_entrance_limit"
+            app:layout_constraintTop_toBottomOf="@id/cl_access"
             tools:text="자유로움" />
 
         <TextView
@@ -219,14 +218,14 @@
             android:text="@string/insight_summary"
             android:textColor="@color/gray_600"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_entrance_limit" />
+            app:layout_constraintTop_toBottomOf="@id/tv_access" />
 
         <TextView
             style="@style/T_500_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.basicInfo.insightSummary}"
+            android:text="@{item.summary}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_insight_summary_subject"

@@ -1,6 +1,7 @@
 package info.imdang.remote.service
 
 import info.imdang.data.model.response.common.PagingResponse
+import info.imdang.data.model.response.insight.InsightDetailResponse
 import info.imdang.data.model.response.insight.InsightIdResponse
 import info.imdang.data.model.response.insight.InsightResponse
 import info.imdang.domain.model.insight.InsightDto
@@ -40,4 +41,10 @@ internal interface InsightService {
         @Query("properties") properties: List<String>?,
         @Query("apartmentComplexName") aptComplex: String
     ): PagingResponse<InsightResponse, InsightDto>
+
+    /** 인사이트 상세 조회 */
+    @GET("insights/detail")
+    suspend fun getInsightDetail(
+        @Query("insightId") insightId: String
+    ): InsightDetailResponse
 }

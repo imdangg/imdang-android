@@ -3,6 +3,7 @@ package info.imdang.data.repository
 import com.google.gson.Gson
 import info.imdang.data.datasource.remote.InsightRemoteDataSource
 import info.imdang.domain.model.common.PagingDto
+import info.imdang.domain.model.insight.InsightDetailDto
 import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.model.insight.InsightIdDto
 import info.imdang.domain.model.insight.request.WriteInsightDto
@@ -57,4 +58,7 @@ internal class InsightRepositoryImpl @Inject constructor(
         properties = properties,
         aptComplex = aptComplex
     ).mapper()
+
+    override suspend fun getInsightDetail(insightId: String): InsightDetailDto =
+        insightRemoteDataSource.getInsightDetail(insightId).mapper()
 }

@@ -89,20 +89,20 @@ class ExchangeItemsBottomSheet : BaseBottomSheetDialogFragment<BottomSheetExchan
             this.listener = listener
         }
     }
+}
 
-    enum class ExchangeItemHolderType(
-        override val layoutResourceId: Int,
-        override val bindingItemId: Int
-    ) : ViewHolderType {
-        PassHolder(
-            layoutResourceId = R.layout.item_insight_detail_pass,
-            bindingItemId = BR.item
-        ),
-        InsightHolder(
-            layoutResourceId = R.layout.item_insight_detail_my_insight,
-            bindingItemId = BR.item
-        )
-    }
+enum class ExchangeItemHolderType(
+    override val layoutResourceId: Int,
+    override val bindingItemId: Int
+) : ViewHolderType {
+    PassHolder(
+        layoutResourceId = R.layout.item_insight_detail_pass,
+        bindingItemId = BR.item
+    ),
+    InsightHolder(
+        layoutResourceId = R.layout.item_insight_detail_my_insight,
+        bindingItemId = BR.item
+    )
 }
 
 interface MyInsightsBottomSheetListener : Serializable {

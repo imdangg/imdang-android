@@ -3,6 +3,7 @@ package info.imdang.imdang.ui.main.storage
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
@@ -19,6 +20,7 @@ import info.imdang.imdang.databinding.FragmentStorageBinding
 import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.storage.bottomsheet.AptBottomSheet
 import info.imdang.imdang.ui.main.storage.region.InsightRegionActivity
@@ -58,8 +60,12 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                         }
                     }
                 ).apply {
-                    itemClickListener = { _, _ ->
-                        requireContext().startActivity<InsightDetailActivity>()
+                    itemClickListener = { item, _ ->
+                        if (item is InsightVo) {
+                            requireContext().startActivity<InsightDetailActivity>(
+                                bundle = bundleOf(INSIGHT_ID to item.insightId)
+                            )
+                        }
                     }
                 }
             }
@@ -83,8 +89,12 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                         }
                     }
                 ).apply {
-                    itemClickListener = { _, _ ->
-                        requireContext().startActivity<InsightDetailActivity>()
+                    itemClickListener = { item, _ ->
+                        if (item is InsightVo) {
+                            requireContext().startActivity<InsightDetailActivity>(
+                                bundle = bundleOf(INSIGHT_ID to item.insightId)
+                            )
+                        }
                     }
                 }
             }
