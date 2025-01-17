@@ -35,7 +35,7 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
             rvVisitComplexInsightApt.run {
                 addItemDecoration(SpaceItemDecoration(space = 8))
                 adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.item_visit_complex_insight_apt,
+                    layoutResourceId = R.layout.item_visited_apt_complex,
                     bindingItemId = BR.item,
                     viewModel = emptyMap(),
                     diffUtil = object : DiffUtil.ItemCallback<InsightAptVo>() {

@@ -1,24 +1,35 @@
 package info.imdang.imdang.ui.main.home.search.visitcomplex
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
 import info.imdang.imdang.base.BaseViewModel
-import info.imdang.imdang.model.insight.InsightAptVo
+import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
+import info.imdang.imdang.model.aptcomplex.mapper
 import info.imdang.imdang.model.insight.InsightVo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VisitComplexInsightListViewModel @Inject constructor() : BaseViewModel() {
+class VisitComplexInsightListViewModel @Inject constructor(
+    private val getVisitedAptComplexesUseCase: GetVisitedAptComplexesUseCase
+) : BaseViewModel() {
 
-    private val _visitComplexInsightApts = MutableStateFlow<List<InsightAptVo>>(emptyList())
-    val visitComplexInsightApts = _visitComplexInsightApts.asStateFlow()
+    private val _visitedAptComplexes = MutableStateFlow<List<VisitedAptComplexVo>>(emptyList())
+    val visitedAptComplexes = _visitedAptComplexes.asStateFlow()
 
-    private val _visitComplexInsights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val visitComplexInsights = _visitComplexInsights.asStateFlow()
+    private val _visitedAptComplexInsights = MutableStateFlow<List<InsightVo>>(emptyList())
+    val visitedAptComplexInsights = _visitedAptComplexInsights.asStateFlow()
 
     init {
-        _visitComplexInsightApts.value = InsightAptVo.getSamples(5)
-        _visitComplexInsights.value = InsightVo.getSamples(33)
+        viewModelScope.launch {
+            _visitedAptComplexes.value =
+                getVisitedAptComplexesUseCase(Unit)?.mapIndexed { index, visitedAptComplexDto ->
+                    visitedAptComplexDto.mapper(isSelected = index == 0)
+                } ?: emptyList()
+            _visitedAptComplexInsights.value = InsightVo.getSamples(33)
+        }
     }
 }

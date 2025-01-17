@@ -135,7 +135,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_home_visit_complex_insight"
+                    android:id="@+id/cl_home_visited_apt_complex_insight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="32dp"
@@ -144,32 +144,32 @@
                     app:layout_constraintTop_toBottomOf="@id/cl_home_banner">
 
                     <TextView
-                        android:id="@+id/tv_home_visit_complex_insight_subject"
+                        android:id="@+id/tv_home_visited_apt_complex_insight_subject"
                         style="@style/T_600_18_25_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/home_visit_complex_insight_subject"
+                        android:text="@string/home_visited_apt_complex_insight_subject"
                         android:textColor="@color/gray_900"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_home_visit_complex_insight_see_all"
+                        android:id="@+id/tv_home_visited_apt_complex_insight_see_all"
                         style="@style/T_400_14_19_6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:text="@string/see_all"
                         android:textColor="@color/gray_700"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_home_visit_complex_insight_subject"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_home_visited_apt_complex_insight_subject"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_home_visit_complex_insight_subject" />
+                        app:layout_constraintTop_toTopOf="@id/tv_home_visited_apt_complex_insight_subject" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_home_visit_complex_insight_apt"
-                        bindItemList="@{viewModel.visitComplexInsightApts}"
-                        bindVisible="@{viewModel.visitComplexInsights.size() > 0}"
+                        android:id="@+id/rv_home_visited_apt_complex"
+                        bindItemList="@{viewModel.visitedAptComplexes}"
+                        bindVisible="@{viewModel.visitedAptComplexes.size() > 0}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -178,14 +178,14 @@
                         android:paddingHorizontal="20dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_home_visit_complex_insight_subject"
+                        app:layout_constraintTop_toBottomOf="@id/tv_home_visited_apt_complex_insight_subject"
                         tools:itemCount="2"
-                        tools:listitem="@layout/item_visit_complex_insight_apt" />
+                        tools:listitem="@layout/item_visited_apt_complex" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_home_visit_complex_insight"
-                        bindItemList="@{viewModel.visitComplexInsights}"
-                        bindVisible="@{viewModel.visitComplexInsights.size() > 0}"
+                        android:id="@+id/rv_home_visited_apt_complex_insight"
+                        bindItemList="@{viewModel.visitedAptComplexInsights}"
+                        bindVisible="@{viewModel.visitedAptComplexes.size() > 0}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
@@ -194,13 +194,13 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/rv_home_visit_complex_insight_apt"
+                        app:layout_constraintTop_toBottomOf="@id/rv_home_visited_apt_complex"
                         tools:itemCount="3"
                         tools:listitem="@layout/item_insight_horizontal" />
 
                     <TextView
                         style="@style/T_500_14_19_6"
-                        bindVisible="@{viewModel.visitComplexInsights.size() == 0}"
+                        bindVisible="@{viewModel.visitedAptComplexes.size() == 0}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
@@ -211,7 +211,7 @@
                         android:text="@string/home_insight_empty_message"
                         android:textColor="@color/gray_500"
                         android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@id/tv_home_visit_complex_insight_subject" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_home_visited_apt_complex_insight_subject" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
@@ -219,7 +219,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
                     android:background="@color/gray_50"
-                    app:layout_constraintTop_toBottomOf="@id/cl_home_visit_complex_insight" />
+                    app:layout_constraintTop_toBottomOf="@id/cl_home_visited_apt_complex_insight" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_home_new_insight"

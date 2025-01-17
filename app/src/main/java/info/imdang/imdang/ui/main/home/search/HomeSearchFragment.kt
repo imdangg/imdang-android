@@ -44,10 +44,10 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
     private fun setupBinding() {
         with(binding) {
             viewModel = this@HomeSearchFragment.viewModel
-            rvHomeVisitComplexInsightApt.run {
+            rvHomeVisitedAptComplex.run {
                 addItemDecoration(SpaceItemDecoration(space = 8))
                 adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.item_visit_complex_insight_apt,
+                    layoutResourceId = R.layout.item_visited_apt_complex,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@HomeSearchFragment.viewModel),
                     diffUtil = object : DiffUtil.ItemCallback<InsightAptVo>() {
@@ -65,7 +65,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                     }
                 )
             }
-            rvHomeVisitComplexInsight.run {
+            rvHomeVisitedAptComplexInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
                 adapter = BaseSingleViewAdapter(
                     layoutResourceId = R.layout.item_insight_horizontal,
@@ -136,8 +136,8 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
             nsvHomeSearch.setOnScrollChangeListener { _, _, _, _, _ ->
                 mainViewModel.hideTooltip()
             }
-            tvHomeVisitComplexInsightSeeAll.setOnClickListener {
-                if (this@HomeSearchFragment.viewModel.visitComplexInsights.value.isNotEmpty()) {
+            tvHomeVisitedAptComplexInsightSeeAll.setOnClickListener {
+                if (this@HomeSearchFragment.viewModel.visitedAptComplexes.value.isNotEmpty()) {
                     mainViewModel.hideTooltip()
                     requireContext().startActivity<VisitComplexInsightListActivity>()
                 }
