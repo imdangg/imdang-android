@@ -1,5 +1,7 @@
 package info.imdang.domain.model.insight.request
 
+import info.imdang.domain.model.common.AddressDto
+
 data class WriteInsightDto(
     val score: Int,
     val title: String,
@@ -14,15 +16,6 @@ data class WriteInsightDto(
     val complexEnvironment: ComplexEnvironmentDto,
     val complexFacility: ComplexFacilityDto,
     val favorableNews: FavorableNewsDto
-)
-
-data class AddressDto(
-    val siDo: String,
-    val siGunGu: String,
-    val eupMyeonDong: String,
-    val roadName: String,
-    val buildingNumber: String,
-    val detail: String
 )
 
 data class ApartmentComplexDto(

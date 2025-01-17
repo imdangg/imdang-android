@@ -3,18 +3,23 @@ package info.imdang.imdang.ui.main.home.search
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
+import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.model.insight.mapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeSearchViewModel @Inject constructor(
-    private val getVisitedAptComplexesUseCase: GetVisitedAptComplexesUseCase
+    private val getVisitedAptComplexesUseCase: GetVisitedAptComplexesUseCase,
+    private val getInsightsByAptComplexUseCase: GetInsightsByAptComplexUseCase
 ) : BaseViewModel() {
 
     private val _visitedAptComplexes = MutableStateFlow<List<VisitedAptComplexVo>>(emptyList())
@@ -42,11 +47,35 @@ class HomeSearchViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
+            fetchVisitedAptComplexes()
+            _visitedAptComplexInsights.value = InsightVo.getSamples(size = 3)
+        }
+    }
+
+    private fun fetchVisitedAptComplexes() {
+        viewModelScope.launch {
             _visitedAptComplexes.value =
                 getVisitedAptComplexesUseCase(Unit)?.mapIndexed { index, visitedAptComplexDto ->
                     visitedAptComplexDto.mapper(isSelected = index == 0)
                 } ?: emptyList()
-            _visitedAptComplexInsights.value = InsightVo.getSamples(size = 3)
+            fetchInsightsByAptComplex()
+        }
+    }
+
+    private fun fetchInsightsByAptComplex() {
+        viewModelScope.launch {
+            val aptComplex = visitedAptComplexes.value.firstOrNull {
+                it.isSelected
+            }?.name ?: return@launch
+            _visitedAptComplexInsights.value = getInsightsByAptComplexUseCase(
+                GetInsightsByAptComplexParams(
+                    page = 1,
+                    size = 3,
+                    aptComplex = aptComplex
+                )
+            )?.content?.map {
+                it.mapper()
+            } ?: emptyList()
         }
     }
 
