@@ -1,7 +1,9 @@
 package info.imdang.imdang.ui.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,10 +15,12 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentHomeBinding
+import info.imdang.imdang.ui.main.MainEvent
 import info.imdang.imdang.ui.main.MainViewModel
 import info.imdang.imdang.ui.main.home.bottomsheet.HomeFreePassBottomSheet
 import info.imdang.imdang.ui.main.home.bottomsheet.HomeFreePassBottomSheetListener
 import info.imdang.imdang.ui.main.home.notification.NotificationActivity
+import info.imdang.imdang.ui.main.home.notification.NotificationActivity.Companion.RESULT_STORAGE
 import info.imdang.imdang.ui.my.MyActivity
 import kotlinx.coroutines.launch
 
@@ -25,6 +29,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val viewModel by viewModels<HomeViewModel>()
+
+    private val notificationResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_STORAGE) {
+            mainViewModel.emitEvent(MainEvent.MoveStorage)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +64,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         with(binding) {
             ivHomeAlarm.setOnClickListener {
                 this@HomeFragment.mainViewModel.hideTooltip()
-                requireContext().startActivity<NotificationActivity>()
+                notificationResult.launch(
+                    Intent(requireContext(), NotificationActivity::class.java)
+                )
             }
             ivHomeProfile.setOnClickListener {
                 this@HomeFragment.mainViewModel.hideTooltip()

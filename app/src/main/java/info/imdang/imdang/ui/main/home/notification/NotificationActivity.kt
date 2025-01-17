@@ -3,14 +3,18 @@ package info.imdang.imdang.ui.main.home.notification
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.bindingadapter.BaseMultiViewAdapter
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityNotificationBinding
 import info.imdang.imdang.model.notification.NotificationItem
+import info.imdang.imdang.ui.insight.InsightDetailActivity
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NotificationActivity :
@@ -23,6 +27,7 @@ class NotificationActivity :
 
         setupBinding()
         setupListener()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -40,7 +45,7 @@ class NotificationActivity :
                         }
                     },
                     viewHolderType = NotificationItemHolderType::class,
-                    viewModel = emptyMap(),
+                    viewModel = mapOf(BR.viewModel to this@NotificationActivity.viewModel),
                     diffUtil = object : DiffUtil.ItemCallback<NotificationItem>() {
                         override fun areItemsTheSame(
                             oldItem: NotificationItem,
@@ -65,6 +70,26 @@ class NotificationActivity :
                 finish()
             }
         }
+    }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    NotificationEvent.MoveInsightDetailActivity -> {
+                        startActivity<InsightDetailActivity>()
+                    }
+                    NotificationEvent.MoveStorage -> {
+                        setResult(RESULT_STORAGE)
+                        finish()
+                    }
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val RESULT_STORAGE = 1001
     }
 
     enum class NotificationItemHolderType(

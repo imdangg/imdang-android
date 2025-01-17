@@ -1,17 +1,24 @@
 package info.imdang.imdang.ui.main.home.notification
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.notification.NotificationItem
 import info.imdang.imdang.model.notification.NotificationListType
 import info.imdang.imdang.model.notification.NotificationType
 import info.imdang.imdang.model.notification.NotificationVo
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor() : BaseViewModel() {
+
+    private val _event = MutableSharedFlow<NotificationEvent>()
+    val event = _event.asSharedFlow()
 
     private val _selectedNotificationListType = MutableStateFlow(NotificationListType.ALL)
     val selectedNotificationListType = _selectedNotificationListType.asStateFlow()
@@ -77,5 +84,21 @@ class NotificationViewModel @Inject constructor() : BaseViewModel() {
     fun onClickNotificationType(notificationListType: NotificationListType) {
         _selectedNotificationListType.value = notificationListType
         fetchNotifications()
+    }
+
+    fun onClickActionButton(notificationType: NotificationType) {
+        viewModelScope.launch {
+            when (notificationType) {
+                NotificationType.EXCHANGE_REQUESTED -> {
+                    _event.emit(NotificationEvent.MoveInsightDetailActivity)
+                }
+                NotificationType.EXCHANGE_ACCEPT -> {
+                    _event.emit(NotificationEvent.MoveStorage)
+                }
+                NotificationType.EXCHANGE_REJECT -> {
+                    _event.emit(NotificationEvent.MoveInsightDetailActivity)
+                }
+            }
+        }
     }
 }

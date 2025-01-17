@@ -10,6 +10,10 @@
         <variable
             name="item"
             type="info.imdang.imdang.model.notification.NotificationItem.Notification" />
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.main.home.notification.NotificationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,9 +27,9 @@
             style="@style/T_600_12_16_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @drawable/sr_orange50_all4 : @drawable/sr_edf3ff_all4}"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
-            android:background="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @drawable/sr_orange50_all4 : @drawable/sr_edf3ff_all4}"
             android:text="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @string/received_details : @string/requested_details}"
             android:textColor="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @color/orange_500 : @color/blue_11388b}"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +68,7 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/sr_white_gray100_all8"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onClickActionButton(item.notification.type)}"
             android:paddingHorizontal="12dp"
             android:text="@{item.notification.type.actionMessage}"
             android:textColor="@color/gray_700"
