@@ -11,7 +11,7 @@ import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityVisitComplexInsightListBinding
-import info.imdang.imdang.model.insight.InsightAptVo
+import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 
@@ -38,20 +38,28 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
                     layoutResourceId = R.layout.item_visited_apt_complex,
                     bindingItemId = BR.item,
                     viewModel = emptyMap(),
-                    diffUtil = object : DiffUtil.ItemCallback<InsightAptVo>() {
+                    diffUtil = object : DiffUtil.ItemCallback<VisitedAptComplexVo>() {
                         override fun areItemsTheSame(
-                            oldItem: InsightAptVo,
-                            newItem: InsightAptVo
-                        ): Boolean = oldItem.aptName == newItem.aptName
+                            oldItem: VisitedAptComplexVo,
+                            newItem: VisitedAptComplexVo
+                        ): Boolean = oldItem.name == newItem.name
 
                         override fun areContentsTheSame(
-                            oldItem: InsightAptVo,
-                            newItem: InsightAptVo
+                            oldItem: VisitedAptComplexVo,
+                            newItem: VisitedAptComplexVo
                         ): Boolean {
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { item, _ ->
+                        if (item is VisitedAptComplexVo) {
+                            this@VisitComplexInsightListActivity.viewModel.onClickVisitedAptComplex(
+                                item
+                            )
+                        }
+                    }
+                }
             }
             rvVisitComplexInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))

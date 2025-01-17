@@ -9,20 +9,19 @@ import info.imdang.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class GetInsightsByAptComplexUseCase @Inject constructor(
+class GetInsightsUseCase @Inject constructor(
     private val insightRepository: InsightRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<PagingParams<String>, PagingDto<InsightDto>>(
+) : UseCase<PagingParams<Unit>, PagingDto<InsightDto>>(
         coroutineDispatcher = dispatcher
     ) {
 
     override suspend fun execute(
-        parameters: PagingParams<String>
-    ): PagingDto<InsightDto> = insightRepository.getInsightsByAptComplex(
+        parameters: PagingParams<Unit>
+    ): PagingDto<InsightDto> = insightRepository.getInsights(
         page = parameters.page,
         size = parameters.size,
         direction = parameters.direction,
-        properties = parameters.properties,
-        aptComplex = parameters.additionalParams ?: ""
+        properties = parameters.properties
     )
 }

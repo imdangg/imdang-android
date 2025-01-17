@@ -2,9 +2,10 @@ package info.imdang.imdang.ui.main.home.search
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
-import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
+import info.imdang.domain.usecase.insight.GetInsightsUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
@@ -12,14 +13,14 @@ import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeSearchViewModel @Inject constructor(
     private val getVisitedAptComplexesUseCase: GetVisitedAptComplexesUseCase,
-    private val getInsightsByAptComplexUseCase: GetInsightsByAptComplexUseCase
+    private val getInsightsByAptComplexUseCase: GetInsightsByAptComplexUseCase,
+    private val getInsightsUseCase: GetInsightsUseCase
 ) : BaseViewModel() {
 
     private val _visitedAptComplexes = MutableStateFlow<List<VisitedAptComplexVo>>(emptyList())
@@ -38,18 +39,15 @@ class HomeSearchViewModel @Inject constructor(
     val selectedRecommendInsightPage = _selectedRecommendInsightPage.asStateFlow()
 
     init {
-        _newInsights.value = InsightVo.getSamples(size = 6)
+        fetchVisitedAptComplexes()
+        fetchInsights()
+
         _recommendInsights.value = listOf(
             InsightVo.getSamples(3),
             InsightVo.getSamples(3),
             InsightVo.getSamples(3),
             InsightVo.getSamples(1)
         )
-
-        viewModelScope.launch {
-            fetchVisitedAptComplexes()
-            _visitedAptComplexInsights.value = InsightVo.getSamples(size = 3)
-        }
     }
 
     private fun fetchVisitedAptComplexes() {
@@ -68,15 +66,30 @@ class HomeSearchViewModel @Inject constructor(
                 it.isSelected
             }?.name ?: return@launch
             _visitedAptComplexInsights.value = getInsightsByAptComplexUseCase(
-                GetInsightsByAptComplexParams(
+                PagingParams(
                     page = 1,
                     size = 3,
-                    aptComplex = aptComplex
+                    additionalParams = aptComplex
                 )
             )?.content?.map {
                 it.mapper()
             } ?: emptyList()
         }
+    }
+
+    private fun fetchInsights() {
+        viewModelScope.launch {
+            _newInsights.value = getInsightsUseCase(PagingParams())?.content?.map {
+                it.mapper()
+            } ?: emptyList()
+        }
+    }
+
+    fun onClickVisitedAptComplex(visitedAptComplexVo: VisitedAptComplexVo) {
+        _visitedAptComplexes.value = visitedAptComplexes.value.map {
+            it.copy(isSelected = it.name == visitedAptComplexVo.name)
+        }
+        fetchInsightsByAptComplex()
     }
 
     fun selectRecommendInsightPage(page: Int) {

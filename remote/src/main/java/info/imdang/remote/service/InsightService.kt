@@ -22,11 +22,20 @@ internal interface InsightService {
         @Part mainImage: MultipartBody.Part
     ): InsightIdResponse
 
+    /** 오늘 새롭게 올라온 인사이트 목록 조회 */
+    @GET("insights")
+    suspend fun getInsights(
+        @Query("pageNumber") page: Int?,
+        @Query("pageSize") size: Int?,
+        @Query("direction") direction: String?,
+        @Query("properties") properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
+
     /** 아파트 단지별 인사이트 목록 조회 */
     @GET("insights/by-apartment-complex")
     suspend fun getInsightsByAptComplex(
-        @Query("pageNumber") page: Int,
-        @Query("pageSize") size: Int,
+        @Query("pageNumber") page: Int?,
+        @Query("pageSize") size: Int?,
         @Query("direction") direction: String?,
         @Query("properties") properties: List<String>?,
         @Query("apartmentComplexName") aptComplex: String

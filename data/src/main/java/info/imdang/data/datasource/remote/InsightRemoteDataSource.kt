@@ -14,9 +14,16 @@ interface InsightRemoteDataSource {
         mainImage: MultipartBody.Part
     ): InsightIdResponse
 
+    suspend fun getInsights(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
+
     suspend fun getInsightsByAptComplex(
-        page: Int,
-        size: Int,
+        page: Int?,
+        size: Int?,
         direction: String?,
         properties: List<String>?,
         aptComplex: String

@@ -32,9 +32,21 @@ internal class InsightRepositoryImpl @Inject constructor(
         )
     ).mapper()
 
+    override suspend fun getInsights(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingDto<InsightDto> = insightRemoteDataSource.getInsights(
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties
+    ).mapper()
+
     override suspend fun getInsightsByAptComplex(
-        page: Int,
-        size: Int,
+        page: Int?,
+        size: Int?,
         direction: String?,
         properties: List<String>?,
         aptComplex: String
