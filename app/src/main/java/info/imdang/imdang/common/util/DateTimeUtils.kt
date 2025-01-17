@@ -15,3 +15,8 @@ fun LocalDate.isToday() = isEqual(LocalDate.now())
 fun nowDateTimeToString(format: String): String {
     return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format))
 }
+
+fun String.formatDate(fromFormat: String, toFormat: String): String {
+    val dateTime = LocalDate.parse(this, DateTimeFormatter.ofPattern(fromFormat))
+    return dateTime.format(DateTimeFormatter.ofPattern(toFormat))
+}
