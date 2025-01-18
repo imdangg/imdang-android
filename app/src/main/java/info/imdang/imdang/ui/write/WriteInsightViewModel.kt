@@ -401,11 +401,7 @@ class WriteInsightViewModel @Inject constructor(
                 visitAt = insightVisitDate.value,
                 visitTimes = insightSelectedTimes.formatSelectedItems(),
                 visitMethods = insightSelectedTraffics.formatSelectedItems(),
-                access = if (insightSelectedEntrances.value == "허락시 가능") {
-                    "허락_필요"
-                } else {
-                    insightSelectedEntrances.value ?: ""
-                },
+                access = insightSelectedEntrances.value?.replace(" ", "_") ?: "",
                 summary = insightSummary.value,
                 infra = InfraDto(
                     transportations = infraTrafficManager.formattedSelectedItems(),
