@@ -2,6 +2,7 @@ package info.imdang.imdang.common.util
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.firstOrNull
 
 class SelectionManager(private val isSingleSelection: Boolean = false) {
 
@@ -55,4 +56,12 @@ class SelectionManager(private val isSingleSelection: Boolean = false) {
     fun cancelReset() {
         _showResetDialog.value = false
     }
+
+    fun formattedSelectedItems() = selectedItems.formatSelectedItems()
+
+    fun selectedSingleItem() = selectedItems.formatSelectedItems().firstOrNull() ?: ""
+}
+
+fun StateFlow<Iterable<String>>.formatSelectedItems() = value.map {
+    it.replace(" ", "_")
 }

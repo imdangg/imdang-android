@@ -34,6 +34,7 @@ import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheetListener
 import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity
 import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity.Companion.INSIGHT_SUMMARY
 import java.io.File
+import java.io.FileOutputStream
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -59,7 +60,9 @@ class WriteInsightBasicInfoFragment :
     private val selectImageResult = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
-        viewModel.updateCoverImageUri(uri)
+        uri?.let {
+            viewModel.updateCoverImageFile(getFileFromContentUri(uri))
+        }
     }
 
     private val requestPermissionResult = registerForActivityResult(
@@ -72,8 +75,8 @@ class WriteInsightBasicInfoFragment :
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            viewModel.updateCoverImageUri(takePictureUri)
-            takePictureUri = null
+            viewModel.updateCoverImageFile(takePictureFile)
+            takePictureFile = null
         }
     }
 
@@ -87,7 +90,7 @@ class WriteInsightBasicInfoFragment :
         }
     }
 
-    private var takePictureUri: Uri? = null
+    private var takePictureFile: File? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -149,7 +152,7 @@ class WriteInsightBasicInfoFragment :
                 parentLayout = tilDate,
                 onValidStateChanged = { isValid ->
                     with(this@WriteInsightBasicInfoFragment.viewModel) {
-                        updateInsightVisitDate(etDate.text.toString())
+                        updateInsightVisitDate(etDate.text.toString(), isValid)
                         updateInsightDateValid(isValid)
                     }
                     if (isValid) {
@@ -278,12 +281,13 @@ class WriteInsightBasicInfoFragment :
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (intent.resolveActivity(requireContext().packageManager) != null) {
             createImageFile()?.let {
-                takePictureUri = FileProvider.getUriForFile(
+                takePictureFile = it
+                val uri = FileProvider.getUriForFile(
                     requireContext(),
                     requireContext().packageName,
                     it
                 )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, takePictureUri)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
                 imageCaptureResult.launch(intent)
             }
         }
@@ -303,6 +307,25 @@ class WriteInsightBasicInfoFragment :
             etTitle.clearFocus()
             etDate.clearFocus()
         }
+    }
+
+    private fun getFileFromContentUri(contentUri: Uri): File? {
+        val fileName = "imdang_${nowDateTimeToString("yyyy_MM_dd_HH_mm_ss")}"
+        val tempFile = File(requireContext().cacheDir, fileName)
+
+        try {
+            val inputStream = requireContext().contentResolver.openInputStream(contentUri)
+            val outputStream = FileOutputStream(tempFile)
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            return tempFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
     }
 
     companion object {

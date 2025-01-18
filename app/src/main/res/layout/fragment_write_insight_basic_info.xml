@@ -48,7 +48,7 @@
             <ImageView
                 android:id="@+id/iv_cover_image"
                 bindCornerRadius="@{4}"
-                bindImageUri="@{viewModel.coverImageUri}"
+                bindImageFile="@{viewModel.coverImageFile}"
                 android:layout_width="140dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
@@ -58,7 +58,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_image_container"
-                bindVisible="@{viewModel.coverImageUri == null}"
+                bindVisible="@{viewModel.coverImageFile == null}"
                 android:layout_width="140dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
@@ -79,7 +79,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_image_add"
-                bindVisible="@{viewModel.coverImageUri == null}"
+                bindVisible="@{viewModel.coverImageFile == null}"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginStart="20dp"
@@ -116,7 +116,7 @@
             <TextView
                 android:id="@+id/tv_image_edit"
                 style="@style/T_600_12_16_8"
-                bindVisible="@{viewModel.coverImageUri != null}"
+                bindVisible="@{viewModel.coverImageFile != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginStart="20dp"

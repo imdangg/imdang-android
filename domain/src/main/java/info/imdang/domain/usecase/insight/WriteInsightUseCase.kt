@@ -5,15 +5,23 @@ import info.imdang.domain.model.insight.InsightIdDto
 import info.imdang.domain.model.insight.request.WriteInsightDto
 import info.imdang.domain.repository.InsightRepository
 import info.imdang.domain.usecase.UseCase
+import java.io.File
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 class WriteInsightUseCase @Inject constructor(
     private val insightRepository: InsightRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<WriteInsightDto, InsightIdDto>(coroutineDispatcher = dispatcher) {
+) : UseCase<WriteInsightParams, InsightIdDto>(coroutineDispatcher = dispatcher) {
 
-    override suspend fun execute(parameters: WriteInsightDto): InsightIdDto {
-        return insightRepository.writeInsight(parameters)
-    }
+    override suspend fun execute(parameters: WriteInsightParams): InsightIdDto =
+        insightRepository.writeInsight(
+            parameters.writeInsightDto,
+            parameters.mainImage
+        )
 }
+
+data class WriteInsightParams(
+    val writeInsightDto: WriteInsightDto,
+    val mainImage: File
+)

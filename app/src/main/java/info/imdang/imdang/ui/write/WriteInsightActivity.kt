@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.write
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -146,24 +147,7 @@ class WriteInsightActivity :
                         if (selectedPage.value < 4) {
                             vpWriteInsight.currentItem = selectedPage.value + 1
                         } else {
-                            // todo : 작성 완료
                             this@WriteInsightActivity.viewModel.writeInsight()
-                            showCommonDialog(
-                                message = getString(
-                                    info.imdang.component.R.string.write_insight_complete_message
-                                ),
-                                positiveButtonText = getString(
-                                    info.imdang.component.R.string.confirm
-                                ),
-                                subButtonText = "보관함 확인하기",
-                                onClickPositiveButton = {
-                                    finish()
-                                },
-                                onClickSubButton = {
-                                    setResult(RESULT_OK)
-                                    finish()
-                                }
-                            )
                         }
                     }
                 }
@@ -208,6 +192,38 @@ class WriteInsightActivity :
                 }.collect { isEnabled ->
                     viewModel.updateProgress()
                     updateButtonState(isEnabled)
+                }
+            }
+
+            launch {
+                viewModel.event.collect {
+                    when (it) {
+                        WriteInsightEvent.WriteInsightComplete -> {
+                            showCommonDialog(
+                                message = getString(
+                                    info.imdang.component.R.string.write_insight_complete_message
+                                ),
+                                positiveButtonText = getString(
+                                    info.imdang.component.R.string.confirm
+                                ),
+                                subButtonText = "보관함 확인하기",
+                                onClickPositiveButton = {
+                                    finish()
+                                },
+                                onClickSubButton = {
+                                    setResult(RESULT_OK)
+                                    finish()
+                                }
+                            )
+                        }
+                        is WriteInsightEvent.ShowToast -> {
+                            Toast.makeText(
+                                this@WriteInsightActivity,
+                                it.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
