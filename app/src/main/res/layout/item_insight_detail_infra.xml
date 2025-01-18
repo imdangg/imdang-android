@@ -32,7 +32,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_traffic"
-            bindInsightDetailChips="@{item.infra.traffic}"
+            bindInsightDetailChips="@{item.infra.traffics}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -76,7 +76,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_school"
-            bindInsightDetailChips="@{item.infra.school}"
+            bindInsightDetailChips="@{item.infra.schools}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -119,7 +119,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_life_facility"
-            bindInsightDetailChips="@{item.infra.lifeFacility}"
+            bindInsightDetailChips="@{item.infra.lifeFacilities}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -162,7 +162,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_culture_facility"
-            bindInsightDetailChips="@{item.infra.cultureFacility}"
+            bindInsightDetailChips="@{item.infra.cultureFacilities}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -205,7 +205,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_surrounding_environment"
-            bindInsightDetailChips="@{item.infra.surroundingEnvironment}"
+            bindInsightDetailChips="@{item.infra.surroundingEnvironments}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -248,7 +248,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_landmark"
-            bindInsightDetailChips="@{item.infra.landmark}"
+            bindInsightDetailChips="@{item.infra.landmarks}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -291,7 +291,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_avoid_facility"
-            bindInsightDetailChips="@{item.infra.avoidFacility}"
+            bindInsightDetailChips="@{item.infra.avoidFacilities}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -324,6 +324,7 @@
         <TextView
             android:id="@+id/tv_review_subject"
             style="@style/T_500_14_19_6"
+            bindVisible="@{item.infra.infraReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -334,6 +335,7 @@
 
         <TextView
             style="@style/T_500_16_22_4"
+            bindVisible="@{item.infra.infraReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

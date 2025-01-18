@@ -67,16 +67,16 @@ fun ImageView.bindInsightDetailInvisibleImage(insightDetailState: InsightDetailS
     setImageDrawable(
         context.getDrawable(
             when (insightDetailState) {
-                InsightDetailState.ExchangeRequest -> {
+                InsightDetailState.EXCHANGE_REQUEST -> {
                     info.imdang.component.R.drawable.ic_insight_detail_invisible_request
                 }
-                InsightDetailState.ExchangeRequested -> {
+                InsightDetailState.EXCHANGE_REQUESTED -> {
                     info.imdang.component.R.drawable.ic_insight_detail_invisible_requested
                 }
-                InsightDetailState.ExchangeWaiting -> {
+                InsightDetailState.EXCHANGE_WAITING -> {
                     info.imdang.component.R.drawable.ic_insight_detail_invisible_waiting
                 }
-                InsightDetailState.ExchangeComplete -> -1
+                else -> -1
             }
         )
     )

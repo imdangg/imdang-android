@@ -157,33 +157,37 @@ class InsightDetailActivity :
         }
     }
 
-    enum class InsightDetailHolderType(
-        override val layoutResourceId: Int,
-        override val bindingItemId: Int
-    ) : ViewHolderType {
-        BasicInfoHolder(
-            layoutResourceId = R.layout.item_insight_detail_basic_info,
-            bindingItemId = BR.item
-        ),
-        InfraHolder(
-            layoutResourceId = R.layout.item_insight_detail_infra,
-            bindingItemId = BR.item
-        ),
-        AptEnvironmentHolder(
-            layoutResourceId = R.layout.item_insight_detail_apt_environment,
-            bindingItemId = BR.item
-        ),
-        AptFacilityHolder(
-            layoutResourceId = R.layout.item_insight_detail_apt_facility,
-            bindingItemId = BR.item
-        ),
-        GoodNewsHolder(
-            layoutResourceId = R.layout.item_insight_detail_good_news,
-            bindingItemId = BR.item
-        ),
-        InvisibleHolder(
-            layoutResourceId = R.layout.item_insight_detail_invisible,
-            bindingItemId = BR.item
-        )
+    companion object {
+        const val INSIGHT_ID = "insightId"
     }
+}
+
+enum class InsightDetailHolderType(
+    override val layoutResourceId: Int,
+    override val bindingItemId: Int
+) : ViewHolderType {
+    BasicInfoHolder(
+        layoutResourceId = R.layout.item_insight_detail_basic_info,
+        bindingItemId = BR.item
+    ),
+    InfraHolder(
+        layoutResourceId = R.layout.item_insight_detail_infra,
+        bindingItemId = BR.item
+    ),
+    AptEnvironmentHolder(
+        layoutResourceId = R.layout.item_insight_detail_apt_environment,
+        bindingItemId = BR.item
+    ),
+    AptFacilityHolder(
+        layoutResourceId = R.layout.item_insight_detail_apt_facility,
+        bindingItemId = BR.item
+    ),
+    GoodNewsHolder(
+        layoutResourceId = R.layout.item_insight_detail_good_news,
+        bindingItemId = BR.item
+    ),
+    InvisibleHolder(
+        layoutResourceId = R.layout.item_insight_detail_invisible,
+        bindingItemId = BR.item
+    )
 }

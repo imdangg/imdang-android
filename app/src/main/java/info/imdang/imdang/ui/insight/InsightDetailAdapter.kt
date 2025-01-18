@@ -1,5 +1,8 @@
 package info.imdang.imdang.ui.insight
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -20,7 +23,6 @@ import info.imdang.imdang.common.bindingadapter.ViewHolderType
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.databinding.ItemInsightDetailBasicInfoBinding
 import info.imdang.imdang.model.insight.InsightDetailItem
-import info.imdang.imdang.ui.insight.InsightDetailActivity.InsightDetailHolderType
 import kotlin.reflect.KClass
 
 class InsightDetailAdapter(
@@ -115,19 +117,49 @@ class InsightDetailViewHolder(
                 CameraUpdate.toCameraPosition(
                     CameraPosition(
                         LatLng(
-                            item.basicInfo.latitude + 0.0003,
-                            item.basicInfo.longitude
+                            item.latitude + 0.0003,
+                            item.longitude
                         ),
                         14.5
                     )
                 )
             )
             Marker().apply {
-                position = LatLng(item.basicInfo.latitude, item.basicInfo.longitude)
+                position = LatLng(item.latitude, item.longitude)
                 icon = OverlayImage.fromResource(info.imdang.component.R.drawable.ic_pin)
                 width = parent.context.dpToPx(32)
                 height = parent.context.dpToPx(32)
                 map = naverMap
+            }
+            setOnMapClickListener { _, latLng ->
+                val name = item.address
+                    .split("\n")
+                    .last()
+                    .replace("(", "")
+                    .replace(")", "")
+                val naverMapUrl = "nmap://place" +
+                    "?lat=${latLng.latitude}" +
+                    "&lng=${latLng.longitude}" +
+                    "&name=$name" +
+                    "&appname=${parent.context.packageName}"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(naverMapUrl)).apply {
+                    addCategory(Intent.CATEGORY_BROWSABLE)
+                }
+
+                val list = parent.context.packageManager.queryIntentActivities(
+                    intent,
+                    PackageManager.MATCH_DEFAULT_ONLY
+                )
+                if (list.isEmpty()) {
+                    val naverMapWebUrl = "https://map.naver.com?lat=${latLng.latitude}" +
+                        "&lng=${latLng.longitude}" +
+                        "&title=$name"
+                    parent.context.startActivity(
+                        Intent(Intent.ACTION_VIEW, Uri.parse(naverMapWebUrl))
+                    )
+                } else {
+                    parent.context.startActivity(intent)
+                }
             }
         }
     }

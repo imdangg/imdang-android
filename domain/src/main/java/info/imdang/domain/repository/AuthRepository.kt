@@ -20,4 +20,8 @@ interface AuthRepository {
     suspend fun removeToken()
 
     suspend fun onboardingJoin(onboardingRequest: OnboardingDto)
+
+    fun saveMemberId(memberId: String)
+
+    fun getMemberId(): String
 }

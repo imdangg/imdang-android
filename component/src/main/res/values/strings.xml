@@ -76,7 +76,7 @@
     <string name="car">자차</string>
     <string name="public_traffic">대중교통</string>
     <string name="walk">도보</string>
-    <string name="entrance_limit">출입 제한</string>
+    <string name="access">출입 제한</string>
     <string name="limited">제한됨</string>
     <string name="need_permission">허락시 가능</string>
     <string name="free_entrance">자유로움</string>

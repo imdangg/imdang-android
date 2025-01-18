@@ -3,11 +3,11 @@ package info.imdang.imdang.ui.write
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.AddressDto
-import info.imdang.domain.model.insight.request.ApartmentComplexDto
-import info.imdang.domain.model.insight.request.ComplexEnvironmentDto
-import info.imdang.domain.model.insight.request.ComplexFacilityDto
-import info.imdang.domain.model.insight.request.FavorableNewsDto
-import info.imdang.domain.model.insight.request.InfraDto
+import info.imdang.domain.model.insight.ApartmentComplexDto
+import info.imdang.domain.model.insight.ComplexEnvironmentDto
+import info.imdang.domain.model.insight.ComplexFacilityDto
+import info.imdang.domain.model.insight.FavorableNewsDto
+import info.imdang.domain.model.insight.InfraDto
 import info.imdang.domain.model.insight.request.WriteInsightDto
 import info.imdang.domain.usecase.insight.WriteInsightParams
 import info.imdang.domain.usecase.insight.WriteInsightUseCase

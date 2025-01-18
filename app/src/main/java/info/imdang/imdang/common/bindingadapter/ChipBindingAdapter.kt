@@ -32,7 +32,7 @@ private fun createInsightDetailChip(context: Context, text: String): Chip {
         .inflate(R.layout.chip_insight_detail, null, false) as Chip
     return chip.apply {
         this.text = text
-        if (text == "해당 없음" || text == "잘모르겠어요") {
+        if (text == "해당 없음" || text == "잘 모르겠어요") {
             setTextColor(context.getColor(info.imdang.component.R.color.gray_500))
             setChipStrokeColorResource(info.imdang.component.R.color.gray_100)
             chipBackgroundColor = android.content.res.ColorStateList.valueOf(

@@ -15,6 +15,7 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentRecommendInsightsBinding
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import java.io.Serializable
 
 @Suppress("UNCHECKED_CAST")
@@ -55,8 +56,12 @@ class RecommendInsightsFragment :
                         }
                     }
                 ).apply {
-                    itemClickListener = { _, _ ->
-                        requireContext().startActivity<InsightDetailActivity>()
+                    itemClickListener = { item, _ ->
+                        if (item is InsightVo) {
+                            requireContext().startActivity<InsightDetailActivity>(
+                                bundle = bundleOf(INSIGHT_ID to item.insightId)
+                            )
+                        }
                     }
                 }
             }

@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.main.home.search.visitcomplex
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +15,7 @@ import info.imdang.imdang.databinding.ActivityVisitComplexInsightListBinding
 import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 
 @AndroidEntryPoint
 class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsightListBinding>(
@@ -81,8 +83,12 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
                         }
                     }
                 ).apply {
-                    itemClickListener = { _, _ ->
-                        startActivity<InsightDetailActivity>()
+                    itemClickListener = { item, _ ->
+                        if (item is InsightVo) {
+                            startActivity<InsightDetailActivity>(
+                                bundle = bundleOf(INSIGHT_ID to item.insightId)
+                            )
+                        }
                     }
                 }
             }

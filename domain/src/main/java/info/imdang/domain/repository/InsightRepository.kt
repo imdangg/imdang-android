@@ -1,6 +1,7 @@
 package info.imdang.domain.repository
 
 import info.imdang.domain.model.common.PagingDto
+import info.imdang.domain.model.insight.InsightDetailDto
 import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.model.insight.InsightIdDto
 import info.imdang.domain.model.insight.request.WriteInsightDto
@@ -24,4 +25,6 @@ interface InsightRepository {
         properties: List<String>?,
         aptComplex: String
     ): PagingDto<InsightDto>
+
+    suspend fun getInsightDetail(insightId: String): InsightDetailDto
 }

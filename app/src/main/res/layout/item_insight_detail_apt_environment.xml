@@ -46,7 +46,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_building"
-            bindInsightDetailChip="@{item.aptEnvironment.building}"
+            bindInsightDetailChip="@{item.complexEnvironment.building}"
             bindIsRemoveAllView="@{true}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_safety"
-            bindInsightDetailChip="@{item.aptEnvironment.safety}"
+            bindInsightDetailChip="@{item.complexEnvironment.safety}"
             bindIsRemoveAllView="@{true}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_children_facility"
-            bindInsightDetailChip="@{item.aptEnvironment.childrenFacility}"
+            bindInsightDetailChip="@{item.complexEnvironment.childrenFacility}"
             bindIsRemoveAllView="@{true}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_silver_facility"
-            bindInsightDetailChip="@{item.aptEnvironment.silverFacility}"
+            bindInsightDetailChip="@{item.complexEnvironment.silverFacility}"
             bindIsRemoveAllView="@{true}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -241,6 +241,7 @@
         <TextView
             android:id="@+id/tv_review_subject"
             style="@style/T_500_14_19_6"
+            bindVisible="@{item.complexEnvironment.complexEnvironmentReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -251,10 +252,11 @@
 
         <TextView
             style="@style/T_500_16_22_4"
+            bindVisible="@{item.complexEnvironment.complexEnvironmentReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.aptEnvironment.aptEnvironmentReview}"
+            android:text="@{item.complexEnvironment.complexEnvironmentReview}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_review_subject"

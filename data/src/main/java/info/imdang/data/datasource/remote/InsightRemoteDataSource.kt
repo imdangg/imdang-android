@@ -1,6 +1,7 @@
 package info.imdang.data.datasource.remote
 
 import info.imdang.data.model.response.common.PagingResponse
+import info.imdang.data.model.response.insight.InsightDetailResponse
 import info.imdang.data.model.response.insight.InsightIdResponse
 import info.imdang.data.model.response.insight.InsightResponse
 import info.imdang.domain.model.insight.InsightDto
@@ -28,4 +29,6 @@ interface InsightRemoteDataSource {
         properties: List<String>?,
         aptComplex: String
     ): PagingResponse<InsightResponse, InsightDto>
+
+    suspend fun getInsightDetail(insightId: String): InsightDetailResponse
 }

@@ -1,8 +1,9 @@
 package info.imdang.imdang.model.insight
 
 enum class InsightDetailState(val text: String) {
-    ExchangeRequest(text = "교환 요청"),
-    ExchangeRequested(text = ""),
-    ExchangeWaiting(text = "대기중"),
-    ExchangeComplete(text = "교환 완료")
+    EXCHANGE_REQUEST(text = "교환 요청"),
+    EXCHANGE_REQUESTED(text = ""),
+    EXCHANGE_WAITING(text = "대기중"),
+    EXCHANGE_COMPLETE(text = "교환 완료"),
+    MY_INSIGHT("")
 }
