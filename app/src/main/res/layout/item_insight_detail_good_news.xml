@@ -325,8 +325,9 @@
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
-            android:id="@+id/tv_good_news_subject"
+            android:id="@+id/tv_good_news_review_subject"
             style="@style/T_500_14_19_6"
+            bindVisible="@{item.goodNews.goodNewsReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -338,13 +339,14 @@
         <TextView
             android:id="@+id/tv_review"
             style="@style/T_500_16_22_4"
+            bindVisible="@{item.goodNews.goodNewsReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@{item.goodNews.goodNewsReview}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_good_news_subject"
+            app:layout_constraintTop_toBottomOf="@id/tv_good_news_review_subject"
             tools:text="단지는 전반적으로 관리 상태가 양호했으며, 주변에 대형 마트와 초등학교가 가까워 생활 편의성이 뛰어납니다. 다만 주차 공간이 협소하고, 단지 내 보안 카메라 설치가 부족한 점이 아쉬워요. 단지는 전반적으로 관리 상태가 양호했으며, 주변에 대형 마트와 초등학교가 가까워 생활 편의성이 뛰어납니다." />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

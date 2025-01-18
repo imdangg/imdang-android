@@ -324,6 +324,7 @@
         <TextView
             android:id="@+id/tv_review_subject"
             style="@style/T_500_14_19_6"
+            bindVisible="@{item.infra.infraReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -334,6 +335,7 @@
 
         <TextView
             style="@style/T_500_16_22_4"
+            bindVisible="@{item.infra.infraReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

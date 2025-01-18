@@ -93,7 +93,7 @@ class InsightDetailViewModel @Inject constructor(
                             visitTimes = insight.value.visitTimes.joinToString(", "),
                             visitMethods = insight.value.visitMethods.joinToString(", "),
                             access = insight.value.access,
-                            summary = insight.value.access
+                            summary = insight.value.summary
                         ),
                         InsightDetailItem.Infra(insight.value.infra),
                         InsightDetailItem.AptEnvironment(insight.value.complexEnvironment),
@@ -116,7 +116,7 @@ class InsightDetailViewModel @Inject constructor(
                             visitTimes = insight.value.visitTimes.joinToString(", "),
                             visitMethods = insight.value.visitMethods.joinToString(", "),
                             access = insight.value.access,
-                            summary = insight.value.access
+                            summary = insight.value.summary
                         ),
                         InsightDetailItem.Invisible(insightDetailState.value)
                     )

@@ -195,6 +195,7 @@
         <TextView
             android:id="@+id/tv_apt_facility_review_subject"
             style="@style/T_500_14_19_6"
+            bindVisible="@{item.complexFacility.complexFacilityReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -205,6 +206,7 @@
 
         <TextView
             style="@style/T_500_16_22_4"
+            bindVisible="@{item.complexFacility.complexFacilityReview.length() > 0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
