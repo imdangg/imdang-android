@@ -43,4 +43,10 @@ internal class AuthRepositoryImpl @Inject constructor(
             onboardingRequest = OnboardingRequest.fromDomain(onboardingRequest)
         )
     }
+
+    override fun saveMemberId(memberId: String) {
+        authLocalDataSource.saveMemberId(memberId)
+    }
+
+    override fun getMemberId(): String = authLocalDataSource.getMemberId()
 }

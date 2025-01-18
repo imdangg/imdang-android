@@ -3,6 +3,7 @@ package info.imdang.imdang.ui.insight
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.usecase.auth.GetMemberIdUseCase
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.ExchangeItem
@@ -23,10 +24,13 @@ import javax.inject.Inject
 @HiltViewModel
 class InsightDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    getMemberIdUseCase: GetMemberIdUseCase,
     private val getInsightDetailUseCase: GetInsightDetailUseCase
 ) : BaseViewModel() {
 
-    val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
+    private val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
+
+    private val memberId = getMemberIdUseCase()
 
     private val _event = MutableSharedFlow<InsightDetailEvent>()
     val event = _event.asSharedFlow()
@@ -46,7 +50,7 @@ class InsightDetailViewModel @Inject constructor(
     private val _exchangeItems = MutableStateFlow<List<ExchangeItem>>(emptyList())
     val exchangeItems = _exchangeItems.asStateFlow()
 
-    private val _insightDetailState = MutableStateFlow(InsightDetailState.MY_INSIGHT)
+    private val _insightDetailState = MutableStateFlow(InsightDetailState.EXCHANGE_REQUEST)
     val insightDetailState = _insightDetailState.asStateFlow()
 
     private val _isScrolling = MutableStateFlow(false)
@@ -67,6 +71,9 @@ class InsightDetailViewModel @Inject constructor(
     private fun fetchInsightDetail() {
         viewModelScope.launch {
             _insight.value = getInsightDetailUseCase(insightId.value)?.mapper() ?: return@launch
+            if (insight.value.memberId == memberId) {
+                _insightDetailState.value = InsightDetailState.MY_INSIGHT
+            }
             _insightDetails.value =
                 if (insightDetailState.value == InsightDetailState.EXCHANGE_COMPLETE ||
                     insightDetailState.value == InsightDetailState.MY_INSIGHT

@@ -11,4 +11,8 @@ interface AuthLocalDataSource {
     fun getRefreshToken(): String
 
     fun removeToken()
+
+    fun saveMemberId(memberId: String)
+
+    fun getMemberId(): String
 }
