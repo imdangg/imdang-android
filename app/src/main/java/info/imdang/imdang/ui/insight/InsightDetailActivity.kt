@@ -52,6 +52,37 @@ class InsightDetailActivity :
             ivBack.setOnClickListener {
                 finish()
             }
+            ivReport.setOnClickListener {
+                showCommonDialog(
+                    iconDrawableResource = info.imdang.component.R.drawable.ic_sign_for_dialog,
+                    message = if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
+                        getString(info.imdang.component.R.string.already_report_message)
+                    } else {
+                        getString(info.imdang.component.R.string.report_message)
+                    },
+                    subMessage =
+                        if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
+                            getString(info.imdang.component.R.string.already_report_sub_message)
+                        } else {
+                            getString(info.imdang.component.R.string.report_sub_message)
+                        },
+                    positiveButtonText =
+                        if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
+                            getString(info.imdang.component.R.string.confirm)
+                        } else {
+                            getString(info.imdang.component.R.string.yes_its_ok)
+                        },
+                    negativeButtonText =
+                        if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
+                            null
+                        } else {
+                            getString(info.imdang.component.R.string.cancel)
+                        },
+                    onClickPositiveButton = {
+                        this@InsightDetailActivity.viewModel.reportInsight()
+                    }
+                )
+            }
             tlInsightDetail.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     scrollToPosition(tab?.position ?: -1)
@@ -104,6 +135,7 @@ class InsightDetailActivity :
                             ExchangeItemsBottomSheet::class.java.simpleName
                         )
                     }
+
                     is InsightDetailEvent.ShowCommonDialog -> {
                         showCommonDialog(
                             message = it.dialogType.message,
@@ -112,9 +144,11 @@ class InsightDetailActivity :
                             onClickSubButton = it.onClickSubButton
                         )
                     }
+
                     InsightDetailEvent.MoveHomeExchange -> {
                         // todo : 교환소로 이동
                     }
+
                     InsightDetailEvent.MoveStorage -> {
                         // todo : 보관함으로 이동
                     }

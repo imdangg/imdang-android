@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="info.imdang.imdang.model.notification.NotificationItem.Title" />
+    </data>
+
+    <TextView
+        style="@style/T_700_22_30_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{item.title}"
+        android:textColor="@color/gray_900"
+        tools:text="신규 알림" />
+</layout>

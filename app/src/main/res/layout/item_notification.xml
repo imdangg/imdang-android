@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="info.imdang.imdang.model.notification.NotificationType" />
+
+        <variable
+            name="item"
+            type="info.imdang.imdang.model.notification.NotificationItem.Notification" />
+
+        <variable
+            name="viewModel"
+            type="info.imdang.imdang.ui.main.home.notification.NotificationViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sr_white_gray100_all12"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_notification_type"
+            style="@style/T_600_12_16_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @drawable/sr_orange50_all4 : @drawable/sr_edf3ff_all4}"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @string/received_details : @string/requested_details}"
+            android:textColor="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @color/orange_500 : @color/blue_11388b}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/sr_edf3ff_all4"
+            tools:text="내가 요청한 내역"
+            tools:textColor="@color/blue_11388b" />
+
+        <TextView
+            style="@style/T_500_12_16_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.notification.dateTime}"
+            android:textColor="@color/gray_500"
+            app:layout_constraintBottom_toBottomOf="@id/tv_notification_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_notification_type"
+            tools:text="방금 전" />
+
+        <TextView
+            android:id="@+id/tv_notification_message"
+            style="@style/T_500_16_22_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{item.notification.message}"
+            android:textColor="@color/gray_900"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_notification_type"
+            tools:text="길동님이 인사이트 교환을 수락했어요.\n교환한 인사이트를 보관함에서 확인해보세요." />
+
+        <TextView
+            style="@style/T_600_14_19_6"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/sr_white_gray100_all8"
+            android:gravity="center"
+            android:onClick="@{() -> viewModel.onClickActionButton(item.notification.type)}"
+            android:paddingHorizontal="12dp"
+            android:text="@{item.notification.type.actionMessage}"
+            android:textColor="@color/gray_700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_notification_message"
+            tools:text="보관함 확인하기" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -11,6 +11,7 @@ fun Context.showCommonDialog(
     message: String,
     positiveButtonText: String,
     @DrawableRes iconDrawableResource: Int? = null,
+    subMessage: String? = null,
     negativeButtonText: String? = null,
     subButtonText: String? = null,
     onClickPositiveButton: () -> Unit = {},
@@ -24,6 +25,9 @@ fun Context.showCommonDialog(
             )
 
             tvMessage.text = message
+
+            tvSubMessage.text = subMessage
+            tvSubMessage.bindVisible(subMessage != null)
 
             tvNegativeButton.text = negativeButtonText
             tvNegativeButton.bindVisible(negativeButtonText != null)
