@@ -1,8 +1,11 @@
 package info.imdang.imdang.ui.main.storage
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
@@ -17,18 +20,28 @@ import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentStorageBinding
-import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.model.myinsight.MyInsightAddressVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.storage.bottomsheet.AptBottomSheet
-import info.imdang.imdang.ui.main.storage.region.InsightRegionActivity
+import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity
+import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity.Companion.SELECTED_PAGE
 
 @AndroidEntryPoint
 class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
 
     private val viewModel by viewModels<StorageViewModel>()
+
+    private val addressResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            binding.vpInsightAddress.currentItem = result.data?.getIntExtra(SELECTED_PAGE, 0)
+                ?: viewModel.selectedInsightAddressPage.value
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,7 +111,7 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                     }
                 }
             }
-            vpInsightRegion.run {
+            vpInsightAddress.run {
                 val currentVisibleItemPx = requireContext().dpToPx(20)
                 val nextVisibleItemPx = requireContext().dpToPx(8)
                 val offsetPx = nextVisibleItemPx + currentVisibleItemPx
@@ -120,18 +133,18 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                 }
                 offscreenPageLimit = 1
                 adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.page_insight_region,
+                    layoutResourceId = R.layout.page_insight_address,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@StorageFragment.viewModel),
-                    diffUtil = object : DiffUtil.ItemCallback<InsightRegionVo>() {
+                    diffUtil = object : DiffUtil.ItemCallback<MyInsightAddressVo>() {
                         override fun areItemsTheSame(
-                            oldItem: InsightRegionVo,
-                            newItem: InsightRegionVo
-                        ): Boolean = oldItem.region == newItem.region
+                            oldItem: MyInsightAddressVo,
+                            newItem: MyInsightAddressVo
+                        ): Boolean = oldItem.toSiGuDong() == newItem.toSiGuDong()
 
                         override fun areContentsTheSame(
-                            oldItem: InsightRegionVo,
-                            newItem: InsightRegionVo
+                            oldItem: MyInsightAddressVo,
+                            newItem: MyInsightAddressVo
                         ): Boolean {
                             return oldItem == newItem
                         }
@@ -146,14 +159,21 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
             clStorageMap.setOnClickListener {
                 requireContext().startActivity<SearchByMapActivity>()
             }
-            tvInsightRegionSeeAll.setOnClickListener {
-                requireContext().startActivity<InsightRegionActivity>()
+            tvInsightAddressSeeAll.setOnClickListener {
+                addressResult.launch(
+                    Intent(requireContext(), InsightAddressActivity::class.java).apply {
+                        putExtra(
+                            SELECTED_PAGE,
+                            this@StorageFragment.viewModel.selectedInsightAddressPage.value
+                        )
+                    }
+                )
             }
-            vpInsightRegion.registerOnPageChangeCallback(
+            vpInsightAddress.registerOnPageChangeCallback(
                 object : OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
-                        this@StorageFragment.viewModel.selectInsightRegionPage(position)
+                        this@StorageFragment.viewModel.selectInsightAddressPage(position)
                     }
                 }
             )

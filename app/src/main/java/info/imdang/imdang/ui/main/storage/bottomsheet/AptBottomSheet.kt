@@ -16,7 +16,7 @@ import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.databinding.BottomSheetAptBinding
-import info.imdang.imdang.model.insight.InsightRegionVo
+import info.imdang.imdang.model.insight.InsightAptVo
 import info.imdang.imdang.ui.main.storage.StorageViewModel
 
 @AndroidEntryPoint
@@ -76,15 +76,15 @@ class AptBottomSheet :
                     layoutResourceId = R.layout.item_apt,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@AptBottomSheet.viewModel),
-                    diffUtil = object : DiffUtil.ItemCallback<InsightRegionVo>() {
+                    diffUtil = object : DiffUtil.ItemCallback<InsightAptVo>() {
                         override fun areItemsTheSame(
-                            oldItem: InsightRegionVo,
-                            newItem: InsightRegionVo
-                        ): Boolean = oldItem.regionId == newItem.regionId
+                            oldItem: InsightAptVo,
+                            newItem: InsightAptVo
+                        ): Boolean = oldItem.aptName == newItem.aptName
 
                         override fun areContentsTheSame(
-                            oldItem: InsightRegionVo,
-                            newItem: InsightRegionVo
+                            oldItem: InsightAptVo,
+                            newItem: InsightAptVo
                         ): Boolean {
                             return oldItem == newItem
                         }

@@ -1,22 +1,28 @@
 package info.imdang.imdang.ui.main.storage
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.usecase.myinsight.GetAddressesUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.InsightAptVo
-import info.imdang.imdang.model.insight.InsightRegionVo
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.model.myinsight.MyInsightAddressVo
+import info.imdang.imdang.model.myinsight.mapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StorageViewModel @Inject constructor() : BaseViewModel() {
+class StorageViewModel @Inject constructor(
+    private val getAddressesUseCase: GetAddressesUseCase
+) : BaseViewModel() {
 
-    private val _selectedInsightRegionPage = MutableStateFlow(-1)
-    val selectedInsightRegionPage = _selectedInsightRegionPage.asStateFlow()
+    private val _selectedInsightAddressPage = MutableStateFlow(-1)
+    val selectedInsightAddressPage = _selectedInsightAddressPage.asStateFlow()
 
-    private val _insightRegions = MutableStateFlow<List<InsightRegionVo>>(emptyList())
-    val insightRegions = _insightRegions.asStateFlow()
+    private val _addresses = MutableStateFlow<List<MyInsightAddressVo>>(emptyList())
+    val addresses = _addresses.asStateFlow()
 
     private val _insights = MutableStateFlow<List<InsightVo>>(emptyList())
     val insights = _insights.asStateFlow()
@@ -31,16 +37,24 @@ class StorageViewModel @Inject constructor() : BaseViewModel() {
     val insightApts = _insightApts.asStateFlow()
 
     init {
-        _insightRegions.value = InsightRegionVo.getSamples(10)
+        fetchAddresses()
         _insights.value = InsightVo.getSamples(10)
         _myInsights.value = InsightVo.getSamples(3)
         _insightApts.value = InsightAptVo.getSamples(10)
     }
 
-    fun selectInsightRegionPage(page: Int) {
-        _selectedInsightRegionPage.value = page
-        _insightRegions.value = insightRegions.value.mapIndexed { index, insightRegionVo ->
-            insightRegionVo.copy(isSelected = index == page)
+    private fun fetchAddresses() {
+        viewModelScope.launch {
+            _addresses.value = getAddressesUseCase(Unit)?.mapIndexed { index, myInsightAddressDto ->
+                myInsightAddressDto.mapper(isSelected = index == 0)
+            } ?: emptyList()
+        }
+    }
+
+    fun selectInsightAddressPage(page: Int) {
+        _selectedInsightAddressPage.value = page
+        _addresses.value = addresses.value.mapIndexed { index, myInsightAddressVo ->
+            myInsightAddressVo.copy(isSelected = index == page)
         }
     }
 
