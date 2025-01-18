@@ -39,7 +39,8 @@ data class InsightDetailVo(
     val viewCount: Int,
     val score: Int,
     val createdAt: String,
-    val isRecommended: Boolean = false
+    val isRecommended: Boolean = false,
+    val isReported: Boolean = false
 ) : Parcelable {
     companion object {
         fun getSample() = InsightDetailVo(
