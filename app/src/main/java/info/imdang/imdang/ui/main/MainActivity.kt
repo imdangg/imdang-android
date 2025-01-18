@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
@@ -13,6 +14,7 @@ import info.imdang.imdang.databinding.ActivityMainBinding
 import info.imdang.imdang.ui.main.home.HomeFragment
 import info.imdang.imdang.ui.main.storage.StorageFragment
 import info.imdang.imdang.ui.write.WriteInsightActivity
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -36,6 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setupBinding()
         setupListener()
         setupFragment()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -81,6 +84,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             show(showFragment)
             hide(hideFragment)
             commit()
+        }
+    }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    MainEvent.MoveStorage -> binding.bnvMain.selectedItemId = R.id.menu_storage
+                }
+            }
         }
     }
 }
