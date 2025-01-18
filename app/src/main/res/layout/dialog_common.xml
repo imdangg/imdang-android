@@ -39,6 +39,19 @@
                 tools:text="교환 요청을 완료했어요.\n교환 내역은 교환소에서 확인해보세요." />
 
             <TextView
+                android:id="@+id/tv_sub_message"
+                style="@style/T_400_16_22_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textColor="@color/gray_600"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_message"
+                tools:text="허위, 과다 신고시 불이익이\n발생할 수 있어요" />
+
+            <TextView
                 android:id="@+id/tv_sub_button"
                 style="@style/T_600_14_19_6"
                 android:layout_width="wrap_content"
@@ -51,7 +64,7 @@
                 android:textColor="@color/gray_700"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_message"
+                app:layout_constraintTop_toBottomOf="@id/tv_sub_message"
                 tools:text="교환소 확인하기" />
 
             <TextView

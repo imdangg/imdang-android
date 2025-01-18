@@ -19,7 +19,8 @@ data class InsightDetailVo(
     val infra: InsightDetailInfra,
     val aptEnvironment: InsightDetailAptEnvironment,
     val aptFacility: InsightDetailAptFacility,
-    val goodNews: InsightDetailGoodNews
+    val goodNews: InsightDetailGoodNews,
+    val isReported: Boolean
 ) : Parcelable {
     companion object {
         fun getSample() = InsightDetailVo(
@@ -78,7 +79,8 @@ data class InsightDetailVo(
                 industry = listOf("산업단지"),
                 policy = listOf("투기 과열 지구 해제", "일자리 창출 정책"),
                 goodNewsReview = REVIEW
-            )
+            ),
+            isReported = false
         )
     }
 }
