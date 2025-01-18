@@ -19,7 +19,7 @@ class GetInsightsByAptComplexUseCase @Inject constructor(
     override suspend fun execute(
         parameters: PagingParams<String>
     ): PagingDto<InsightDto> = insightRepository.getInsightsByAptComplex(
-        page = parameters.page,
+        page = parameters.page - 1,
         size = parameters.size,
         direction = parameters.direction,
         properties = parameters.properties,

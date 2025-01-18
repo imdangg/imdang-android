@@ -3,12 +3,16 @@ package info.imdang.imdang.ui.main.home.search
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
+import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
 import info.imdang.domain.usecase.insight.GetInsightsUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.common.ext.snakeToCamelCase
 import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
+import info.imdang.imdang.model.common.PagingDirection
+import info.imdang.imdang.model.common.PagingProperty
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,13 +45,7 @@ class HomeSearchViewModel @Inject constructor(
     init {
         fetchVisitedAptComplexes()
         fetchInsights()
-
-        _recommendInsights.value = listOf(
-            InsightVo.getSamples(3),
-            InsightVo.getSamples(3),
-            InsightVo.getSamples(3),
-            InsightVo.getSamples(1)
-        )
+        fetchRecommendInsights()
     }
 
     private fun fetchVisitedAptComplexes() {
@@ -71,17 +69,28 @@ class HomeSearchViewModel @Inject constructor(
                     size = 3,
                     additionalParams = aptComplex
                 )
-            )?.content?.map {
-                it.mapper()
-            } ?: emptyList()
+            )?.content?.map(InsightDto::mapper) ?: emptyList()
         }
     }
 
     private fun fetchInsights() {
         viewModelScope.launch {
-            _newInsights.value = getInsightsUseCase(PagingParams())?.content?.map {
-                it.mapper()
-            } ?: emptyList()
+            _newInsights.value = getInsightsUseCase(
+                PagingParams()
+            )?.content?.map(InsightDto::mapper) ?: emptyList()
+        }
+    }
+
+    private fun fetchRecommendInsights() {
+        viewModelScope.launch {
+            val recommendInsights = getInsightsUseCase(
+                PagingParams(
+                    size = 10,
+                    direction = PagingDirection.DESC.name,
+                    properties = listOf(PagingProperty.RECOMMENDED_COUNT.name.snakeToCamelCase())
+                )
+            )?.content?.map(InsightDto::mapper) ?: emptyList()
+            _recommendInsights.value = recommendInsights.chunked(3)
         }
     }
 

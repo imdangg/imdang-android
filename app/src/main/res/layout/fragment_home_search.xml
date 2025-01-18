@@ -317,7 +317,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
-                        android:text="@string/home_recommend_insight_page"
+                        android:text="@{` / ` + viewModel.recommendInsights.size()}"
                         android:textColor="@color/gray_700"
                         app:layout_constraintBottom_toBottomOf="@id/tv_home_recommend_insight_subject"
                         app:layout_constraintRight_toRightOf="parent"
@@ -327,7 +327,7 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/vp_home_recommend_insight"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="372dp"
                         android:clipToPadding="false"
                         android:paddingVertical="24dp"
                         app:layout_constraintTop_toBottomOf="@id/tv_home_recommend_insight_subject" />
