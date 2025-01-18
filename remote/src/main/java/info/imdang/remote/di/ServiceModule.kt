@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import info.imdang.remote.service.AptComplexService
 import info.imdang.remote.service.AuthService
 import info.imdang.remote.service.GoogleService
 import info.imdang.remote.service.InsightService
@@ -33,4 +34,10 @@ internal object ServiceModule {
     fun bindInsightService(
         @Named("imdang") retrofit: Retrofit
     ): InsightService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun bindAptComplexService(
+        @Named("imdang") retrofit: Retrofit
+    ): AptComplexService = retrofit.create()
 }

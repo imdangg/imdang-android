@@ -4,10 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import info.imdang.data.repository.AptComplexRepositoryImpl
 import info.imdang.data.repository.AuthRepositoryImpl
 import info.imdang.data.repository.GoogleRepositoryImpl
 import info.imdang.data.repository.HomeRepositoryImpl
 import info.imdang.data.repository.InsightRepositoryImpl
+import info.imdang.domain.repository.AptComplexRepository
 import info.imdang.domain.repository.AuthRepository
 import info.imdang.domain.repository.GoogleRepository
 import info.imdang.domain.repository.HomeRepository
@@ -41,4 +43,10 @@ internal abstract class RepositoryModule {
     abstract fun bindInsightRepository(
         insightRepositoryImpl: InsightRepositoryImpl
     ): InsightRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAptComplexRepository(
+        aptComplexRepositoryImpl: AptComplexRepositoryImpl
+    ): AptComplexRepository
 }

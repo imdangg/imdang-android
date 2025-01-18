@@ -2,7 +2,7 @@ package info.imdang.imdang.ui.write
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.imdang.domain.model.insight.request.AddressDto
+import info.imdang.domain.model.common.AddressDto
 import info.imdang.domain.model.insight.request.ApartmentComplexDto
 import info.imdang.domain.model.insight.request.ComplexEnvironmentDto
 import info.imdang.domain.model.insight.request.ComplexFacilityDto

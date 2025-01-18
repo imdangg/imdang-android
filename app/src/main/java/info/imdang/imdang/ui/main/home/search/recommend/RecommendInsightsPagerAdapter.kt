@@ -11,7 +11,7 @@ class RecommendInsightsPagerAdapter(
     private val listener: RecommendInsightsListener
 ) : FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItemCount(): Int = 4
+    override fun getItemCount(): Int = insights.size
 
     override fun createFragment(position: Int): Fragment {
         return RecommendInsightsFragment.instance(

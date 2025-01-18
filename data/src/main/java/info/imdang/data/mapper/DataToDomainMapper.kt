@@ -1,6 +1,6 @@
 package info.imdang.data.mapper
 
-internal interface DataToDomainMapper<T> {
+interface DataToDomainMapper<T> {
     fun mapper(): T
 }
 

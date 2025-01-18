@@ -2,6 +2,8 @@ package info.imdang.data.repository
 
 import com.google.gson.Gson
 import info.imdang.data.datasource.remote.InsightRemoteDataSource
+import info.imdang.domain.model.common.PagingDto
+import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.model.insight.InsightIdDto
 import info.imdang.domain.model.insight.request.WriteInsightDto
 import info.imdang.domain.repository.InsightRepository
@@ -28,5 +30,31 @@ internal class InsightRepositoryImpl @Inject constructor(
             mainImage.name,
             mainImage.asRequestBody()
         )
+    ).mapper()
+
+    override suspend fun getInsights(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingDto<InsightDto> = insightRemoteDataSource.getInsights(
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties
+    ).mapper()
+
+    override suspend fun getInsightsByAptComplex(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?,
+        aptComplex: String
+    ): PagingDto<InsightDto> = insightRemoteDataSource.getInsightsByAptComplex(
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties,
+        aptComplex = aptComplex
     ).mapper()
 }
