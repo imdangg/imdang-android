@@ -8,10 +8,11 @@ import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.ExchangeItem
 import info.imdang.imdang.model.insight.InsightDetailItem
-import info.imdang.imdang.model.insight.InsightDetailState
+import info.imdang.imdang.model.insight.InsightDetailStatus
 import info.imdang.imdang.model.insight.InsightDetailVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
+import info.imdang.imdang.model.insight.toInsightDetailStatus
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -50,8 +51,8 @@ class InsightDetailViewModel @Inject constructor(
     private val _exchangeItems = MutableStateFlow<List<ExchangeItem>>(emptyList())
     val exchangeItems = _exchangeItems.asStateFlow()
 
-    private val _insightDetailState = MutableStateFlow(InsightDetailState.EXCHANGE_REQUEST)
-    val insightDetailState = _insightDetailState.asStateFlow()
+    private val _insightDetailStatus = MutableStateFlow(InsightDetailStatus.EXCHANGE_REQUEST)
+    val insightDetailStatus = _insightDetailStatus.asStateFlow()
 
     private val _isScrolling = MutableStateFlow(false)
     val isScrolling = _isScrolling.asStateFlow()
@@ -71,61 +72,46 @@ class InsightDetailViewModel @Inject constructor(
     private fun fetchInsightDetail() {
         viewModelScope.launch {
             _insight.value = getInsightDetailUseCase(insightId.value)?.mapper() ?: return@launch
-            if (insight.value.memberId == memberId) {
-                _insightDetailState.value = InsightDetailState.MY_INSIGHT
-            }
+            _insightDetailStatus.value = insight.value.exchangeRequestStatus.toInsightDetailStatus(
+                isMyInsight = insight.value.memberId == memberId
+            )
             _insightDetails.value =
-                if (insightDetailState.value == InsightDetailState.EXCHANGE_COMPLETE ||
-                    insightDetailState.value == InsightDetailState.MY_INSIGHT
+                if (insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE ||
+                    insightDetailStatus.value == InsightDetailStatus.MY_INSIGHT
                 ) {
-                    listOf(
-                        InsightDetailItem.BasicInfo(
-                            mainImage = insight.value.mainImage,
-                            title = insight.value.title,
-                            address = insight.value.address.siDo +
-                                " ${insight.value.address.siGunGu}" +
-                                " ${insight.value.address.eupMyeonDong}" +
-                                " ${insight.value.address.buildingNumber}" +
-                                "\n(${insight.value.aptComplex})",
-                            latitude = 37.5304831048862,
-                            longitude = 126.902812773342,
-                            visitAt = insight.value.visitAt,
-                            visitTimes = insight.value.visitTimes.joinToString(", "),
-                            visitMethods = insight.value.visitMethods.joinToString(", "),
-                            access = insight.value.access,
-                            summary = insight.value.summary
-                        ),
-                        InsightDetailItem.Infra(insight.value.infra),
-                        InsightDetailItem.AptEnvironment(insight.value.complexEnvironment),
-                        InsightDetailItem.AptFacility(insight.value.complexFacility),
-                        InsightDetailItem.GoodNews(insight.value.goodNews)
-                    )
+                    val infra = insight.value.infra
+                    val complexEnvironment = insight.value.complexEnvironment
+                    val complexFacility = insight.value.complexFacility
+                    val goodNews = insight.value.goodNews
+                    if (infra != null &&
+                        complexEnvironment != null &&
+                        complexFacility != null &&
+                        goodNews != null
+                    ) {
+                        listOf(
+                            insight.value.toBasicInfo(),
+                            InsightDetailItem.Infra(infra),
+                            InsightDetailItem.AptEnvironment(complexEnvironment),
+                            InsightDetailItem.AptFacility(complexFacility),
+                            InsightDetailItem.GoodNews(goodNews)
+                        )
+                    } else {
+                        listOf(
+                            insight.value.toBasicInfo(),
+                            InsightDetailItem.Invisible(insightDetailStatus.value)
+                        )
+                    }
                 } else {
                     listOf(
-                        InsightDetailItem.BasicInfo(
-                            mainImage = insight.value.mainImage,
-                            title = insight.value.title,
-                            address = insight.value.address.siDo +
-                                " ${insight.value.address.siGunGu}" +
-                                " ${insight.value.address.eupMyeonDong}" +
-                                " ${insight.value.address.buildingNumber}" +
-                                "\n(${insight.value.aptComplex})",
-                            latitude = 37.5304831048862,
-                            longitude = 126.902812773342,
-                            visitAt = insight.value.visitAt,
-                            visitTimes = insight.value.visitTimes.joinToString(", "),
-                            visitMethods = insight.value.visitMethods.joinToString(", "),
-                            access = insight.value.access,
-                            summary = insight.value.summary
-                        ),
-                        InsightDetailItem.Invisible(insightDetailState.value)
+                        insight.value.toBasicInfo(),
+                        InsightDetailItem.Invisible(insightDetailStatus.value)
                     )
                 }
         }
     }
 
-    fun isEnableTabMove() = insightDetailState.value == InsightDetailState.EXCHANGE_COMPLETE ||
-        insightDetailState.value == InsightDetailState.MY_INSIGHT
+    fun isEnableTabMove() = insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE ||
+        insightDetailStatus.value == InsightDetailStatus.MY_INSIGHT
 
     fun onClickTab() {
         _isScrolling.value = true
@@ -136,7 +122,7 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun onClickRecommend() {
-        if (insightDetailState.value == InsightDetailState.EXCHANGE_COMPLETE) {
+        if (insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE) {
             _insight.value = insight.value.copy(isRecommended = !insight.value.isRecommended)
         } else {
             viewModelScope.launch {
@@ -169,7 +155,7 @@ class InsightDetailViewModel @Inject constructor(
 
     fun onClickAcceptButton() {
         viewModelScope.launch {
-            _insightDetailState.value = InsightDetailState.EXCHANGE_COMPLETE
+            _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_COMPLETE
             fetchInsightDetail()
             _event.emit(
                 InsightDetailEvent.ShowCommonDialog(
@@ -191,9 +177,9 @@ class InsightDetailViewModel @Inject constructor(
                 (it is ExchangeItem.Pass && it.isSelected) ||
                     (it is ExchangeItem.Insight && it.isSelected)
             } ?: return@launch
-            _insightDetailState.value = InsightDetailState.EXCHANGE_WAITING
+            _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_WAITING
             _insightDetails.value = insightDetails.value.map {
-                if (it is InsightDetailItem.Invisible) it.copy(insightDetailState.value) else it
+                if (it is InsightDetailItem.Invisible) it.copy(insightDetailStatus.value) else it
             }
             _event.emit(
                 InsightDetailEvent.ShowCommonDialog(

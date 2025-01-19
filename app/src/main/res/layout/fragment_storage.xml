@@ -307,7 +307,7 @@
 
             <TextView
                 style="@style/T_500_14_19_6"
-                bindVisible="@{viewModel.isSeeOnlyMyInsight &amp;&amp; viewModel.myInsights.size() == 0}"
+                bindVisible="@{viewModel.isSeeOnlyMyInsight &amp;&amp; viewModel.insights.size() == 0}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"

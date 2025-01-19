@@ -6,5 +6,7 @@ data class AddressDto(
     val eupMyeonDong: String,
     val roadName: String?,
     val buildingNumber: String?,
-    val detail: String?
+    val detail: String?,
+    val latitude: Double?,
+    val longitude: Double?
 )

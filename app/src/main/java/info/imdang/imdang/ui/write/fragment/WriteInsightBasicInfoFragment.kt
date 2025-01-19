@@ -29,6 +29,8 @@ import info.imdang.imdang.ui.write.WriteInsightViewModel
 import info.imdang.imdang.ui.write.address.KakaoAddressActivity
 import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.APT_NAME
 import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.APT_ADDRESS
+import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.LATITUDE
+import info.imdang.imdang.ui.write.address.KakaoAddressActivity.Companion.LONGITUDE
 import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheet
 import info.imdang.imdang.ui.write.bottomsheet.SelectImageBottomSheetListener
 import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity
@@ -49,10 +51,14 @@ class WriteInsightBasicInfoFragment :
         if (result.resultCode == Activity.RESULT_OK) {
             val aptAddress = result.data?.getStringExtra(APT_ADDRESS).orEmpty()
             val aptName = result.data?.getStringExtra(APT_NAME).orEmpty()
+            val latitude = result.data?.getDoubleExtra(LATITUDE, 0.0) ?: 0.0
+            val longitude = result.data?.getDoubleExtra(LONGITUDE, 0.0) ?: 0.0
 
             with(viewModel) {
                 updateInsightAptAddress(aptAddress)
                 updateInsightAptName(aptName)
+                updateLatitude(latitude)
+                updateLongitude(longitude)
             }
         }
     }

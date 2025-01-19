@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="info.imdang.imdang.model.insight.InsightDetailState" />
+        <import type="info.imdang.imdang.model.insight.InsightDetailStatus" />
 
         <variable
             name="viewModel"
@@ -283,7 +283,7 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <View
-            bindVisible="@{viewModel.insightDetailState != InsightDetailState.MY_INSIGHT}"
+            bindVisible="@{viewModel.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/gradient_gray25_100"
@@ -291,7 +291,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_insight_detail_buttons"
-            bindVisible="@{viewModel.insightDetailState != InsightDetailState.MY_INSIGHT}"
+            bindVisible="@{viewModel.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
@@ -301,14 +301,14 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_insight_detail_state"
                 style="@style/T_600_16_22_4"
-                bindVisible="@{viewModel.insightDetailState != InsightDetailState.EXCHANGE_REQUESTED}"
+                bindVisible="@{viewModel.insightDetailStatus != InsightDetailStatus.EXCHANGE_REQUESTED}"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:background="@drawable/bg_complete_button"
-                android:enabled="@{viewModel.insightDetailState == InsightDetailState.EXCHANGE_REQUEST}"
+                android:enabled="@{viewModel.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUEST}"
                 android:onClick="@{() -> viewModel.onClickExchangeRequestButton()}"
                 android:stateListAnimator="@null"
-                android:text="@{viewModel.insightDetailState.text}"
+                android:text="@{viewModel.insightDetailStatus.text}"
                 android:textColor="@color/color_white_gray500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -318,7 +318,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_exchange_reject"
                 style="@style/T_600_16_22_4"
-                bindVisible="@{viewModel.insightDetailState == InsightDetailState.EXCHANGE_REQUESTED}"
+                bindVisible="@{viewModel.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUESTED}"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:background="@drawable/sr_white_orange500_all8"
@@ -334,7 +334,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_exchange_accept"
                 style="@style/T_600_16_22_4"
-                bindVisible="@{viewModel.insightDetailState == InsightDetailState.EXCHANGE_REQUESTED}"
+                bindVisible="@{viewModel.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUESTED}"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="10dp"

@@ -131,15 +131,15 @@ class InsightDetailViewHolder(
                 height = parent.context.dpToPx(32)
                 map = naverMap
             }
-            setOnMapClickListener { _, latLng ->
+            setOnMapClickListener { _, _ ->
                 val name = item.address
                     .split("\n")
                     .last()
                     .replace("(", "")
                     .replace(")", "")
                 val naverMapUrl = "nmap://place" +
-                    "?lat=${latLng.latitude}" +
-                    "&lng=${latLng.longitude}" +
+                    "?lat=${item.latitude}" +
+                    "&lng=${item.longitude}" +
                     "&name=$name" +
                     "&appname=${parent.context.packageName}"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(naverMapUrl)).apply {
@@ -151,8 +151,8 @@ class InsightDetailViewHolder(
                     PackageManager.MATCH_DEFAULT_ONLY
                 )
                 if (list.isEmpty()) {
-                    val naverMapWebUrl = "https://map.naver.com?lat=${latLng.latitude}" +
-                        "&lng=${latLng.longitude}" +
+                    val naverMapWebUrl = "https://map.naver.com?lat=${item.latitude}" +
+                        "&lng=${item.longitude}" +
                         "&title=$name"
                     parent.context.startActivity(
                         Intent(Intent.ACTION_VIEW, Uri.parse(naverMapWebUrl))

@@ -66,6 +66,12 @@ class WriteInsightViewModel @Inject constructor(
     private val _insightAptName = MutableStateFlow("")
     val insightAptName = _insightAptName.asStateFlow()
 
+    private val _latitude = MutableStateFlow(0.0)
+    val latitude = _latitude.asStateFlow()
+
+    private val _longitude = MutableStateFlow(0.0)
+    val longitude = _longitude.asStateFlow()
+
     private val _isInsightAptAddressValid = MutableStateFlow(false)
     val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
 
@@ -297,6 +303,14 @@ class WriteInsightViewModel @Inject constructor(
         _insightAptName.value = name
     }
 
+    fun updateLatitude(latitude: Double) {
+        _latitude.value = latitude
+    }
+
+    fun updateLongitude(longitude: Double) {
+        _longitude.value = longitude
+    }
+
     fun updateAptAddressValid(isValid: Boolean) {
         _isInsightAptAddressValid.value = isValid
     }
@@ -393,7 +407,9 @@ class WriteInsightViewModel @Inject constructor(
                     eupMyeonDong = insightAptAddress.value.split(" ")[2],
                     roadName = "",
                     buildingNumber = insightAptAddress.value.split(" ")[3],
-                    detail = ""
+                    detail = "",
+                    latitude = latitude.value,
+                    longitude = longitude.value
                 ),
                 apartmentComplex = ApartmentComplexDto(
                     name = insightAptName.value
