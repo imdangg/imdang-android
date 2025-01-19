@@ -82,35 +82,6 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                     }
                 }
             }
-            rvStorageMyInsight.run {
-                addItemDecoration(SpaceItemDecoration(space = 12))
-                adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.item_insight_horizontal,
-                    bindingItemId = BR.item,
-                    viewModel = mapOf(BR.viewModel to this@StorageFragment.viewModel),
-                    diffUtil = object : DiffUtil.ItemCallback<InsightVo>() {
-                        override fun areItemsTheSame(
-                            oldItem: InsightVo,
-                            newItem: InsightVo
-                        ): Boolean = oldItem.title == newItem.title
-
-                        override fun areContentsTheSame(
-                            oldItem: InsightVo,
-                            newItem: InsightVo
-                        ): Boolean {
-                            return oldItem == newItem
-                        }
-                    }
-                ).apply {
-                    itemClickListener = { item, _ ->
-                        if (item is InsightVo) {
-                            requireContext().startActivity<InsightDetailActivity>(
-                                bundle = bundleOf(INSIGHT_ID to item.insightId)
-                            )
-                        }
-                    }
-                }
-            }
             vpInsightAddress.run {
                 val currentVisibleItemPx = requireContext().dpToPx(20)
                 val nextVisibleItemPx = requireContext().dpToPx(8)
@@ -177,6 +148,9 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                     }
                 }
             )
+            tvSeeByAptAll.setOnClickListener {
+                this@StorageFragment.viewModel.updateSelectedComplex(null)
+            }
             clSeeByApt.setOnClickListener {
                 showAptBottomSheet()
             }

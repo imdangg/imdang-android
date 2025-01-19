@@ -90,7 +90,13 @@ class ComplexBottomSheet :
                             return oldItem == newItem
                         }
                     }
-                )
+                ).apply {
+                    itemClickListener = { item, _ ->
+                        if (item is AptComplexVo) {
+                            this@ComplexBottomSheet.viewModel.updateSelectedComplex(item)
+                        }
+                    }
+                }
             }
         }
     }

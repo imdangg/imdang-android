@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="info.imdang.component.R" />
+
         <variable
             name="viewModel"
             type="info.imdang.imdang.ui.main.storage.StorageViewModel" />
@@ -182,13 +184,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="16dp"
-                        android:background="@drawable/sr_orange500_all100"
+                        android:background="@{viewModel.selectedComplex == null ? @drawable/sr_orange500_all100 : @drawable/sr_white_gray100_all100}"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         android:text="@string/all"
-                        android:textColor="@color/white"
+                        android:textColor="@{viewModel.selectedComplex == null ? @color/white : @color/gray_500}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:background="@drawable/sr_orange500_all100"
+                        tools:textColor="@color/white" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_see_by_apt"
@@ -200,19 +204,23 @@
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         app:layout_constraintStart_toEndOf="@id/tv_see_by_apt_all"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:background="@drawable/sr_white_gray100_all100">
 
                         <TextView
                             android:id="@+id/tv_see_by_apt"
                             style="@style/T_600_14_19_6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/see_by_apt"
-                            android:textColor="@color/gray_500"
+                            android:text="@{viewModel.selectedComplex == null ? @string/see_by_apt : viewModel.selectedComplex.name}"
+                            android:textColor="@{viewModel.selectedComplex == null ? @color/gray_500 : @color/white}"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/see_by_apt"
+                            tools:textColor="@color/gray_500" />
 
                         <ImageView
+                            bindTint="@{viewModel.selectedComplex == null ? R.color.gray_500 : R.color.white}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -220,7 +228,8 @@
                             android:src="@drawable/ic_down"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/tv_see_by_apt"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:tint="@color/gray_500" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
@@ -256,7 +265,7 @@
                             android:layout_marginStart="8dp"
                             android:importantForAccessibility="no"
                             android:onClick="@{() -> viewModel.toggleMyInsightOnly()}"
-                            android:src="@{viewModel.isSeeJustMyInsight ? @drawable/ic_switch_on : @drawable/ic_switch_off}"
+                            android:src="@{viewModel.isSeeOnlyMyInsight ? @drawable/ic_switch_on : @drawable/ic_switch_off}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_insight_count"
                             app:layout_constraintStart_toEndOf="@id/tv_see_my_insight"
                             app:layout_constraintTop_toTopOf="@id/tv_insight_count"
@@ -286,7 +295,6 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_storage_insight"
                 bindItemList="@{viewModel.insights}"
-                bindVisible="@{!viewModel.isSeeJustMyInsight}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -297,23 +305,9 @@
                 tools:itemCount="10"
                 tools:listitem="@layout/item_insight_horizontal" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_storage_my_insight"
-                bindItemList="@{viewModel.myInsights}"
-                bindVisible="@{viewModel.isSeeJustMyInsight}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="24dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_insight_horizontal" />
-
             <TextView
                 style="@style/T_500_14_19_6"
-                bindVisible="@{viewModel.isSeeJustMyInsight &amp;&amp; viewModel.myInsights.size() == 0}"
+                bindVisible="@{viewModel.isSeeOnlyMyInsight &amp;&amp; viewModel.myInsights.size() == 0}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -323,6 +317,7 @@
                 android:paddingVertical="16dp"
                 android:text="@string/home_insight_empty_message"
                 android:textColor="@color/gray_500"
+                android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -331,6 +326,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/gray_25"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tb_storage">
 
@@ -360,12 +356,14 @@
             <TextView
                 android:id="@+id/tv_empty_message"
                 style="@style/T_600_18_25_2"
+                bindVisible="@{viewModel.insights.size() > 0}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:text="@string/storage_empty_message"
                 android:textColor="@color/gray_500"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.aptcomplex.AptComplexVo
@@ -47,10 +48,12 @@ class VisitComplexInsightListViewModel @Inject constructor(
                 it.isSelected
             }?.aptComplexName ?: return@launch
             _visitedAptComplexInsights.value = getInsightsByAptComplexUseCase(
-                PagingParams(
-                    page = 1,
-                    size = 20,
-                    additionalParams = aptComplex
+                GetInsightsByAptComplexParams(
+                    aptComplex = aptComplex,
+                    pagingParams = PagingParams(
+                        page = 1,
+                        size = 20
+                    )
                 )
             )?.content?.map {
                 it.mapper()

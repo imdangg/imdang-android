@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
 import info.imdang.domain.usecase.insight.GetInsightsUseCase
 import info.imdang.imdang.base.BaseViewModel
@@ -64,10 +65,12 @@ class HomeSearchViewModel @Inject constructor(
                 it.isSelected
             }?.aptComplexName ?: return@launch
             _visitedAptComplexInsights.value = getInsightsByAptComplexUseCase(
-                PagingParams(
-                    page = 1,
-                    size = 3,
-                    additionalParams = aptComplex
+                GetInsightsByAptComplexParams(
+                    aptComplex = aptComplex,
+                    pagingParams = PagingParams(
+                        page = 1,
+                        size = 3
+                    )
                 )
             )?.content?.map(InsightDto::mapper) ?: emptyList()
         }

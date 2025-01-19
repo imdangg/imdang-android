@@ -12,17 +12,22 @@ import javax.inject.Inject
 class GetInsightsByAptComplexUseCase @Inject constructor(
     private val insightRepository: InsightRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<PagingParams<String>, PagingDto<InsightDto>>(
+) : UseCase<GetInsightsByAptComplexParams, PagingDto<InsightDto>>(
         coroutineDispatcher = dispatcher
     ) {
 
     override suspend fun execute(
-        parameters: PagingParams<String>
+        parameters: GetInsightsByAptComplexParams
     ): PagingDto<InsightDto> = insightRepository.getInsightsByAptComplex(
-        page = parameters.page - 1,
-        size = parameters.size,
-        direction = parameters.direction,
-        properties = parameters.properties,
-        aptComplex = parameters.additionalParams ?: ""
+        page = parameters.pagingParams.page - 1,
+        size = parameters.pagingParams.size,
+        direction = parameters.pagingParams.direction,
+        properties = parameters.pagingParams.properties,
+        aptComplex = parameters.aptComplex
     )
 }
+
+data class GetInsightsByAptComplexParams(
+    val aptComplex: String,
+    val pagingParams: PagingParams
+)
