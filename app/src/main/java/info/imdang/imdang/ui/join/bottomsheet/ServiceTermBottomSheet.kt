@@ -11,6 +11,7 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.BottomSheetServiceTermBinding
 import info.imdang.imdang.ui.join.BasicInformationViewModel
 import info.imdang.imdang.ui.login.LoginActivity
+import java.io.Serializable
 
 @AndroidEntryPoint
 class ServiceTermBottomSheet : BaseBottomSheetDialogFragment<BottomSheetServiceTermBinding>(
@@ -19,12 +20,15 @@ class ServiceTermBottomSheet : BaseBottomSheetDialogFragment<BottomSheetServiceT
 
     private val viewModel by activityViewModels<BasicInformationViewModel>()
 
+    private lateinit var listener: ServiceTermBottomSheetListener
+
     override fun getTheme(): Int = info.imdang.component.R.style.Rounded12BottomSheetDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
+        setupListener()
     }
 
     private fun setupBinding() {
@@ -39,7 +43,25 @@ class ServiceTermBottomSheet : BaseBottomSheetDialogFragment<BottomSheetServiceT
         }
     }
 
-    companion object {
-        fun instance() = ServiceTermBottomSheet()
+    private fun setupListener() {
+        with(binding) {
+            tvAgreeAndContinueButton.setOnClickListener {
+                dismiss()
+                listener.onClickAgreeContinueButton()
+            }
+        }
     }
+
+    companion object {
+        fun instance(
+            listener: ServiceTermBottomSheetListener
+        ) = ServiceTermBottomSheet().apply {
+            this.listener = listener
+        }
+    }
+}
+
+interface ServiceTermBottomSheetListener : Serializable {
+
+    fun onClickAgreeContinueButton()
 }

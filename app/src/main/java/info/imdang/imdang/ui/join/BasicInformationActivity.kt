@@ -15,6 +15,7 @@ import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.common.ext.startAndFinishActivity
 import info.imdang.imdang.databinding.ActivityBasicInformationBinding
 import info.imdang.imdang.ui.join.bottomsheet.ServiceTermBottomSheet
+import info.imdang.imdang.ui.join.bottomsheet.ServiceTermBottomSheetListener
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -301,7 +302,11 @@ class BasicInformationActivity :
     }
 
     private fun showServiceTermBottomSheet() {
-        ServiceTermBottomSheet.instance().show(
+        ServiceTermBottomSheet.instance(
+            listener = object : ServiceTermBottomSheetListener {
+                override fun onClickAgreeContinueButton() {}
+            }
+        ).show(
             supportFragmentManager,
             ServiceTermBottomSheet::class.java.simpleName
         )
