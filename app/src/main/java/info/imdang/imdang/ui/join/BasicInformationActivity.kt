@@ -14,6 +14,8 @@ import info.imdang.imdang.common.ext.nicknameValidation
 import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.common.ext.startAndFinishActivity
 import info.imdang.imdang.databinding.ActivityBasicInformationBinding
+import info.imdang.imdang.ui.join.bottomsheet.ServiceTermBottomSheet
+import info.imdang.imdang.ui.join.bottomsheet.ServiceTermBottomSheetListener
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -26,6 +28,7 @@ class BasicInformationActivity :
         super.onCreate(savedInstanceState)
 
         init()
+        showServiceTermBottomSheet()
     }
 
     override fun onShowKeyboard(keyboardHeight: Int) {
@@ -296,5 +299,16 @@ class BasicInformationActivity :
             }
             background = drawable
         }
+    }
+
+    private fun showServiceTermBottomSheet() {
+        ServiceTermBottomSheet.instance(
+            listener = object : ServiceTermBottomSheetListener {
+                override fun onClickAgreeContinueButton() {}
+            }
+        ).show(
+            supportFragmentManager,
+            ServiceTermBottomSheet::class.java.simpleName
+        )
     }
 }

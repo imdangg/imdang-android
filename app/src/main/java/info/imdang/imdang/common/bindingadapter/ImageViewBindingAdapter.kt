@@ -102,3 +102,8 @@ fun ImageView.bindWriteInsightStepImage(
         null
     }
 }
+
+@BindingAdapter("bindImageResource")
+fun ImageView.bindImageResource(resource: Int) {
+    this.setImageResource(resource)
+}

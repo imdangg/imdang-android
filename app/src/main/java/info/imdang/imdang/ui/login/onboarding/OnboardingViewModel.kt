@@ -16,4 +16,10 @@ class OnboardingViewModel @Inject constructor(
         "인사이트 교환하기" to "양질의 인사이트를 주고받으며\n가치 있는 임장 인사이트를 교환하세요",
         "다양한 인사이트 모으기" to "작성한 인사이트와 교환한 인사이트를\n보관함에서 편리하게 관리하세요"
     )[savedStateHandle[ONBOARDING_POSITION] ?: 0]
+
+    val imageRes = listOf(
+        info.imdang.component.R.drawable.bg_onboarding_1,
+        info.imdang.component.R.drawable.bg_onboarding_2,
+        info.imdang.component.R.drawable.bg_onboarding_3
+    )[savedStateHandle[ONBOARDING_POSITION] ?: 0]
 }

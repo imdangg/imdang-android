@@ -39,6 +39,29 @@ class BasicInformationViewModel @Inject constructor(
             nicknameValid && birthDateValid && genderValid
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    private val _isRequireTermChecked = MutableStateFlow(false)
+    val isRequireTermChecked = _isRequireTermChecked.asStateFlow()
+
+    private val _isRequirePrivacyTermChecked = MutableStateFlow(false)
+    val isRequirePrivacyTermChecked = _isRequirePrivacyTermChecked.asStateFlow()
+
+    private val _isOptionalMarketingAndNotificationsChecked = MutableStateFlow(false)
+    val isOptionalMarketingAndNotificationsChecked =
+        _isOptionalMarketingAndNotificationsChecked.asStateFlow()
+
+    private val _isTotallyAgreeChecked = MutableStateFlow(false)
+    val isTotallyAgreeChecked = _isTotallyAgreeChecked.asStateFlow()
+
+    private val requiredTermsState = listOf(_isRequireTermChecked, _isRequirePrivacyTermChecked)
+
+    val isAgreeAndContinueButtonEnabled = combine(
+        _isRequireTermChecked,
+        _isRequirePrivacyTermChecked,
+        _isTotallyAgreeChecked
+    ) { isRequireTermChecked, isRequirePrivacyTermChecked, isTotallyAgreeChecked ->
+        (isRequireTermChecked && isRequirePrivacyTermChecked) || isTotallyAgreeChecked
+    }.stateIn(viewModelScope, SharingStarted.Lazily, false)
+
     fun updateNicknameValid(isValid: Boolean) {
         _isNicknameValid.value = isValid
     }
@@ -69,5 +92,32 @@ class BasicInformationViewModel @Inject constructor(
         viewModelScope.launch {
             onboardingJoinUseCase(onboardingDto)
         }
+    }
+
+    fun updateRequireTermChecked(isChecked: Boolean) {
+        _isRequireTermChecked.value = isChecked
+        updateTotallyAgreeStatus()
+    }
+
+    fun updateRequirePrivacyTermChecked(isChecked: Boolean) {
+        _isRequirePrivacyTermChecked.value = isChecked
+        updateTotallyAgreeStatus()
+    }
+
+    fun updateOptionalMarketingAndNotificationsChecked(isChecked: Boolean) {
+        _isOptionalMarketingAndNotificationsChecked.value = isChecked
+        updateTotallyAgreeStatus()
+    }
+
+    fun updateTotallyAgreeChecked(isChecked: Boolean) {
+        _isTotallyAgreeChecked.value = isChecked
+        _isRequireTermChecked.value = isChecked
+        _isRequirePrivacyTermChecked.value = isChecked
+        _isOptionalMarketingAndNotificationsChecked.value = isChecked
+    }
+
+    private fun updateTotallyAgreeStatus() {
+        _isTotallyAgreeChecked.value = requiredTermsState.all { it.value } &&
+            _isOptionalMarketingAndNotificationsChecked.value
     }
 }
