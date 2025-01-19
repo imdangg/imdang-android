@@ -286,6 +286,11 @@
     <string name="already_report_message">이미 신고한 인사이트에요</string>
     <string name="already_report_sub_message">동일한 인사이트를 중복으로\n신고할 수 없어요</string>
     <string name="notification">알림</string>
+    <string name="totally_agree">전체 동의</string>
+    <string name="required_term">[필수] 이용약관</string>
+    <string name="required_privacy_term">[필수] 개인 정보 수집 이용</string>
+    <string name="optional_marketing_and_notifications">[선택] 마케팅 수신 및 앱 알림 동의</string>
+    <string name="agree_and_continue">동의하고 계속하기</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
     <string name="hint_date_of_visit">예시) 2024.01.01</string>
