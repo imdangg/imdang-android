@@ -200,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
-                        android:background="@drawable/sr_white_gray100_all100"
+                        android:background="@{viewModel.selectedComplex == null ? @drawable/sr_white_gray100_all100 : @drawable/sr_orange500_all100}"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         app:layout_constraintStart_toEndOf="@id/tv_see_by_apt_all"

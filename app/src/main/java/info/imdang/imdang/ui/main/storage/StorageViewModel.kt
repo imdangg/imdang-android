@@ -95,6 +95,7 @@ class StorageViewModel @Inject constructor(
         _addresses.value = addresses.value.mapIndexed { index, myInsightAddressVo ->
             myInsightAddressVo.copy(isSelected = index == page)
         }
+        _selectedComplex.value = null
         fetchComplexesByAddress()
         fetchInsightsByAddress()
     }

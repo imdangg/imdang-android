@@ -24,10 +24,10 @@ import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.myinsight.MyInsightAddressVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
-import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity
 import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity.Companion.SELECTED_PAGE
 import info.imdang.imdang.ui.main.storage.bottomsheet.ComplexBottomSheet
+import info.imdang.imdang.ui.main.storage.map.StorageByMapActivity
 
 @AndroidEntryPoint
 class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
@@ -128,7 +128,7 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
     private fun setupListener() {
         with(binding) {
             clStorageMap.setOnClickListener {
-                requireContext().startActivity<SearchByMapActivity>()
+                requireContext().startActivity<StorageByMapActivity>()
             }
             tvInsightAddressSeeAll.setOnClickListener {
                 addressResult.launch(
