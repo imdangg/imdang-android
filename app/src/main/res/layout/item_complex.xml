@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.insight.InsightAptVo" />
+            type="info.imdang.imdang.model.aptcomplex.AptComplexVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
             style="@style/T_500_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.aptName}"
+            android:text="@{item.aptComplexName}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +32,7 @@
             style="@style/T_500_14_19_6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.aptCount + `개`}"
+            android:text="@{item.insightCount + `개`}"
             android:textColor="@color/orange_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

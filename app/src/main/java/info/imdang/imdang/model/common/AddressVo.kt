@@ -39,3 +39,12 @@ fun AddressDto.mapper() = AddressVo(
     buildingNumber = buildingNumber ?: "",
     detail = detail ?: ""
 )
+
+fun AddressVo.mapper() = AddressDto(
+    siDo = siDo,
+    siGunGu = siGunGu,
+    eupMyeonDong = eupMyeonDong,
+    roadName = roadName.takeIf { it.isNotEmpty() },
+    buildingNumber = buildingNumber.takeIf { it.isNotEmpty() },
+    detail = detail.takeIf { it.isNotEmpty() }
+)

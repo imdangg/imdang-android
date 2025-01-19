@@ -1,5 +1,6 @@
 package info.imdang.imdang.model.myinsight
 
+import info.imdang.domain.model.common.AddressDto
 import info.imdang.domain.model.myinsight.MyInsightAddressDto
 
 data class MyInsightAddressVo(
@@ -11,6 +12,15 @@ data class MyInsightAddressVo(
     val isSelected: Boolean
 ) {
     fun toSiGuDong() = "$siDo $siGunGu $eupMyeonDong"
+
+    fun toAddressDto(): AddressDto = AddressDto(
+        siDo = siDo,
+        siGunGu = siGunGu,
+        eupMyeonDong = eupMyeonDong,
+        roadName = null,
+        buildingNumber = null,
+        detail = null
+    )
 }
 
 fun MyInsightAddressDto.mapper(

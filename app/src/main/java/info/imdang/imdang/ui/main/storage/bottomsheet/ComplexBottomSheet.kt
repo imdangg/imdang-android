@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import androidx.databinding.library.baseAdapters.BR
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -15,15 +14,16 @@ import info.imdang.imdang.base.BaseBottomSheetDialogFragment
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.dpToPx
-import info.imdang.imdang.databinding.BottomSheetAptBinding
-import info.imdang.imdang.model.insight.InsightAptVo
+import info.imdang.imdang.common.ext.screenHeight
+import info.imdang.imdang.databinding.BottomSheetComplexBinding
+import info.imdang.imdang.model.aptcomplex.AptComplexVo
 import info.imdang.imdang.ui.main.storage.StorageViewModel
 
 @AndroidEntryPoint
-class AptBottomSheet :
-    BaseBottomSheetDialogFragment<BottomSheetAptBinding>(R.layout.bottom_sheet_apt) {
+class ComplexBottomSheet :
+    BaseBottomSheetDialogFragment<BottomSheetComplexBinding>(R.layout.bottom_sheet_complex) {
 
-    private val viewModel by viewModels<StorageViewModel>()
+    private lateinit var viewModel: StorageViewModel
 
     private var dialogView: View? = null
 
@@ -55,7 +55,8 @@ class AptBottomSheet :
                     bottomSheet?.let {
                         BottomSheetBehavior.from(it).run {
                             peekHeight = requireContext().dpToPx(436)
-                            maxHeight = requireContext().dpToPx(736)
+                            maxHeight =
+                                requireActivity().screenHeight() - requireContext().dpToPx(83)
                         }
                         val newHeight = activity?.window?.decorView?.measuredHeight
                         val viewGroupLayoutParams = it.layoutParams
@@ -69,22 +70,22 @@ class AptBottomSheet :
 
     private fun setupBinding() {
         with(binding) {
-            viewModel = this@AptBottomSheet.viewModel
-            rvApt.run {
+            viewModel = this@ComplexBottomSheet.viewModel
+            rvComplex.run {
                 addItemDecoration(SpaceItemDecoration(space = 8))
                 adapter = BaseSingleViewAdapter(
-                    layoutResourceId = R.layout.item_apt,
+                    layoutResourceId = R.layout.item_complex,
                     bindingItemId = BR.item,
-                    viewModel = mapOf(BR.viewModel to this@AptBottomSheet.viewModel),
-                    diffUtil = object : DiffUtil.ItemCallback<InsightAptVo>() {
+                    viewModel = mapOf(BR.viewModel to this@ComplexBottomSheet.viewModel),
+                    diffUtil = object : DiffUtil.ItemCallback<AptComplexVo>() {
                         override fun areItemsTheSame(
-                            oldItem: InsightAptVo,
-                            newItem: InsightAptVo
-                        ): Boolean = oldItem.aptName == newItem.aptName
+                            oldItem: AptComplexVo,
+                            newItem: AptComplexVo
+                        ): Boolean = oldItem.aptComplexName == newItem.aptComplexName
 
                         override fun areContentsTheSame(
-                            oldItem: InsightAptVo,
-                            newItem: InsightAptVo
+                            oldItem: AptComplexVo,
+                            newItem: AptComplexVo
                         ): Boolean {
                             return oldItem == newItem
                         }
@@ -95,6 +96,10 @@ class AptBottomSheet :
     }
 
     companion object {
-        fun instance() = AptBottomSheet()
+        fun instance(
+            viewModel: StorageViewModel
+        ) = ComplexBottomSheet().apply {
+            this.viewModel = viewModel
+        }
     }
 }

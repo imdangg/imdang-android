@@ -25,9 +25,9 @@ import info.imdang.imdang.model.myinsight.MyInsightAddressVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
-import info.imdang.imdang.ui.main.storage.bottomsheet.AptBottomSheet
 import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity
 import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity.Companion.SELECTED_PAGE
+import info.imdang.imdang.ui.main.storage.bottomsheet.ComplexBottomSheet
 
 @AndroidEntryPoint
 class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
@@ -184,9 +184,9 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
     }
 
     private fun showAptBottomSheet() {
-        AptBottomSheet.instance().show(
+        ComplexBottomSheet.instance(viewModel).show(
             requireActivity().supportFragmentManager,
-            AptBottomSheet::class.java.simpleName
+            ComplexBottomSheet::class.java.simpleName
         )
     }
 }
