@@ -16,17 +16,18 @@
 
         <ImageView
             android:id="@+id/iv_onboarding"
+            imageResource="@{viewModel.imageRes}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/gray_50"
             android:layout_marginBottom="74dp"
+            android:background="@color/gray_50"
             android:importantForAccessibility="no"
             android:paddingTop="40dp"
-            android:src="@drawable/bg_onboarding_1"
+            app:layout_constraintBottom_toTopOf="@id/tv_onboarding_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_onboarding_title"/>
+            tools:src="@drawable/bg_onboarding_1" />
 
         <TextView
             android:id="@+id/tv_onboarding_title"
