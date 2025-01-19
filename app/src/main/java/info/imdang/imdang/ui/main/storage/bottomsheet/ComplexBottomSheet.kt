@@ -16,7 +16,7 @@ import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.common.ext.screenHeight
 import info.imdang.imdang.databinding.BottomSheetComplexBinding
-import info.imdang.imdang.model.aptcomplex.AptComplexVo
+import info.imdang.imdang.model.myinsight.AptComplexVo
 import info.imdang.imdang.ui.main.storage.StorageViewModel
 
 @AndroidEntryPoint

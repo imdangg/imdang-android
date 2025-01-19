@@ -12,7 +12,7 @@ import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityVisitComplexInsightListBinding
-import info.imdang.imdang.model.aptcomplex.AptComplexVo
+import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
@@ -40,22 +40,22 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
                     layoutResourceId = R.layout.item_visited_apt_complex,
                     bindingItemId = BR.item,
                     viewModel = emptyMap(),
-                    diffUtil = object : DiffUtil.ItemCallback<AptComplexVo>() {
+                    diffUtil = object : DiffUtil.ItemCallback<VisitAptComplexVo>() {
                         override fun areItemsTheSame(
-                            oldItem: AptComplexVo,
-                            newItem: AptComplexVo
+                            oldItem: VisitAptComplexVo,
+                            newItem: VisitAptComplexVo
                         ): Boolean = oldItem.aptComplexName == newItem.aptComplexName
 
                         override fun areContentsTheSame(
-                            oldItem: AptComplexVo,
-                            newItem: AptComplexVo
+                            oldItem: VisitAptComplexVo,
+                            newItem: VisitAptComplexVo
                         ): Boolean {
                             return oldItem == newItem
                         }
                     }
                 ).apply {
                     itemClickListener = { item, _ ->
-                        if (item is AptComplexVo) {
+                        if (item is VisitAptComplexVo) {
                             this@VisitComplexInsightListActivity.viewModel.onClickVisitedAptComplex(
                                 item
                             )

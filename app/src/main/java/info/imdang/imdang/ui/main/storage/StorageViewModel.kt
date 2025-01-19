@@ -2,20 +2,19 @@ package info.imdang.imdang.ui.main.storage
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.imdang.domain.model.aptcomplex.AptComplexDto
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
+import info.imdang.domain.model.myinsight.AptComplexDto
 import info.imdang.domain.usecase.myinsight.GetAddressesUseCase
 import info.imdang.domain.usecase.myinsight.GetComplexesByAddressUseCase
 import info.imdang.domain.usecase.myinsight.GetInsightsByAddressParams
 import info.imdang.domain.usecase.myinsight.GetInsightsByAddressUseCase
 import info.imdang.imdang.base.BaseViewModel
-import info.imdang.imdang.model.aptcomplex.AptComplexVo
-import info.imdang.imdang.model.aptcomplex.mapper
+import info.imdang.imdang.model.myinsight.AptComplexVo
+import info.imdang.imdang.model.myinsight.mapper
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
 import info.imdang.imdang.model.myinsight.MyInsightAddressVo
-import info.imdang.imdang.model.myinsight.mapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
@@ -72,11 +71,8 @@ class StorageViewModel @Inject constructor(
 
     private fun fetchComplexesByAddress() {
         viewModelScope.launch {
-            val selectedAddress = addresses.value.firstOrNull {
-                it.isSelected
-            } ?: return@launch
             _complexes.value = getComplexesByAddressUseCase(
-                selectedAddress.toAddressDto()
+                selectedAddress.value?.toAddressDto() ?: return@launch
             )?.map(AptComplexDto::mapper) ?: emptyList()
         }
     }
@@ -100,6 +96,7 @@ class StorageViewModel @Inject constructor(
             myInsightAddressVo.copy(isSelected = index == page)
         }
         fetchComplexesByAddress()
+        fetchInsightsByAddress()
     }
 
     fun toggleMyInsightOnly() {

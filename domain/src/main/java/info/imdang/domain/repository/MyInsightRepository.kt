@@ -1,6 +1,6 @@
 package info.imdang.domain.repository
 
-import info.imdang.domain.model.aptcomplex.AptComplexDto
+import info.imdang.domain.model.myinsight.AptComplexDto
 import info.imdang.domain.model.common.AddressDto
 import info.imdang.domain.model.common.PagingDto
 import info.imdang.domain.model.insight.InsightDto

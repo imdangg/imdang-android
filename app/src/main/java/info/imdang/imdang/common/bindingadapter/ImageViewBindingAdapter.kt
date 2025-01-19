@@ -84,7 +84,9 @@ fun ImageView.bindInsightDetailInvisibleImage(insightDetailState: InsightDetailS
 }
 
 @BindingAdapter("bindTint")
-fun ImageView.bindTint(@ColorRes color: Int) {
+fun ImageView.bindTint(
+    @ColorRes color: Int
+) {
     imageTintList = ColorStateList.valueOf(context.getColor(color))
 }
 

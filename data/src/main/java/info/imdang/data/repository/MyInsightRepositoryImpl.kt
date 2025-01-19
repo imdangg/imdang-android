@@ -3,7 +3,7 @@ package info.imdang.data.repository
 import com.google.gson.Gson
 import info.imdang.data.datasource.remote.MyInsightRemoteDataSource
 import info.imdang.data.mapper.mapper
-import info.imdang.domain.model.aptcomplex.AptComplexDto
+import info.imdang.domain.model.myinsight.AptComplexDto
 import info.imdang.domain.model.myinsight.MyInsightAddressDto
 import info.imdang.domain.model.common.AddressDto
 import info.imdang.domain.model.common.PagingDto

@@ -10,7 +10,7 @@ import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
 import info.imdang.domain.usecase.insight.GetInsightsUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.ext.snakeToCamelCase
-import info.imdang.imdang.model.aptcomplex.AptComplexVo
+import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
 import info.imdang.imdang.model.common.PagingDirection
 import info.imdang.imdang.model.common.PagingProperty
@@ -28,7 +28,7 @@ class HomeSearchViewModel @Inject constructor(
     private val getInsightsUseCase: GetInsightsUseCase
 ) : BaseViewModel() {
 
-    private val _visitedAptComplexes = MutableStateFlow<List<AptComplexVo>>(emptyList())
+    private val _visitedAptComplexes = MutableStateFlow<List<VisitAptComplexVo>>(emptyList())
     val visitedAptComplexes = _visitedAptComplexes.asStateFlow()
 
     private val _visitedAptComplexInsights = MutableStateFlow<List<InsightVo>>(emptyList())
@@ -97,7 +97,7 @@ class HomeSearchViewModel @Inject constructor(
         }
     }
 
-    fun onClickVisitedAptComplex(aptComplexVo: AptComplexVo) {
+    fun onClickVisitedAptComplex(aptComplexVo: VisitAptComplexVo) {
         _visitedAptComplexes.value = visitedAptComplexes.value.map {
             it.copy(isSelected = it.aptComplexName == aptComplexVo.aptComplexName)
         }

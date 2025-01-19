@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.aptcomplex.AptComplexVo" />
+            type="info.imdang.imdang.model.aptcomplex.VisitAptComplexVo" />
     </data>
 
     <com.google.android.material.chip.Chip

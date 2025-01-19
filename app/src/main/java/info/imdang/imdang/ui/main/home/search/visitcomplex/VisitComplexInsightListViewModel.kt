@@ -7,7 +7,7 @@ import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
 import info.imdang.imdang.base.BaseViewModel
-import info.imdang.imdang.model.aptcomplex.AptComplexVo
+import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
@@ -22,7 +22,7 @@ class VisitComplexInsightListViewModel @Inject constructor(
     private val getInsightsByAptComplexUseCase: GetInsightsByAptComplexUseCase
 ) : BaseViewModel() {
 
-    private val _visitedAptComplexes = MutableStateFlow<List<AptComplexVo>>(emptyList())
+    private val _visitedAptComplexes = MutableStateFlow<List<VisitAptComplexVo>>(emptyList())
     val visitedAptComplexes = _visitedAptComplexes.asStateFlow()
 
     private val _visitedAptComplexInsights = MutableStateFlow<List<InsightVo>>(emptyList())
@@ -61,7 +61,7 @@ class VisitComplexInsightListViewModel @Inject constructor(
         }
     }
 
-    fun onClickVisitedAptComplex(aptComplexVo: AptComplexVo) {
+    fun onClickVisitedAptComplex(aptComplexVo: VisitAptComplexVo) {
         _visitedAptComplexes.value = visitedAptComplexes.value.map {
             it.copy(isSelected = it.aptComplexName == aptComplexVo.aptComplexName)
         }

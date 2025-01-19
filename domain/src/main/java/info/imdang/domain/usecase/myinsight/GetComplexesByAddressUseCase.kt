@@ -1,7 +1,7 @@
 package info.imdang.domain.usecase.myinsight
 
 import info.imdang.domain.IoDispatcher
-import info.imdang.domain.model.aptcomplex.AptComplexDto
+import info.imdang.domain.model.myinsight.AptComplexDto
 import info.imdang.domain.model.common.AddressDto
 import info.imdang.domain.repository.MyInsightRepository
 import info.imdang.domain.usecase.UseCase

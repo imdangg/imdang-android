@@ -23,7 +23,7 @@ class GetInsightsByAddressUseCase @Inject constructor(
         address = parameters.address,
         aptComplexName = parameters.aptComplexName,
         onlyMine = parameters.onlyMine,
-        page = parameters.pagingParams.page,
+        page = parameters.pagingParams.page - 1,
         size = parameters.pagingParams.size,
         direction = parameters.pagingParams.direction,
         properties = parameters.pagingParams.properties

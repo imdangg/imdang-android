@@ -1,6 +1,6 @@
 package info.imdang.data.datasource.remote
 
-import info.imdang.data.model.response.aptcomplex.AptComplexResponse
+import info.imdang.data.model.response.myinsight.AptComplexResponse
 import info.imdang.data.model.response.common.PagingResponse
 import info.imdang.data.model.response.insight.InsightResponse
 import info.imdang.data.model.response.myinsight.MyInsightAddressResponse

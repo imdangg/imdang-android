@@ -1,6 +1,6 @@
-package info.imdang.imdang.model.aptcomplex
+package info.imdang.imdang.model.myinsight
 
-import info.imdang.domain.model.aptcomplex.AptComplexDto
+import info.imdang.domain.model.myinsight.AptComplexDto
 
 data class AptComplexVo(
     val aptComplexName: String,

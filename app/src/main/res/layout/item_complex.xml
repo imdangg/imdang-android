@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.aptcomplex.AptComplexVo" />
+            type="info.imdang.imdang.model.myinsight.AptComplexVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

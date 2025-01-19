@@ -212,7 +212,7 @@
                             style="@style/T_600_14_19_6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.selectedComplex == null ? @string/see_by_apt : viewModel.selectedComplex.name}"
+                            android:text="@{viewModel.selectedComplex == null ? @string/see_by_apt : viewModel.selectedComplex.aptComplexName}"
                             android:textColor="@{viewModel.selectedComplex == null ? @color/gray_500 : @color/white}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
