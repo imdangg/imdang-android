@@ -21,4 +21,11 @@ interface MyInsightRemoteDataSource {
         direction: String?,
         properties: List<String>?
     ): PagingResponse<InsightResponse, InsightDto>
+
+    suspend fun getMyInsights(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
 }

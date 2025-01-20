@@ -44,4 +44,16 @@ internal class MyInsightRepositoryImpl @Inject constructor(
             properties = properties
         ).mapper()
     }
+
+    override suspend fun getMyInsights(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingDto<InsightDto> = myInsightRemoteDataSource.getMyInsights(
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties
+    ).mapper()
 }

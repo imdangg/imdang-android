@@ -3,16 +3,13 @@ package info.imdang.imdang.ui.insight
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.imdang.domain.model.common.AddressDto
 import info.imdang.domain.model.common.PagingParams
-import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.auth.GetMemberIdUseCase
 import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
 import info.imdang.domain.usecase.exchange.RequestExchangeParams
 import info.imdang.domain.usecase.exchange.RequestExchangeUseCase
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
-import info.imdang.domain.usecase.myinsight.GetInsightsByAddressParams
-import info.imdang.domain.usecase.myinsight.GetInsightsByAddressUseCase
+import info.imdang.domain.usecase.myinsight.GetMyInsightsUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.ExchangeItem
 import info.imdang.imdang.model.insight.InsightDetailItem
@@ -36,7 +33,7 @@ class InsightDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getMemberIdUseCase: GetMemberIdUseCase,
     private val getInsightDetailUseCase: GetInsightDetailUseCase,
-    private val getInsightsByAddressUseCase: GetInsightsByAddressUseCase,
+    private val getMyInsightsUseCase: GetMyInsightsUseCase,
     private val getCouponCountUseCase: GetCouponCountUseCase,
     private val requestExchangeUseCase: RequestExchangeUseCase
 ) : BaseViewModel() {
@@ -118,23 +115,9 @@ class InsightDetailViewModel @Inject constructor(
     private fun fetchExchangeItems() {
         viewModelScope.launch {
             val myInsightsJob = async {
-                getInsightsByAddressUseCase(
-                    GetInsightsByAddressParams(
-                        address = AddressDto(
-                            siDo = "서울",
-                            siGunGu = "노원구",
-                            eupMyeonDong = "공릉동",
-                            roadName = null,
-                            buildingNumber = null,
-                            detail = null,
-                            latitude = null,
-                            longitude = null
-                        ),
-                        aptComplexName = null,
-                        onlyMine = true,
-                        pagingParams = PagingParams()
-                    )
-                )?.content?.map(InsightDto::mapper)
+                getMyInsightsUseCase(PagingParams())?.content?.map {
+                    it.mapper().copy(memberId = memberId)
+                }
             }
             val couponCountJob = async { getCouponCountUseCase(Unit) }
 

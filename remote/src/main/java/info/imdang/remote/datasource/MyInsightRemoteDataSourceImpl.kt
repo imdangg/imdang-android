@@ -37,4 +37,16 @@ internal class MyInsightRemoteDataSourceImpl @Inject constructor(
         direction = direction,
         properties = properties
     )
+
+    override suspend fun getMyInsights(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto> = myInsightService.getMyInsights(
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties
+    )
 }
