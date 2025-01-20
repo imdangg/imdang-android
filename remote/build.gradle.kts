@@ -97,4 +97,7 @@ dependencies {
 
     // retrofit
     implementation(libs.retrofit)
+
+    // paging
+    implementation(libs.androidx.paging.common)
 }

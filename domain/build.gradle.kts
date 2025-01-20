@@ -17,6 +17,9 @@ dependencies {
 
     // coroutines
     implementation(libs.coroutines)
+
+    // paging
+    implementation(libs.androidx.paging.common)
 }
 
 tasks.withType<KotlinCompile> {
