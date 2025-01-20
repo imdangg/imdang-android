@@ -9,7 +9,9 @@ data class AddressResponse(
     val eupMyeonDong: String,
     val roadName: String?,
     val buildingNumber: String?,
-    val detail: String?
+    val detail: String?,
+    val latitude: Double?,
+    val longitude: Double?
 ) : DataToDomainMapper<AddressDto> {
     override fun mapper(): AddressDto = AddressDto(
         siDo = siDo,
@@ -17,6 +19,8 @@ data class AddressResponse(
         eupMyeonDong = eupMyeonDong,
         roadName = roadName,
         buildingNumber = buildingNumber,
-        detail = detail
+        detail = detail,
+        latitude = latitude,
+        longitude = longitude
     )
 }

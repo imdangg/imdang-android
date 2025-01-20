@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="info.imdang.imdang.model.insight.InsightDetailState" />
+        <import type="info.imdang.imdang.model.insight.InsightDetailStatus" />
 
         <variable
             name="viewModel"
@@ -24,7 +24,7 @@
         android:paddingVertical="32dp">
 
         <ImageView
-            bindInsightDetailInvisibleImage="@{item.insightDetailState}"
+            bindInsightDetailInvisibleImage="@{item.insightDetailStatus}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:importantForAccessibility="no"

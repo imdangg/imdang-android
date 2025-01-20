@@ -19,7 +19,9 @@ data class MyInsightAddressVo(
         eupMyeonDong = eupMyeonDong,
         roadName = null,
         buildingNumber = null,
-        detail = null
+        detail = null,
+        latitude = null,
+        longitude = null
     )
 }
 

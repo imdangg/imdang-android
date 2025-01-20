@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import info.imdang.imdang.common.ext.dpToPx
-import info.imdang.imdang.model.insight.InsightDetailState
+import info.imdang.imdang.model.insight.InsightDetailStatus
 import java.io.File
 
 @BindingAdapter(
@@ -64,17 +64,17 @@ fun ImageView.bindImageFile(
 
 @SuppressLint("UseCompatLoadingForDrawables")
 @BindingAdapter("bindInsightDetailInvisibleImage")
-fun ImageView.bindInsightDetailInvisibleImage(insightDetailState: InsightDetailState) {
+fun ImageView.bindInsightDetailInvisibleImage(insightDetailStatus: InsightDetailStatus) {
     setImageDrawable(
         context.getDrawable(
-            when (insightDetailState) {
-                InsightDetailState.EXCHANGE_REQUEST -> {
+            when (insightDetailStatus) {
+                InsightDetailStatus.EXCHANGE_REQUEST -> {
                     info.imdang.component.R.drawable.ic_insight_detail_invisible_request
                 }
-                InsightDetailState.EXCHANGE_REQUESTED -> {
+                InsightDetailStatus.EXCHANGE_REQUESTED -> {
                     info.imdang.component.R.drawable.ic_insight_detail_invisible_requested
                 }
-                InsightDetailState.EXCHANGE_WAITING -> {
+                InsightDetailStatus.EXCHANGE_WAITING -> {
                     info.imdang.component.R.drawable.ic_insight_detail_invisible_waiting
                 }
                 else -> -1

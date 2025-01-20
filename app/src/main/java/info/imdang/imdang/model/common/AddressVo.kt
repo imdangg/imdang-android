@@ -11,7 +11,9 @@ data class AddressVo(
     val eupMyeonDong: String,
     val roadName: String,
     val buildingNumber: String,
-    val detail: String
+    val detail: String,
+    val latitude: Double?,
+    val longitude: Double?
 ) : Parcelable {
     fun toSiGuDong() = "$siDo $siGunGu $eupMyeonDong"
 
@@ -25,7 +27,9 @@ data class AddressVo(
                 eupMyeonDong = "신논현동",
                 roadName = "",
                 buildingNumber = "131",
-                detail = ""
+                detail = "",
+                latitude = 37.5304831048862,
+                longitude = 126.902812773342
             )
         }
     }
@@ -37,7 +41,9 @@ fun AddressDto.mapper() = AddressVo(
     eupMyeonDong = eupMyeonDong,
     roadName = roadName ?: "",
     buildingNumber = buildingNumber ?: "",
-    detail = detail ?: ""
+    detail = detail ?: "",
+    latitude = latitude,
+    longitude = longitude
 )
 
 fun AddressVo.mapper() = AddressDto(
@@ -46,5 +52,7 @@ fun AddressVo.mapper() = AddressDto(
     eupMyeonDong = eupMyeonDong,
     roadName = roadName.takeIf { it.isNotEmpty() },
     buildingNumber = buildingNumber.takeIf { it.isNotEmpty() },
-    detail = detail.takeIf { it.isNotEmpty() }
+    detail = detail.takeIf { it.isNotEmpty() },
+    latitude = latitude,
+    longitude = longitude
 )

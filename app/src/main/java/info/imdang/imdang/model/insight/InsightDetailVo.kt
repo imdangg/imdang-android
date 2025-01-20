@@ -20,7 +20,7 @@ const val REVIEW = "단지는 전반적으로 관리 상태가 양호했으며, 
 data class InsightDetailVo(
     val memberId: String,
     val insightId: String,
-    val snapshotId: Long,
+    val snapshotId: Long?,
     val mainImage: String,
     val title: String,
     val address: AddressVo,
@@ -30,18 +30,37 @@ data class InsightDetailVo(
     val visitMethods: List<String>,
     val access: String,
     val summary: String,
-    val infra: InfraVo,
-    val complexEnvironment: ComplexEnvironmentVo,
-    val complexFacility: ComplexFacilityVo,
-    val goodNews: GoodNewsVo,
+    val infra: InfraVo?,
+    val complexEnvironment: ComplexEnvironmentVo?,
+    val complexFacility: ComplexFacilityVo?,
+    val goodNews: GoodNewsVo?,
     val recommendedCount: Int,
     val accusedCount: Int,
     val viewCount: Int,
     val score: Int,
     val createdAt: String,
+    val exchangeRequestStatus: ExchangeRequestStatus?,
     val isRecommended: Boolean = false,
     val isReported: Boolean = false
 ) : Parcelable {
+
+    fun toBasicInfo(): InsightDetailItem.BasicInfo = InsightDetailItem.BasicInfo(
+        mainImage = mainImage,
+        title = title,
+        address = address.siDo +
+            " ${address.siGunGu}" +
+            " ${address.eupMyeonDong}" +
+            " ${address.buildingNumber}" +
+            "\n($aptComplex)",
+        latitude = address.latitude ?: 0.0,
+        longitude = address.longitude ?: 0.0,
+        visitAt = visitAt,
+        visitTimes = visitTimes.joinToString(", "),
+        visitMethods = visitMethods.joinToString(", "),
+        access = access,
+        summary = summary
+    )
+
     companion object {
         fun getSample() = InsightDetailVo(
             memberId = "memberId",
@@ -56,7 +75,9 @@ data class InsightDetailVo(
                 eupMyeonDong = "당산2동",
                 roadName = "",
                 buildingNumber = "123-467",
-                detail = ""
+                detail = "",
+                latitude = 37.5304831048862,
+                longitude = 126.902812773342
             ),
             aptComplex = "당산아이파크1차",
             visitAt = "2024.01.01",
@@ -116,7 +137,8 @@ data class InsightDetailVo(
             accusedCount = 0,
             viewCount = 10,
             score = 100,
-            createdAt = ""
+            createdAt = "",
+            exchangeRequestStatus = null
         )
     }
 }
@@ -171,20 +193,21 @@ fun InsightDetailDto.mapper(): InsightDetailVo = InsightDetailVo(
     title = title,
     address = address.mapper(),
     aptComplex = apartmentComplex.name,
-    visitAt = visitAt.formatDate(fromFormat = "yyyy-MM-dd", toFormat = "yyyy.MM.dd"),
-    visitTimes = visitTimes.formatSelectedItems(),
-    visitMethods = visitMethods.formatSelectedItems(),
-    access = access.replace("_", " "),
-    summary = summary,
-    infra = infra.mapper(),
-    complexEnvironment = complexEnvironment.mapper(),
-    complexFacility = complexFacility.mapper(),
-    goodNews = favorableNews.mapper(),
+    visitAt = visitAt?.formatDate(fromFormat = "yyyy-MM-dd", toFormat = "yyyy.MM.dd") ?: "",
+    visitTimes = visitTimes?.formatSelectedItems() ?: emptyList(),
+    visitMethods = visitMethods?.formatSelectedItems() ?: emptyList(),
+    access = access?.replace("_", " ") ?: "",
+    summary = summary ?: "",
+    infra = infra?.mapper(),
+    complexEnvironment = complexEnvironment?.mapper(),
+    complexFacility = complexFacility?.mapper(),
+    goodNews = favorableNews?.mapper(),
     recommendedCount = recommendedCount,
-    accusedCount = accusedCount,
-    viewCount = viewCount,
+    accusedCount = accusedCount ?: 0,
+    viewCount = viewCount ?: 0,
     score = score,
-    createdAt = createdAt
+    createdAt = createdAt,
+    exchangeRequestStatus = ExchangeRequestStatus.fromString(exchangeRequestStatus)
 )
 
 fun InfraDto.mapper(): InfraVo = InfraVo(

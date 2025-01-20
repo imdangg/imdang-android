@@ -1,6 +1,7 @@
 package info.imdang.imdang.ui.write.address
 
 import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.webkit.JavascriptInterface
@@ -41,13 +42,18 @@ class KakaoAddressActivity :
         fun processDATA(address: String) {
             try {
                 val kakaoAddressVo = Gson().fromJson(address, KakaoAddressVo::class.java)
-                val intent = Intent().apply {
-                    putExtra(APT_ADDRESS, kakaoAddressVo.jibunAddress)
-                    putExtra(APT_NAME, kakaoAddressVo.buildingName)
-                }
+                val coder = Geocoder(this@KakaoAddressActivity)
+                coder.getFromLocationName(address, 1)?.let {
+                    val intent = Intent().apply {
+                        putExtra(APT_ADDRESS, kakaoAddressVo.jibunAddress)
+                        putExtra(APT_NAME, kakaoAddressVo.buildingName)
+                        putExtra(LATITUDE, it[0].latitude)
+                        putExtra(LONGITUDE, it[0].longitude)
+                    }
 
-                setResult(RESULT_OK, intent)
-                finish()
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
             } catch (e: JSONException) {
                 Log.e("imdang", "JSON 파싱 오류: ${e.message}")
             }
@@ -57,5 +63,7 @@ class KakaoAddressActivity :
     companion object {
         const val APT_ADDRESS = "aptAddress"
         const val APT_NAME = "aptName"
+        const val LATITUDE = "latitude"
+        const val LONGITUDE = "longitude"
     }
 }

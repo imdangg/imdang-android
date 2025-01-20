@@ -12,7 +12,7 @@ import info.imdang.domain.model.insight.InsightDetailDto
 data class InsightDetailResponse(
     val memberId: String,
     val insightId: String,
-    val snapshotId: Long,
+    val snapshotId: Long?,
     val mainImage: String,
     val title: String,
     val address: AddressResponse,
@@ -22,15 +22,16 @@ data class InsightDetailResponse(
     val visitMethods: List<String>,
     val access: String,
     val summary: String,
-    val infra: InfraResponse,
-    val complexEnvironment: ComplexEnvironmentResponse,
-    val complexFacility: ComplexFacilityResponse,
-    val favorableNews: FavorableNewsResponse,
+    val infra: InfraResponse?,
+    val complexEnvironment: ComplexEnvironmentResponse?,
+    val complexFacility: ComplexFacilityResponse?,
+    val favorableNews: FavorableNewsResponse?,
     val recommendedCount: Int,
-    val accusedCount: Int,
-    val viewCount: Int,
+    val accusedCount: Int?,
+    val viewCount: Int?,
     val score: Int,
-    val createdAt: String
+    val createdAt: String,
+    val exchangeRequestStatus: String?
 ) : DataToDomainMapper<InsightDetailDto> {
     override fun mapper(): InsightDetailDto = InsightDetailDto(
         memberId = memberId,
@@ -45,15 +46,16 @@ data class InsightDetailResponse(
         visitMethods = visitMethods,
         access = access,
         summary = summary,
-        infra = infra.mapper(),
-        complexEnvironment = complexEnvironment.mapper(),
-        complexFacility = complexFacility.mapper(),
-        favorableNews = favorableNews.mapper(),
+        infra = infra?.mapper(),
+        complexEnvironment = complexEnvironment?.mapper(),
+        complexFacility = complexFacility?.mapper(),
+        favorableNews = favorableNews?.mapper(),
         recommendedCount = recommendedCount,
         accusedCount = accusedCount,
         viewCount = viewCount,
         score = score,
-        createdAt = createdAt
+        createdAt = createdAt,
+        exchangeRequestStatus = exchangeRequestStatus
     )
 }
 

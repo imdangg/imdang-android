@@ -55,8 +55,6 @@ class StorageViewModel @Inject constructor(
 
     init {
         fetchAddresses()
-        _insights.value = InsightVo.getSamples(10)
-        _myInsights.value = InsightVo.getSamples(3)
     }
 
     private fun fetchAddresses() {
