@@ -4,18 +4,21 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
+import info.imdang.imdang.common.bindingadapter.BaseSingleViewPagingAdapter
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityVisitComplexInsightListBinding
 import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsightListBinding>(
@@ -24,11 +27,14 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
 
     private val viewModel by viewModels<VisitComplexInsightListViewModel>()
 
+    private lateinit var adapter: BaseSingleViewPagingAdapter<InsightVo>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setupBinding()
         setupListener()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -65,7 +71,7 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
             }
             rvVisitComplexInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
-                adapter = BaseSingleViewAdapter(
+                this@VisitComplexInsightListActivity.adapter = BaseSingleViewPagingAdapter(
                     layoutResourceId = R.layout.item_insight_horizontal,
                     bindingItemId = BR.item,
                     viewModel = emptyMap(),
@@ -90,7 +96,26 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
                             )
                         }
                     }
+                    setupLoadStateListener(
+                        scope = lifecycleScope,
+                        onLoading = {
+                            this@VisitComplexInsightListActivity.viewModel.updatePagingState(
+                                isLoading = it
+                            )
+                        },
+                        onItemCount = {
+                            this@VisitComplexInsightListActivity.viewModel.updatePagingState(
+                                itemCount = it
+                            )
+                        },
+                        onError = {
+                            this@VisitComplexInsightListActivity.viewModel.updatePagingState(
+                                error = it
+                            )
+                        }
+                    )
                 }
+                adapter = this@VisitComplexInsightListActivity.adapter
             }
         }
     }
@@ -99,6 +124,18 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
         with(binding) {
             ivBack.setOnClickListener {
                 finish()
+            }
+        }
+    }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    is VisitComplexInsightListEvent.UpdateInsights -> launch {
+                        adapter.submitData(it.insights)
+                    }
+                }
             }
         }
     }

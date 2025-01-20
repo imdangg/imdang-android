@@ -80,6 +80,26 @@ internal class InsightRepositoryImpl @Inject constructor(
         aptComplex = aptComplex
     ).mapper()
 
+    override suspend fun getInsightsByAptComplexWithPaging(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?,
+        aptComplex: String
+    ): Flow<PagingData<InsightDto>> = getPagingFlow(
+        initialPage = page ?: 0,
+        pageSize = size ?: 20,
+        loadData = { currentPage, pageSize ->
+            insightRemoteDataSource.getInsightsByAptComplex(
+                page = currentPage,
+                size = pageSize,
+                direction = direction,
+                properties = properties,
+                aptComplex = aptComplex
+            ).mapper()
+        }
+    )
+
     override suspend fun getInsightDetail(insightId: String): InsightDetailDto =
         insightRemoteDataSource.getInsightDetail(insightId).mapper()
 }

@@ -33,6 +33,9 @@ interface InsightRepository {
         properties: List<String>?
     ): Flow<PagingData<InsightDto>>
 
+    /**
+     * 단지별 인사이트 목록 조회 (paging x)
+     */
     suspend fun getInsightsByAptComplex(
         page: Int?,
         size: Int?,
@@ -40,6 +43,17 @@ interface InsightRepository {
         properties: List<String>?,
         aptComplex: String
     ): PagingDto<InsightDto>
+
+    /**
+     * 단지별 인사이트 목록 조회 (paging o)
+     */
+    suspend fun getInsightsByAptComplexWithPaging(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?,
+        aptComplex: String
+    ): Flow<PagingData<InsightDto>>
 
     suspend fun getInsightDetail(insightId: String): InsightDetailDto
 }

@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
@@ -17,6 +18,7 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
+import info.imdang.imdang.common.bindingadapter.BaseSingleViewPagingAdapter
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.FragmentStorageBinding
@@ -28,11 +30,14 @@ import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity
 import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity.Companion.SELECTED_PAGE
 import info.imdang.imdang.ui.main.storage.bottomsheet.ComplexBottomSheet
 import info.imdang.imdang.ui.main.storage.map.StorageByMapActivity
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
 
     private val viewModel by viewModels<StorageViewModel>()
+
+    private lateinit var adapter: BaseSingleViewPagingAdapter<InsightVo>
 
     private val addressResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -48,6 +53,7 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
 
         setupBinding()
         setupListener()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -55,7 +61,7 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
             viewModel = this@StorageFragment.viewModel
             rvStorageInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
-                adapter = BaseSingleViewAdapter(
+                this@StorageFragment.adapter = BaseSingleViewPagingAdapter(
                     layoutResourceId = R.layout.item_insight_horizontal,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@StorageFragment.viewModel),
@@ -80,7 +86,20 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                             )
                         }
                     }
+                    setupLoadStateListener(
+                        scope = lifecycleScope,
+                        onLoading = {
+                            this@StorageFragment.viewModel.updatePagingState(isLoading = it)
+                        },
+                        onItemCount = {
+                            this@StorageFragment.viewModel.updatePagingState(itemCount = it)
+                        },
+                        onError = {
+                            this@StorageFragment.viewModel.updatePagingState(error = it)
+                        }
+                    )
                 }
+                adapter = this@StorageFragment.adapter
             }
             vpInsightAddress.run {
                 val currentVisibleItemPx = requireContext().dpToPx(20)
@@ -153,6 +172,18 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
             }
             clSeeByApt.setOnClickListener {
                 showAptBottomSheet()
+            }
+        }
+    }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collect {
+                when (it) {
+                    is StorageEvent.UpdateInsights -> launch {
+                        adapter.submitData(it.insights)
+                    }
+                }
             }
         }
     }

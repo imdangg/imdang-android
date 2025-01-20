@@ -1,6 +1,8 @@
 package info.imdang.imdang.ui.main.storage
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
@@ -10,12 +12,14 @@ import info.imdang.domain.usecase.myinsight.GetComplexesByAddressUseCase
 import info.imdang.domain.usecase.myinsight.GetInsightsByAddressParams
 import info.imdang.domain.usecase.myinsight.GetInsightsByAddressUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.myinsight.AptComplexVo
 import info.imdang.imdang.model.myinsight.mapper
-import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
 import info.imdang.imdang.model.myinsight.MyInsightAddressVo
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -28,8 +32,14 @@ class StorageViewModel @Inject constructor(
     private val getInsightsByAddressUseCase: GetInsightsByAddressUseCase
 ) : BaseViewModel() {
 
+    private val _event = MutableSharedFlow<StorageEvent>()
+    val event = _event.asSharedFlow()
+
     private val _selectedInsightAddressPage = MutableStateFlow(-1)
     val selectedInsightAddressPage = _selectedInsightAddressPage.asStateFlow()
+
+    private val _pagingState = MutableStateFlow(PagingState())
+    val pagingState = _pagingState.asStateFlow()
 
     private val _addresses = MutableStateFlow<List<MyInsightAddressVo>>(emptyList())
     val addresses = _addresses.asStateFlow()
@@ -37,12 +47,6 @@ class StorageViewModel @Inject constructor(
     private val selectedAddress = addresses.map { addresses ->
         addresses.firstOrNull { it.isSelected }
     }.toStateFlow(null)
-
-    private val _insights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val insights = _insights.asStateFlow()
-
-    private val _myInsights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val myInsights = _myInsights.asStateFlow()
 
     private val _isSeeOnlyMyInsight = MutableStateFlow(false)
     val isSeeOnlyMyInsight = _isSeeOnlyMyInsight.asStateFlow()
@@ -77,14 +81,18 @@ class StorageViewModel @Inject constructor(
 
     private fun fetchInsightsByAddress() {
         viewModelScope.launch {
-            _insights.value = getInsightsByAddressUseCase(
+            getInsightsByAddressUseCase(
                 GetInsightsByAddressParams(
                     address = selectedAddress.value?.toAddressDto() ?: return@launch,
                     aptComplexName = selectedComplex.value?.aptComplexName,
                     onlyMine = isSeeOnlyMyInsight.value,
                     pagingParams = PagingParams()
                 )
-            )?.content?.map(InsightDto::mapper) ?: emptyList()
+            )
+                ?.cachedIn(this)
+                ?.collect {
+                    _event.emit(StorageEvent.UpdateInsights(it.map(InsightDto::mapper)))
+                }
         }
     }
 
@@ -106,5 +114,17 @@ class StorageViewModel @Inject constructor(
     fun updateSelectedComplex(item: AptComplexVo?) {
         _selectedComplex.value = item
         fetchInsightsByAddress()
+    }
+
+    fun updatePagingState(
+        isLoading: Boolean? = null,
+        itemCount: Int? = null,
+        error: String? = null
+    ) {
+        _pagingState.value = pagingState.value.copy(
+            isLoading = isLoading ?: pagingState.value.isLoading,
+            itemCount = itemCount ?: pagingState.value.itemCount,
+            error = error ?: pagingState.value.error
+        )
     }
 }
