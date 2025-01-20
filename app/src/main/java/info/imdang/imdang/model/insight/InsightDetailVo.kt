@@ -40,6 +40,7 @@ data class InsightDetailVo(
     val score: Int,
     val createdAt: String,
     val exchangeRequestStatus: ExchangeRequestStatus?,
+    val exchangeRequestId: String?,
     val isRecommended: Boolean = false,
     val isReported: Boolean = false
 ) : Parcelable {
@@ -138,7 +139,8 @@ data class InsightDetailVo(
             viewCount = 10,
             score = 100,
             createdAt = "",
-            exchangeRequestStatus = null
+            exchangeRequestStatus = null,
+            exchangeRequestId = null
         )
     }
 }
@@ -207,7 +209,8 @@ fun InsightDetailDto.mapper(): InsightDetailVo = InsightDetailVo(
     viewCount = viewCount ?: 0,
     score = score,
     createdAt = createdAt,
-    exchangeRequestStatus = ExchangeRequestStatus.fromString(exchangeRequestStatus)
+    exchangeRequestStatus = ExchangeRequestStatus.fromString(exchangeRequestStatus),
+    exchangeRequestId = exchangeRequestId
 )
 
 fun InfraDto.mapper(): InfraVo = InfraVo(

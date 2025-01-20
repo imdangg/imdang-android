@@ -24,7 +24,8 @@ data class InsightDetailDto(
     val viewCount: Int?,
     val score: Int,
     val createdAt: String,
-    val exchangeRequestStatus: String?
+    val exchangeRequestStatus: String?,
+    val exchangeRequestId: String?
 )
 
 data class ApartmentComplexDto(

@@ -11,8 +11,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.usecase.auth.GetMemberIdUseCase
 import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
+import info.imdang.domain.usecase.exchange.AcceptExchangeUseCase
+import info.imdang.domain.usecase.exchange.RejectExchangeUseCase
 import info.imdang.domain.usecase.exchange.RequestExchangeParams
 import info.imdang.domain.usecase.exchange.RequestExchangeUseCase
+import info.imdang.domain.usecase.exchange.ResponseExchangeParams
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsWithPagingUseCase
@@ -42,7 +45,9 @@ class InsightDetailViewModel @Inject constructor(
     private val getMyInsightsUseCase: GetMyInsightsUseCase,
     private val getMyInsightsWithPagingUseCase: GetMyInsightsWithPagingUseCase,
     private val getCouponCountUseCase: GetCouponCountUseCase,
-    private val requestExchangeUseCase: RequestExchangeUseCase
+    private val requestExchangeUseCase: RequestExchangeUseCase,
+    private val acceptExchangeUseCase: AcceptExchangeUseCase,
+    private val rejectExchangeUseCase: RejectExchangeUseCase
 ) : BaseViewModel() {
 
     private val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
@@ -193,26 +198,40 @@ class InsightDetailViewModel @Inject constructor(
 
     fun onClickRejectButton() {
         viewModelScope.launch {
-            _event.emit(
-                InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.EXCHANGE_REJECT)
-            )
+            rejectExchangeUseCase(
+                ResponseExchangeParams(
+                    exchangeRequestId = insight.value.exchangeRequestId ?: return@launch,
+                    memberId = memberId
+                )
+            )?.let {
+                _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_REQUEST
+                _event.emit(
+                    InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.EXCHANGE_REJECT)
+                )
+            }
         }
     }
 
     fun onClickAcceptButton() {
         viewModelScope.launch {
-            _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_COMPLETE
-            fetchInsightDetail()
-            _event.emit(
-                InsightDetailEvent.ShowCommonDialog(
-                    dialogType = InsightDetailDialogType.EXCHANGE_ACCEPT,
-                    onClickSubButton = {
-                        viewModelScope.launch {
-                            _event.emit(InsightDetailEvent.MoveStorage)
-                        }
-                    }
+            acceptExchangeUseCase(
+                ResponseExchangeParams(
+                    exchangeRequestId = insight.value.exchangeRequestId ?: return@launch,
+                    memberId = memberId
                 )
-            )
+            )?.let {
+                fetchInsightDetail()
+                _event.emit(
+                    InsightDetailEvent.ShowCommonDialog(
+                        dialogType = InsightDetailDialogType.EXCHANGE_ACCEPT,
+                        onClickSubButton = {
+                            viewModelScope.launch {
+                                _event.emit(InsightDetailEvent.MoveStorage)
+                            }
+                        }
+                    )
+                )
+            }
         }
     }
 

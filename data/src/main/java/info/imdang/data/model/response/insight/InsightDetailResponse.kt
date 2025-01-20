@@ -31,7 +31,8 @@ data class InsightDetailResponse(
     val viewCount: Int?,
     val score: Int,
     val createdAt: String,
-    val exchangeRequestStatus: String?
+    val exchangeRequestStatus: String?,
+    val exchangeRequestId: String?
 ) : DataToDomainMapper<InsightDetailDto> {
     override fun mapper(): InsightDetailDto = InsightDetailDto(
         memberId = memberId,
@@ -55,7 +56,8 @@ data class InsightDetailResponse(
         viewCount = viewCount,
         score = score,
         createdAt = createdAt,
-        exchangeRequestStatus = exchangeRequestStatus
+        exchangeRequestStatus = exchangeRequestStatus,
+        exchangeRequestId = exchangeRequestId
     )
 }
 
