@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.insight.InsightRegionVo" />
+            type="info.imdang.imdang.model.myinsight.MyInsightAddressVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@{item.region}"
+            android:text="@{item.toSiGuDong()}"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/iv_location"
             app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +66,7 @@
                 style="@style/T_600_16_22_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{item.aptCount + `개`}"
+                android:text="@{item.aptComplexCount + `개`}"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -5,11 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
 import info.imdang.domain.usecase.insight.GetInsightsUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.ext.snakeToCamelCase
-import info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo
+import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
 import info.imdang.imdang.model.common.PagingDirection
 import info.imdang.imdang.model.common.PagingProperty
@@ -27,7 +28,7 @@ class HomeSearchViewModel @Inject constructor(
     private val getInsightsUseCase: GetInsightsUseCase
 ) : BaseViewModel() {
 
-    private val _visitedAptComplexes = MutableStateFlow<List<VisitedAptComplexVo>>(emptyList())
+    private val _visitedAptComplexes = MutableStateFlow<List<VisitAptComplexVo>>(emptyList())
     val visitedAptComplexes = _visitedAptComplexes.asStateFlow()
 
     private val _visitedAptComplexInsights = MutableStateFlow<List<InsightVo>>(emptyList())
@@ -62,12 +63,14 @@ class HomeSearchViewModel @Inject constructor(
         viewModelScope.launch {
             val aptComplex = visitedAptComplexes.value.firstOrNull {
                 it.isSelected
-            }?.name ?: return@launch
+            }?.aptComplexName ?: return@launch
             _visitedAptComplexInsights.value = getInsightsByAptComplexUseCase(
-                PagingParams(
-                    page = 1,
-                    size = 3,
-                    additionalParams = aptComplex
+                GetInsightsByAptComplexParams(
+                    aptComplex = aptComplex,
+                    pagingParams = PagingParams(
+                        page = 1,
+                        size = 3
+                    )
                 )
             )?.content?.map(InsightDto::mapper) ?: emptyList()
         }
@@ -94,9 +97,9 @@ class HomeSearchViewModel @Inject constructor(
         }
     }
 
-    fun onClickVisitedAptComplex(visitedAptComplexVo: VisitedAptComplexVo) {
+    fun onClickVisitedAptComplex(aptComplexVo: VisitAptComplexVo) {
         _visitedAptComplexes.value = visitedAptComplexes.value.map {
-            it.copy(isSelected = it.name == visitedAptComplexVo.name)
+            it.copy(isSelected = it.aptComplexName == aptComplexVo.aptComplexName)
         }
         fetchInsightsByAptComplex()
     }

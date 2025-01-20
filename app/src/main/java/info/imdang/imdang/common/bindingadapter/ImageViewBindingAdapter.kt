@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.annotation.ColorRes
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -80,6 +81,13 @@ fun ImageView.bindInsightDetailInvisibleImage(insightDetailState: InsightDetailS
             }
         )
     )
+}
+
+@BindingAdapter("bindTint")
+fun ImageView.bindTint(
+    @ColorRes color: Int
+) {
+    imageTintList = ColorStateList.valueOf(context.getColor(color))
 }
 
 @BindingAdapter(

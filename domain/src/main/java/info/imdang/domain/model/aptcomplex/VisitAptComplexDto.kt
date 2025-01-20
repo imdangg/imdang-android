@@ -1,5 +1,5 @@
 package info.imdang.domain.model.aptcomplex
 
-data class VisitedAptComplexDto(
+data class VisitAptComplexDto(
     val name: String
 )

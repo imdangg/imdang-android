@@ -7,13 +7,13 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.aptcomplex.VisitedAptComplexVo" />
+            type="info.imdang.imdang.model.aptcomplex.VisitAptComplexVo" />
     </data>
 
     <com.google.android.material.chip.Chip
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{item.name}"
+        android:text="@{item.aptComplexName}"
         android:textAppearance="@style/T_500_14_19_6"
         android:textColor="@{item.isSelected ? @color/white : @color/gray_500}"
         app:chipBackgroundColor="@{item.isSelected ? @color/orange_500 : @color/white}"

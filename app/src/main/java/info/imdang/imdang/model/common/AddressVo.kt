@@ -13,6 +13,8 @@ data class AddressVo(
     val buildingNumber: String,
     val detail: String
 ) : Parcelable {
+    fun toSiGuDong() = "$siDo $siGunGu $eupMyeonDong"
+
     fun toGuDong() = "$siGunGu $eupMyeonDong"
 
     companion object {
@@ -33,7 +35,16 @@ fun AddressDto.mapper() = AddressVo(
     siDo = siDo,
     siGunGu = siGunGu,
     eupMyeonDong = eupMyeonDong,
-    roadName = roadName,
-    buildingNumber = buildingNumber,
-    detail = detail
+    roadName = roadName ?: "",
+    buildingNumber = buildingNumber ?: "",
+    detail = detail ?: ""
+)
+
+fun AddressVo.mapper() = AddressDto(
+    siDo = siDo,
+    siGunGu = siGunGu,
+    eupMyeonDong = eupMyeonDong,
+    roadName = roadName.takeIf { it.isNotEmpty() },
+    buildingNumber = buildingNumber.takeIf { it.isNotEmpty() },
+    detail = detail.takeIf { it.isNotEmpty() }
 )

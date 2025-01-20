@@ -8,6 +8,7 @@ import info.imdang.remote.service.AptComplexService
 import info.imdang.remote.service.AuthService
 import info.imdang.remote.service.GoogleService
 import info.imdang.remote.service.InsightService
+import info.imdang.remote.service.MyInsightService
 import retrofit2.Retrofit
 import retrofit2.create
 import javax.inject.Named
@@ -40,4 +41,10 @@ internal object ServiceModule {
     fun bindAptComplexService(
         @Named("imdang") retrofit: Retrofit
     ): AptComplexService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun bindMyInsightService(
+        @Named("imdang") retrofit: Retrofit
+    ): MyInsightService = retrofit.create()
 }

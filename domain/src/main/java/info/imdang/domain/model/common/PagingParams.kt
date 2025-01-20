@@ -1,9 +1,8 @@
 package info.imdang.domain.model.common
 
-data class PagingParams<T>(
+data class PagingParams(
     val page: Int = 1,
     val size: Int? = null,
     val direction: String? = null,
-    val properties: List<String>? = null,
-    val additionalParams: T? = null
+    val properties: List<String>? = null
 )

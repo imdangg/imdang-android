@@ -1,6 +1,6 @@
-package info.imdang.domain.model.common
+package info.imdang.data.model.request.myinsight
 
-data class AddressDto(
+data class AddressRequest(
     val siDo: String,
     val siGunGu: String,
     val eupMyeonDong: String,

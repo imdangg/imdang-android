@@ -8,10 +8,12 @@ import info.imdang.data.datasource.remote.AptComplexRemoteDataSource
 import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.data.datasource.remote.GoogleRemoteDataSource
 import info.imdang.data.datasource.remote.InsightRemoteDataSource
+import info.imdang.data.datasource.remote.MyInsightRemoteDataSource
 import info.imdang.remote.datasource.AptComplexRemoteDataSourceImpl
 import info.imdang.remote.datasource.AuthRemoteDataSourceImpl
 import info.imdang.remote.datasource.GoogleRemoteDataSourceImpl
 import info.imdang.remote.datasource.InsightRemoteDataSourceImpl
+import info.imdang.remote.datasource.MyInsightRemoteDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -41,4 +43,10 @@ internal abstract class RemoteDataSourceModule {
     abstract fun bindAptComplexRemoteDatasource(
         aptComplexRemoteDataSourceImpl: AptComplexRemoteDataSourceImpl
     ): AptComplexRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindMyInsightRemoteDatasource(
+        myInsightRemoteDataSourceImpl: MyInsightRemoteDataSourceImpl
+    ): MyInsightRemoteDataSource
 }

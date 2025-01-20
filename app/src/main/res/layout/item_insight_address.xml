@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.insight.InsightRegionVo" />
+            type="info.imdang.imdang.model.myinsight.MyInsightAddressVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,11 +20,11 @@
         android:padding="20dp">
 
         <TextView
-            android:id="@+id/tv_insight_region"
+            android:id="@+id/tv_insight_address"
             style="@style/T_500_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.region}"
+            android:text="@{item.toSiGuDong()}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +39,7 @@
             android:text="@string/apt"
             android:textColor="@color/gray_700"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_insight_region" />
+            app:layout_constraintTop_toBottomOf="@id/tv_insight_address" />
 
         <TextView
             android:id="@+id/tv_apt_count"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@{item.aptCount + `개`}"
+            android:text="@{item.aptComplexCount + `개`}"
             android:textColor="@color/orange_500"
             app:layout_constraintStart_toEndOf="@id/tv_apt_subject"
             app:layout_constraintTop_toTopOf="@id/tv_apt_subject"
