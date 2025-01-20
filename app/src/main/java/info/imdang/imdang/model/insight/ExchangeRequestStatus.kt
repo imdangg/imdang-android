@@ -16,9 +16,9 @@ fun ExchangeRequestStatus?.toInsightDetailStatus(
     isMyInsight: Boolean
 ): InsightDetailStatus = when (this) {
     ExchangeRequestStatus.PENDING -> if (isMyInsight) {
-        InsightDetailStatus.EXCHANGE_WAITING
-    } else {
         InsightDetailStatus.EXCHANGE_REQUESTED
+    } else {
+        InsightDetailStatus.EXCHANGE_WAITING
     }
     ExchangeRequestStatus.ACCEPTED -> InsightDetailStatus.EXCHANGE_COMPLETE
     else -> {

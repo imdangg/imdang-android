@@ -6,12 +6,16 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import info.imdang.data.repository.AptComplexRepositoryImpl
 import info.imdang.data.repository.AuthRepositoryImpl
+import info.imdang.data.repository.CouponRepositoryImpl
+import info.imdang.data.repository.ExchangeRepositoryImpl
 import info.imdang.data.repository.GoogleRepositoryImpl
 import info.imdang.data.repository.HomeRepositoryImpl
 import info.imdang.data.repository.InsightRepositoryImpl
 import info.imdang.data.repository.MyInsightRepositoryImpl
 import info.imdang.domain.repository.AptComplexRepository
 import info.imdang.domain.repository.AuthRepository
+import info.imdang.domain.repository.CouponRepository
+import info.imdang.domain.repository.ExchangeRepository
 import info.imdang.domain.repository.GoogleRepository
 import info.imdang.domain.repository.HomeRepository
 import info.imdang.domain.repository.InsightRepository
@@ -57,4 +61,16 @@ internal abstract class RepositoryModule {
     abstract fun bindMyInsightRepository(
         myInsightRepositoryImpl: MyInsightRepositoryImpl
     ): MyInsightRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCouponRepository(
+        couponRepositoryImpl: CouponRepositoryImpl
+    ): CouponRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindExchangeRepository(
+        exchangeRepositoryImpl: ExchangeRepositoryImpl
+    ): ExchangeRepository
 }

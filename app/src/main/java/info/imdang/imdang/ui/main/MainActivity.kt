@@ -14,6 +14,7 @@ import info.imdang.imdang.databinding.ActivityMainBinding
 import info.imdang.imdang.ui.main.home.HomeFragment
 import info.imdang.imdang.ui.main.storage.StorageFragment
 import info.imdang.imdang.ui.write.WriteInsightActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,6 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setupListener()
         setupFragment()
         setupCollect()
+        setupExtra()
     }
 
     private fun setupBinding() {
@@ -95,5 +97,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 }
             }
         }
+    }
+
+    private fun setupExtra() {
+        val isMoveExchange = intent.getBooleanExtra(MOVE_EXCHANGE, false)
+        if (isMoveExchange) {
+            lifecycleScope.launch {
+                delay(100)
+                homeFragment.moveExchange()
+            }
+        }
+
+        val isMoveStorage = intent.getBooleanExtra(MOVE_STORAGE, false)
+        if (isMoveStorage) {
+            lifecycleScope.launch {
+                delay(100)
+                binding.bnvMain.selectedItemId = R.id.menu_storage
+            }
+        }
+    }
+
+    companion object {
+        const val MOVE_EXCHANGE = "moveExchange"
+        const val MOVE_STORAGE = "moveStorage"
     }
 }

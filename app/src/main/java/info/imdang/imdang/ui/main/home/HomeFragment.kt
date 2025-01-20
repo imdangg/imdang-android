@@ -110,4 +110,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             HomeFreePassBottomSheet::class.java.simpleName
         )
     }
+
+    fun moveExchange() {
+        binding.vpHome.currentItem = 1
+    }
 }

@@ -3,8 +3,16 @@ package info.imdang.imdang.ui.insight
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.model.common.AddressDto
+import info.imdang.domain.model.common.PagingParams
+import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.auth.GetMemberIdUseCase
+import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
+import info.imdang.domain.usecase.exchange.RequestExchangeParams
+import info.imdang.domain.usecase.exchange.RequestExchangeUseCase
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
+import info.imdang.domain.usecase.myinsight.GetInsightsByAddressParams
+import info.imdang.domain.usecase.myinsight.GetInsightsByAddressUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.ExchangeItem
 import info.imdang.imdang.model.insight.InsightDetailItem
@@ -14,6 +22,7 @@ import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
 import info.imdang.imdang.model.insight.toInsightDetailStatus
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +35,10 @@ import javax.inject.Inject
 class InsightDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getMemberIdUseCase: GetMemberIdUseCase,
-    private val getInsightDetailUseCase: GetInsightDetailUseCase
+    private val getInsightDetailUseCase: GetInsightDetailUseCase,
+    private val getInsightsByAddressUseCase: GetInsightsByAddressUseCase,
+    private val getCouponCountUseCase: GetCouponCountUseCase,
+    private val requestExchangeUseCase: RequestExchangeUseCase
 ) : BaseViewModel() {
 
     private val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
@@ -59,14 +71,7 @@ class InsightDetailViewModel @Inject constructor(
 
     init {
         fetchInsightDetail()
-        _myInsights.value = InsightVo.getSamples(10)
-        _exchangePassCount.value = 3
-        _exchangeItems.value = mutableListOf<ExchangeItem>().apply {
-            if (exchangePassCount.value > 0) add(ExchangeItem.Pass(exchangePassCount.value))
-            if (myInsights.value.isNotEmpty()) {
-                addAll(myInsights.value.map { ExchangeItem.Insight(it) })
-            }
-        }
+        fetchExchangeItems()
     }
 
     private fun fetchInsightDetail() {
@@ -107,6 +112,40 @@ class InsightDetailViewModel @Inject constructor(
                         InsightDetailItem.Invisible(insightDetailStatus.value)
                     )
                 }
+        }
+    }
+
+    private fun fetchExchangeItems() {
+        viewModelScope.launch {
+            val myInsightsJob = async {
+                getInsightsByAddressUseCase(
+                    GetInsightsByAddressParams(
+                        address = AddressDto(
+                            siDo = "서울",
+                            siGunGu = "노원구",
+                            eupMyeonDong = "공릉동",
+                            roadName = null,
+                            buildingNumber = null,
+                            detail = null,
+                            latitude = null,
+                            longitude = null
+                        ),
+                        aptComplexName = null,
+                        onlyMine = true,
+                        pagingParams = PagingParams()
+                    )
+                )?.content?.map(InsightDto::mapper)
+            }
+            val couponCountJob = async { getCouponCountUseCase(Unit) }
+
+            _myInsights.value = myInsightsJob.await() ?: emptyList()
+            _exchangePassCount.value = couponCountJob.await() ?: 0
+            _exchangeItems.value = mutableListOf<ExchangeItem>().apply {
+                if (exchangePassCount.value > 0) add(ExchangeItem.Pass(exchangePassCount.value))
+                if (myInsights.value.isNotEmpty()) {
+                    addAll(myInsights.value.map { ExchangeItem.Insight(it) })
+                }
+            }
         }
     }
 
@@ -172,25 +211,45 @@ class InsightDetailViewModel @Inject constructor(
 
     fun requestExchange() {
         viewModelScope.launch {
-            // todo : 교환 요청 시 선택된 insight 적용
             val selectedExchangeItem = exchangeItems.value.firstOrNull {
                 (it is ExchangeItem.Pass && it.isSelected) ||
                     (it is ExchangeItem.Insight && it.isSelected)
             } ?: return@launch
-            _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_WAITING
-            _insightDetails.value = insightDetails.value.map {
-                if (it is InsightDetailItem.Invisible) it.copy(insightDetailStatus.value) else it
+
+            val selectedInsight = if (selectedExchangeItem is ExchangeItem.Insight) {
+                selectedExchangeItem.insightVo
+            } else {
+                null
             }
-            _event.emit(
-                InsightDetailEvent.ShowCommonDialog(
-                    dialogType = InsightDetailDialogType.EXCHANGE_REQUEST,
-                    onClickSubButton = {
-                        viewModelScope.launch {
-                            _event.emit(InsightDetailEvent.MoveHomeExchange)
-                        }
-                    }
+
+            requestExchangeUseCase(
+                RequestExchangeParams(
+                    insightId = insight.value.insightId,
+                    memberId = memberId,
+                    myInsightId = selectedInsight?.insightId,
+                    couponId = null
                 )
-            )
+            )?.let {
+                _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_WAITING
+                _insightDetails.value = insightDetails.value.map {
+                    if (it is InsightDetailItem.Invisible) {
+                        it.copy(insightDetailStatus.value)
+                    } else {
+                        it
+                    }
+                }
+
+                _event.emit(
+                    InsightDetailEvent.ShowCommonDialog(
+                        dialogType = InsightDetailDialogType.EXCHANGE_REQUEST,
+                        onClickSubButton = {
+                            viewModelScope.launch {
+                                _event.emit(InsightDetailEvent.MoveHomeExchange)
+                            }
+                        }
+                    )
+                )
+            }
         }
     }
 

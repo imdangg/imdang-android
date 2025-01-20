@@ -1,7 +1,9 @@
 package info.imdang.imdang.ui.insight
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,10 +14,14 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.DividerItemDecoration
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityInsightDetailBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.insight.bottomsheet.ExchangeItemsBottomSheet
 import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheetListener
+import info.imdang.imdang.ui.main.MainActivity
+import info.imdang.imdang.ui.main.MainActivity.Companion.MOVE_EXCHANGE
+import info.imdang.imdang.ui.main.MainActivity.Companion.MOVE_STORAGE
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -146,11 +152,17 @@ class InsightDetailActivity :
                     }
 
                     InsightDetailEvent.MoveHomeExchange -> {
-                        // todo : 교환소로 이동
+                        startActivity<MainActivity>(
+                            bundle = bundleOf(MOVE_EXCHANGE to true),
+                            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        )
                     }
 
                     InsightDetailEvent.MoveStorage -> {
-                        // todo : 보관함으로 이동
+                        startActivity<MainActivity>(
+                            bundle = bundleOf(MOVE_STORAGE to true),
+                            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        )
                     }
                 }
             }
