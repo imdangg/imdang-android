@@ -1,10 +1,12 @@
 package info.imdang.domain.repository
 
-import info.imdang.domain.model.myinsight.AptComplexDto
+import androidx.paging.PagingData
 import info.imdang.domain.model.common.AddressDto
 import info.imdang.domain.model.common.PagingDto
 import info.imdang.domain.model.insight.InsightDto
+import info.imdang.domain.model.myinsight.AptComplexDto
 import info.imdang.domain.model.myinsight.MyInsightAddressDto
+import kotlinx.coroutines.flow.Flow
 
 interface MyInsightRepository {
 
@@ -20,7 +22,7 @@ interface MyInsightRepository {
         size: Int?,
         direction: String?,
         properties: List<String>?
-    ): PagingDto<InsightDto>
+    ): Flow<PagingData<InsightDto>>
 
     suspend fun getMyInsights(
         page: Int?,

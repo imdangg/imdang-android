@@ -79,7 +79,7 @@ class HomeSearchViewModel @Inject constructor(
     private fun fetchInsights() {
         viewModelScope.launch {
             _newInsights.value = getInsightsUseCase(
-                PagingParams()
+                PagingParams(size = 5)
             )?.content?.map(InsightDto::mapper) ?: emptyList()
         }
     }

@@ -1,17 +1,22 @@
 package info.imdang.imdang.ui.main.home.search.visitcomplex
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
+import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
-import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByAptComplexWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
-import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.insight.mapper
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,14 +24,17 @@ import javax.inject.Inject
 @HiltViewModel
 class VisitComplexInsightListViewModel @Inject constructor(
     private val getVisitedAptComplexesUseCase: GetVisitedAptComplexesUseCase,
-    private val getInsightsByAptComplexUseCase: GetInsightsByAptComplexUseCase
+    private val getInsightsByAptComplexWithPagingUseCase: GetInsightsByAptComplexWithPagingUseCase
 ) : BaseViewModel() {
+
+    private val _event = MutableSharedFlow<VisitComplexInsightListEvent>()
+    val event = _event.asSharedFlow()
 
     private val _visitedAptComplexes = MutableStateFlow<List<VisitAptComplexVo>>(emptyList())
     val visitedAptComplexes = _visitedAptComplexes.asStateFlow()
 
-    private val _visitedAptComplexInsights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val visitedAptComplexInsights = _visitedAptComplexInsights.asStateFlow()
+    private val _pagingState = MutableStateFlow(PagingState())
+    val pagingState = _pagingState.asStateFlow()
 
     init {
         fetchVisitedAptComplexes()
@@ -47,18 +55,31 @@ class VisitComplexInsightListViewModel @Inject constructor(
             val aptComplex = visitedAptComplexes.value.firstOrNull {
                 it.isSelected
             }?.aptComplexName ?: return@launch
-            _visitedAptComplexInsights.value = getInsightsByAptComplexUseCase(
+            getInsightsByAptComplexWithPagingUseCase(
                 GetInsightsByAptComplexParams(
                     aptComplex = aptComplex,
-                    pagingParams = PagingParams(
-                        page = 1,
-                        size = 20
-                    )
+                    pagingParams = PagingParams()
                 )
-            )?.content?.map {
-                it.mapper()
-            } ?: emptyList()
+            )
+                ?.cachedIn(this)
+                ?.collect {
+                    _event.emit(
+                        VisitComplexInsightListEvent.UpdateInsights(it.map(InsightDto::mapper))
+                    )
+                }
         }
+    }
+
+    fun updatePagingState(
+        isLoading: Boolean? = null,
+        itemCount: Int? = null,
+        error: String? = null
+    ) {
+        _pagingState.value = pagingState.value.copy(
+            isLoading = isLoading ?: pagingState.value.isLoading,
+            itemCount = itemCount ?: pagingState.value.itemCount,
+            error = error ?: pagingState.value.error
+        )
     }
 
     fun onClickVisitedAptComplex(aptComplexVo: VisitAptComplexVo) {

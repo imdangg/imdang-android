@@ -27,6 +27,8 @@ glide = "4.16.0"
 naver-map = "3.20.0"
 security-crypto = "1.0.0"
 cameraCore = "1.4.1"
+pagingCommon = "3.3.5"
+pagingRuntimeKtx = "3.3.5"
 
 [libraries]
 kotlin-stblib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
@@ -57,6 +59,8 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 naver-map = { group = "com.naver.maps", name = "map-sdk", version.ref = "naver-map" }
 security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto" }
 androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
+androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "pagingCommon" }
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

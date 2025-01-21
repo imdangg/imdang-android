@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
-            android:text="@{viewModel.visitedAptComplexInsights.size() + `개`}"
+            android:text="@{viewModel.pagingState.itemCount + `개`}"
             android:textColor="@color/gray_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_visit_complex_insight_apt"
@@ -81,7 +81,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_visit_complex_insight"
-            bindItemList="@{viewModel.visitedAptComplexInsights}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:clipToPadding="false"
@@ -95,7 +94,7 @@
 
         <TextView
             style="@style/T_500_14_19_6"
-            bindVisible="@{viewModel.visitedAptComplexInsights.size() == 0}"
+            bindVisible="@{viewModel.pagingState.itemCount == 0}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"

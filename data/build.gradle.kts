@@ -72,5 +72,6 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp3.logging)
 
-    // room
+    // paging
+    implementation(libs.androidx.paging.common)
 }

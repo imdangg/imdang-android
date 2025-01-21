@@ -1,25 +1,26 @@
 package info.imdang.domain.usecase.myinsight
 
+import androidx.paging.PagingData
 import info.imdang.domain.IoDispatcher
 import info.imdang.domain.model.common.AddressDto
-import info.imdang.domain.model.common.PagingDto
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.repository.MyInsightRepository
 import info.imdang.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetInsightsByAddressUseCase @Inject constructor(
     private val myInsightRepository: MyInsightRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<GetInsightsByAddressParams, PagingDto<InsightDto>>(
+) : UseCase<GetInsightsByAddressParams, Flow<PagingData<InsightDto>>>(
         coroutineDispatcher = dispatcher
     ) {
 
     override suspend fun execute(
         parameters: GetInsightsByAddressParams
-    ): PagingDto<InsightDto> = myInsightRepository.getInsightsByAddress(
+    ): Flow<PagingData<InsightDto>> = myInsightRepository.getInsightsByAddress(
         address = parameters.address,
         aptComplexName = parameters.aptComplexName,
         onlyMine = parameters.onlyMine,

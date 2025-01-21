@@ -276,7 +276,7 @@
                             style="@style/T_600_16_22_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.insights.size() + `개`}"
+                            android:text="@{viewModel.pagingState.itemCount + `개`}"
                             android:textColor="@color/gray_900"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -294,7 +294,6 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_storage_insight"
-                bindItemList="@{viewModel.insights}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -307,7 +306,7 @@
 
             <TextView
                 style="@style/T_500_14_19_6"
-                bindVisible="@{viewModel.isSeeOnlyMyInsight &amp;&amp; viewModel.insights.size() == 0}"
+                bindVisible="@{viewModel.isSeeOnlyMyInsight &amp;&amp; viewModel.pagingState.itemCount == 0}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -356,7 +355,7 @@
             <TextView
                 android:id="@+id/tv_empty_message"
                 style="@style/T_600_18_25_2"
-                bindVisible="@{viewModel.insights.size() > 0}"
+                bindVisible="@{viewModel.pagingState.itemCount > 0}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
