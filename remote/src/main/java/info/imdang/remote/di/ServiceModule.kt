@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import info.imdang.remote.service.AptComplexService
 import info.imdang.remote.service.AuthService
+import info.imdang.remote.service.CouponService
+import info.imdang.remote.service.ExchangeService
 import info.imdang.remote.service.GoogleService
 import info.imdang.remote.service.InsightService
 import info.imdang.remote.service.MyInsightService
@@ -47,4 +49,16 @@ internal object ServiceModule {
     fun bindMyInsightService(
         @Named("imdang") retrofit: Retrofit
     ): MyInsightService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun bindCouponService(
+        @Named("imdang") retrofit: Retrofit
+    ): CouponService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun bindExchangeService(
+        @Named("imdang") retrofit: Retrofit
+    ): ExchangeService = retrofit.create()
 }

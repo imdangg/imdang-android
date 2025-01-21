@@ -21,4 +21,11 @@ interface MyInsightRepository {
         direction: String?,
         properties: List<String>?
     ): PagingDto<InsightDto>
+
+    suspend fun getMyInsights(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingDto<InsightDto>
 }

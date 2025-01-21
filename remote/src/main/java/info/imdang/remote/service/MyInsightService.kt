@@ -32,4 +32,13 @@ internal interface MyInsightService {
         @Query("direction") direction: String?,
         @Query("properties") properties: List<String>?
     ): PagingResponse<InsightResponse, InsightDto>
+
+    /** 내 인사이트 목록 조회 */
+    @GET("my-insights/created-by-me")
+    suspend fun getMyInsights(
+        @Query("pageNumber") page: Int?,
+        @Query("pageSize") size: Int?,
+        @Query("direction") direction: String?,
+        @Query("properties") properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
 }

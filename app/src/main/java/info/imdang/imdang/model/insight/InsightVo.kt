@@ -12,8 +12,8 @@ data class InsightVo(
     val recommendedCount: Int,
     val address: AddressVo,
     val title: String,
-    val mainImage: String,
-    val memberId: String,
+    val mainImage: String?,
+    val memberId: String?,
     val profileImage: String?,
     val nickname: String
 ) : Parcelable {
@@ -42,11 +42,11 @@ data class InsightVo(
 
 fun InsightDto.mapper(): InsightVo = InsightVo(
     insightId = insightId,
-    recommendedCount = recommendedCount,
+    recommendedCount = recommendedCount ?: 0,
     address = address.mapper(),
     title = title,
-    mainImage = mainImage,
-    memberId = memberId,
+    mainImage = mainImage ?: "",
+    memberId = memberId ?: "",
     profileImage = null,
     nickname = "홍길동"
 )

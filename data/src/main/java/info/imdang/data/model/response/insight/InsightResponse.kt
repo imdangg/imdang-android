@@ -6,11 +6,11 @@ import info.imdang.domain.model.insight.InsightDto
 
 data class InsightResponse(
     val insightId: String,
-    val recommendedCount: Int,
+    val recommendedCount: Int?,
     val address: AddressResponse,
     val title: String,
-    val mainImage: String,
-    val memberId: String
+    val mainImage: String?,
+    val memberId: String?
 ) : DataToDomainMapper<InsightDto> {
     override fun mapper(): InsightDto = InsightDto(
         insightId = insightId,
