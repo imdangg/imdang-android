@@ -58,4 +58,9 @@ interface InsightRepository {
     ): Flow<PagingData<InsightDto>>
 
     suspend fun getInsightDetail(insightId: String): InsightDetailDto
+
+    suspend fun recommendInsight(
+        insightId: String,
+        memberId: String
+    ): InsightIdDto
 }

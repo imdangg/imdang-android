@@ -20,6 +20,17 @@ data class AddressVo(
     fun toGuDong() = "$siGunGu $eupMyeonDong"
 
     companion object {
+        fun init() = AddressVo(
+            siDo = "",
+            siGunGu = "",
+            eupMyeonDong = "",
+            roadName = "",
+            buildingNumber = "",
+            detail = "",
+            latitude = null,
+            longitude = null
+        )
+
         fun getSample(): AddressVo {
             return AddressVo(
                 siDo = "서울",

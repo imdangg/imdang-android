@@ -1,6 +1,7 @@
 package info.imdang.remote.datasource
 
 import info.imdang.data.datasource.remote.InsightRemoteDataSource
+import info.imdang.data.model.request.insight.RecommendInsightRequest
 import info.imdang.data.model.response.common.PagingResponse
 import info.imdang.data.model.response.insight.InsightDetailResponse
 import info.imdang.data.model.response.insight.InsightIdResponse
@@ -51,4 +52,8 @@ internal class InsightRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getInsightDetail(insightId: String): InsightDetailResponse =
         insightService.getInsightDetail(insightId)
+
+    override suspend fun recommendInsight(
+        recommendInsightRequest: RecommendInsightRequest
+    ): InsightIdResponse = insightService.recommendInsight(recommendInsightRequest)
 }

@@ -65,6 +65,31 @@ data class InsightDetailVo(
     )
 
     companion object {
+        fun init() = InsightDetailVo(
+            memberId = "",
+            insightId = "",
+            snapshotId = 0,
+            mainImage = "",
+            title = "",
+            address = AddressVo.init(),
+            aptComplex = "",
+            visitAt = "",
+            visitTimes = emptyList(),
+            visitMethods = emptyList(),
+            access = "",
+            summary = "",
+            infra = null,
+            complexEnvironment = null,
+            complexFacility = null,
+            goodNews = null,
+            recommendedCount = 0,
+            accusedCount = 0,
+            viewCount = 0,
+            score = 0,
+            createdAt = "",
+            exchangeRequestStatus = null
+        )
+
         fun getSample() = InsightDetailVo(
             memberId = "memberId",
             nickname = "홍길동",

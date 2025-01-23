@@ -1,5 +1,6 @@
 package info.imdang.remote.service
 
+import info.imdang.data.model.request.insight.RecommendInsightRequest
 import info.imdang.data.model.response.common.PagingResponse
 import info.imdang.data.model.response.insight.InsightDetailResponse
 import info.imdang.data.model.response.insight.InsightIdResponse
@@ -7,6 +8,7 @@ import info.imdang.data.model.response.insight.InsightResponse
 import info.imdang.domain.model.insight.InsightDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -47,4 +49,10 @@ internal interface InsightService {
     suspend fun getInsightDetail(
         @Query("insightId") insightId: String
     ): InsightDetailResponse
+
+    /** 인사이트 추천 */
+    @POST("insights/recommend")
+    suspend fun recommendInsight(
+        @Body recommendInsightRequest: RecommendInsightRequest
+    ): InsightIdResponse
 }
