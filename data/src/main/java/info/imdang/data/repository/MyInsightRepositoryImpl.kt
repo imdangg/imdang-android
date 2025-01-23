@@ -63,4 +63,22 @@ internal class MyInsightRepositoryImpl @Inject constructor(
         direction = direction,
         properties = properties
     ).mapper()
+
+    override suspend fun getMyInsightsWithPaging(
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): Flow<PagingData<InsightDto>> = getPagingFlow(
+        initialPage = page ?: 0,
+        pageSize = size ?: 20,
+        loadData = { currentPage, pageSize ->
+            myInsightRemoteDataSource.getMyInsights(
+                page = currentPage,
+                size = pageSize,
+                direction = direction,
+                properties = properties
+            ).mapper()
+        }
+    )
 }
