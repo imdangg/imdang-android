@@ -19,6 +19,8 @@ import info.imdang.domain.usecase.exchange.ResponseExchangeParams
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
 import info.imdang.domain.usecase.insight.RecommendInsightParams
 import info.imdang.domain.usecase.insight.RecommendInsightUseCase
+import info.imdang.domain.usecase.insight.ReportInsightParams
+import info.imdang.domain.usecase.insight.ReportInsightUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
@@ -51,7 +53,8 @@ class InsightDetailViewModel @Inject constructor(
     private val requestExchangeUseCase: RequestExchangeUseCase,
     private val acceptExchangeUseCase: AcceptExchangeUseCase,
     private val rejectExchangeUseCase: RejectExchangeUseCase,
-    private val recommendInsightUseCase: RecommendInsightUseCase
+    private val recommendInsightUseCase: RecommendInsightUseCase,
+    private val reportInsightUseCase: ReportInsightUseCase
 ) : BaseViewModel() {
 
     private val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
@@ -329,10 +332,17 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun reportInsight() {
-        if (!insight.value.isReported) {
-            viewModelScope.launch {
-                // todo : 인사이트 신고
-            }
+        viewModelScope.launch {
+            reportInsightUseCase(
+                ReportInsightParams(
+                    insightId = insight.value.insightId,
+                    memberId = memberId
+                )
+            ) ?: return@launch
+            _insight.value = insight.value.copy(
+                isReported = true,
+                accusedCount = insight.value.accusedCount + 1
+            )
         }
     }
 }

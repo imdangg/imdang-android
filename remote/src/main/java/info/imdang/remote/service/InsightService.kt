@@ -1,6 +1,7 @@
 package info.imdang.remote.service
 
 import info.imdang.data.model.request.insight.RecommendInsightRequest
+import info.imdang.data.model.request.insight.ReportInsightRequest
 import info.imdang.data.model.response.common.PagingResponse
 import info.imdang.data.model.response.insight.InsightDetailResponse
 import info.imdang.data.model.response.insight.InsightIdResponse
@@ -54,5 +55,11 @@ internal interface InsightService {
     @POST("insights/recommend")
     suspend fun recommendInsight(
         @Body recommendInsightRequest: RecommendInsightRequest
+    ): InsightIdResponse
+
+    /** 인사이트 신고 */
+    @POST("insights/accuse")
+    suspend fun reportInsight(
+        @Body reportInsightRequest: ReportInsightRequest
     ): InsightIdResponse
 }

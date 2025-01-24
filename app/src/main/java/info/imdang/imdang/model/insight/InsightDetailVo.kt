@@ -67,6 +67,7 @@ data class InsightDetailVo(
     companion object {
         fun init() = InsightDetailVo(
             memberId = "",
+            nickname = "",
             insightId = "",
             snapshotId = 0,
             mainImage = "",
@@ -82,12 +83,16 @@ data class InsightDetailVo(
             complexEnvironment = null,
             complexFacility = null,
             goodNews = null,
+            isRecommended = false,
+            isReported = false,
             recommendedCount = 0,
             accusedCount = 0,
             viewCount = 0,
             score = 0,
             createdAt = "",
-            exchangeRequestStatus = null
+            insightDetailStatus = InsightDetailStatus.MY_INSIGHT,
+            isMyExchangeRequest = false,
+            exchangeRequestId = null
         )
 
         fun getSample() = InsightDetailVo(

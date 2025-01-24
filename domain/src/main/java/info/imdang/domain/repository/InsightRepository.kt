@@ -63,4 +63,9 @@ interface InsightRepository {
         insightId: String,
         memberId: String
     ): InsightIdDto
+
+    suspend fun reportInsight(
+        insightId: String,
+        memberId: String
+    ): InsightIdDto
 }

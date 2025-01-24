@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.google.gson.Gson
 import info.imdang.data.datasource.remote.InsightRemoteDataSource
 import info.imdang.data.model.request.insight.RecommendInsightRequest
+import info.imdang.data.model.request.insight.ReportInsightRequest
 import info.imdang.data.pagingsource.getPagingFlow
 import info.imdang.domain.model.common.PagingDto
 import info.imdang.domain.model.insight.InsightDetailDto
@@ -115,6 +116,16 @@ internal class InsightRepositoryImpl @Inject constructor(
         RecommendInsightRequest(
             insightId = insightId,
             recommendMemberId = memberId
+        )
+    ).mapper()
+
+    override suspend fun reportInsight(
+        insightId: String,
+        memberId: String
+    ): InsightIdDto = insightRemoteDataSource.reportInsight(
+        ReportInsightRequest(
+            insightId = insightId,
+            accuseMemberId = memberId
         )
     ).mapper()
 }
