@@ -26,6 +26,7 @@ import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.home.search.newinsight.NewInsightListActivity
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
+import info.imdang.imdang.ui.main.home.search.region.SearchByRegionActivity
 import info.imdang.imdang.ui.main.home.search.visitcomplex.VisitComplexInsightListActivity
 import kotlinx.coroutines.launch
 
@@ -146,6 +147,9 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
 
     private fun setupListener() {
         with(binding) {
+            clHomeSearch.setOnClickListener {
+                requireContext().startActivity<SearchByRegionActivity>()
+            }
             clHomeMap.setOnClickListener {
                 requireContext().startActivity<SearchByMapActivity>()
             }
