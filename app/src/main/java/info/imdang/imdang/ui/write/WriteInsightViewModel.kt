@@ -466,7 +466,7 @@ class WriteInsightViewModel @Inject constructor(
                     }
                 }
             )?.let {
-                _event.emit(WriteInsightEvent.WriteInsightComplete)
+                _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
             }
         }
     }

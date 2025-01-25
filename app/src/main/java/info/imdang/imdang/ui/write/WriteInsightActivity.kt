@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,8 +13,11 @@ import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.hideKeyboard
 import info.imdang.imdang.common.ext.setMargin
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityWriteInsightBinding
 import info.imdang.imdang.ui.common.showCommonDialog
+import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.write.fragment.WriteInsightBasicInfoFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
@@ -198,7 +202,7 @@ class WriteInsightActivity :
             launch {
                 viewModel.event.collect {
                     when (it) {
-                        WriteInsightEvent.WriteInsightComplete -> {
+                        is WriteInsightEvent.WriteInsightComplete -> {
                             showCommonDialog(
                                 message = getString(
                                     info.imdang.component.R.string.write_insight_complete_message
@@ -208,6 +212,9 @@ class WriteInsightActivity :
                                 ),
                                 subButtonText = "보관함 확인하기",
                                 onClickPositiveButton = {
+                                    startActivity<InsightDetailActivity>(
+                                        bundle = bundleOf(INSIGHT_ID to it.insightId)
+                                    )
                                     finish()
                                 },
                                 onClickSubButton = {
