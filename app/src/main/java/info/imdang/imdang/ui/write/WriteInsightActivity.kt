@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import dagger.hilt.android.AndroidEntryPoint
+import info.imdang.component.showToast
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.hideKeyboard
@@ -148,11 +149,15 @@ class WriteInsightActivity :
                     hideKeyboard()
                 } else {
                     with(this@WriteInsightActivity.viewModel) {
-                        if (selectedPage.value < 4) {
-                            vpWriteInsight.currentItem = selectedPage.value + 1
-                            this@WriteInsightActivity.viewModel.updateProgress()
+                        if (this@WriteInsightActivity.viewModel.isButtonEnabled.value) {
+                            if (selectedPage.value < 4) {
+                                vpWriteInsight.currentItem = selectedPage.value + 1
+                                this@WriteInsightActivity.viewModel.updateProgress()
+                            } else {
+                                this@WriteInsightActivity.viewModel.writeInsight()
+                            }
                         } else {
-                            this@WriteInsightActivity.viewModel.writeInsight()
+                            showToast(message = "필수 항목을 모두 작성해주세요")
                         }
                     }
                 }
@@ -238,8 +243,8 @@ class WriteInsightActivity :
 
     // 버튼의 배경 상태 확인
     private fun updateButtonState(isEnabled: Boolean) {
+        viewModel.updateButtonEnabled(isEnabled)
         with(binding.tvWriteCompleteButton) {
-            this.isEnabled = isEnabled
             val drawable = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
                 setColor(

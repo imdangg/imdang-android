@@ -47,6 +47,9 @@ class WriteInsightViewModel @Inject constructor(
     private val _isTooltipVisible = MutableStateFlow(false)
     val isTooltipVisible = _isTooltipVisible.asStateFlow()
 
+    private val _isButtonEnabled = MutableStateFlow(false)
+    val isButtonEnabled = _isButtonEnabled.asStateFlow()
+
     // 기본 정보
     private val _coverImageFile = MutableStateFlow<File?>(null)
     val coverImageFile = _coverImageFile.asStateFlow()
@@ -277,6 +280,10 @@ class WriteInsightViewModel @Inject constructor(
 
     fun updateTooltipVisible(isVisible: Boolean) {
         _isTooltipVisible.value = isVisible
+    }
+
+    fun updateButtonEnabled(isEnabled: Boolean) {
+        _isButtonEnabled.value = isEnabled
     }
 
     fun updateCoverImageFile(file: File?) {
