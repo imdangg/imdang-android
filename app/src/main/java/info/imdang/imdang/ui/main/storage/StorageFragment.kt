@@ -31,6 +31,7 @@ import info.imdang.imdang.ui.main.storage.address.InsightAddressActivity.Compani
 import info.imdang.imdang.ui.main.storage.bottomsheet.ComplexBottomSheet
 import info.imdang.imdang.ui.main.storage.map.StorageByMapActivity
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
@@ -149,6 +150,16 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
             clStorageMap.setOnClickListener {
                 requireContext().startActivity<StorageByMapActivity>()
             }
+            clStorageTitle.setOnClickListener {
+                addressResult.launch(
+                    Intent(requireContext(), InsightAddressActivity::class.java).apply {
+                        putExtra(
+                            SELECTED_PAGE,
+                            this@StorageFragment.viewModel.selectedInsightAddressPage.value
+                        )
+                    }
+                )
+            }
             tvInsightAddressSeeAll.setOnClickListener {
                 addressResult.launch(
                     Intent(requireContext(), InsightAddressActivity::class.java).apply {
@@ -167,6 +178,11 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                     }
                 }
             )
+            ablStorage.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                this@StorageFragment.viewModel.updateCollapsed(
+                    abs(verticalOffset) == appBarLayout.totalScrollRange
+                )
+            }
             tvSeeByAptAll.setOnClickListener {
                 this@StorageFragment.viewModel.updateSelectedComplex(null)
             }

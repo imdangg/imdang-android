@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +35,9 @@ class StorageViewModel @Inject constructor(
 
     private val _event = MutableSharedFlow<StorageEvent>()
     val event = _event.asSharedFlow()
+
+    private val _isCollapsed = MutableStateFlow(false)
+    val isCollapsed = _isCollapsed.asStateFlow()
 
     private val _selectedInsightAddressPage = MutableStateFlow(-1)
     val selectedInsightAddressPage = _selectedInsightAddressPage.asStateFlow()
@@ -95,6 +99,12 @@ class StorageViewModel @Inject constructor(
                 }
         }
     }
+
+    fun updateCollapsed(isCollapsed: Boolean) {
+        _isCollapsed.value = isCollapsed
+    }
+
+    fun getSelectedDong() = addresses.value.first { it.isSelected }.eupMyeonDong
 
     fun selectInsightAddressPage(page: Int) {
         _selectedInsightAddressPage.value = page
