@@ -1,5 +1,6 @@
 package info.imdang.imdang.ui.insight
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -10,7 +11,7 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.usecase.auth.GetMemberIdUseCase
-import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
+import info.imdang.domain.usecase.coupon.GetCouponUseCase
 import info.imdang.domain.usecase.exchange.AcceptExchangeUseCase
 import info.imdang.domain.usecase.exchange.RejectExchangeUseCase
 import info.imdang.domain.usecase.exchange.RequestExchangeParams
@@ -20,6 +21,8 @@ import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.coupon.CouponVo
+import info.imdang.imdang.model.coupon.mapper
 import info.imdang.imdang.model.insight.ExchangeItem
 import info.imdang.imdang.model.insight.InsightDetailItem
 import info.imdang.imdang.model.insight.InsightDetailStatus
@@ -44,7 +47,7 @@ class InsightDetailViewModel @Inject constructor(
     private val getInsightDetailUseCase: GetInsightDetailUseCase,
     private val getMyInsightsUseCase: GetMyInsightsUseCase,
     private val getMyInsightsWithPagingUseCase: GetMyInsightsWithPagingUseCase,
-    private val getCouponCountUseCase: GetCouponCountUseCase,
+    private val getCouponUseCase: GetCouponUseCase,
     private val requestExchangeUseCase: RequestExchangeUseCase,
     private val acceptExchangeUseCase: AcceptExchangeUseCase,
     private val rejectExchangeUseCase: RejectExchangeUseCase
@@ -63,8 +66,8 @@ class InsightDetailViewModel @Inject constructor(
     private val _insightDetails = MutableStateFlow<List<InsightDetailItem>>(emptyList())
     val insightDetails = _insightDetails.asStateFlow()
 
-    private val _couponCount = MutableStateFlow(0)
-    private val couponCount = _couponCount.asStateFlow()
+    private val _exchangeCoupon = MutableStateFlow(CouponVo.init())
+    private val exchangeCoupon = _exchangeCoupon.asStateFlow()
 
     private val _myInsightsCount = MutableStateFlow(0)
     private val myInsightsCount = _myInsightsCount.asStateFlow()
@@ -73,7 +76,7 @@ class InsightDetailViewModel @Inject constructor(
     val exchangeItems = _exchangeItems.asStateFlow()
 
     private val _selectedExchangeItem = MutableStateFlow<ExchangeItem?>(null)
-    val selectedExchangeItem = _selectedExchangeItem.asStateFlow()
+    private val selectedExchangeItem = _selectedExchangeItem.asStateFlow()
 
     private val _insightDetailStatus = MutableStateFlow(InsightDetailStatus.EXCHANGE_REQUEST)
     val insightDetailStatus = _insightDetailStatus.asStateFlow()
@@ -129,9 +132,10 @@ class InsightDetailViewModel @Inject constructor(
 
     private fun fetchExchangeItems() {
         viewModelScope.launch {
-            val couponDeferred = async { getCouponCountUseCase(Unit) }
+            val couponDeferred = async { getCouponUseCase(Unit) }
             val myInsightsDeferred = async { getMyInsightsUseCase(PagingParams()) }
-            _couponCount.value = couponDeferred.await() ?: 0
+            _exchangeCoupon.value = couponDeferred.await()?.mapper() ?: CouponVo.init()
+            Log.d("##", "${exchangeCoupon.value}")
             _myInsightsCount.value = myInsightsDeferred.await()?.totalElements ?: 0
         }
     }
@@ -147,10 +151,10 @@ class InsightDetailViewModel @Inject constructor(
                 }
                 ?.cachedIn(this)
                 ?.collect {
-                    _exchangeItems.value = if (couponCount.value > 0) {
+                    _exchangeItems.value = if (exchangeCoupon.value.couponCount > 0) {
                         it.insertHeaderItem(
                             TerminalSeparatorType.FULLY_COMPLETE,
-                            ExchangeItem.Pass(couponCount.value)
+                            ExchangeItem.Pass(exchangeCoupon.value.couponCount)
                         )
                     } else {
                         it
@@ -184,7 +188,7 @@ class InsightDetailViewModel @Inject constructor(
 
     fun onClickExchangeRequestButton() {
         viewModelScope.launch {
-            if (couponCount.value > 0 || myInsightsCount.value > 0) {
+            if (exchangeCoupon.value.couponCount > 0 || myInsightsCount.value > 0) {
                 _selectedExchangeItem.value = null
                 _exchangeItems.value = PagingData.empty()
                 _event.emit(InsightDetailEvent.ShowMyInsightsBottomSheet)
@@ -238,18 +242,20 @@ class InsightDetailViewModel @Inject constructor(
     fun requestExchange() {
         viewModelScope.launch {
             val selectedExchangeItem = selectedExchangeItem.value
-            val selectedInsight = if (selectedExchangeItem is ExchangeItem.Insight) {
-                selectedExchangeItem.insightVo
-            } else {
-                null
-            }
-
             requestExchangeUseCase(
                 RequestExchangeParams(
                     insightId = insight.value.insightId,
                     memberId = memberId,
-                    myInsightId = selectedInsight?.insightId,
-                    couponId = null
+                    myInsightId = if (selectedExchangeItem is ExchangeItem.Insight) {
+                        selectedExchangeItem.insightVo.insightId
+                    } else {
+                        null
+                    },
+                    couponId = if (selectedExchangeItem is ExchangeItem.Pass) {
+                        exchangeCoupon.value.couponId
+                    } else {
+                        null
+                    }
                 )
             )?.let {
                 _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_WAITING
@@ -277,10 +283,10 @@ class InsightDetailViewModel @Inject constructor(
 
     fun onClickExchangeItem(exchangeItem: ExchangeItem) {
         _selectedExchangeItem.value = exchangeItem
-        _exchangeItems.value = if (couponCount.value > 0) {
+        _exchangeItems.value = if (exchangeCoupon.value.couponCount > 0) {
             exchangeItems.value.insertHeaderItem(
                 TerminalSeparatorType.FULLY_COMPLETE,
-                ExchangeItem.Pass(couponCount.value)
+                ExchangeItem.Pass(exchangeCoupon.value.couponCount)
             )
         } else {
             exchangeItems.value
@@ -292,6 +298,7 @@ class InsightDetailViewModel @Inject constructor(
                         is ExchangeItem.Insight -> it.copy(isSelected = false)
                     }
                 }
+
                 is ExchangeItem.Insight -> {
                     when (it) {
                         is ExchangeItem.Pass -> it.copy(isSelected = false)

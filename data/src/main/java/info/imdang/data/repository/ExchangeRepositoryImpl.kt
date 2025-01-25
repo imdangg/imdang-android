@@ -15,7 +15,7 @@ internal class ExchangeRepositoryImpl @Inject constructor(
         insightId: String,
         memberId: String?,
         myInsightId: String?,
-        couponId: String?
+        couponId: Long?
     ): ExchangeDto = exchangeRemoteDataSource.requestExchange(
         RequestExchangeRequest(
             requestedInsightId = insightId,

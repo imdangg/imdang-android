@@ -26,5 +26,5 @@ data class RequestExchangeParams(
     val insightId: String,
     val memberId: String?,
     val myInsightId: String?,
-    val couponId: String?
+    val couponId: Long?
 )

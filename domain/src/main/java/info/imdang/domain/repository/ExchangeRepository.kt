@@ -8,7 +8,7 @@ interface ExchangeRepository {
         insightId: String,
         memberId: String?,
         myInsightId: String?,
-        couponId: String?
+        couponId: Long?
     ): ExchangeDto
 
     suspend fun acceptExchange(
