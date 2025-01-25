@@ -146,6 +146,7 @@ class WriteInsightActivity :
                     with(this@WriteInsightActivity.viewModel) {
                         if (selectedPage.value < 4) {
                             vpWriteInsight.currentItem = selectedPage.value + 1
+                            this@WriteInsightActivity.viewModel.updateProgress()
                         } else {
                             this@WriteInsightActivity.viewModel.writeInsight()
                         }
@@ -190,7 +191,6 @@ class WriteInsightActivity :
                 viewModel.selectedPage.flatMapLatest {
                     viewModel.isFinalButtonEnabled()
                 }.collect { isEnabled ->
-                    viewModel.updateProgress()
                     updateButtonState(isEnabled)
                 }
             }
