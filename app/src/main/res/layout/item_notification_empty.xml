@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="info.imdang.imdang.model.notification.NotificationItem.Empty" />
+    </data>
+
+    <TextView
+        style="@style/T_500_14_19_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sr_dash_gray50_gray100_all8"
+        android:gravity="center"
+        android:paddingVertical="16dp"
+        android:text="@{item.text}"
+        android:textColor="@color/gray_500"
+        tools:text="오늘 도착한 신규 알림이 없어요" />
+</layout>

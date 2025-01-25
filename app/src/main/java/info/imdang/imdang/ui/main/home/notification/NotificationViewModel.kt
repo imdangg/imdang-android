@@ -62,21 +62,29 @@ class NotificationViewModel @Inject constructor() : BaseViewModel() {
             }
         }
         _notifications.value = mutableListOf<NotificationItem>().apply {
+            if (newNotifications.value.isEmpty() && lastNotifications.value.isEmpty()) {
+                add(NotificationItem.Empty(text = "최근 1년간 도착한 알림이 없어요"))
+                return@apply
+            }
+            add(NotificationItem.Title(title = "신규 알림"))
             if (newNotifications.value.isNotEmpty()) {
-                add(NotificationItem.Title(title = "신규 알림"))
                 addAll(
                     newNotifications.value.map {
                         NotificationItem.Notification(it)
                     }
                 )
+            } else {
+                add(NotificationItem.Empty(text = "오늘 도착한 신규 알림이 없어요"))
             }
+            add(NotificationItem.Title(title = "지난 알림"))
             if (lastNotifications.value.isNotEmpty()) {
-                add(NotificationItem.Title(title = "지난 알림"))
                 addAll(
                     lastNotifications.value.map {
                         NotificationItem.Notification(it)
                     }
                 )
+            } else {
+                add(NotificationItem.Empty(text = "지난 알림이 없어요"))
             }
         }
     }
