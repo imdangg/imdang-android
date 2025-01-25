@@ -72,7 +72,7 @@ class HomeSearchViewModel @Inject constructor(
                         size = 3
                     )
                 )
-            )?.content?.map(InsightDto::mapper) ?: emptyList()
+            )?.content?.map(InsightDto::mapper)?.take(3) ?: emptyList()
         }
     }
 
@@ -80,7 +80,7 @@ class HomeSearchViewModel @Inject constructor(
         viewModelScope.launch {
             _newInsights.value = getInsightsUseCase(
                 PagingParams(size = 5)
-            )?.content?.map(InsightDto::mapper) ?: emptyList()
+            )?.content?.map(InsightDto::mapper)?.take(5) ?: emptyList()
         }
     }
 
