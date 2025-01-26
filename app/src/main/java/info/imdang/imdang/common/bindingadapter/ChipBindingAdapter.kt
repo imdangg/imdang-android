@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import info.imdang.imdang.R
+import info.imdang.imdang.model.insight.ExchangeRequestStatus
 
 @BindingAdapter("bindInsightDetailChips")
 fun ChipGroup.bindInsightDetailChips(chips: List<String>) {
@@ -64,4 +65,31 @@ fun Chip.bindChipBackground(isSelected: Boolean) {
         context.getColor(info.imdang.component.R.color.gray_500)
     }
     this.setTextColor(textColor)
+}
+
+@BindingAdapter(
+    value = ["bindChipStatus", "bindChipCount", "bindChipSelected"],
+    requireAll = true
+)
+fun Chip.bindChipStatus(status: ExchangeRequestStatus, count: Int?, isSelected: Boolean) {
+    val statusText = when (status) {
+        ExchangeRequestStatus.PENDING -> {
+            context.getString(info.imdang.component.R.string.waiting)
+        }
+
+        ExchangeRequestStatus.REJECTED -> {
+            context.getString(info.imdang.component.R.string.refusal)
+        }
+
+        ExchangeRequestStatus.ACCEPTED -> {
+            context.getString(info.imdang.component.R.string.exchange_completed)
+        }
+    }
+
+    val text = if (isSelected) {
+        "$statusText (${count ?: 0})"
+    } else {
+        statusText
+    }
+    this.text = text
 }

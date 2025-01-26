@@ -2,48 +2,64 @@ package info.imdang.imdang.ui.main.home.exchange
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.model.common.MyExchangesParams
+import info.imdang.domain.model.common.PagingParams
+import info.imdang.domain.model.insight.InsightDto
+import info.imdang.domain.usecase.myexchange.GetMyExchangeUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.insight.ExchangeRequestStatus
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.model.insight.mapper
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeExchangeViewModel @Inject constructor() : BaseViewModel() {
+class HomeExchangeViewModel @Inject constructor(
+    private val getMyExchangeUseCase: GetMyExchangeUseCase
+) : BaseViewModel() {
 
     private val _selectedChipId = MutableStateFlow(1)
     val selectedChipId = _selectedChipId.asStateFlow()
 
-    private val _chipDescription = MutableStateFlow<List<String>>(emptyList())
-    val chipDescription = _selectedChipId.map { chipId ->
-        _chipDescription.value.getOrNull(chipId - 1) ?: ""
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "")
+    private val _selectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
+    val selectedChipCounts = _selectedChipCounts.asStateFlow()
 
-    private val _requestedInsights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val requestedInsights = _requestedInsights.asStateFlow()
+    private val _myExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
+    val myExchanges = _myExchanges.asStateFlow()
 
     init {
-        updateInsightsForChip(1)
-    }
-
-    fun setChipDescriptions(descriptions: List<String>) {
-        _chipDescription.value = descriptions
+        fetchMyExchange(ExchangeRequestStatus.PENDING)
     }
 
     fun onChipClicked(chipId: Int) {
         _selectedChipId.value = chipId
-        updateInsightsForChip(chipId)
+
+        val status = when (chipId) {
+            1 -> ExchangeRequestStatus.PENDING
+            2 -> ExchangeRequestStatus.REJECTED
+            3 -> ExchangeRequestStatus.ACCEPTED
+            else -> null
+        }
+        status?.let { fetchMyExchange(it) }
     }
 
-    private fun updateInsightsForChip(chipId: Int) {
-        _requestedInsights.value = when (chipId) {
-            1 -> InsightVo.getSamples(size = 5)
-            2 -> InsightVo.getSamples(size = 2)
-            3 -> InsightVo.getSamples(size = 1)
-            else -> emptyList()
+    private fun fetchMyExchange(exchangeRequestStatus: ExchangeRequestStatus) {
+        viewModelScope.launch {
+            val response = getMyExchangeUseCase(
+                MyExchangesParams(
+                    exchangeRequestStatus = exchangeRequestStatus.name,
+                    pagingParams = PagingParams()
+                )
+            )
+
+            val totalCount = response?.totalElements ?: 0
+            _selectedChipCounts.value = _selectedChipCounts.value.toMutableMap().apply {
+                this[exchangeRequestStatus] = totalCount
+            }
+
+            _myExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
         }
     }
 }
