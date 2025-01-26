@@ -47,6 +47,9 @@ class WriteInsightViewModel @Inject constructor(
     private val _isTooltipVisible = MutableStateFlow(false)
     val isTooltipVisible = _isTooltipVisible.asStateFlow()
 
+    private val _isButtonEnabled = MutableStateFlow(false)
+    val isButtonEnabled = _isButtonEnabled.asStateFlow()
+
     // 기본 정보
     private val _coverImageFile = MutableStateFlow<File?>(null)
     val coverImageFile = _coverImageFile.asStateFlow()
@@ -67,10 +70,10 @@ class WriteInsightViewModel @Inject constructor(
     val insightAptName = _insightAptName.asStateFlow()
 
     private val _latitude = MutableStateFlow(0.0)
-    val latitude = _latitude.asStateFlow()
+    private val latitude = _latitude.asStateFlow()
 
     private val _longitude = MutableStateFlow(0.0)
-    val longitude = _longitude.asStateFlow()
+    private val longitude = _longitude.asStateFlow()
 
     private val _isInsightAptAddressValid = MutableStateFlow(false)
     val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
@@ -279,6 +282,10 @@ class WriteInsightViewModel @Inject constructor(
         _isTooltipVisible.value = isVisible
     }
 
+    fun updateButtonEnabled(isEnabled: Boolean) {
+        _isButtonEnabled.value = isEnabled
+    }
+
     fun updateCoverImageFile(file: File?) {
         _coverImageFile.value = file
     }
@@ -362,22 +369,18 @@ class WriteInsightViewModel @Inject constructor(
 
     fun updateInfraReview(infraReview: String) {
         _infraReview.value = infraReview
-        updateProgress()
     }
 
     fun updateComplexEnvironmentReview(complexEnvironmentReview: String) {
         _complexEnvironmentReview.value = complexEnvironmentReview
-        updateProgress()
     }
 
     fun updateComplexFacilityReview(complexFacility: String) {
         _complexFacilityReview.value = complexFacility
-        updateProgress()
     }
 
     fun updateGoodNewsReview(goodNews: String) {
         _goodNewsReview.value = goodNews
-        updateProgress()
     }
 
     fun isFinalButtonEnabled() = combine(
@@ -470,7 +473,7 @@ class WriteInsightViewModel @Inject constructor(
                     }
                 }
             )?.let {
-                _event.emit(WriteInsightEvent.WriteInsightComplete)
+                _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
             }
         }
     }

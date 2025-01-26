@@ -5,15 +5,20 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import dagger.hilt.android.AndroidEntryPoint
+import info.imdang.component.showToast
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.hideKeyboard
 import info.imdang.imdang.common.ext.setMargin
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityWriteInsightBinding
 import info.imdang.imdang.ui.common.showCommonDialog
+import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.write.fragment.WriteInsightBasicInfoFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
@@ -144,10 +149,15 @@ class WriteInsightActivity :
                     hideKeyboard()
                 } else {
                     with(this@WriteInsightActivity.viewModel) {
-                        if (selectedPage.value < 4) {
-                            vpWriteInsight.currentItem = selectedPage.value + 1
+                        if (this@WriteInsightActivity.viewModel.isButtonEnabled.value) {
+                            if (selectedPage.value < 4) {
+                                vpWriteInsight.currentItem = selectedPage.value + 1
+                                this@WriteInsightActivity.viewModel.updateProgress()
+                            } else {
+                                this@WriteInsightActivity.viewModel.writeInsight()
+                            }
                         } else {
-                            this@WriteInsightActivity.viewModel.writeInsight()
+                            showToast(message = "필수 항목을 모두 작성해주세요")
                         }
                     }
                 }
@@ -190,7 +200,6 @@ class WriteInsightActivity :
                 viewModel.selectedPage.flatMapLatest {
                     viewModel.isFinalButtonEnabled()
                 }.collect { isEnabled ->
-                    viewModel.updateProgress()
                     updateButtonState(isEnabled)
                 }
             }
@@ -198,7 +207,7 @@ class WriteInsightActivity :
             launch {
                 viewModel.event.collect {
                     when (it) {
-                        WriteInsightEvent.WriteInsightComplete -> {
+                        is WriteInsightEvent.WriteInsightComplete -> {
                             showCommonDialog(
                                 message = getString(
                                     info.imdang.component.R.string.write_insight_complete_message
@@ -208,6 +217,9 @@ class WriteInsightActivity :
                                 ),
                                 subButtonText = "보관함 확인하기",
                                 onClickPositiveButton = {
+                                    startActivity<InsightDetailActivity>(
+                                        bundle = bundleOf(INSIGHT_ID to it.insightId)
+                                    )
                                     finish()
                                 },
                                 onClickSubButton = {
@@ -231,8 +243,8 @@ class WriteInsightActivity :
 
     // 버튼의 배경 상태 확인
     private fun updateButtonState(isEnabled: Boolean) {
+        viewModel.updateButtonEnabled(isEnabled)
         with(binding.tvWriteCompleteButton) {
-            this.isEnabled = isEnabled
             val drawable = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
                 setColor(
