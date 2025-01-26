@@ -42,6 +42,7 @@ class NotificationActivity :
                             is NotificationItem.Notification -> {
                                 NotificationItemHolderType.NotificationHolder
                             }
+                            is NotificationItem.Empty -> NotificationItemHolderType.EmptyHolder
                         }
                     },
                     viewHolderType = NotificationItemHolderType::class,
@@ -102,6 +103,10 @@ class NotificationActivity :
         ),
         NotificationHolder(
             layoutResourceId = R.layout.item_notification,
+            bindingItemId = BR.item
+        ),
+        EmptyHolder(
+            layoutResourceId = R.layout.item_notification_empty,
             bindingItemId = BR.item
         )
     }

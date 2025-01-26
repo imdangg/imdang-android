@@ -20,35 +20,25 @@ class NotificationItemDecoration : RecyclerView.ItemDecoration() {
             it > -1
         } ?: return
         val viewType = parent.adapter?.getItemViewType(position) ?: return
-        val nextItemViewType = if (position + 1 < layoutManager.itemCount) {
-            parent.adapter?.getItemViewType(position + 1)
+        val prevItemViewType = if (position - 1 >= 0) {
+            parent.adapter?.getItemViewType(position - 1)
         } else {
             null
         }
         val titleViewType = NotificationItemHolderType.TitleHolder.ordinal
         val notificationViewType = NotificationItemHolderType.NotificationHolder.ordinal
+        val emptyViewType = NotificationItemHolderType.EmptyHolder.ordinal
 
         if (layoutManager is LinearLayoutManager) {
-            when {
-                viewType == titleViewType && nextItemViewType == notificationViewType -> {
-                    outRect.bottom += getSpaceByLocation(layoutManager, view, 16)
-                }
-                viewType == notificationViewType && nextItemViewType == notificationViewType -> {
-                    outRect.bottom += getSpaceByLocation(layoutManager, view, 12)
-                }
-                viewType == notificationViewType && nextItemViewType == titleViewType -> {
-                    outRect.bottom += getSpaceByLocation(layoutManager, view, 24)
-                }
+            val space = when (viewType) {
+                titleViewType -> 24
+                notificationViewType -> if (prevItemViewType == titleViewType) 16 else 12
+                emptyViewType -> if (prevItemViewType == titleViewType) 16 else 24
+                else -> 12
             }
+            outRect.top += getSpaceByLocation(view, space)
         }
     }
 
-    private fun getSpaceByLocation(
-        layoutManager: LinearLayoutManager,
-        view: View,
-        space: Int
-    ): Int {
-        val isLast = layoutManager.getPosition(view) == layoutManager.itemCount - 1
-        return if (isLast) 0 else view.context.dpToPx(space)
-    }
+    private fun getSpaceByLocation(view: View, space: Int): Int = view.context.dpToPx(space)
 }
