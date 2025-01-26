@@ -39,15 +39,38 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        style="@style/T_700_24_33_6"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_storage_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/storage"
-                        android:textColor="@color/gray_900"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_storage_title"
+                            style="@style/T_700_24_33_6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.isCollapsed ? viewModel.getSelectedDong() : @string/storage}"
+                            android:textColor="@color/gray_900"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/storage" />
+
+                        <ImageView
+                            bindVisible="@{viewModel.isCollapsed}"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="8dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_down"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_storage_title"
+                            app:layout_constraintStart_toEndOf="@id/tv_storage_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_storage_title"
+                            app:tint="@color/gray_900" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_storage_map"
@@ -103,6 +126,7 @@
             app:layout_constraintTop_toBottomOf="@id/tb_storage">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/abl_storage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/gray_25"
