@@ -4,17 +4,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.SimpleItemAnimator
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseBottomSheetDialogFragment
 import info.imdang.imdang.common.DividerItemDecoration
-import info.imdang.imdang.common.bindingadapter.BaseMultiViewAdapter
+import info.imdang.imdang.common.bindingadapter.BaseMultiViewPagingAdapter
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
 import info.imdang.imdang.databinding.BottomSheetExchangeItemsBinding
 import info.imdang.imdang.model.insight.ExchangeItem
 import info.imdang.imdang.ui.insight.InsightDetailViewModel
 import java.io.Serializable
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ExchangeItemsBottomSheet : BaseBottomSheetDialogFragment<BottomSheetExchangeItemsBinding>(
@@ -23,6 +27,8 @@ class ExchangeItemsBottomSheet : BaseBottomSheetDialogFragment<BottomSheetExchan
 
     private val viewModel by activityViewModels<InsightDetailViewModel>()
 
+    private lateinit var adapter: BaseMultiViewPagingAdapter<ExchangeItem>
+
     private lateinit var listener: MyInsightsBottomSheetListener
 
     override fun getTheme(): Int = info.imdang.component.R.style.Rounded12BottomSheetDialog
@@ -30,16 +36,23 @@ class ExchangeItemsBottomSheet : BaseBottomSheetDialogFragment<BottomSheetExchan
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupData()
         setupBinding()
         setupListener()
+        setupCollect()
+    }
+
+    private fun setupData() {
+        viewModel.fetchExchangeItemsWithPaging()
     }
 
     private fun setupBinding() {
         with(binding) {
             viewModel = this@ExchangeItemsBottomSheet.viewModel
             rvExchangeItem.run {
+                (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
                 addItemDecoration(DividerItemDecoration())
-                adapter = BaseMultiViewAdapter(
+                this@ExchangeItemsBottomSheet.adapter = BaseMultiViewPagingAdapter(
                     viewHolderMapper = {
                         when (it) {
                             is ExchangeItem.Pass -> ExchangeItemHolderType.PassHolder
@@ -52,7 +65,7 @@ class ExchangeItemsBottomSheet : BaseBottomSheetDialogFragment<BottomSheetExchan
                         override fun areItemsTheSame(
                             oldItem: ExchangeItem,
                             newItem: ExchangeItem
-                        ): Boolean = oldItem == newItem
+                        ): Boolean = oldItem.hashCode() == newItem.hashCode()
 
                         override fun areContentsTheSame(
                             oldItem: ExchangeItem,
@@ -68,6 +81,7 @@ class ExchangeItemsBottomSheet : BaseBottomSheetDialogFragment<BottomSheetExchan
                         }
                     }
                 }
+                adapter = this@ExchangeItemsBottomSheet.adapter
             }
         }
     }
@@ -77,6 +91,14 @@ class ExchangeItemsBottomSheet : BaseBottomSheetDialogFragment<BottomSheetExchan
             tvConfirmButton.setOnClickListener {
                 dismiss()
                 listener.onClickConfirmButton()
+            }
+        }
+    }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.exchangeItems.collectLatest {
+                adapter.submitData(it)
             }
         }
     }
