@@ -21,7 +21,8 @@ interface MyInsightRepository {
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>>
 
     suspend fun getMyInsights(
@@ -35,6 +36,7 @@ interface MyInsightRepository {
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>>
 }

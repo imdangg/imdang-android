@@ -34,7 +34,13 @@ class NewInsightViewModel @Inject constructor(
 
     private fun fetchInsights() {
         viewModelScope.launch {
-            getInsightsWithPagingUseCase(PagingParams())
+            getInsightsWithPagingUseCase(
+                PagingParams(
+                    totalCountListener = {
+                        updatePagingState(itemCount = it)
+                    }
+                )
+            )
                 ?.cachedIn(this)
                 ?.collect {
                     _event.emit(NewInsightListEvent.UpdateInsights(it.map(InsightDto::mapper)))

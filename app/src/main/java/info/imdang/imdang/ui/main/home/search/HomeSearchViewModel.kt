@@ -107,4 +107,6 @@ class HomeSearchViewModel @Inject constructor(
     fun selectRecommendInsightPage(page: Int) {
         _selectedRecommendInsightPage.value = page + 1
     }
+
+    fun getSelectedComplexIndex() = visitedAptComplexes.value.indexOfFirst { it.isSelected }
 }

@@ -23,6 +23,7 @@ class GetMyInsightsWithPagingUseCase @Inject constructor(
         page = parameters.page - 1,
         size = parameters.size,
         direction = parameters.direction,
-        properties = parameters.properties
+        properties = parameters.properties,
+        totalCountListener = parameters.totalCountListener
     )
 }

@@ -34,7 +34,8 @@ internal class MyInsightRepositoryImpl @Inject constructor(
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>> = getPagingFlow(
         initialPage = page ?: 0,
         pageSize = size ?: 20,
@@ -49,7 +50,8 @@ internal class MyInsightRepositoryImpl @Inject constructor(
                 direction = direction,
                 properties = properties
             ).mapper()
-        }
+        },
+        totalCountListener = totalCountListener
     )
 
     override suspend fun getMyInsights(
@@ -68,7 +70,8 @@ internal class MyInsightRepositoryImpl @Inject constructor(
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>> = getPagingFlow(
         initialPage = page ?: 0,
         pageSize = size ?: 20,
@@ -79,6 +82,7 @@ internal class MyInsightRepositoryImpl @Inject constructor(
                 direction = direction,
                 properties = properties
             ).mapper()
-        }
+        },
+        totalCountListener = totalCountListener
     )
 }

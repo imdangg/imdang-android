@@ -52,7 +52,8 @@ internal class InsightRepositoryImpl @Inject constructor(
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>> = getPagingFlow(
         initialPage = page ?: 0,
         pageSize = size ?: 20,
@@ -63,7 +64,8 @@ internal class InsightRepositoryImpl @Inject constructor(
                 direction = direction,
                 properties = properties
             ).mapper()
-        }
+        },
+        totalCountListener = totalCountListener
     )
 
     override suspend fun getInsightsByAptComplex(
@@ -85,7 +87,8 @@ internal class InsightRepositoryImpl @Inject constructor(
         size: Int?,
         direction: String?,
         properties: List<String>?,
-        aptComplex: String
+        aptComplex: String,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>> = getPagingFlow(
         initialPage = page ?: 0,
         pageSize = size ?: 20,
@@ -97,7 +100,8 @@ internal class InsightRepositoryImpl @Inject constructor(
                 properties = properties,
                 aptComplex = aptComplex
             ).mapper()
-        }
+        },
+        totalCountListener = totalCountListener
     )
 
     override suspend fun getInsightDetail(insightId: String): InsightDetailDto =

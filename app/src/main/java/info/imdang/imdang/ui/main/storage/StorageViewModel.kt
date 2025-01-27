@@ -90,7 +90,11 @@ class StorageViewModel @Inject constructor(
                     address = selectedAddress.value?.toAddressDto() ?: return@launch,
                     aptComplexName = selectedComplex.value?.aptComplexName,
                     onlyMine = isSeeOnlyMyInsight.value,
-                    pagingParams = PagingParams()
+                    pagingParams = PagingParams(
+                        totalCountListener = {
+                            updatePagingState(itemCount = it)
+                        }
+                    )
                 )
             )
                 ?.cachedIn(this)

@@ -1,6 +1,8 @@
 package info.imdang.imdang.ui.main.home.search.visitcomplex
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
@@ -18,6 +20,7 @@ import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
+import info.imdang.imdang.ui.main.home.search.HomeSearchFragment.Companion.SELECTED_COMPLEX_INDEX
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -103,11 +106,6 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
                                 isLoading = it
                             )
                         },
-                        onItemCount = {
-                            this@VisitComplexInsightListActivity.viewModel.updatePagingState(
-                                itemCount = it
-                            )
-                        },
                         onError = {
                             this@VisitComplexInsightListActivity.viewModel.updatePagingState(
                                 error = it
@@ -122,8 +120,20 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
 
     private fun setupListener() {
         with(binding) {
-            ivBack.setOnClickListener {
+            onBackPressedDispatcher.addCallback {
+                setResult(
+                    RESULT_OK,
+                    Intent().apply {
+                        putExtra(
+                            SELECTED_COMPLEX_INDEX,
+                            this@VisitComplexInsightListActivity.viewModel.selectedIndex.value
+                        )
+                    }
+                )
                 finish()
+            }
+            ivBack.setOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
             }
         }
     }
@@ -132,6 +142,9 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
         lifecycleScope.launch {
             viewModel.event.collect {
                 when (it) {
+                    is VisitComplexInsightListEvent.ScrollToSelectedPosition -> {
+                        binding.rvVisitComplexInsightApt.scrollToPosition(it.position)
+                    }
                     is VisitComplexInsightListEvent.UpdateInsights -> launch {
                         adapter.submitData(it.insights)
                     }

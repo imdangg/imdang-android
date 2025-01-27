@@ -30,7 +30,8 @@ interface InsightRepository {
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>>
 
     /**
@@ -52,7 +53,8 @@ interface InsightRepository {
         size: Int?,
         direction: String?,
         properties: List<String>?,
-        aptComplex: String
+        aptComplex: String,
+        totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>>
 
     suspend fun getInsightDetail(insightId: String): InsightDetailDto

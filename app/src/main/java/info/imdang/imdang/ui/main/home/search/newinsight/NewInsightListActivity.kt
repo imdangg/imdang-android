@@ -70,9 +70,6 @@ class NewInsightListActivity : BaseActivity<ActivityNewInsightListBinding>(
                         onLoading = {
                             this@NewInsightListActivity.viewModel.updatePagingState(isLoading = it)
                         },
-                        onItemCount = {
-                            this@NewInsightListActivity.viewModel.updatePagingState(itemCount = it)
-                        },
                         onError = {
                             this@NewInsightListActivity.viewModel.updatePagingState(error = it)
                         }
