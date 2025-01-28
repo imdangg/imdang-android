@@ -19,6 +19,7 @@ const val REVIEW = "단지는 전반적으로 관리 상태가 양호했으며, 
 @Parcelize
 data class InsightDetailVo(
     val memberId: String,
+    val nickname: String,
     val insightId: String,
     val snapshotId: Long?,
     val mainImage: String,
@@ -34,15 +35,16 @@ data class InsightDetailVo(
     val complexEnvironment: ComplexEnvironmentVo?,
     val complexFacility: ComplexFacilityVo?,
     val goodNews: GoodNewsVo?,
+    val isRecommended: Boolean,
+    val isReported: Boolean,
     val recommendedCount: Int,
     val accusedCount: Int,
     val viewCount: Int,
     val score: Int,
-    val createdAt: String,
-    val exchangeRequestStatus: ExchangeRequestStatus?,
-    val exchangeRequestId: String?,
-    val isRecommended: Boolean = false,
-    val isReported: Boolean = false
+    val createdAt: String?,
+    val insightDetailStatus: InsightDetailStatus,
+    val isMyExchangeRequest: Boolean,
+    val exchangeRequestId: String?
 ) : Parcelable {
 
     fun toBasicInfo(): InsightDetailItem.BasicInfo = InsightDetailItem.BasicInfo(
@@ -65,6 +67,7 @@ data class InsightDetailVo(
     companion object {
         fun getSample() = InsightDetailVo(
             memberId = "memberId",
+            nickname = "홍길동",
             insightId = "insightId",
             snapshotId = 0,
             mainImage = "https://www.hyundai.co.kr/image/upload/asset_library/" +
@@ -134,12 +137,15 @@ data class InsightDetailVo(
                 policies = listOf("투기 과열 지구 해제", "일자리 창출 정책"),
                 goodNewsReview = REVIEW
             ),
+            isRecommended = false,
+            isReported = false,
             recommendedCount = 10,
             accusedCount = 0,
             viewCount = 10,
             score = 100,
             createdAt = "",
-            exchangeRequestStatus = null,
+            insightDetailStatus = InsightDetailStatus.EXCHANGE_REQUEST,
+            isMyExchangeRequest = false,
             exchangeRequestId = null
         )
     }
@@ -187,8 +193,9 @@ data class GoodNewsVo(
     val goodNewsReview: String
 ) : Parcelable
 
-fun InsightDetailDto.mapper(): InsightDetailVo = InsightDetailVo(
-    memberId = memberId,
+fun InsightDetailDto.mapper(memberId: String): InsightDetailVo = InsightDetailVo(
+    memberId = this.memberId,
+    nickname = memberNickname,
     insightId = insightId,
     snapshotId = snapshotId,
     mainImage = mainImage,
@@ -204,12 +211,20 @@ fun InsightDetailDto.mapper(): InsightDetailVo = InsightDetailVo(
     complexEnvironment = complexEnvironment?.mapper(),
     complexFacility = complexFacility?.mapper(),
     goodNews = favorableNews?.mapper(),
+    isRecommended = recommended,
+    isReported = accused,
     recommendedCount = recommendedCount,
     accusedCount = accusedCount ?: 0,
     viewCount = viewCount ?: 0,
     score = score,
     createdAt = createdAt,
-    exchangeRequestStatus = ExchangeRequestStatus.fromString(exchangeRequestStatus),
+    insightDetailStatus = ExchangeRequestStatus
+        .fromString(exchangeRequestStatus)
+        .toInsightDetailStatus(
+            isMyInsight = this.memberId == memberId,
+            isMyExchangeRequest = exchangeRequestCreatedByMe ?: false
+        ),
+    isMyExchangeRequest = exchangeRequestCreatedByMe ?: false,
     exchangeRequestId = exchangeRequestId
 )
 

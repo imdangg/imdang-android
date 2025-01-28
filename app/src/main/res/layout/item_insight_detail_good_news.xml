@@ -17,7 +17,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        bindMarginBottom="@{viewModel.insightDetailStatus == InsightDetailStatus.MY_INSIGHT ? 40 : 0}"
+        bindMarginBottom="@{item.insightDetailStatus == InsightDetailStatus.MY_INSIGHT ? 40 : 0}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"

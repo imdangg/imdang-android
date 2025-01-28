@@ -1,6 +1,5 @@
 package info.imdang.imdang.ui.insight
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -28,7 +27,6 @@ import info.imdang.imdang.model.insight.InsightDetailItem
 import info.imdang.imdang.model.insight.InsightDetailStatus
 import info.imdang.imdang.model.insight.InsightDetailVo
 import info.imdang.imdang.model.insight.mapper
-import info.imdang.imdang.model.insight.toInsightDetailStatus
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -78,9 +76,6 @@ class InsightDetailViewModel @Inject constructor(
     private val _selectedExchangeItem = MutableStateFlow<ExchangeItem?>(null)
     private val selectedExchangeItem = _selectedExchangeItem.asStateFlow()
 
-    private val _insightDetailStatus = MutableStateFlow(InsightDetailStatus.EXCHANGE_REQUEST)
-    val insightDetailStatus = _insightDetailStatus.asStateFlow()
-
     private val _isScrolling = MutableStateFlow(false)
     val isScrolling = _isScrolling.asStateFlow()
 
@@ -91,13 +86,12 @@ class InsightDetailViewModel @Inject constructor(
 
     private fun fetchInsightDetail() {
         viewModelScope.launch {
-            _insight.value = getInsightDetailUseCase(insightId.value)?.mapper() ?: return@launch
-            _insightDetailStatus.value = insight.value.exchangeRequestStatus.toInsightDetailStatus(
-                isMyInsight = insight.value.memberId == memberId
-            )
+            _insight.value = getInsightDetailUseCase(
+                insightId.value
+            )?.mapper(memberId) ?: return@launch
             _insightDetails.value =
-                if (insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE ||
-                    insightDetailStatus.value == InsightDetailStatus.MY_INSIGHT
+                if (insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE ||
+                    insight.value.insightDetailStatus == InsightDetailStatus.MY_INSIGHT
                 ) {
                     val infra = insight.value.infra
                     val complexEnvironment = insight.value.complexEnvironment
@@ -113,18 +107,18 @@ class InsightDetailViewModel @Inject constructor(
                             InsightDetailItem.Infra(infra),
                             InsightDetailItem.AptEnvironment(complexEnvironment),
                             InsightDetailItem.AptFacility(complexFacility),
-                            InsightDetailItem.GoodNews(goodNews)
+                            InsightDetailItem.GoodNews(goodNews, insight.value.insightDetailStatus)
                         )
                     } else {
                         listOf(
                             insight.value.toBasicInfo(),
-                            InsightDetailItem.Invisible(insightDetailStatus.value)
+                            InsightDetailItem.Invisible(insight.value.insightDetailStatus)
                         )
                     }
                 } else {
                     listOf(
                         insight.value.toBasicInfo(),
-                        InsightDetailItem.Invisible(insightDetailStatus.value)
+                        InsightDetailItem.Invisible(insight.value.insightDetailStatus)
                     )
                 }
         }
@@ -135,7 +129,6 @@ class InsightDetailViewModel @Inject constructor(
             val couponDeferred = async { getCouponUseCase(Unit) }
             val myInsightsDeferred = async { getMyInsightsUseCase(PagingParams()) }
             _exchangeCoupon.value = couponDeferred.await()?.mapper() ?: CouponVo.init()
-            Log.d("##", "${exchangeCoupon.value}")
             _myInsightsCount.value = myInsightsDeferred.await()?.totalElements ?: 0
         }
     }
@@ -163,8 +156,9 @@ class InsightDetailViewModel @Inject constructor(
         }
     }
 
-    fun isEnableTabMove() = insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE ||
-        insightDetailStatus.value == InsightDetailStatus.MY_INSIGHT
+    fun isEnableTabMove() =
+        insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE ||
+            insight.value.insightDetailStatus == InsightDetailStatus.MY_INSIGHT
 
     fun onClickTab() {
         _isScrolling.value = true
@@ -175,7 +169,7 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun onClickRecommend() {
-        if (insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE) {
+        if (insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE) {
             _insight.value = insight.value.copy(isRecommended = !insight.value.isRecommended)
         } else {
             viewModelScope.launch {
@@ -208,7 +202,9 @@ class InsightDetailViewModel @Inject constructor(
                     memberId = memberId
                 )
             )?.let {
-                _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_REQUEST
+                _insight.value = insight.value.copy(
+                    insightDetailStatus = InsightDetailStatus.EXCHANGE_REQUEST
+                )
                 _event.emit(
                     InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.EXCHANGE_REJECT)
                 )
@@ -258,10 +254,12 @@ class InsightDetailViewModel @Inject constructor(
                     }
                 )
             )?.let {
-                _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_WAITING
+                _insight.value = insight.value.copy(
+                    insightDetailStatus = InsightDetailStatus.EXCHANGE_WAITING
+                )
                 _insightDetails.value = insightDetails.value.map {
                     if (it is InsightDetailItem.Invisible) {
-                        it.copy(insightDetailStatus.value)
+                        it.copy(insight.value.insightDetailStatus)
                     } else {
                         it
                     }
