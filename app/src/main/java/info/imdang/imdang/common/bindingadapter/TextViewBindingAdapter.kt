@@ -64,3 +64,8 @@ fun TextView.bindChipAlarmDescription(chipId: Int, chipCounts: Map<ExchangeReque
 
     this.text = description
 }
+
+@BindingAdapter("bindIntToString")
+fun TextView.bindIntToString(value: Int) {
+    this.text = "${value}개"
+}

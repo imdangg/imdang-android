@@ -2,6 +2,7 @@ package info.imdang.imdang.ui.main.home.exchange
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
@@ -12,6 +13,8 @@ import info.imdang.imdang.databinding.FragmentHomeExchangeBinding
 class HomeExchangeFragment :
     BaseFragment<FragmentHomeExchangeBinding>(R.layout.fragment_home_exchange) {
 
+    private val viewModel: HomeExchangeViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -20,6 +23,8 @@ class HomeExchangeFragment :
 
     private fun setupBinding() {
         with(binding) {
+            viewModel = this@HomeExchangeFragment.viewModel
+
             vpHomeExchange.adapter = HomeExchangeAdapter(
                 fragmentActivity = requireActivity()
             )

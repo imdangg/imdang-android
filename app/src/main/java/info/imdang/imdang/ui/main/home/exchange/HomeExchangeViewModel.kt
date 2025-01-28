@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.MyExchangesParams
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
+import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
 import info.imdang.domain.usecase.myexchange.GetMyExchangeUseCase
 import info.imdang.domain.usecase.myexchange.GetOthersExchangeUseCase
 import info.imdang.imdang.base.BaseViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeExchangeViewModel @Inject constructor(
     private val getMyExchangeUseCase: GetMyExchangeUseCase,
-    private val getOthersExchangeUseCase: GetOthersExchangeUseCase
+    private val getOthersExchangeUseCase: GetOthersExchangeUseCase,
+    private val getCouponCountUseCase: GetCouponCountUseCase
 ) : BaseViewModel() {
 
     private val _currentExchangeType = MutableStateFlow(ExchangeType.REQUESTED)
@@ -41,9 +43,13 @@ class HomeExchangeViewModel @Inject constructor(
     private val _othersExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
     val othersExchanges = _othersExchanges.asStateFlow()
 
+    private val _couponCount = MutableStateFlow(0)
+    val couponCount = _couponCount.asStateFlow()
+
     init {
         fetchMyExchange(ExchangeRequestStatus.PENDING)
         fetchOthersExchange(ExchangeRequestStatus.PENDING)
+        fetchCouponCount()
     }
 
     fun onChipClicked(chipId: Int) {
@@ -101,6 +107,14 @@ class HomeExchangeViewModel @Inject constructor(
             }
 
             _othersExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
+        }
+    }
+
+    private fun fetchCouponCount() {
+        viewModelScope.launch {
+            getCouponCountUseCase(Unit)?.let {
+                _couponCount.value = it
+            }
         }
     }
 }
