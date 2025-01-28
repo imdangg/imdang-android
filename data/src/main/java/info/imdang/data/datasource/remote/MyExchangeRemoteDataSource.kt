@@ -14,4 +14,13 @@ interface MyExchangeRemoteDataSource {
         direction: String?,
         properties: List<String>?
     ): PagingResponse<InsightResponse, InsightDto>
+
+    suspend fun getRequestedOthersExchanges(
+        requestedMemberId: String,
+        exchangeRequestStatus: String?,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
 }

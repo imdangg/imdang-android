@@ -10,7 +10,7 @@ import info.imdang.domain.usecase.auth.GetMemberIdUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class GetMyExchangeUseCase @Inject constructor(
+class GetOthersExchangeUseCase @Inject constructor(
     private val myExchangeRepository: MyExchangeRepository,
     private val getMemberIdUseCase: GetMemberIdUseCase,
     @IoDispatcher dispatcher: CoroutineDispatcher
@@ -20,8 +20,8 @@ class GetMyExchangeUseCase @Inject constructor(
 
     override suspend fun execute(
         parameters: MyExchangesParams
-    ): PagingDto<InsightDto> = myExchangeRepository.getRequestedMyExchanges(
-        requestMemberId = getMemberIdUseCase(),
+    ): PagingDto<InsightDto> = myExchangeRepository.getRequestedOthersExchanges(
+        requestedMemberId = getMemberIdUseCase(),
         exchangeRequestStatus = parameters.exchangeRequestStatus,
         page = parameters.pagingParams.page - 1,
         size = parameters.pagingParams.size,

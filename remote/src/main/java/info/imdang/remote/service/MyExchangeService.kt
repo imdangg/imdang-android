@@ -18,4 +18,15 @@ internal interface MyExchangeService {
         @Query("direction") direction: String?,
         @Query("properties") properties: List<String>?
     ): PagingResponse<InsightResponse, InsightDto>
+
+    /** 다른 사람이 요청한 인사이트 교환 목록 API */
+    @GET("my-exchanges/requested-by-others")
+    suspend fun getRequestedOthersExchanges(
+        @Query("requestedMemberId") requestedMemberId: String,
+        @Query("exchangeRequestStatus") exchangeRequestStatus: String?,
+        @Query("pageNumber") page: Int?,
+        @Query("pageSize") size: Int?,
+        @Query("direction") direction: String?,
+        @Query("properties") properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
 }

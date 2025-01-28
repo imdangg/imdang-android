@@ -71,7 +71,13 @@ fun Chip.bindChipBackground(isSelected: Boolean) {
     value = ["bindChipStatus", "bindChipCount", "bindChipSelected"],
     requireAll = true
 )
-fun Chip.bindChipStatus(status: ExchangeRequestStatus, count: Int?, isSelected: Boolean) {
+fun Chip.bindChipStatus(
+    status: ExchangeRequestStatus,
+    count: Map<ExchangeRequestStatus, Int>?,
+    isSelected: Boolean
+) {
+    val chipCount = count?.get(status) ?: 0
+
     val statusText = when (status) {
         ExchangeRequestStatus.PENDING -> {
             context.getString(info.imdang.component.R.string.waiting)
@@ -87,7 +93,7 @@ fun Chip.bindChipStatus(status: ExchangeRequestStatus, count: Int?, isSelected: 
     }
 
     val text = if (isSelected) {
-        "$statusText (${count ?: 0})"
+        "$statusText ($chipCount)"
     } else {
         statusText
     }

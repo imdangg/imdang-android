@@ -6,10 +6,12 @@ import info.imdang.domain.model.common.MyExchangesParams
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.myexchange.GetMyExchangeUseCase
+import info.imdang.domain.usecase.myexchange.GetOthersExchangeUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.insight.ExchangeRequestStatus
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
+import info.imdang.imdang.ui.main.home.history.ExchangeType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -17,20 +19,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeExchangeViewModel @Inject constructor(
-    private val getMyExchangeUseCase: GetMyExchangeUseCase
+    private val getMyExchangeUseCase: GetMyExchangeUseCase,
+    private val getOthersExchangeUseCase: GetOthersExchangeUseCase
 ) : BaseViewModel() {
+
+    private val _currentExchangeType = MutableStateFlow(ExchangeType.REQUESTED)
+    val currentExchangeType = _currentExchangeType.asStateFlow()
 
     private val _selectedChipId = MutableStateFlow(1)
     val selectedChipId = _selectedChipId.asStateFlow()
 
-    private val _selectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
-    val selectedChipCounts = _selectedChipCounts.asStateFlow()
+    private val _mySelectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
+    val mySelectedChipCounts = _mySelectedChipCounts.asStateFlow()
+
+    private val _othersSelectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
+    val othersSelectedChipCounts = _othersSelectedChipCounts.asStateFlow()
 
     private val _myExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
     val myExchanges = _myExchanges.asStateFlow()
 
+    private val _othersExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
+    val othersExchanges = _othersExchanges.asStateFlow()
+
     init {
         fetchMyExchange(ExchangeRequestStatus.PENDING)
+        fetchOthersExchange(ExchangeRequestStatus.PENDING)
     }
 
     fun onChipClicked(chipId: Int) {
@@ -42,7 +55,17 @@ class HomeExchangeViewModel @Inject constructor(
             3 -> ExchangeRequestStatus.ACCEPTED
             else -> null
         }
-        status?.let { fetchMyExchange(it) }
+
+        status?.let {
+            when (_currentExchangeType.value) {
+                ExchangeType.REQUESTED -> fetchMyExchange(it)
+                ExchangeType.RECEIVED -> fetchOthersExchange(it)
+            }
+        }
+    }
+
+    fun updateExchangeType(type: ExchangeType) {
+        _currentExchangeType.value = type
     }
 
     private fun fetchMyExchange(exchangeRequestStatus: ExchangeRequestStatus) {
@@ -55,11 +78,29 @@ class HomeExchangeViewModel @Inject constructor(
             )
 
             val totalCount = response?.totalElements ?: 0
-            _selectedChipCounts.value = _selectedChipCounts.value.toMutableMap().apply {
+            _mySelectedChipCounts.value = _mySelectedChipCounts.value.toMutableMap().apply {
                 this[exchangeRequestStatus] = totalCount
             }
 
             _myExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
+        }
+    }
+
+    private fun fetchOthersExchange(exchangeRequestStatus: ExchangeRequestStatus) {
+        viewModelScope.launch {
+            val response = getOthersExchangeUseCase(
+                MyExchangesParams(
+                    exchangeRequestStatus = exchangeRequestStatus.name,
+                    pagingParams = PagingParams()
+                )
+            )
+
+            val totalCount = response?.totalElements ?: 0
+            _othersSelectedChipCounts.value = _othersSelectedChipCounts.value.toMutableMap().apply {
+                this[exchangeRequestStatus] = totalCount
+            }
+
+            _othersExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
         }
     }
 }

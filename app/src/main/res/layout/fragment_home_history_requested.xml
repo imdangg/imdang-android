@@ -7,6 +7,8 @@
 
         <import type="info.imdang.imdang.model.insight.ExchangeRequestStatus" />
 
+        <import type="info.imdang.imdang.ui.main.home.history.ExchangeType" />
+
         <variable
             name="viewModel"
             type="info.imdang.imdang.ui.main.home.exchange.HomeExchangeViewModel" />
@@ -36,7 +38,7 @@
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 1}"
-                    bindChipCount="@{viewModel.selectedChipCounts[ExchangeRequestStatus.PENDING]}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
                     bindChipSelected="@{viewModel.selectedChipId == 1}"
                     bindChipStatus="@{ExchangeRequestStatus.PENDING}"
                     android:layout_width="wrap_content"
@@ -52,7 +54,7 @@
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 2}"
-                    bindChipCount="@{viewModel.selectedChipCounts[ExchangeRequestStatus.REJECTED]}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
                     bindChipSelected="@{viewModel.selectedChipId == 2}"
                     bindChipStatus="@{ExchangeRequestStatus.REJECTED}"
                     android:layout_width="wrap_content"
@@ -68,7 +70,7 @@
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 3}"
-                    bindChipCount="@{viewModel.selectedChipCounts[ExchangeRequestStatus.ACCEPTED]}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
                     bindChipSelected="@{viewModel.selectedChipId == 3}"
                     bindChipStatus="@{ExchangeRequestStatus.ACCEPTED}"
                     android:layout_width="wrap_content"
@@ -109,7 +111,7 @@
 
             <TextView
                 style="@style/T_500_14_19_6"
-                bindChipSelectedCounts="@{viewModel.selectedChipCounts}"
+                bindChipSelectedCounts="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
                 bindChipSelectedId="@{viewModel.selectedChipId}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -124,7 +126,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_home_history_requested"
-            bindItemList="@{viewModel.myExchanges}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"

@@ -5,8 +5,17 @@ import info.imdang.domain.model.insight.InsightDto
 
 interface MyExchangeRepository {
 
-    suspend fun getMyExchanges(
+    suspend fun getRequestedMyExchanges(
         requestMemberId: String,
+        exchangeRequestStatus: String?,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingDto<InsightDto>
+
+    suspend fun getRequestedOthersExchanges(
+        requestedMemberId: String,
         exchangeRequestStatus: String?,
         page: Int?,
         size: Int?,

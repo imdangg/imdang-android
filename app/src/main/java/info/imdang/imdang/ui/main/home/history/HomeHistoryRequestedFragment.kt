@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
@@ -17,6 +18,7 @@ import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.main.home.exchange.HomeExchangeViewModel
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeHistoryRequestedFragment :
@@ -24,9 +26,12 @@ class HomeHistoryRequestedFragment :
 
     private val viewModel: HomeExchangeViewModel by viewModels()
 
+    private var type: ExchangeType = ExchangeType.REQUESTED
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.updateExchangeType(type)
         setupBinding()
     }
 
@@ -62,11 +67,36 @@ class HomeHistoryRequestedFragment :
                         }
                     }
                 }
+
+                val dataObserve = when (type) {
+                    ExchangeType.REQUESTED -> {
+                        this@HomeHistoryRequestedFragment.viewModel.myExchanges
+                    }
+
+                    ExchangeType.RECEIVED -> {
+                        this@HomeHistoryRequestedFragment.viewModel.othersExchanges
+                    }
+                }
+
+                lifecycleScope.launch {
+                    dataObserve.collect { items ->
+                        (adapter as BaseSingleViewAdapter<InsightVo>).submitList(items)
+                    }
+                }
             }
         }
     }
 
     companion object {
-        fun instance(): HomeHistoryRequestedFragment = HomeHistoryRequestedFragment()
+        fun instance(type: ExchangeType): HomeHistoryRequestedFragment {
+            return HomeHistoryRequestedFragment().apply {
+                this.type = type
+            }
+        }
     }
+}
+
+enum class ExchangeType {
+    REQUESTED,
+    RECEIVED
 }

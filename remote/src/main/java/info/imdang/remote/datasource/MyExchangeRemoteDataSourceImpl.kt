@@ -26,4 +26,20 @@ internal class MyExchangeRemoteDataSourceImpl @Inject constructor(
         direction = direction,
         properties = properties
     )
+
+    override suspend fun getRequestedOthersExchanges(
+        requestedMemberId: String,
+        exchangeRequestStatus: String?,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto> = myExchangeService.getRequestedOthersExchanges(
+        requestedMemberId = requestedMemberId,
+        exchangeRequestStatus = exchangeRequestStatus,
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties
+    )
 }
