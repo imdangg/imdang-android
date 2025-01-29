@@ -18,11 +18,20 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding()
+        setupListener()
     }
 
     private fun setupBinding() {
         with(binding) {
             viewModel = this@OnboardingFragment.viewModel
+        }
+    }
+
+    private fun setupListener() {
+        with(binding) {
+            ivBack.setOnClickListener {
+                requireActivity().finish()
+            }
         }
     }
 
