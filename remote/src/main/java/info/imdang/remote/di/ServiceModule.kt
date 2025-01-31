@@ -11,6 +11,7 @@ import info.imdang.remote.service.ExchangeService
 import info.imdang.remote.service.GoogleService
 import info.imdang.remote.service.InsightService
 import info.imdang.remote.service.MyInsightService
+import info.imdang.remote.service.MyExchangeService
 import retrofit2.Retrofit
 import retrofit2.create
 import javax.inject.Named
@@ -61,4 +62,10 @@ internal object ServiceModule {
     fun bindExchangeService(
         @Named("imdang") retrofit: Retrofit
     ): ExchangeService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun bindMyExchangeService(
+        @Named("imdang") retrofit: Retrofit
+    ): MyExchangeService = retrofit.create()
 }

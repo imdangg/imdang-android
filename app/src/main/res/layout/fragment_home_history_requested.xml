@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="info.imdang.imdang.model.insight.ExchangeRequestStatus" />
+
+        <import type="info.imdang.imdang.ui.main.home.history.ExchangeType" />
+
         <variable
             name="viewModel"
             type="info.imdang.imdang.ui.main.home.exchange.HomeExchangeViewModel" />
@@ -34,41 +38,50 @@
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 1}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                    bindChipSelected="@{viewModel.selectedChipId == 1}"
+                    bindChipStatus="@{ExchangeRequestStatus.PENDING}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.onChipClicked(1)}"
-                    android:text="@string/waiting"
                     android:textAppearance="@style/T_600_14_19_6"
                     app:chipCornerRadius="33dp"
                     app:chipMinTouchTargetSize="33dp"
                     tools:backgroundTint="@color/orange_500"
                     tools:chipStrokeColor="@color/orange_500"
+                    tools:text="@string/waiting"
                     tools:textColor="@color/white" />
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 2}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                    bindChipSelected="@{viewModel.selectedChipId == 2}"
+                    bindChipStatus="@{ExchangeRequestStatus.REJECTED}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.onChipClicked(2)}"
-                    android:text="@string/refusal"
                     android:textAppearance="@style/T_600_14_19_6"
                     app:chipCornerRadius="33dp"
                     app:chipMinTouchTargetSize="33dp"
                     tools:chipBackgroundColor="@color/white"
                     tools:chipStrokeColor="@color/gray_100"
+                    tools:text="@string/refusal"
                     tools:textColor="@color/gray_500" />
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 3}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                    bindChipSelected="@{viewModel.selectedChipId == 3}"
+                    bindChipStatus="@{ExchangeRequestStatus.ACCEPTED}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.onChipClicked(3)}"
-                    android:text="@string/exchange_completed"
                     android:textAppearance="@style/T_600_14_19_6"
                     app:chipCornerRadius="33dp"
                     app:chipMinTouchTargetSize="33dp"
                     tools:chipBackgroundColor="@color/white"
                     tools:chipStrokeColor="@color/gray_100"
+                    tools:text="@string/exchange_completed"
                     tools:textColor="@color/gray_500" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -98,10 +111,11 @@
 
             <TextView
                 style="@style/T_500_14_19_6"
+                bindChipSelectedCounts="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                bindChipSelectedId="@{viewModel.selectedChipId}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{viewModel.chipDescription}"
                 android:textColor="@color/gray_600"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_exclamation_mark"
@@ -112,7 +126,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_home_history_requested"
-            bindItemList="@{viewModel.requestedInsights}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"

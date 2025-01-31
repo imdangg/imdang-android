@@ -2,48 +2,119 @@ package info.imdang.imdang.ui.main.home.exchange
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.model.common.MyExchangesParams
+import info.imdang.domain.model.common.PagingParams
+import info.imdang.domain.model.insight.InsightDto
+import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
+import info.imdang.domain.usecase.myexchange.GetMyExchangeUseCase
+import info.imdang.domain.usecase.myexchange.GetOthersExchangeUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.insight.ExchangeRequestStatus
 import info.imdang.imdang.model.insight.InsightVo
+import info.imdang.imdang.model.insight.mapper
+import info.imdang.imdang.ui.main.home.history.ExchangeType
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeExchangeViewModel @Inject constructor() : BaseViewModel() {
+class HomeExchangeViewModel @Inject constructor(
+    private val getMyExchangeUseCase: GetMyExchangeUseCase,
+    private val getOthersExchangeUseCase: GetOthersExchangeUseCase,
+    private val getCouponCountUseCase: GetCouponCountUseCase
+) : BaseViewModel() {
+
+    private val _currentExchangeType = MutableStateFlow(ExchangeType.REQUESTED)
+    val currentExchangeType = _currentExchangeType.asStateFlow()
 
     private val _selectedChipId = MutableStateFlow(1)
     val selectedChipId = _selectedChipId.asStateFlow()
 
-    private val _chipDescription = MutableStateFlow<List<String>>(emptyList())
-    val chipDescription = _selectedChipId.map { chipId ->
-        _chipDescription.value.getOrNull(chipId - 1) ?: ""
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "")
+    private val _mySelectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
+    val mySelectedChipCounts = _mySelectedChipCounts.asStateFlow()
 
-    private val _requestedInsights = MutableStateFlow<List<InsightVo>>(emptyList())
-    val requestedInsights = _requestedInsights.asStateFlow()
+    private val _othersSelectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
+    val othersSelectedChipCounts = _othersSelectedChipCounts.asStateFlow()
+
+    private val _myExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
+    val myExchanges = _myExchanges.asStateFlow()
+
+    private val _othersExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
+    val othersExchanges = _othersExchanges.asStateFlow()
+
+    private val _couponCount = MutableStateFlow(0)
+    val couponCount = _couponCount.asStateFlow()
 
     init {
-        updateInsightsForChip(1)
-    }
-
-    fun setChipDescriptions(descriptions: List<String>) {
-        _chipDescription.value = descriptions
+        fetchMyExchange(ExchangeRequestStatus.PENDING)
+        fetchOthersExchange(ExchangeRequestStatus.PENDING)
+        fetchCouponCount()
     }
 
     fun onChipClicked(chipId: Int) {
         _selectedChipId.value = chipId
-        updateInsightsForChip(chipId)
+
+        val status = when (chipId) {
+            1 -> ExchangeRequestStatus.PENDING
+            2 -> ExchangeRequestStatus.REJECTED
+            3 -> ExchangeRequestStatus.ACCEPTED
+            else -> null
+        }
+
+        status?.let {
+            when (_currentExchangeType.value) {
+                ExchangeType.REQUESTED -> fetchMyExchange(it)
+                ExchangeType.RECEIVED -> fetchOthersExchange(it)
+            }
+        }
     }
 
-    private fun updateInsightsForChip(chipId: Int) {
-        _requestedInsights.value = when (chipId) {
-            1 -> InsightVo.getSamples(size = 5)
-            2 -> InsightVo.getSamples(size = 2)
-            3 -> InsightVo.getSamples(size = 1)
-            else -> emptyList()
+    fun updateExchangeType(type: ExchangeType) {
+        _currentExchangeType.value = type
+    }
+
+    private fun fetchMyExchange(exchangeRequestStatus: ExchangeRequestStatus) {
+        viewModelScope.launch {
+            val response = getMyExchangeUseCase(
+                MyExchangesParams(
+                    exchangeRequestStatus = exchangeRequestStatus.name,
+                    pagingParams = PagingParams()
+                )
+            )
+
+            val totalCount = response?.totalElements ?: 0
+            _mySelectedChipCounts.value = _mySelectedChipCounts.value.toMutableMap().apply {
+                this[exchangeRequestStatus] = totalCount
+            }
+
+            _myExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
+        }
+    }
+
+    private fun fetchOthersExchange(exchangeRequestStatus: ExchangeRequestStatus) {
+        viewModelScope.launch {
+            val response = getOthersExchangeUseCase(
+                MyExchangesParams(
+                    exchangeRequestStatus = exchangeRequestStatus.name,
+                    pagingParams = PagingParams()
+                )
+            )
+
+            val totalCount = response?.totalElements ?: 0
+            _othersSelectedChipCounts.value = _othersSelectedChipCounts.value.toMutableMap().apply {
+                this[exchangeRequestStatus] = totalCount
+            }
+
+            _othersExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
+        }
+    }
+
+    private fun fetchCouponCount() {
+        viewModelScope.launch {
+            getCouponCountUseCase(Unit)?.let {
+                _couponCount.value = it
+            }
         }
     }
 }
