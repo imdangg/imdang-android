@@ -18,9 +18,6 @@ class JoinCompleteActivity :
 
     private fun setupListener() {
         with(binding) {
-            ivBack.setOnClickListener {
-                finish()
-            }
             btnStartComplete.setOnClickListener {
                 finish()
             }

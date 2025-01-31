@@ -16,8 +16,10 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>(R.layout.acti
     private val joinResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        setResult(result.resultCode)
-        finish()
+        if (result.resultCode == RESULT_OK) {
+            setResult(result.resultCode)
+            finish()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
