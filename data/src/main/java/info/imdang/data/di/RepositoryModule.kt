@@ -13,6 +13,7 @@ import info.imdang.data.repository.HomeRepositoryImpl
 import info.imdang.data.repository.InsightRepositoryImpl
 import info.imdang.data.repository.MyInsightRepositoryImpl
 import info.imdang.data.repository.MyExchangeRepositoryImpl
+import info.imdang.data.repository.NotificationRepositoryImpl
 import info.imdang.domain.repository.AptComplexRepository
 import info.imdang.domain.repository.AuthRepository
 import info.imdang.domain.repository.CouponRepository
@@ -22,6 +23,7 @@ import info.imdang.domain.repository.HomeRepository
 import info.imdang.domain.repository.InsightRepository
 import info.imdang.domain.repository.MyInsightRepository
 import info.imdang.domain.repository.MyExchangeRepository
+import info.imdang.domain.repository.NotificationRepository
 import javax.inject.Singleton
 
 @Module
@@ -81,4 +83,10 @@ internal abstract class RepositoryModule {
     abstract fun bindMyExchangeRepository(
         myExchangeRepositoryImpl: MyExchangeRepositoryImpl
     ): MyExchangeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindNotificationRepository(
+        notificationRepositoryImpl: NotificationRepositoryImpl
+    ): NotificationRepository
 }
