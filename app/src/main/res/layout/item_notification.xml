@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="info.imdang.imdang.model.notification.NotificationType" />
+        <import type="info.imdang.imdang.model.notification.NotificationCategory" />
 
         <variable
             name="item"
@@ -27,11 +27,11 @@
             style="@style/T_600_12_16_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @drawable/sr_orange50_all4 : @drawable/sr_edf3ff_all4}"
+            android:background="@{item.notification.category == NotificationCategory.REQUESTED ? @drawable/sr_orange50_all4 : @drawable/sr_edf3ff_all4}"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
-            android:text="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @string/received_details : @string/requested_details}"
-            android:textColor="@{item.notification.type == NotificationType.EXCHANGE_REQUESTED ? @color/orange_500 : @color/blue_11388b}"
+            android:text="@{item.notification.category == NotificationCategory.REQUESTED ? @string/received_details : @string/requested_details}"
+            android:textColor="@{item.notification.category == NotificationCategory.REQUESTED ? @color/orange_500 : @color/blue_11388b}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@drawable/sr_edf3ff_all4"
@@ -42,7 +42,7 @@
             style="@style/T_500_12_16_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.notification.dateTime}"
+            android:text="@{item.notification.createdAt}"
             android:textColor="@color/gray_500"
             app:layout_constraintBottom_toBottomOf="@id/tv_notification_type"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,9 +68,9 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/sr_white_gray100_all8"
             android:gravity="center"
-            android:onClick="@{() -> viewModel.onClickActionButton(item.notification.type)}"
+            android:onClick="@{() -> viewModel.onClickActionButton(item.notification.category)}"
             android:paddingHorizontal="12dp"
-            android:text="@{item.notification.type.actionMessage}"
+            android:text="@{item.notification.category.actionMessage}"
             android:textColor="@color/gray_700"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_notification_message"
