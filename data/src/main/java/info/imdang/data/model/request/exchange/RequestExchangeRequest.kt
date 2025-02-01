@@ -4,5 +4,5 @@ data class RequestExchangeRequest(
     val requestedInsightId: String,
     val requestMemberId: String?,
     val requestMemberInsightId: String?,
-    val memberCouponId: String?
+    val memberCouponId: Long?
 )

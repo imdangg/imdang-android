@@ -1,6 +1,8 @@
 package info.imdang.data.datasource.remote
 
+import info.imdang.data.model.response.coupon.CouponResponse
+
 interface CouponRemoteDataSource {
 
-    suspend fun getCouponCount(): Int
+    suspend fun getCoupon(): CouponResponse
 }

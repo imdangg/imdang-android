@@ -8,6 +8,16 @@ interface ExchangeRepository {
         insightId: String,
         memberId: String?,
         myInsightId: String?,
-        couponId: String?
+        couponId: Long?
+    ): ExchangeDto
+
+    suspend fun acceptExchange(
+        exchangeRequestId: String,
+        memberId: String
+    ): ExchangeDto
+
+    suspend fun rejectExchange(
+        exchangeRequestId: String,
+        memberId: String
     ): ExchangeDto
 }

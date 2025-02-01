@@ -13,12 +13,13 @@ enum class ExchangeRequestStatus {
 }
 
 fun ExchangeRequestStatus?.toInsightDetailStatus(
-    isMyInsight: Boolean
+    isMyInsight: Boolean,
+    isMyExchangeRequest: Boolean
 ): InsightDetailStatus = when (this) {
-    ExchangeRequestStatus.PENDING -> if (isMyInsight) {
-        InsightDetailStatus.EXCHANGE_REQUESTED
-    } else {
+    ExchangeRequestStatus.PENDING -> if (isMyExchangeRequest) {
         InsightDetailStatus.EXCHANGE_WAITING
+    } else {
+        InsightDetailStatus.EXCHANGE_REQUESTED
     }
     ExchangeRequestStatus.ACCEPTED -> InsightDetailStatus.EXCHANGE_COMPLETE
     else -> {

@@ -21,7 +21,10 @@ sealed class InsightDetailItem {
 
     data class AptFacility(val complexFacility: ComplexFacilityVo) : InsightDetailItem()
 
-    data class GoodNews(val goodNews: GoodNewsVo) : InsightDetailItem()
+    data class GoodNews(
+        val goodNews: GoodNewsVo,
+        val insightDetailStatus: InsightDetailStatus
+    ) : InsightDetailItem()
 
     data class Invisible(val insightDetailStatus: InsightDetailStatus) : InsightDetailItem()
 }

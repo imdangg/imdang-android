@@ -127,7 +127,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
-                                android:text="@{`홍길동`}"
+                                android:text="@{viewModel.insight.nickname}"
                                 android:textColor="@color/gray_700"
                                 app:layout_constraintBottom_toBottomOf="@id/cl_insight_detail_recommend"
                                 app:layout_constraintStart_toEndOf="@id/iv_insight_detail_profile"
@@ -138,7 +138,7 @@
                                 android:id="@+id/cl_insight_detail_recommend"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@{viewModel.insight.recommended ? @drawable/sr_orange50_orange500_all4 : @drawable/sr_white_gray100_all4}"
+                                android:background="@{viewModel.insight.isRecommended ? @drawable/sr_orange50_orange500_all4 : @drawable/sr_white_gray100_all4}"
                                 android:onClick="@{() -> viewModel.onClickRecommend()}"
                                 android:paddingHorizontal="12dp"
                                 android:paddingVertical="8dp"
@@ -283,7 +283,7 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <View
-            bindVisible="@{viewModel.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
+            bindVisible="@{viewModel.insight.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/gradient_gray25_100"
@@ -291,7 +291,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_insight_detail_buttons"
-            bindVisible="@{viewModel.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
+            bindVisible="@{viewModel.insight.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
@@ -301,14 +301,14 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_insight_detail_state"
                 style="@style/T_600_16_22_4"
-                bindVisible="@{viewModel.insightDetailStatus != InsightDetailStatus.EXCHANGE_REQUESTED}"
+                bindVisible="@{viewModel.insight.insightDetailStatus != InsightDetailStatus.EXCHANGE_REQUESTED}"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:background="@drawable/bg_complete_button"
-                android:enabled="@{viewModel.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUEST}"
+                android:enabled="@{viewModel.insight.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUEST}"
                 android:onClick="@{() -> viewModel.onClickExchangeRequestButton()}"
                 android:stateListAnimator="@null"
-                android:text="@{viewModel.insightDetailStatus.text}"
+                android:text="@{viewModel.insight.insightDetailStatus.text}"
                 android:textColor="@color/color_white_gray500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -318,7 +318,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_exchange_reject"
                 style="@style/T_600_16_22_4"
-                bindVisible="@{viewModel.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUESTED}"
+                bindVisible="@{viewModel.insight.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUESTED}"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:background="@drawable/sr_white_orange500_all8"
@@ -334,7 +334,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_exchange_accept"
                 style="@style/T_600_16_22_4"
-                bindVisible="@{viewModel.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUESTED}"
+                bindVisible="@{viewModel.insight.insightDetailStatus == InsightDetailStatus.EXCHANGE_REQUESTED}"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="10dp"

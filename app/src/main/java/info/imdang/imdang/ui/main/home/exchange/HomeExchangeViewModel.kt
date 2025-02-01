@@ -5,10 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.MyExchangesParams
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
-import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
+import info.imdang.domain.usecase.coupon.GetCouponUseCase
 import info.imdang.domain.usecase.myexchange.GetMyExchangeUseCase
 import info.imdang.domain.usecase.myexchange.GetOthersExchangeUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.coupon.CouponVo
+import info.imdang.imdang.model.coupon.mapper
 import info.imdang.imdang.model.insight.ExchangeRequestStatus
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
@@ -22,7 +24,7 @@ import javax.inject.Inject
 class HomeExchangeViewModel @Inject constructor(
     private val getMyExchangeUseCase: GetMyExchangeUseCase,
     private val getOthersExchangeUseCase: GetOthersExchangeUseCase,
-    private val getCouponCountUseCase: GetCouponCountUseCase
+    private val getCouponCountUseCase: GetCouponUseCase
 ) : BaseViewModel() {
 
     private val _currentExchangeType = MutableStateFlow(ExchangeType.REQUESTED)
@@ -43,8 +45,8 @@ class HomeExchangeViewModel @Inject constructor(
     private val _othersExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
     val othersExchanges = _othersExchanges.asStateFlow()
 
-    private val _couponCount = MutableStateFlow(0)
-    val couponCount = _couponCount.asStateFlow()
+    private val _coupon = MutableStateFlow(CouponVo.init())
+    val coupon = _coupon.asStateFlow()
 
     init {
         fetchMyExchange(ExchangeRequestStatus.PENDING)
@@ -113,7 +115,7 @@ class HomeExchangeViewModel @Inject constructor(
     private fun fetchCouponCount() {
         viewModelScope.launch {
             getCouponCountUseCase(Unit)?.let {
-                _couponCount.value = it
+                _coupon.value = it.mapper()
             }
         }
     }
