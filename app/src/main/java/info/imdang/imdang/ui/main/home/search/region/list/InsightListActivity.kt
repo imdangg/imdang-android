@@ -1,4 +1,4 @@
-package info.imdang.imdang.ui.main.home.search.newinsight
+package info.imdang.imdang.ui.main.home.search.region.list
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -12,18 +12,18 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewPagingAdapter
 import info.imdang.imdang.common.ext.startActivity
-import info.imdang.imdang.databinding.ActivityNewInsightListBinding
+import info.imdang.imdang.databinding.ActivityInsightListBinding
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NewInsightListActivity : BaseActivity<ActivityNewInsightListBinding>(
-    R.layout.activity_new_insight_list
+class InsightListActivity : BaseActivity<ActivityInsightListBinding>(
+    R.layout.activity_insight_list
 ) {
 
-    private val viewModel by viewModels<NewInsightViewModel>()
+    private val viewModel by viewModels<InsightListViewModel>()
 
     private lateinit var adapter: BaseSingleViewPagingAdapter<InsightVo>
 
@@ -37,10 +37,10 @@ class NewInsightListActivity : BaseActivity<ActivityNewInsightListBinding>(
 
     private fun setupBinding() {
         with(binding) {
-            viewModel = this@NewInsightListActivity.viewModel
-            rvNewInsight.run {
+            viewModel = this@InsightListActivity.viewModel
+            rvInsight.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
-                this@NewInsightListActivity.adapter = BaseSingleViewPagingAdapter(
+                this@InsightListActivity.adapter = BaseSingleViewPagingAdapter(
                     layoutResourceId = R.layout.item_insight_horizontal,
                     bindingItemId = BR.item,
                     viewModel = emptyMap(),
@@ -68,14 +68,14 @@ class NewInsightListActivity : BaseActivity<ActivityNewInsightListBinding>(
                     setupLoadStateListener(
                         scope = lifecycleScope,
                         onLoading = {
-                            this@NewInsightListActivity.viewModel.updatePagingState(isLoading = it)
+                            this@InsightListActivity.viewModel.updatePagingState(isLoading = it)
                         },
                         onError = {
-                            this@NewInsightListActivity.viewModel.updatePagingState(error = it)
+                            this@InsightListActivity.viewModel.updatePagingState(error = it)
                         }
                     )
                 }
-                adapter = this@NewInsightListActivity.adapter
+                adapter = this@InsightListActivity.adapter
             }
         }
     }
@@ -92,7 +92,7 @@ class NewInsightListActivity : BaseActivity<ActivityNewInsightListBinding>(
         lifecycleScope.launch {
             viewModel.event.collect {
                 when (it) {
-                    is NewInsightListEvent.UpdateInsights -> launch {
+                    is InsightListEvent.UpdateInsights -> launch {
                         adapter.submitData(it.insights)
                     }
                 }

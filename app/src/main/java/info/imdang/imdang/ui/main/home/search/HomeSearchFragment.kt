@@ -1,7 +1,10 @@
 package info.imdang.imdang.ui.main.home.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.activityViewModels
@@ -26,6 +29,7 @@ import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.home.search.newinsight.NewInsightListActivity
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListener
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
+import info.imdang.imdang.ui.main.home.search.region.SearchByRegionActivity
 import info.imdang.imdang.ui.main.home.search.visitcomplex.VisitComplexInsightListActivity
 import kotlinx.coroutines.launch
 
@@ -34,6 +38,20 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
 
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val viewModel by viewModels<HomeSearchViewModel>()
+
+    private val visitComplexInsightListResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val selectedIndex = result.data?.getIntExtra(SELECTED_COMPLEX_INDEX, 0) ?: 0
+            if (viewModel.getSelectedComplexIndex() != selectedIndex) {
+                viewModel.onClickVisitedAptComplex(
+                    viewModel.visitedAptComplexes.value[selectedIndex]
+                )
+                binding.rvHomeVisitedAptComplex.scrollToPosition(selectedIndex)
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -146,6 +164,9 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
 
     private fun setupListener() {
         with(binding) {
+            clHomeSearch.setOnClickListener {
+                requireContext().startActivity<SearchByRegionActivity>()
+            }
             clHomeMap.setOnClickListener {
                 requireContext().startActivity<SearchByMapActivity>()
             }
@@ -153,9 +174,20 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                 mainViewModel.hideTooltip()
             }
             tvHomeVisitedAptComplexInsightSeeAll.setOnClickListener {
-                if (this@HomeSearchFragment.viewModel.visitedAptComplexes.value.isNotEmpty()) {
+                val viewModel = this@HomeSearchFragment.viewModel
+                if (viewModel.visitedAptComplexes.value.isNotEmpty()) {
                     mainViewModel.hideTooltip()
-                    requireContext().startActivity<VisitComplexInsightListActivity>()
+                    visitComplexInsightListResult.launch(
+                        Intent(
+                            requireContext(),
+                            VisitComplexInsightListActivity::class.java
+                        ).apply {
+                            putExtra(
+                                SELECTED_COMPLEX_INDEX,
+                                viewModel.getSelectedComplexIndex()
+                            )
+                        }
+                    )
                 }
             }
             tvHomeNewInsightSeeAll.setOnClickListener {
@@ -191,6 +223,8 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
     }
 
     companion object {
+
+        const val SELECTED_COMPLEX_INDEX = "selectedComplexIndex"
 
         fun instance(): HomeSearchFragment = HomeSearchFragment()
     }

@@ -1,5 +1,6 @@
 package info.imdang.imdang.ui.main.home.search.visitcomplex
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
@@ -14,6 +15,8 @@ import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.aptcomplex.mapper
 import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.insight.mapper
+import info.imdang.imdang.ui.main.home.search.HomeSearchFragment.Companion.SELECTED_COMPLEX_INDEX
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -23,12 +26,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VisitComplexInsightListViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getVisitedAptComplexesUseCase: GetVisitedAptComplexesUseCase,
     private val getInsightsByAptComplexWithPagingUseCase: GetInsightsByAptComplexWithPagingUseCase
 ) : BaseViewModel() {
 
     private val _event = MutableSharedFlow<VisitComplexInsightListEvent>()
     val event = _event.asSharedFlow()
+
+    private val _selectedIndex = MutableStateFlow(savedStateHandle[SELECTED_COMPLEX_INDEX] ?: 0)
+    val selectedIndex = _selectedIndex.asStateFlow()
 
     private val _visitedAptComplexes = MutableStateFlow<List<VisitAptComplexVo>>(emptyList())
     val visitedAptComplexes = _visitedAptComplexes.asStateFlow()
@@ -44,7 +51,7 @@ class VisitComplexInsightListViewModel @Inject constructor(
         viewModelScope.launch {
             _visitedAptComplexes.value =
                 getVisitedAptComplexesUseCase(Unit)?.mapIndexed { index, visitedAptComplexDto ->
-                    visitedAptComplexDto.mapper(isSelected = index == 0)
+                    visitedAptComplexDto.mapper(isSelected = index == selectedIndex.value)
                 } ?: emptyList()
             fetchInsightsByAptComplex()
         }
@@ -58,13 +65,21 @@ class VisitComplexInsightListViewModel @Inject constructor(
             getInsightsByAptComplexWithPagingUseCase(
                 GetInsightsByAptComplexParams(
                     aptComplex = aptComplex,
-                    pagingParams = PagingParams()
+                    pagingParams = PagingParams(
+                        totalCountListener = {
+                            updatePagingState(itemCount = it)
+                        }
+                    )
                 )
             )
                 ?.cachedIn(this)
                 ?.collect {
                     _event.emit(
                         VisitComplexInsightListEvent.UpdateInsights(it.map(InsightDto::mapper))
+                    )
+                    delay(100)
+                    _event.emit(
+                        VisitComplexInsightListEvent.ScrollToSelectedPosition(selectedIndex.value)
                     )
                 }
         }
@@ -86,6 +101,7 @@ class VisitComplexInsightListViewModel @Inject constructor(
         _visitedAptComplexes.value = visitedAptComplexes.value.map {
             it.copy(isSelected = it.aptComplexName == aptComplexVo.aptComplexName)
         }
+        _selectedIndex.value = visitedAptComplexes.value.indexOfFirst { it.isSelected }
         fetchInsightsByAptComplex()
     }
 }

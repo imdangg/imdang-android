@@ -8,7 +8,8 @@ import info.imdang.domain.model.common.PagingDto
 
 internal class BasePagingSource<R : Any>(
     private val initialPage: Int,
-    private val loadData: suspend (Int) -> PagingDto<R>
+    private val loadData: suspend (Int) -> PagingDto<R>,
+    private val totalCountListener: ((Int) -> Unit)? = null
 ) : PagingSource<Int, R>() {
 
     override fun getRefreshKey(state: PagingState<Int, R>): Int? {
@@ -25,6 +26,7 @@ internal class BasePagingSource<R : Any>(
             val prevPage = page - 1
             val paging = loadData(page)
 
+            totalCountListener?.let { it(paging.totalElements) }
             LoadResult.Page(
                 data = paging.content,
                 prevKey = if (page == 0) null else prevPage,
@@ -39,7 +41,8 @@ internal class BasePagingSource<R : Any>(
 fun <R : Any> getPagingFlow(
     initialPage: Int,
     pageSize: Int,
-    loadData: suspend (currentPage: Int, pageSize: Int) -> PagingDto<R>
+    loadData: suspend (currentPage: Int, pageSize: Int) -> PagingDto<R>,
+    totalCountListener: ((Int) -> Unit)? = null
 ) = Pager(
     config = PagingConfig(
         pageSize = pageSize,
@@ -48,7 +51,8 @@ fun <R : Any> getPagingFlow(
     pagingSourceFactory = {
         BasePagingSource(
             initialPage = initialPage,
-            loadData = { loadData(it, pageSize) }
+            loadData = { loadData(it, pageSize) },
+            totalCountListener = totalCountListener
         )
     }
 ).flow

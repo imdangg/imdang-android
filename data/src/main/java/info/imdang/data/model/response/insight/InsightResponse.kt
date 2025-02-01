@@ -10,7 +10,8 @@ data class InsightResponse(
     val address: AddressResponse,
     val title: String,
     val mainImage: String?,
-    val memberId: String?
+    val memberId: String?,
+    val memberNickname: String?
 ) : DataToDomainMapper<InsightDto> {
     override fun mapper(): InsightDto = InsightDto(
         insightId = insightId,
@@ -18,6 +19,7 @@ data class InsightResponse(
         address = address.mapper(),
         title = title,
         mainImage = mainImage,
-        memberId = memberId
+        memberId = memberId,
+        memberNickname = memberNickname
     )
 }

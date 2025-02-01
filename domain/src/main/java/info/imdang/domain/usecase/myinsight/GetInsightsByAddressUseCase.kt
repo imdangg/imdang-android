@@ -27,7 +27,8 @@ class GetInsightsByAddressUseCase @Inject constructor(
         page = parameters.pagingParams.page - 1,
         size = parameters.pagingParams.size,
         direction = parameters.pagingParams.direction,
-        properties = parameters.pagingParams.properties
+        properties = parameters.pagingParams.properties,
+        totalCountListener = parameters.pagingParams.totalCountListener
     )
 }
 

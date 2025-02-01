@@ -1,5 +1,6 @@
-package info.imdang.imdang.ui.main.home.search.newinsight
+package info.imdang.imdang.ui.main.home.search.region.list
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
@@ -10,6 +11,7 @@ import info.imdang.domain.usecase.insight.GetInsightsWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.insight.mapper
+import info.imdang.imdang.ui.main.home.search.region.SearchByRegionActivity.Companion.REGION
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,11 +20,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NewInsightViewModel @Inject constructor(
+class InsightListViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getInsightsWithPagingUseCase: GetInsightsWithPagingUseCase
 ) : BaseViewModel() {
 
-    private val _event = MutableSharedFlow<NewInsightListEvent>()
+    val region = savedStateHandle.getStateFlow(REGION, "")
+
+    private val _event = MutableSharedFlow<InsightListEvent>()
     val event = _event.asSharedFlow()
 
     private val _pagingState = MutableStateFlow(PagingState())
@@ -43,7 +48,7 @@ class NewInsightViewModel @Inject constructor(
             )
                 ?.cachedIn(this)
                 ?.collect {
-                    _event.emit(NewInsightListEvent.UpdateInsights(it.map(InsightDto::mapper)))
+                    _event.emit(InsightListEvent.UpdateInsights(it.map(InsightDto::mapper)))
                 }
         }
     }

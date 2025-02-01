@@ -92,9 +92,6 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                         onLoading = {
                             this@StorageFragment.viewModel.updatePagingState(isLoading = it)
                         },
-                        onItemCount = {
-                            this@StorageFragment.viewModel.updatePagingState(itemCount = it)
-                        },
                         onError = {
                             this@StorageFragment.viewModel.updatePagingState(error = it)
                         }

@@ -23,6 +23,7 @@ class GetInsightsByAptComplexWithPagingUseCase @Inject constructor(
         size = parameters.pagingParams.size,
         direction = parameters.pagingParams.direction,
         properties = parameters.pagingParams.properties,
-        aptComplex = parameters.aptComplex
+        aptComplex = parameters.aptComplex,
+        totalCountListener = parameters.pagingParams.totalCountListener
     )
 }

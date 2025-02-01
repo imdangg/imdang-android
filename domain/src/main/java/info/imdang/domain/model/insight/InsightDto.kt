@@ -8,5 +8,6 @@ data class InsightDto(
     val address: AddressDto,
     val title: String,
     val mainImage: String?,
-    val memberId: String?
+    val memberId: String?,
+    val memberNickname: String?
 )
