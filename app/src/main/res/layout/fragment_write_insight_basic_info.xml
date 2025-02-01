@@ -343,13 +343,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_basic_information_edittext"
-                    android:text="@{viewModel.insightVisitDate}"
                     android:hint="@string/hint_date_of_visit"
                     android:inputType="number"
                     android:maxLength="10"
                     android:padding="16dp"
                     android:singleLine="true"
-                    android:textColor="@color/gray_900" />
+                    android:text="@{viewModel.insightVisitDate}"
+                    android:textColor="@color/gray_900"
+                    tools:hint="예시) 2024.01.01" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView

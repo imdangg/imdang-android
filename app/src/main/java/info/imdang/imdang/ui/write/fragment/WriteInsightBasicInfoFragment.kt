@@ -38,6 +38,9 @@ import info.imdang.imdang.ui.write.summary.WriteInsightSummaryActivity.Companion
 import java.io.File
 import java.io.FileOutputStream
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @AndroidEntryPoint
 class WriteInsightBasicInfoFragment :
@@ -146,6 +149,11 @@ class WriteInsightBasicInfoFragment :
                 etDate.setText("")
                 etDate.requestFocus()
             }
+
+            val today = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(Date())
+            val hint =
+                requireContext().getString(info.imdang.component.R.string.hint_date_of_visit, today)
+            etDate.hint = hint
 
             etDate.setOnFocusChangeListener { _, hasFocus ->
                 this@WriteInsightBasicInfoFragment.viewModel.updateInsightDateFocused(hasFocus)
