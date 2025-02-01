@@ -4,6 +4,7 @@ import info.imdang.domain.model.common.AddressDto
 
 data class InsightDetailDto(
     val memberId: String,
+    val memberNickname: String,
     val insightId: String,
     val snapshotId: Long?,
     val mainImage: String,
@@ -19,12 +20,16 @@ data class InsightDetailDto(
     val complexEnvironment: ComplexEnvironmentDto?,
     val complexFacility: ComplexFacilityDto?,
     val favorableNews: FavorableNewsDto?,
+    val recommended: Boolean,
+    val accused: Boolean,
     val recommendedCount: Int,
     val accusedCount: Int?,
     val viewCount: Int?,
     val score: Int,
-    val createdAt: String,
-    val exchangeRequestStatus: String?
+    val createdAt: String?,
+    val exchangeRequestStatus: String?,
+    val exchangeRequestCreatedByMe: Boolean?,
+    val exchangeRequestId: String?
 )
 
 data class ApartmentComplexDto(

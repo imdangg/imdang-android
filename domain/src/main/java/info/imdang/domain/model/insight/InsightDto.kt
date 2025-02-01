@@ -9,5 +9,5 @@ data class InsightDto(
     val title: String,
     val mainImage: String?,
     val memberId: String?,
-    val memberNickname: String
+    val memberNickname: String?
 )

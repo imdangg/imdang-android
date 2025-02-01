@@ -10,19 +10,23 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.usecase.auth.GetMemberIdUseCase
-import info.imdang.domain.usecase.coupon.GetCouponCountUseCase
+import info.imdang.domain.usecase.coupon.GetCouponUseCase
+import info.imdang.domain.usecase.exchange.AcceptExchangeUseCase
+import info.imdang.domain.usecase.exchange.RejectExchangeUseCase
 import info.imdang.domain.usecase.exchange.RequestExchangeParams
 import info.imdang.domain.usecase.exchange.RequestExchangeUseCase
+import info.imdang.domain.usecase.exchange.ResponseExchangeParams
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.coupon.CouponVo
+import info.imdang.imdang.model.coupon.mapper
 import info.imdang.imdang.model.insight.ExchangeItem
 import info.imdang.imdang.model.insight.InsightDetailItem
 import info.imdang.imdang.model.insight.InsightDetailStatus
 import info.imdang.imdang.model.insight.InsightDetailVo
 import info.imdang.imdang.model.insight.mapper
-import info.imdang.imdang.model.insight.toInsightDetailStatus
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -41,8 +45,10 @@ class InsightDetailViewModel @Inject constructor(
     private val getInsightDetailUseCase: GetInsightDetailUseCase,
     private val getMyInsightsUseCase: GetMyInsightsUseCase,
     private val getMyInsightsWithPagingUseCase: GetMyInsightsWithPagingUseCase,
-    private val getCouponCountUseCase: GetCouponCountUseCase,
-    private val requestExchangeUseCase: RequestExchangeUseCase
+    private val getCouponUseCase: GetCouponUseCase,
+    private val requestExchangeUseCase: RequestExchangeUseCase,
+    private val acceptExchangeUseCase: AcceptExchangeUseCase,
+    private val rejectExchangeUseCase: RejectExchangeUseCase
 ) : BaseViewModel() {
 
     private val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
@@ -58,8 +64,8 @@ class InsightDetailViewModel @Inject constructor(
     private val _insightDetails = MutableStateFlow<List<InsightDetailItem>>(emptyList())
     val insightDetails = _insightDetails.asStateFlow()
 
-    private val _couponCount = MutableStateFlow(0)
-    private val couponCount = _couponCount.asStateFlow()
+    private val _exchangeCoupon = MutableStateFlow(CouponVo.init())
+    private val exchangeCoupon = _exchangeCoupon.asStateFlow()
 
     private val _myInsightsCount = MutableStateFlow(0)
     private val myInsightsCount = _myInsightsCount.asStateFlow()
@@ -68,10 +74,7 @@ class InsightDetailViewModel @Inject constructor(
     val exchangeItems = _exchangeItems.asStateFlow()
 
     private val _selectedExchangeItem = MutableStateFlow<ExchangeItem?>(null)
-    val selectedExchangeItem = _selectedExchangeItem.asStateFlow()
-
-    private val _insightDetailStatus = MutableStateFlow(InsightDetailStatus.EXCHANGE_REQUEST)
-    val insightDetailStatus = _insightDetailStatus.asStateFlow()
+    private val selectedExchangeItem = _selectedExchangeItem.asStateFlow()
 
     private val _isScrolling = MutableStateFlow(false)
     val isScrolling = _isScrolling.asStateFlow()
@@ -83,13 +86,12 @@ class InsightDetailViewModel @Inject constructor(
 
     private fun fetchInsightDetail() {
         viewModelScope.launch {
-            _insight.value = getInsightDetailUseCase(insightId.value)?.mapper() ?: return@launch
-            _insightDetailStatus.value = insight.value.exchangeRequestStatus.toInsightDetailStatus(
-                isMyInsight = insight.value.memberId == memberId
-            )
+            _insight.value = getInsightDetailUseCase(
+                insightId.value
+            )?.mapper(memberId) ?: return@launch
             _insightDetails.value =
-                if (insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE ||
-                    insightDetailStatus.value == InsightDetailStatus.MY_INSIGHT
+                if (insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE ||
+                    insight.value.insightDetailStatus == InsightDetailStatus.MY_INSIGHT
                 ) {
                     val infra = insight.value.infra
                     val complexEnvironment = insight.value.complexEnvironment
@@ -105,18 +107,18 @@ class InsightDetailViewModel @Inject constructor(
                             InsightDetailItem.Infra(infra),
                             InsightDetailItem.AptEnvironment(complexEnvironment),
                             InsightDetailItem.AptFacility(complexFacility),
-                            InsightDetailItem.GoodNews(goodNews)
+                            InsightDetailItem.GoodNews(goodNews, insight.value.insightDetailStatus)
                         )
                     } else {
                         listOf(
                             insight.value.toBasicInfo(),
-                            InsightDetailItem.Invisible(insightDetailStatus.value)
+                            InsightDetailItem.Invisible(insight.value.insightDetailStatus)
                         )
                     }
                 } else {
                     listOf(
                         insight.value.toBasicInfo(),
-                        InsightDetailItem.Invisible(insightDetailStatus.value)
+                        InsightDetailItem.Invisible(insight.value.insightDetailStatus)
                     )
                 }
         }
@@ -124,9 +126,9 @@ class InsightDetailViewModel @Inject constructor(
 
     private fun fetchExchangeItems() {
         viewModelScope.launch {
-            val couponDeferred = async { getCouponCountUseCase(Unit) }
+            val couponDeferred = async { getCouponUseCase(Unit) }
             val myInsightsDeferred = async { getMyInsightsUseCase(PagingParams()) }
-            _couponCount.value = couponDeferred.await() ?: 0
+            _exchangeCoupon.value = couponDeferred.await()?.mapper() ?: CouponVo.init()
             _myInsightsCount.value = myInsightsDeferred.await()?.totalElements ?: 0
         }
     }
@@ -142,10 +144,10 @@ class InsightDetailViewModel @Inject constructor(
                 }
                 ?.cachedIn(this)
                 ?.collect {
-                    _exchangeItems.value = if (couponCount.value > 0) {
+                    _exchangeItems.value = if (exchangeCoupon.value.couponCount > 0) {
                         it.insertHeaderItem(
                             TerminalSeparatorType.FULLY_COMPLETE,
-                            ExchangeItem.Pass(couponCount.value)
+                            ExchangeItem.Pass(exchangeCoupon.value.couponCount)
                         )
                     } else {
                         it
@@ -154,8 +156,9 @@ class InsightDetailViewModel @Inject constructor(
         }
     }
 
-    fun isEnableTabMove() = insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE ||
-        insightDetailStatus.value == InsightDetailStatus.MY_INSIGHT
+    fun isEnableTabMove() =
+        insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE ||
+            insight.value.insightDetailStatus == InsightDetailStatus.MY_INSIGHT
 
     fun onClickTab() {
         _isScrolling.value = true
@@ -166,7 +169,7 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun onClickRecommend() {
-        if (insightDetailStatus.value == InsightDetailStatus.EXCHANGE_COMPLETE) {
+        if (insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE) {
             _insight.value = insight.value.copy(isRecommended = !insight.value.isRecommended)
         } else {
             viewModelScope.launch {
@@ -179,7 +182,7 @@ class InsightDetailViewModel @Inject constructor(
 
     fun onClickExchangeRequestButton() {
         viewModelScope.launch {
-            if (couponCount.value > 0 || myInsightsCount.value > 0) {
+            if (exchangeCoupon.value.couponCount > 0 || myInsightsCount.value > 0) {
                 _selectedExchangeItem.value = null
                 _exchangeItems.value = PagingData.empty()
                 _event.emit(InsightDetailEvent.ShowMyInsightsBottomSheet)
@@ -193,50 +196,70 @@ class InsightDetailViewModel @Inject constructor(
 
     fun onClickRejectButton() {
         viewModelScope.launch {
-            _event.emit(
-                InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.EXCHANGE_REJECT)
-            )
+            rejectExchangeUseCase(
+                ResponseExchangeParams(
+                    exchangeRequestId = insight.value.exchangeRequestId ?: return@launch,
+                    memberId = memberId
+                )
+            )?.let {
+                _insight.value = insight.value.copy(
+                    insightDetailStatus = InsightDetailStatus.EXCHANGE_REQUEST
+                )
+                _event.emit(
+                    InsightDetailEvent.ShowCommonDialog(InsightDetailDialogType.EXCHANGE_REJECT)
+                )
+            }
         }
     }
 
     fun onClickAcceptButton() {
         viewModelScope.launch {
-            _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_COMPLETE
-            fetchInsightDetail()
-            _event.emit(
-                InsightDetailEvent.ShowCommonDialog(
-                    dialogType = InsightDetailDialogType.EXCHANGE_ACCEPT,
-                    onClickSubButton = {
-                        viewModelScope.launch {
-                            _event.emit(InsightDetailEvent.MoveStorage)
-                        }
-                    }
+            acceptExchangeUseCase(
+                ResponseExchangeParams(
+                    exchangeRequestId = insight.value.exchangeRequestId ?: return@launch,
+                    memberId = memberId
                 )
-            )
+            )?.let {
+                fetchInsightDetail()
+                _event.emit(
+                    InsightDetailEvent.ShowCommonDialog(
+                        dialogType = InsightDetailDialogType.EXCHANGE_ACCEPT,
+                        onClickSubButton = {
+                            viewModelScope.launch {
+                                _event.emit(InsightDetailEvent.MoveStorage)
+                            }
+                        }
+                    )
+                )
+            }
         }
     }
 
     fun requestExchange() {
         viewModelScope.launch {
             val selectedExchangeItem = selectedExchangeItem.value
-            val selectedInsight = if (selectedExchangeItem is ExchangeItem.Insight) {
-                selectedExchangeItem.insightVo
-            } else {
-                null
-            }
-
             requestExchangeUseCase(
                 RequestExchangeParams(
                     insightId = insight.value.insightId,
                     memberId = memberId,
-                    myInsightId = selectedInsight?.insightId,
-                    couponId = null
+                    myInsightId = if (selectedExchangeItem is ExchangeItem.Insight) {
+                        selectedExchangeItem.insightVo.insightId
+                    } else {
+                        null
+                    },
+                    couponId = if (selectedExchangeItem is ExchangeItem.Pass) {
+                        exchangeCoupon.value.couponId
+                    } else {
+                        null
+                    }
                 )
             )?.let {
-                _insightDetailStatus.value = InsightDetailStatus.EXCHANGE_WAITING
+                _insight.value = insight.value.copy(
+                    insightDetailStatus = InsightDetailStatus.EXCHANGE_WAITING
+                )
                 _insightDetails.value = insightDetails.value.map {
                     if (it is InsightDetailItem.Invisible) {
-                        it.copy(insightDetailStatus.value)
+                        it.copy(insight.value.insightDetailStatus)
                     } else {
                         it
                     }
@@ -258,10 +281,10 @@ class InsightDetailViewModel @Inject constructor(
 
     fun onClickExchangeItem(exchangeItem: ExchangeItem) {
         _selectedExchangeItem.value = exchangeItem
-        _exchangeItems.value = if (couponCount.value > 0) {
+        _exchangeItems.value = if (exchangeCoupon.value.couponCount > 0) {
             exchangeItems.value.insertHeaderItem(
                 TerminalSeparatorType.FULLY_COMPLETE,
-                ExchangeItem.Pass(couponCount.value)
+                ExchangeItem.Pass(exchangeCoupon.value.couponCount)
             )
         } else {
             exchangeItems.value
@@ -273,6 +296,7 @@ class InsightDetailViewModel @Inject constructor(
                         is ExchangeItem.Insight -> it.copy(isSelected = false)
                     }
                 }
+
                 is ExchangeItem.Insight -> {
                     when (it) {
                         is ExchangeItem.Pass -> it.copy(isSelected = false)

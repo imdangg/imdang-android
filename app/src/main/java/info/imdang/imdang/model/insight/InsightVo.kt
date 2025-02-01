@@ -48,5 +48,5 @@ fun InsightDto.mapper(): InsightVo = InsightVo(
     mainImage = mainImage ?: "",
     memberId = memberId ?: "",
     profileImage = null,
-    nickname = memberNickname
+    nickname = memberNickname ?: ""
 )

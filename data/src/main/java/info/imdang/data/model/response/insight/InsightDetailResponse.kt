@@ -11,6 +11,7 @@ import info.imdang.domain.model.insight.InsightDetailDto
 
 data class InsightDetailResponse(
     val memberId: String,
+    val memberNickname: String,
     val insightId: String,
     val snapshotId: Long?,
     val mainImage: String,
@@ -26,15 +27,20 @@ data class InsightDetailResponse(
     val complexEnvironment: ComplexEnvironmentResponse?,
     val complexFacility: ComplexFacilityResponse?,
     val favorableNews: FavorableNewsResponse?,
+    val recommended: Boolean,
+    val accused: Boolean,
     val recommendedCount: Int,
     val accusedCount: Int?,
     val viewCount: Int?,
     val score: Int,
-    val createdAt: String,
-    val exchangeRequestStatus: String?
+    val createdAt: String?,
+    val exchangeRequestStatus: String?,
+    val exchangeRequestCreatedByMe: Boolean?,
+    val exchangeRequestId: String?
 ) : DataToDomainMapper<InsightDetailDto> {
     override fun mapper(): InsightDetailDto = InsightDetailDto(
         memberId = memberId,
+        memberNickname = memberNickname,
         insightId = insightId,
         snapshotId = snapshotId,
         mainImage = mainImage,
@@ -50,12 +56,16 @@ data class InsightDetailResponse(
         complexEnvironment = complexEnvironment?.mapper(),
         complexFacility = complexFacility?.mapper(),
         favorableNews = favorableNews?.mapper(),
+        recommended = recommended,
+        accused = accused,
         recommendedCount = recommendedCount,
         accusedCount = accusedCount,
         viewCount = viewCount,
         score = score,
         createdAt = createdAt,
-        exchangeRequestStatus = exchangeRequestStatus
+        exchangeRequestStatus = exchangeRequestStatus,
+        exchangeRequestCreatedByMe = exchangeRequestCreatedByMe,
+        exchangeRequestId = exchangeRequestId
     )
 }
 

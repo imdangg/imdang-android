@@ -1,8 +1,10 @@
 package info.imdang.domain.repository
 
+import info.imdang.domain.model.coupon.CouponDto
+
 interface CouponRepository {
 
-    suspend fun getCouponCount(): Int
+    suspend fun getCoupon(): CouponDto
 
     suspend fun issueCoupon(memberId: String, couponId: String)
 }
