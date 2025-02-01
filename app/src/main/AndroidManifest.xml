@@ -49,6 +49,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.insight.InsightDetailActivity" />
         <activity android:name=".ui.main.home.search.region.SearchByRegionActivity" />
+        <activity android:name=".ui.main.home.search.region.list.InsightListActivity" />
         <activity android:name=".ui.main.home.search.map.SearchByMapActivity" />
         <activity android:name=".ui.main.home.search.visitcomplex.VisitComplexInsightListActivity" />
         <activity android:name=".ui.main.home.search.newinsight.NewInsightListActivity" />

@@ -1,8 +1,8 @@
 package info.imdang.imdang.ui.main.home.search.region
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +13,7 @@ import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivitySearchByRegionBinding
 import info.imdang.imdang.model.address.RegionVo
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
+import info.imdang.imdang.ui.main.home.search.region.list.InsightListActivity
 
 @AndroidEntryPoint
 class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
@@ -79,16 +80,9 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
                     itemClickListener = { item, _ ->
                         if (item is String) {
                             val selectedGu = this@SearchByRegionActivity.viewModel.getSelectedGu()
-                            setResult(
-                                RESULT_OK,
-                                Intent().apply {
-                                    putExtra(
-                                        REGION,
-                                        "$selectedGu $item"
-                                    )
-                                }
+                            startActivity<InsightListActivity>(
+                                bundle = bundleOf(REGION to "$selectedGu $item")
                             )
-                            finish()
                         }
                     }
                 }
