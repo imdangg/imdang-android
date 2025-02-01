@@ -82,11 +82,12 @@ class BasicInformationViewModel @Inject constructor(
         finalGenderValid.value = isValid
     }
 
-    fun onboardingJoin(nickname: String, birthDate: String, gender: String) {
+    fun onboardingJoin(nickname: String, birthDate: String, gender: String, deviceToken: String) {
         val onboardingDto = OnboardingDto(
             nickname = nickname,
             birthDate = birthDate,
-            gender = gender
+            gender = gender,
+            deviceToken = deviceToken
         )
 
         viewModelScope.launch {
