@@ -4,16 +4,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.notification.NotificationDto
-import info.imdang.domain.usecase.notification.GetNotificationsParams
 import info.imdang.domain.usecase.notification.GetNotificationsUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.notification.NotificationCategory
 import info.imdang.imdang.model.notification.NotificationItem
 import info.imdang.imdang.model.notification.NotificationListType
-import info.imdang.imdang.model.notification.NotificationVo
 import info.imdang.imdang.model.notification.mapper
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -32,14 +28,8 @@ class NotificationViewModel @Inject constructor(
     private val _selectedNotificationListType = MutableStateFlow(NotificationListType.ALL)
     val selectedNotificationListType = _selectedNotificationListType.asStateFlow()
 
-    private val _newNotifications = MutableStateFlow<List<NotificationVo>>(emptyList())
-    private val newNotifications = _newNotifications.asStateFlow()
-
-    private val _lastNotifications = MutableStateFlow<List<NotificationVo>>(emptyList())
-    private val lastNotifications = _lastNotifications.asStateFlow()
-
-    private val _notifications = MutableStateFlow<List<NotificationItem>>(emptyList())
-    val notifications = _notifications.asStateFlow()
+    private val _notificationItems = MutableStateFlow<List<NotificationItem>>(emptyList())
+    val notificationItems = _notificationItems.asStateFlow()
 
     init {
         fetchNotifications()
@@ -47,35 +37,26 @@ class NotificationViewModel @Inject constructor(
 
     private fun fetchNotifications() {
         viewModelScope.launch {
-            val notifications = awaitAll(
-                async {
-                    getNotificationsUseCase(
-                        GetNotificationsParams(
-                            isChecked = false,
-                            pagingParams = PagingParams(size = 20)
-                        )
-                    )?.content?.map(NotificationDto::mapper) ?: emptyList()
-                },
-                async {
-                    getNotificationsUseCase(
-                        GetNotificationsParams(
-                            isChecked = true,
-                            pagingParams = PagingParams(size = 20)
-                        )
-                    )?.content?.map(NotificationDto::mapper) ?: emptyList()
-                }
+            val notifications = getNotificationsUseCase(
+                PagingParams(
+                    size = 20,
+                    properties = listOf("createAt")
+                )
             )
-            _newNotifications.value = notifications[0]
-            _lastNotifications.value = notifications[1]
-            _notifications.value = mutableListOf<NotificationItem>().apply {
-                if (newNotifications.value.isEmpty() && lastNotifications.value.isEmpty()) {
+                ?.content
+                ?.map(NotificationDto::mapper) ?: emptyList()
+            val newNotifications = notifications.filter { it.isNewNotification }
+            val lastNotifications = notifications.filter { !it.isNewNotification }
+
+            _notificationItems.value = mutableListOf<NotificationItem>().apply {
+                if (notifications.isEmpty()) {
                     add(NotificationItem.Empty(text = "최근 1년간 도착한 알림이 없어요"))
                     return@apply
                 }
                 add(NotificationItem.Title(title = "신규 알림"))
-                if (newNotifications.value.isNotEmpty()) {
+                if (notifications.isNotEmpty()) {
                     addAll(
-                        newNotifications.value.map {
+                        newNotifications.map {
                             NotificationItem.Notification(it)
                         }
                     )
@@ -83,9 +64,9 @@ class NotificationViewModel @Inject constructor(
                     add(NotificationItem.Empty(text = "오늘 도착한 신규 알림이 없어요"))
                 }
                 add(NotificationItem.Title(title = "지난 알림"))
-                if (lastNotifications.value.isNotEmpty()) {
+                if (lastNotifications.isNotEmpty()) {
                     addAll(
-                        lastNotifications.value.map {
+                        lastNotifications.map {
                             NotificationItem.Notification(it)
                         }
                     )
@@ -107,9 +88,11 @@ class NotificationViewModel @Inject constructor(
                 NotificationCategory.REQUESTED -> {
                     _event.emit(NotificationEvent.MoveInsightDetailActivity)
                 }
+
                 NotificationCategory.ACCEPTED -> {
                     _event.emit(NotificationEvent.MoveStorage)
                 }
+
                 NotificationCategory.REJECTED -> {
                     _event.emit(NotificationEvent.MoveInsightDetailActivity)
                 }

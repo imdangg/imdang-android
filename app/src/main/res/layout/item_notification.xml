@@ -42,7 +42,7 @@
             style="@style/T_500_12_16_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="방금 전"
+            android:text="@{item.notification.createdAt}"
             android:textColor="@color/gray_500"
             app:layout_constraintBottom_toBottomOf="@id/tv_notification_type"
             app:layout_constraintEnd_toEndOf="parent"

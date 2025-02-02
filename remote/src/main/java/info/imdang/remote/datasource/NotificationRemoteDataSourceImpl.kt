@@ -11,14 +11,14 @@ internal class NotificationRemoteDataSourceImpl @Inject constructor(
     private val notificationService: NotificationService
 ) : NotificationRemoteDataSource {
 
+    override suspend fun hasNewNotification(): Boolean = notificationService.hasNewNotification()
+
     override suspend fun getNotifications(
-        checked: String,
         page: Int?,
         size: Int?,
         direction: String?,
         properties: List<String>?
     ): PagingResponse<NotificationResponse, NotificationDto> = notificationService.getNotifications(
-        checked = checked,
         page = page,
         size = size,
         direction = direction,

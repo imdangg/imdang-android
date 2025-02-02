@@ -5,8 +5,9 @@ import info.imdang.domain.model.notification.NotificationDto
 
 interface NotificationRepository {
 
+    suspend fun hasNewNotification(): Boolean
+
     suspend fun getNotifications(
-        checked: String,
         page: Int?,
         size: Int?,
         direction: String?,

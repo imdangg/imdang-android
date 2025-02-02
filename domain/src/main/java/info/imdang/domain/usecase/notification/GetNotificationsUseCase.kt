@@ -12,22 +12,16 @@ import javax.inject.Inject
 class GetNotificationsUseCase @Inject constructor(
     private val notificationRepository: NotificationRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<GetNotificationsParams, PagingDto<NotificationDto>>(
+) : UseCase<PagingParams, PagingDto<NotificationDto>>(
         coroutineDispatcher = dispatcher
     ) {
 
     override suspend fun execute(
-        parameters: GetNotificationsParams
+        parameters: PagingParams
     ): PagingDto<NotificationDto> = notificationRepository.getNotifications(
-        checked = if (parameters.isChecked) "checked" else "unchecked",
-        page = parameters.pagingParams.page - 1,
-        size = parameters.pagingParams.size,
-        direction = parameters.pagingParams.direction,
-        properties = parameters.pagingParams.properties
+        page = parameters.page - 1,
+        size = parameters.size,
+        direction = parameters.direction,
+        properties = parameters.properties
     )
 }
-
-data class GetNotificationsParams(
-    val isChecked: Boolean,
-    val pagingParams: PagingParams
-)

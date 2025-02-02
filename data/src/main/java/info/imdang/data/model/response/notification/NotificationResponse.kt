@@ -4,13 +4,15 @@ import info.imdang.data.mapper.DataToDomainMapper
 import info.imdang.domain.model.notification.NotificationDto
 
 data class NotificationResponse(
-    val notificationId: String,
+    val notificationId: Long,
     val category: String,
-    val message: String
+    val message: String,
+    val createdAt: String
 ) : DataToDomainMapper<NotificationDto> {
     override fun mapper(): NotificationDto = NotificationDto(
         notificationId = notificationId,
         category = category,
-        message = message
+        message = message,
+        createdAt = createdAt
     )
 }
