@@ -2,9 +2,11 @@ package info.imdang.imdang.ui.join
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
@@ -218,10 +220,22 @@ class BasicInformationActivity :
                         "FEMALE"
                     }
 
-                    basicInformationViewModel.onboardingJoin(nickname, birthDate, gender)
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val deviceToken = task.result
+                            basicInformationViewModel.onboardingJoin(
+                                nickname,
+                                birthDate,
+                                gender,
+                                deviceToken
+                            )
 
-                    setResult(RESULT_OK)
-                    startAndFinishActivity<JoinCompleteActivity>()
+                            setResult(RESULT_OK)
+                            startAndFinishActivity<JoinCompleteActivity>()
+                        } else {
+                            Log.e("##", "Fetching FCM registration token failed", task.exception)
+                        }
+                    }
                 }
             }
         }
