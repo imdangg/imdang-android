@@ -9,6 +9,7 @@ import info.imdang.domain.usecase.home.GetFirstDateOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.SetCloseTimeOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.SetFirstDateOfHomeFreePassUseCase
 import info.imdang.domain.usecase.mypage.GetMyPageInfoUseCase
+import info.imdang.domain.usecase.notification.HasNewNotificationUseCase
 import info.imdang.imdang.common.util.diffDays
 import info.imdang.imdang.common.util.isToday
 import info.imdang.imdang.common.util.toLocalDate
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val hasNewNotificationUseCase: HasNewNotificationUseCase,
     private val getCouponUseCase: GetCouponUseCase,
     private val getMyPageInfoUseCase: GetMyPageInfoUseCase,
     private val getFirstDateOfHomeFreePassUseCase: GetFirstDateOfHomeFreePassUseCase,
@@ -32,11 +34,21 @@ class HomeViewModel @Inject constructor(
     private val _event = MutableSharedFlow<HomeEvent>()
     val event = _event.asSharedFlow()
 
+    private val _hasNewNotification = MutableStateFlow(false)
+    val hasNewNotification = _hasNewNotification.asStateFlow()
+
     private val _nickname = MutableStateFlow("")
     val nickname = _nickname.asStateFlow()
 
     init {
+        fetchHasNewNotification()
         fetchCoupon()
+    }
+
+    private fun fetchHasNewNotification() {
+        viewModelScope.launch {
+            _hasNewNotification.value = hasNewNotificationUseCase(Unit) ?: false
+        }
     }
 
     private fun fetchCoupon() {
