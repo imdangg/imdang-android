@@ -4,6 +4,7 @@ import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.data.model.request.auth.LoginRequest
 import info.imdang.data.model.request.auth.OnboardingRequest
 import info.imdang.data.model.response.auth.LoginResponse
+import info.imdang.data.model.response.auth.TokenResponse
 import info.imdang.remote.service.AuthService
 import retrofit2.Response
 import javax.inject.Inject
@@ -22,4 +23,6 @@ internal class AuthRemoteDataSourceImpl @Inject constructor(
         onboardingRequest: OnboardingRequest
     ): Response<Unit> =
         authService.onboardingJoin(onboardingRequest)
+
+    override suspend fun reissueToken(): TokenResponse = authService.reissueToken()
 }

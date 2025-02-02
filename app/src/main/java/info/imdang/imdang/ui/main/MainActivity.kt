@@ -8,9 +8,14 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import info.imdang.component.showToast
+import info.imdang.imdang.ActivityTracker
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
+import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityMainBinding
+import info.imdang.imdang.ui.common.showCommonDialog
+import info.imdang.imdang.ui.login.LoginActivity
 import info.imdang.imdang.ui.main.home.HomeFragment
 import info.imdang.imdang.ui.main.storage.StorageFragment
 import info.imdang.imdang.ui.write.WriteInsightActivity
@@ -93,7 +98,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         lifecycleScope.launch {
             viewModel.event.collect {
                 when (it) {
+                    is MainEvent.ShowAlert -> {
+                        ActivityTracker.currentActivity?.showCommonDialog(
+                            iconDrawableResource =
+                                info.imdang.component.R.drawable.ic_sign_for_dialog,
+                            message = it.message,
+                            subMessage = it.subMessage,
+                            positiveButtonText = getString(info.imdang.component.R.string.confirm)
+                        )
+                    }
+                    is MainEvent.ShowToast -> showToast(message = it.message)
                     MainEvent.MoveStorage -> binding.bnvMain.selectedItemId = R.id.menu_storage
+                    MainEvent.Logout -> {
+                        startActivity<LoginActivity>(
+                            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        )
+                    }
                 }
             }
         }
