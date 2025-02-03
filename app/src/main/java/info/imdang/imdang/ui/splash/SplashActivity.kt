@@ -24,6 +24,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        setName("스플래쉬")
         setupCollect()
     }
 

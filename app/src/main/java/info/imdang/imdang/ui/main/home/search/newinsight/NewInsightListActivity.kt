@@ -30,6 +30,7 @@ class NewInsightListActivity : BaseActivity<ActivityNewInsightListBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("오늘 새롭게 올라온 인사이트")
         setupBinding()
         setupListener()
         setupCollect()

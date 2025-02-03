@@ -15,6 +15,7 @@ import info.imdang.imdang.ActivityTracker
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.util.logScreen
 import info.imdang.imdang.databinding.ActivityMainBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.insight.InsightDetailActivity
@@ -81,10 +82,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
             bnvMain.setOnItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.menu_home -> replaceFragment(homeFragment, storageFragment)
+                    R.id.menu_home -> {
+                        replaceFragment(homeFragment, storageFragment)
+                    }
                     R.id.menu_storage -> {
                         this@MainActivity.viewModel.hideTooltip()
                         replaceFragment(storageFragment, homeFragment)
+                        logScreen("보관함", homeFragment::class.java.simpleName)
                     }
                 }
                 true
@@ -101,6 +105,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             commit()
         }
         replaceFragment(homeFragment, storageFragment)
+        logScreen("메인_탐색", homeFragment::class.java.simpleName)
     }
 
     private fun replaceFragment(showFragment: Fragment, hideFragment: Fragment) {

@@ -21,6 +21,7 @@ class WithdrawActivity : BaseActivity<ActivityWithdrawBinding>(R.layout.activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("계정 탈퇴")
         setupBinding()
         setupListener()
         setupCollect()

@@ -14,6 +14,7 @@ class ServiceIntroductionActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("서비스 소개")
         setupBinding()
         scrollToFocusedView()
     }

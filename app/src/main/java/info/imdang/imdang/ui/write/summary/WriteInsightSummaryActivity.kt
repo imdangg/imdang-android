@@ -22,6 +22,7 @@ class WriteInsightSummaryActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("기본정보 요약")
         setupListener()
         setupExtra()
     }

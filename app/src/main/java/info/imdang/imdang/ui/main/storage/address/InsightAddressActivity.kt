@@ -22,6 +22,7 @@ class InsightAddressActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("지역별 인사이트 목록")
         setupBinding()
         setupListener()
     }

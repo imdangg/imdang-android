@@ -13,6 +13,7 @@ class SearchByMapActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("지도로 탐색")
         setupListener()
     }
 

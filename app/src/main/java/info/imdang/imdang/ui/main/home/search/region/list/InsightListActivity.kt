@@ -30,6 +30,7 @@ class InsightListActivity : BaseActivity<ActivityInsightListBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("지역으로 찾기_상세")
         setupBinding()
         setupListener()
         setupCollect()

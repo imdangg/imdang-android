@@ -35,6 +35,7 @@ class VisitComplexInsightListActivity : BaseActivity<ActivityVisitComplexInsight
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("내가 다녀온 단지의 다른 인사이트")
         setupBinding()
         setupListener()
         setupCollect()

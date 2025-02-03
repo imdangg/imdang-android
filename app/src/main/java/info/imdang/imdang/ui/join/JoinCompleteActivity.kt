@@ -13,6 +13,7 @@ class JoinCompleteActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("가입완료")
         setupListener()
     }
 

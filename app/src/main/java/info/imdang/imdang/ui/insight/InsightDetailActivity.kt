@@ -35,6 +35,7 @@ class InsightDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("인사이트 상세")
         setupBinding()
         setupListener()
         setupCollect()
