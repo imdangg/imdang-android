@@ -3,6 +3,7 @@ package info.imdang.data.datasource.remote
 import info.imdang.data.model.request.auth.LoginRequest
 import info.imdang.data.model.request.auth.OnboardingRequest
 import info.imdang.data.model.response.auth.LoginResponse
+import info.imdang.data.model.response.auth.TokenResponse
 import retrofit2.Response
 
 interface AuthRemoteDataSource {
@@ -14,4 +15,6 @@ interface AuthRemoteDataSource {
     suspend fun onboardingJoin(
         onboardingRequest: OnboardingRequest
     ): Response<Unit>
+
+    suspend fun reissueToken(): TokenResponse
 }

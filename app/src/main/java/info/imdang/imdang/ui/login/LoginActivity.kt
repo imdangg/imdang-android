@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -19,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
+import info.imdang.component.showToast
 import info.imdang.imdang.BuildConfig
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
@@ -60,7 +60,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 )
             }
         } else {
-            Toast.makeText(this, "구글 로그인에 실패 했습니다.", Toast.LENGTH_SHORT).show()
+            showToast(message = "구글 로그인에 실패 했습니다.")
         }
     }
 
@@ -94,11 +94,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         lifecycleScope.launch {
             viewModel.event.collect {
                 when (it) {
-                    is LoginEvent.ShowToast -> Toast.makeText(
-                        this@LoginActivity,
-                        it.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    is LoginEvent.ShowToast -> showToast(message = it.message)
                     LoginEvent.MoveMainActivity -> startAndFinishActivity<MainActivity>()
                     LoginEvent.MoveOnboardingActivity -> onboardingResult.launch(
                         Intent(

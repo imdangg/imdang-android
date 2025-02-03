@@ -6,8 +6,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.usecase.auth.GetMemberIdUseCase
 import info.imdang.domain.usecase.coupon.IssueCouponParams
 import info.imdang.domain.usecase.coupon.IssueCouponUseCase
+import info.imdang.data.constant.ErrorCode
+import info.imdang.data.constant.ErrorMessage
+import info.imdang.data.model.response.common.ErrorResponse
+import info.imdang.domain.usecase.auth.RemoveTokenUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     getMemberIdUseCase: GetMemberIdUseCase,
-    private val issueCouponUseCase: IssueCouponUseCase
+    private val issueCouponUseCase: IssueCouponUseCase,
+    private val networkErrorResponse: SharedFlow<ErrorResponse>,
+    private val removeTokenUseCase: RemoveTokenUseCase
 ) : ViewModel() {
 
     private val _event = MutableSharedFlow<MainEvent>()
@@ -26,6 +33,34 @@ class MainViewModel @Inject constructor(
 
     private val _isShowTooltip = MutableStateFlow(false)
     val isShowTooltip = _isShowTooltip.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            networkErrorResponse.collect {
+                when (ErrorCode.fromString(it.code)) {
+                    ErrorCode.J002,
+                    ErrorCode.J004,
+                    ErrorCode.J005,
+                    ErrorCode.J006,
+                    ErrorCode.J007 -> {
+                        removeTokenUseCase(Unit)
+                        _event.emit(MainEvent.Logout)
+                    }
+                    else -> {
+                    }
+                }
+                when (val errorMessage = ErrorMessage.fromString(it.message)) {
+                    ErrorMessage.EXCHANGE_REQUIRED,
+                    ErrorMessage.ALREADY_ACCUSED -> {
+                        emitEvent(
+                            MainEvent.ShowAlert(errorMessage.message, errorMessage.subMessage)
+                        )
+                    }
+                    else -> emitEvent(MainEvent.ShowToast(it.message))
+                }
+            }
+        }
+    }
 
     fun showTooltip() {
         viewModelScope.launch {

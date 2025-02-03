@@ -3,6 +3,7 @@ package info.imdang.remote.service
 import info.imdang.data.model.request.auth.LoginRequest
 import info.imdang.data.model.request.auth.OnboardingRequest
 import info.imdang.data.model.response.auth.LoginResponse
+import info.imdang.data.model.response.auth.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -27,4 +28,8 @@ internal interface AuthService {
     suspend fun onboardingJoin(
         @Body onboardingRequest: OnboardingRequest
     ): Response<Unit>
+
+    /** 토큰 재발급 */
+    @POST("auth/reissue")
+    suspend fun reissueToken(): TokenResponse
 }

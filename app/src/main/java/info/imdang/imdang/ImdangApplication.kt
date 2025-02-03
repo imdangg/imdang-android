@@ -11,6 +11,7 @@ class ImdangApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        registerActivityLifecycleCallbacks(ActivityTracker)
         KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_KEY)
         NaverMapSdk.getInstance(this).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVER_CLIENT_ID)

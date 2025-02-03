@@ -2,7 +2,6 @@ package info.imdang.imdang.ui.write
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
@@ -228,13 +227,7 @@ class WriteInsightActivity :
                                 }
                             )
                         }
-                        is WriteInsightEvent.ShowToast -> {
-                            Toast.makeText(
-                                this@WriteInsightActivity,
-                                it.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        is WriteInsightEvent.ShowToast -> showToast(message = it.message)
                     }
                 }
             }

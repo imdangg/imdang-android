@@ -59,35 +59,27 @@ class InsightDetailActivity :
                 finish()
             }
             ivReport.setOnClickListener {
-                showCommonDialog(
-                    iconDrawableResource = info.imdang.component.R.drawable.ic_sign_for_dialog,
-                    message = if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
-                        getString(info.imdang.component.R.string.already_report_message)
-                    } else {
-                        getString(info.imdang.component.R.string.report_message)
-                    },
-                    subMessage =
-                        if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
-                            getString(info.imdang.component.R.string.already_report_sub_message)
-                        } else {
-                            getString(info.imdang.component.R.string.report_sub_message)
-                        },
-                    positiveButtonText =
-                        if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
-                            getString(info.imdang.component.R.string.confirm)
-                        } else {
-                            getString(info.imdang.component.R.string.yes_its_ok)
-                        },
-                    negativeButtonText =
-                        if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
-                            null
-                        } else {
-                            getString(info.imdang.component.R.string.cancel)
-                        },
-                    onClickPositiveButton = {
-                        this@InsightDetailActivity.viewModel.reportInsight()
-                    }
-                )
+                if (this@InsightDetailActivity.viewModel.insight.value.isReported) {
+                    showCommonDialog(
+                        iconDrawableResource = info.imdang.component.R.drawable.ic_sign_for_dialog,
+                        message = getString(info.imdang.component.R.string.already_report_message),
+                        subMessage = getString(
+                            info.imdang.component.R.string.already_report_sub_message
+                        ),
+                        positiveButtonText = getString(info.imdang.component.R.string.confirm)
+                    )
+                } else {
+                    showCommonDialog(
+                        iconDrawableResource = info.imdang.component.R.drawable.ic_sign_for_dialog,
+                        message = getString(info.imdang.component.R.string.report_message),
+                        subMessage = getString(info.imdang.component.R.string.report_sub_message),
+                        positiveButtonText = getString(info.imdang.component.R.string.yes_its_ok),
+                        negativeButtonText = getString(info.imdang.component.R.string.cancel),
+                        onClickPositiveButton = {
+                            this@InsightDetailActivity.viewModel.reportInsight()
+                        }
+                    )
+                }
             }
             tlInsightDetail.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {

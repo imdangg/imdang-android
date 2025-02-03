@@ -17,6 +17,10 @@ import info.imdang.domain.usecase.exchange.RequestExchangeParams
 import info.imdang.domain.usecase.exchange.RequestExchangeUseCase
 import info.imdang.domain.usecase.exchange.ResponseExchangeParams
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
+import info.imdang.domain.usecase.insight.RecommendInsightParams
+import info.imdang.domain.usecase.insight.RecommendInsightUseCase
+import info.imdang.domain.usecase.insight.ReportInsightParams
+import info.imdang.domain.usecase.insight.ReportInsightUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
@@ -48,7 +52,9 @@ class InsightDetailViewModel @Inject constructor(
     private val getCouponUseCase: GetCouponUseCase,
     private val requestExchangeUseCase: RequestExchangeUseCase,
     private val acceptExchangeUseCase: AcceptExchangeUseCase,
-    private val rejectExchangeUseCase: RejectExchangeUseCase
+    private val rejectExchangeUseCase: RejectExchangeUseCase,
+    private val recommendInsightUseCase: RecommendInsightUseCase,
+    private val reportInsightUseCase: ReportInsightUseCase
 ) : BaseViewModel() {
 
     private val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
@@ -58,7 +64,7 @@ class InsightDetailViewModel @Inject constructor(
     private val _event = MutableSharedFlow<InsightDetailEvent>()
     val event = _event.asSharedFlow()
 
-    private val _insight = MutableStateFlow(InsightDetailVo.getSample())
+    private val _insight = MutableStateFlow(InsightDetailVo.init())
     val insight = _insight.asStateFlow()
 
     private val _insightDetails = MutableStateFlow<List<InsightDetailItem>>(emptyList())
@@ -169,8 +175,21 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun onClickRecommend() {
+        if (insight.value.isRecommended) return
+
         if (insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE) {
-            _insight.value = insight.value.copy(isRecommended = !insight.value.isRecommended)
+            viewModelScope.launch {
+                recommendInsightUseCase(
+                    RecommendInsightParams(
+                        insightId = insight.value.insightId,
+                        memberId = memberId
+                    )
+                ) ?: return@launch
+                _insight.value = insight.value.copy(
+                    isRecommended = !insight.value.isRecommended,
+                    recommendedCount = insight.value.recommendedCount + 1
+                )
+            }
         } else {
             viewModelScope.launch {
                 _event.emit(
@@ -313,10 +332,17 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun reportInsight() {
-        if (!insight.value.isReported) {
-            viewModelScope.launch {
-                // todo : 인사이트 신고
-            }
+        viewModelScope.launch {
+            reportInsightUseCase(
+                ReportInsightParams(
+                    insightId = insight.value.insightId,
+                    memberId = memberId
+                )
+            ) ?: return@launch
+            _insight.value = insight.value.copy(
+                isReported = true,
+                accusedCount = insight.value.accusedCount + 1
+            )
         }
     }
 }

@@ -1,5 +1,7 @@
 package info.imdang.data.datasource.remote
 
+import info.imdang.data.model.request.insight.RecommendInsightRequest
+import info.imdang.data.model.request.insight.ReportInsightRequest
 import info.imdang.data.model.response.common.PagingResponse
 import info.imdang.data.model.response.insight.InsightDetailResponse
 import info.imdang.data.model.response.insight.InsightIdResponse
@@ -31,4 +33,12 @@ interface InsightRemoteDataSource {
     ): PagingResponse<InsightResponse, InsightDto>
 
     suspend fun getInsightDetail(insightId: String): InsightDetailResponse
+
+    suspend fun recommendInsight(
+        recommendInsightRequest: RecommendInsightRequest
+    ): InsightIdResponse
+
+    suspend fun reportInsight(
+        reportInsightRequest: ReportInsightRequest
+    ): InsightIdResponse
 }
