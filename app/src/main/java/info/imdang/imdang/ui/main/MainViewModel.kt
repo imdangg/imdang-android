@@ -38,7 +38,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             networkErrorResponse.collect {
                 when (ErrorCode.fromString(it.code)) {
+                    ErrorCode.J001,
                     ErrorCode.J002,
+                    ErrorCode.J003,
                     ErrorCode.J004,
                     ErrorCode.J005,
                     ErrorCode.J006,
@@ -55,6 +57,10 @@ class MainViewModel @Inject constructor(
                         emitEvent(
                             MainEvent.ShowAlert(errorMessage.message, errorMessage.subMessage)
                         )
+                    }
+                    ErrorMessage.INVALID_TOKEN -> {
+                        removeTokenUseCase(Unit)
+                        _event.emit(MainEvent.Logout)
                     }
                     else -> emitEvent(MainEvent.ShowToast(it.message))
                 }

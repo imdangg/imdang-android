@@ -2,6 +2,7 @@ package info.imdang.remote.service
 
 import info.imdang.data.model.request.auth.LoginRequest
 import info.imdang.data.model.request.auth.OnboardingRequest
+import info.imdang.data.model.request.auth.ReissueTokenRequest
 import info.imdang.data.model.response.auth.LoginResponse
 import info.imdang.data.model.response.auth.TokenResponse
 import retrofit2.Response
@@ -31,5 +32,7 @@ internal interface AuthService {
 
     /** 토큰 재발급 */
     @POST("auth/reissue")
-    suspend fun reissueToken(): TokenResponse
+    suspend fun reissueToken(
+        @Body reissueTokenRequest: ReissueTokenRequest
+    ): TokenResponse
 }

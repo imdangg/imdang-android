@@ -44,11 +44,14 @@ enum class ErrorMessage(val message: String, val subMessage: String? = null) {
     ALREADY_ACCUSED(
         message = "이미 신고한 인사이트에요",
         subMessage = "동일한 인사이트를 중복으로\n신고할 수 없어요"
-    );
+    ),
+    INVALID_TOKEN(message = "Invalid Token");
 
     companion object {
         fun fromString(message: String): ErrorMessage? = entries.firstOrNull {
             it.name == message
+        } ?: entries.firstOrNull {
+            it.message == message
         }
     }
 }

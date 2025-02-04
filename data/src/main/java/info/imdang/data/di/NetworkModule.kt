@@ -20,7 +20,9 @@ import info.imdang.data.constant.GOOGLE_API_SERVER
 import info.imdang.data.datasource.lcoal.AuthLocalDataSource
 import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.data.interceptor.TokenInterceptor
+import info.imdang.data.model.request.auth.ReissueTokenRequest
 import info.imdang.data.model.response.common.ErrorResponse
+import java.net.ConnectException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -43,6 +45,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
 
+    private var lastTokenRefreshedAt = 0L
+
     private val _networkErrorResponse = MutableSharedFlow<ErrorResponse>()
     private val networkErrorResponse = _networkErrorResponse.asSharedFlow()
 
@@ -59,25 +63,32 @@ internal object NetworkModule {
         authRemoteDataSource: Provider<AuthRemoteDataSource>
     ): Interceptor = Interceptor { chain ->
         val request = chain.request()
-        val response = chain.proceed(request)
-
-        if (!response.isSuccessful) {
-            runBlocking {
+        try {
+            val response = chain.proceed(request)
+            if (!response.isSuccessful) {
                 handleNetworkError(
                     context = context,
                     response = response,
                     authLocalDataSource = authLocalDataSource,
                     authRemoteDataSource = authRemoteDataSource.get()
-                )
-            }?.let {
-                return@Interceptor chain.proceed(it)
+                )?.let {
+                    return@Interceptor chain.proceed(it)
+                }
             }
-        }
 
-        response
+            response
+        } catch (e: ConnectException) {
+            emitNetworkErrorResponse(
+                ErrorResponse(
+                    code = "NetworkException",
+                    message = e.message ?: "네트워크 연결 상태를 확인해 주세요"
+                )
+            )
+            chain.proceed(request)
+        }
     }
 
-    private suspend fun handleNetworkError(
+    private fun handleNetworkError(
         context: Context,
         response: Response,
         authLocalDataSource: AuthLocalDataSource,
@@ -90,10 +101,15 @@ internal object NetworkModule {
                 ResponseCode.UNAUTHORIZED -> {
                     when (ErrorCode.fromString(error.code)) {
                         ErrorCode.J001, ErrorCode.J003 -> {
-                            reissueToken(
-                                authLocalDataSource = authLocalDataSource,
-                                authRemoteDataSource = authRemoteDataSource
-                            )
+                            if (response.request.url.pathSegments.contains("reissue")) {
+                                emitNetworkErrorResponse(error)
+                                return null
+                            } else {
+                                reissueToken(
+                                    authLocalDataSource = authLocalDataSource,
+                                    authRemoteDataSource = authRemoteDataSource
+                                )
+                            }
                             return response
                                 .request
                                 .newBuilder()
@@ -120,13 +136,27 @@ internal object NetworkModule {
         }
     }
 
-    private suspend fun reissueToken(
+    private fun reissueToken(
         authLocalDataSource: AuthLocalDataSource,
         authRemoteDataSource: AuthRemoteDataSource
     ) {
-        val tokenResponse = authRemoteDataSource.reissueToken()
-        authLocalDataSource.saveAccessToken(tokenResponse.accessToken)
-        authLocalDataSource.saveRefreshToken(tokenResponse.refreshToken)
+        synchronized(this) {
+            val current = System.currentTimeMillis()
+            if (current - lastTokenRefreshedAt >= 5000) {
+                runBlocking {
+                    authRemoteDataSource.reissueToken(
+                        reissueTokenRequest = ReissueTokenRequest(
+                            memberId = authLocalDataSource.getMemberId(),
+                            refreshToken = authLocalDataSource.getRefreshToken()
+                        )
+                    )?.let { tokenResponse ->
+                        authLocalDataSource.saveAccessToken(tokenResponse.accessToken)
+                        authLocalDataSource.saveRefreshToken(tokenResponse.refreshToken)
+                    }
+                }
+                lastTokenRefreshedAt = System.currentTimeMillis()
+            }
+        }
     }
 
     private fun showNetworkErrorToast(context: Context, response: Response) {

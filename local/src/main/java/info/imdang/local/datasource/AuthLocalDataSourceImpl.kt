@@ -28,7 +28,11 @@ internal class AuthLocalDataSourceImpl @Inject constructor(
         sharedPreferences.getString(PREF_REFRESH_TOKEN_KEY, "") ?: ""
 
     override fun removeToken() {
-        sharedPreferences.edit().remove(PREF_ACCESS_TOKEN_KEY).apply()
+        sharedPreferences
+            .edit()
+            .remove(PREF_ACCESS_TOKEN_KEY)
+            .remove(PREF_REFRESH_TOKEN_KEY)
+            .apply()
     }
 
     override fun saveMemberId(memberId: String) {
