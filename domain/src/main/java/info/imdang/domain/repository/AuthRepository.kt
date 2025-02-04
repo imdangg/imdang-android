@@ -24,4 +24,8 @@ interface AuthRepository {
     fun saveMemberId(memberId: String)
 
     fun getMemberId(): String
+
+    fun saveLoginType(loginType: String)
+
+    fun getLoginType(): String
 }
