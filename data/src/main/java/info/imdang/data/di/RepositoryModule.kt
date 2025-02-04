@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import info.imdang.data.repository.AptComplexRepositoryImpl
 import info.imdang.data.repository.AuthRepositoryImpl
 import info.imdang.data.repository.CouponRepositoryImpl
+import info.imdang.data.repository.DistrictRepositoryImpl
 import info.imdang.data.repository.ExchangeRepositoryImpl
 import info.imdang.data.repository.GoogleRepositoryImpl
 import info.imdang.data.repository.HomeRepositoryImpl
@@ -16,6 +17,7 @@ import info.imdang.data.repository.MyExchangeRepositoryImpl
 import info.imdang.domain.repository.AptComplexRepository
 import info.imdang.domain.repository.AuthRepository
 import info.imdang.domain.repository.CouponRepository
+import info.imdang.domain.repository.DistrictRepository
 import info.imdang.domain.repository.ExchangeRepository
 import info.imdang.domain.repository.GoogleRepository
 import info.imdang.domain.repository.HomeRepository
@@ -81,4 +83,10 @@ internal abstract class RepositoryModule {
     abstract fun bindMyExchangeRepository(
         myExchangeRepositoryImpl: MyExchangeRepositoryImpl
     ): MyExchangeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDistrictRepository(
+        districtRepositoryImpl: DistrictRepositoryImpl
+    ): DistrictRepository
 }

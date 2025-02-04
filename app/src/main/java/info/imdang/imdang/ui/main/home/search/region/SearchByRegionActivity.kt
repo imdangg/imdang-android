@@ -11,7 +11,7 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivitySearchByRegionBinding
-import info.imdang.imdang.model.address.RegionVo
+import info.imdang.imdang.model.district.DistrictVo
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.home.search.region.list.InsightListActivity
 
@@ -37,22 +37,22 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
                     layoutResourceId = R.layout.item_region_gu,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@SearchByRegionActivity.viewModel),
-                    diffUtil = object : DiffUtil.ItemCallback<RegionVo>() {
+                    diffUtil = object : DiffUtil.ItemCallback<DistrictVo>() {
                         override fun areItemsTheSame(
-                            oldItem: RegionVo,
-                            newItem: RegionVo
-                        ): Boolean = oldItem.hashCode() == newItem.hashCode()
+                            oldItem: DistrictVo,
+                            newItem: DistrictVo
+                        ): Boolean = oldItem.code == newItem.code
 
                         override fun areContentsTheSame(
-                            oldItem: RegionVo,
-                            newItem: RegionVo
+                            oldItem: DistrictVo,
+                            newItem: DistrictVo
                         ): Boolean {
                             return oldItem == newItem
                         }
                     }
                 ).apply {
                     itemClickListener = { item, index ->
-                        if (item is RegionVo) {
+                        if (item is DistrictVo) {
                             this@SearchByRegionActivity.viewModel.selectGu(index)
                         }
                     }
