@@ -19,4 +19,8 @@ interface AuthLocalDataSource {
     fun saveLoginType(loginType: String)
 
     fun getLoginType(): String
+
+    fun saveOriginAccessToken(accessToken: String)
+
+    fun getOriginAccessToken(): String
 }

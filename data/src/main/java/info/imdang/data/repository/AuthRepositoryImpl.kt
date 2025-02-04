@@ -55,4 +55,10 @@ internal class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun getLoginType(): String = authLocalDataSource.getLoginType()
+
+    override fun saveOriginAccessToken(accessToken: String) {
+        authLocalDataSource.saveOriginAccessToken(accessToken)
+    }
+
+    override fun getOriginAccessToken(): String = authLocalDataSource.getOriginAccessToken()
 }

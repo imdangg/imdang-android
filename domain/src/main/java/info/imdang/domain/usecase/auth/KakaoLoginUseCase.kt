@@ -13,6 +13,7 @@ class KakaoLoginUseCase @Inject constructor(
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
     private val saveMemberIdUseCase: SaveMemberIdUseCase,
     private val saveLoginTypeUseCase: SaveLoginTypeUseCase,
+    private val saveOriginAccessTokenUseCase: SaveOriginAccessTokenUseCase,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : UseCase<String, LoginDto>(coroutineDispatcher = dispatcher) {
 
@@ -22,6 +23,7 @@ class KakaoLoginUseCase @Inject constructor(
         saveRefreshTokenUseCase(loginDto.refreshToken)
         saveMemberIdUseCase(loginDto.memberId)
         saveLoginTypeUseCase("KAKAO")
+        saveOriginAccessTokenUseCase(parameters)
         return loginDto
     }
 }
