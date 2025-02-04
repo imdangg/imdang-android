@@ -23,7 +23,7 @@ internal interface MyInsightService {
 
     /** 보관함 인사이트 목록 조회 */
     @GET("my-insights")
-    suspend fun getInsightsByAddress(
+    suspend fun getMyInsightsByAddress(
         @QueryMap addressQueries: Map<String, String>,
         @Query("apartmentComplexName") aptComplexName: String?,
         @Query("onlyMine") onlyMine: Boolean?,

@@ -20,7 +20,7 @@ internal class MyInsightRemoteDataSourceImpl @Inject constructor(
         queries: Map<String, String>
     ): List<AptComplexResponse> = myInsightService.getComplexesByAddress(queries)
 
-    override suspend fun getInsightsByAddress(
+    override suspend fun getMyInsightsByAddress(
         addressQueries: Map<String, String>,
         aptComplexName: String?,
         onlyMine: Boolean?,
@@ -28,7 +28,7 @@ internal class MyInsightRemoteDataSourceImpl @Inject constructor(
         size: Int?,
         direction: String?,
         properties: List<String>?
-    ): PagingResponse<InsightResponse, InsightDto> = myInsightService.getInsightsByAddress(
+    ): PagingResponse<InsightResponse, InsightDto> = myInsightService.getMyInsightsByAddress(
         addressQueries = addressQueries,
         aptComplexName = aptComplexName,
         onlyMine = onlyMine,

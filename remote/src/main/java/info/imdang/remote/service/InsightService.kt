@@ -45,6 +45,17 @@ internal interface InsightService {
         @Query("apartmentComplexName") aptComplex: String
     ): PagingResponse<InsightResponse, InsightDto>
 
+    /** 지역별 인사이트 목록 조회 */
+    @GET("insights/by-district")
+    suspend fun getInsightsByAddress(
+        @Query("siGunGu") siGunGu: String,
+        @Query("eupMyeonDong") eupMyeonDong: String,
+        @Query("pageNumber") page: Int?,
+        @Query("pageSize") size: Int?,
+        @Query("direction") direction: String?,
+        @Query("properties") properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
+
     /** 인사이트 상세 조회 */
     @GET("insights/detail")
     suspend fun getInsightDetail(

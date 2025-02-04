@@ -9,8 +9,8 @@ import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.model.myinsight.AptComplexDto
 import info.imdang.domain.usecase.myinsight.GetAddressesUseCase
 import info.imdang.domain.usecase.myinsight.GetComplexesByAddressUseCase
-import info.imdang.domain.usecase.myinsight.GetInsightsByAddressParams
-import info.imdang.domain.usecase.myinsight.GetInsightsByAddressUseCase
+import info.imdang.domain.usecase.myinsight.GetMyInsightsByAddressParams
+import info.imdang.domain.usecase.myinsight.GetMyInsightsByAddressUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.myinsight.AptComplexVo
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class StorageViewModel @Inject constructor(
     private val getAddressesUseCase: GetAddressesUseCase,
     private val getComplexesByAddressUseCase: GetComplexesByAddressUseCase,
-    private val getInsightsByAddressUseCase: GetInsightsByAddressUseCase
+    private val getMyInsightsByAddressUseCase: GetMyInsightsByAddressUseCase
 ) : BaseViewModel() {
 
     private val _event = MutableSharedFlow<StorageEvent>()
@@ -84,8 +84,8 @@ class StorageViewModel @Inject constructor(
 
     private fun fetchInsightsByAddress() {
         viewModelScope.launch {
-            getInsightsByAddressUseCase(
-                GetInsightsByAddressParams(
+            getMyInsightsByAddressUseCase(
+                GetMyInsightsByAddressParams(
                     address = selectedAddress.value?.toAddressDto() ?: return@launch,
                     aptComplexName = selectedComplex.value?.aptComplexName,
                     onlyMine = isSeeOnlyMyInsight.value,

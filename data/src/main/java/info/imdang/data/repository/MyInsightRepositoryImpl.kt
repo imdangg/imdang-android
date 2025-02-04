@@ -27,7 +27,7 @@ internal class MyInsightRepositoryImpl @Inject constructor(
         queries = Gson().fromJson<Map<String, String>>(Gson().toJson(address), Map::class.java)
     ).mapper()
 
-    override suspend fun getInsightsByAddress(
+    override suspend fun getMyInsightsByAddress(
         address: AddressDto,
         aptComplexName: String?,
         onlyMine: Boolean?,
@@ -40,7 +40,7 @@ internal class MyInsightRepositoryImpl @Inject constructor(
         initialPage = page ?: 0,
         pageSize = size ?: 20,
         loadData = { currentPage, pageSize ->
-            myInsightRemoteDataSource.getInsightsByAddress(
+            myInsightRemoteDataSource.getMyInsightsByAddress(
                 addressQueries = Gson()
                     .fromJson<Map<String, String>>(Gson().toJson(address), Map::class.java),
                 aptComplexName = aptComplexName,
