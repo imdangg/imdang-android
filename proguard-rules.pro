@@ -2,6 +2,7 @@
 -keep class info.imdang.imdang.model.** { *; }
 -keep class info.imdang.domain.model.** { *; }
 -keep class info.imdang.data.model.** { *; }
+-keep class info.imdang.component.* { *; }
 
 # KAKAO
 -keep class com.kakao.sdk.**.model.* { <fields>; }
