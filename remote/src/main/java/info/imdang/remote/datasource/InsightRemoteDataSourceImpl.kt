@@ -51,6 +51,22 @@ internal class InsightRemoteDataSourceImpl @Inject constructor(
         aptComplex = aptComplex
     )
 
+    override suspend fun getInsightsByAddress(
+        siGunGu: String,
+        eupMyeonDong: String,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto> = insightService.getInsightsByAddress(
+        siGunGu = siGunGu,
+        eupMyeonDong = eupMyeonDong,
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties
+    )
+
     override suspend fun getInsightDetail(insightId: String): InsightDetailResponse =
         insightService.getInsightDetail(insightId)
 

@@ -106,6 +106,30 @@ internal class InsightRepositoryImpl @Inject constructor(
         totalCountListener = totalCountListener
     )
 
+    override suspend fun getInsightsByAddress(
+        siGunGu: String,
+        eupMyeonDong: String,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
+    ): Flow<PagingData<InsightDto>> = getPagingFlow(
+        initialPage = page ?: 0,
+        pageSize = size ?: 20,
+        loadData = { currentPage, pageSize ->
+            insightRemoteDataSource.getInsightsByAddress(
+                siGunGu = siGunGu,
+                eupMyeonDong = eupMyeonDong,
+                page = currentPage,
+                size = pageSize,
+                direction = direction,
+                properties = properties
+            ).mapper()
+        },
+        totalCountListener = totalCountListener
+    )
+
     override suspend fun getInsightDetail(insightId: String): InsightDetailDto =
         insightRemoteDataSource.getInsightDetail(insightId).mapper()
 

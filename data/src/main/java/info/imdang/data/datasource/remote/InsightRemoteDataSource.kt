@@ -32,6 +32,15 @@ interface InsightRemoteDataSource {
         aptComplex: String
     ): PagingResponse<InsightResponse, InsightDto>
 
+    suspend fun getInsightsByAddress(
+        siGunGu: String,
+        eupMyeonDong: String,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto>
+
     suspend fun getInsightDetail(insightId: String): InsightDetailResponse
 
     suspend fun recommendInsight(

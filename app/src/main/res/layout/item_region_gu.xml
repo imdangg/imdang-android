@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="info.imdang.imdang.model.address.RegionVo" />
+            type="info.imdang.imdang.model.district.DistrictVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
             style="@style/T_600_16_22_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.name}"
+            android:text="@{item.siGunGu}"
             android:textColor="@{item.isSelected ? @color/white : @color/gray_500}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

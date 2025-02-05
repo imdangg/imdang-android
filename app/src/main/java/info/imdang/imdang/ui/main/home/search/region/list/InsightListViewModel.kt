@@ -7,11 +7,13 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
-import info.imdang.domain.usecase.insight.GetInsightsWithPagingUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByAddressParams
+import info.imdang.domain.usecase.insight.GetInsightsByAddressUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.insight.mapper
-import info.imdang.imdang.ui.main.home.search.region.SearchByRegionActivity.Companion.REGION
+import info.imdang.imdang.ui.main.home.search.region.SearchByRegionActivity.Companion.EUP_MYEON_DONG
+import info.imdang.imdang.ui.main.home.search.region.SearchByRegionActivity.Companion.SI_GUN_GU
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,10 +24,11 @@ import javax.inject.Inject
 @HiltViewModel
 class InsightListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getInsightsWithPagingUseCase: GetInsightsWithPagingUseCase
+    private val getInsightsByAddressUseCase: GetInsightsByAddressUseCase
 ) : BaseViewModel() {
 
-    val region = savedStateHandle.getStateFlow(REGION, "")
+    val siGunGu = savedStateHandle.getStateFlow(SI_GUN_GU, "")
+    val eupMyeonDong = savedStateHandle.getStateFlow(EUP_MYEON_DONG, "")
 
     private val _event = MutableSharedFlow<InsightListEvent>()
     val event = _event.asSharedFlow()
@@ -39,11 +42,15 @@ class InsightListViewModel @Inject constructor(
 
     private fun fetchInsights() {
         viewModelScope.launch {
-            getInsightsWithPagingUseCase(
-                PagingParams(
-                    totalCountListener = {
-                        updatePagingState(itemCount = it)
-                    }
+            getInsightsByAddressUseCase(
+                GetInsightsByAddressParams(
+                    siGunGu = siGunGu.value,
+                    eupMyeonDong = eupMyeonDong.value,
+                    pagingParams = PagingParams(
+                        totalCountListener = {
+                            updatePagingState(itemCount = it)
+                        }
+                    )
                 )
             )
                 ?.cachedIn(this)

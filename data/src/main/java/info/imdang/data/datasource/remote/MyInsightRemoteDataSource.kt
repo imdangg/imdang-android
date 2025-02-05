@@ -12,7 +12,7 @@ interface MyInsightRemoteDataSource {
 
     suspend fun getComplexesByAddress(queries: Map<String, String>): List<AptComplexResponse>
 
-    suspend fun getInsightsByAddress(
+    suspend fun getMyInsightsByAddress(
         addressQueries: Map<String, String>,
         aptComplexName: String?,
         onlyMine: Boolean?,
