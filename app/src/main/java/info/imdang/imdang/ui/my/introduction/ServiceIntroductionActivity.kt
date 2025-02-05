@@ -5,6 +5,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.databinding.ActivityServiceIntroductionBinding
+import info.imdang.imdang.ui.main.home.search.HomeSearchFragment.Companion.FOCUS_VIEW
 
 @AndroidEntryPoint
 class ServiceIntroductionActivity :
@@ -14,12 +15,27 @@ class ServiceIntroductionActivity :
         super.onCreate(savedInstanceState)
 
         setupBinding()
+        scrollToFocusedView()
     }
 
     private fun setupBinding() {
         with(binding) {
             ivBack.setOnClickListener {
                 finish()
+            }
+        }
+    }
+
+    private fun scrollToFocusedView() {
+        with(binding) {
+            val focusView = intent.getBooleanExtra(FOCUS_VIEW, false)
+
+            if (focusView) {
+                nsvServiceIntroduction.post {
+                    nsvServiceIntroduction.smoothScrollTo(0, ivServiceIntroduction2.top)
+
+                    ivServiceIntroduction2.requestFocus()
+                }
             }
         }
     }
