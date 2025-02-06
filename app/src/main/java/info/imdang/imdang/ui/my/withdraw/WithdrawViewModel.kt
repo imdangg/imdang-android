@@ -3,8 +3,10 @@ package info.imdang.imdang.ui.my.withdraw
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.usecase.auth.GetLoginTypeUseCase
-import info.imdang.domain.usecase.auth.GetOriginAccessTokenUseCase
+import info.imdang.domain.usecase.auth.RemoveTokenUseCase
+import info.imdang.domain.usecase.mypage.WithdrawalKakaoUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.model.auth.LoginType
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WithdrawViewModel @Inject constructor(
     getLoginTypeUseCase: GetLoginTypeUseCase,
-    getOriginAccessTokenUseCase: GetOriginAccessTokenUseCase
+    private val removeTokenUseCase: RemoveTokenUseCase,
+    private val withdrawalKakaoUseCase: WithdrawalKakaoUseCase
 ) : BaseViewModel() {
 
     private val _event = MutableSharedFlow<WithdrawEvent>()
@@ -24,8 +27,7 @@ class WithdrawViewModel @Inject constructor(
     private val _isAgreeSelected = MutableStateFlow(false)
     val isAgreeSelected = _isAgreeSelected.asStateFlow()
 
-    val loginType = getLoginTypeUseCase()
-    val originAccessToken = getOriginAccessTokenUseCase()
+    private val loginType = getLoginTypeUseCase()
 
     fun onClickAgree() {
         _isAgreeSelected.value = !isAgreeSelected.value
@@ -34,6 +36,10 @@ class WithdrawViewModel @Inject constructor(
     fun onClickWithdraw() {
         if (isAgreeSelected.value) {
             viewModelScope.launch {
+                when (loginType) {
+                    LoginType.KAKAO.name -> withdrawalKakaoUseCase(Unit)
+                }
+                removeTokenUseCase(Unit)
                 _event.emit(WithdrawEvent.Withdraw)
             }
         }

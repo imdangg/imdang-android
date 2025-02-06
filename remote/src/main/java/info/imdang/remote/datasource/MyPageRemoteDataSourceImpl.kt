@@ -1,8 +1,10 @@
 package info.imdang.remote.datasource
 
 import info.imdang.data.datasource.remote.MyPageRemoteDataSource
+import info.imdang.data.model.request.auth.WithdrawRequest
 import info.imdang.data.model.response.mypage.MyPageResponse
 import info.imdang.remote.service.MyPageService
+import retrofit2.Response
 import javax.inject.Inject
 
 internal class MyPageRemoteDataSourceImpl @Inject constructor(
@@ -14,4 +16,7 @@ internal class MyPageRemoteDataSourceImpl @Inject constructor(
     ): MyPageResponse = myPageService.getMyPageInfo(
         memberId = memberId
     )
+
+    override suspend fun withdrawalKakao(withdrawRequest: WithdrawRequest): Response<Unit> =
+        myPageService.withdrawalKakao(withdrawRequest)
 }

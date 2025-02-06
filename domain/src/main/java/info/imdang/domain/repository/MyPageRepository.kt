@@ -7,4 +7,6 @@ interface MyPageRepository {
     suspend fun getMyPageInfo(
         memberId: String
     ): MyPageDto
+
+    suspend fun withdrawalKakao(accessToken: String)
 }
