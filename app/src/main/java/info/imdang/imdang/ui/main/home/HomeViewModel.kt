@@ -3,6 +3,7 @@ package info.imdang.imdang.ui.main.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import info.imdang.domain.usecase.coupon.GetCouponUseCase
 import info.imdang.domain.usecase.home.GetCloseTimeOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.GetFirstDateOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.SetCloseTimeOfHomeFreePassUseCase
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getCouponUseCase: GetCouponUseCase,
     private val getFirstDateOfHomeFreePassUseCase: GetFirstDateOfHomeFreePassUseCase,
     private val setFirstDateOfHomeFreePassUseCase: SetFirstDateOfHomeFreePassUseCase,
     private val getCloseTimeOfHomeFreePassUseCase: GetCloseTimeOfHomeFreePassUseCase,
@@ -27,6 +29,17 @@ class HomeViewModel @Inject constructor(
     val event = _event.asSharedFlow()
 
     init {
+        fetchCoupon()
+    }
+
+    private fun fetchCoupon() {
+        viewModelScope.launch {
+            val couponCount = getCouponUseCase(Unit)?.couponCount ?: 0
+            if (couponCount == 0) showFreePassPopup()
+        }
+    }
+
+    private fun showFreePassPopup() {
         viewModelScope.launch {
             val firstOpenDate = getFirstDateOfHomeFreePassUseCase(Unit)?.takeIf { it != 0L }
             if (firstOpenDate == null) {

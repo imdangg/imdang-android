@@ -51,7 +51,7 @@ class HomeExchangeViewModel @Inject constructor(
     init {
         fetchMyExchange(ExchangeRequestStatus.PENDING)
         fetchOthersExchange(ExchangeRequestStatus.PENDING)
-        fetchCouponCount()
+        fetchCoupon()
     }
 
     fun onChipClicked(chipId: Int) {
@@ -112,7 +112,7 @@ class HomeExchangeViewModel @Inject constructor(
         }
     }
 
-    private fun fetchCouponCount() {
+    private fun fetchCoupon() {
         viewModelScope.launch {
             getCouponCountUseCase(Unit)?.let {
                 _coupon.value = it.mapper()
