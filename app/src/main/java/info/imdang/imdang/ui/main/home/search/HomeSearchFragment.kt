@@ -31,6 +31,7 @@ import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsListene
 import info.imdang.imdang.ui.main.home.search.recommend.RecommendInsightsPagerAdapter
 import info.imdang.imdang.ui.main.home.search.region.SearchByRegionActivity
 import info.imdang.imdang.ui.main.home.search.visitcomplex.VisitComplexInsightListActivity
+import info.imdang.imdang.ui.my.introduction.ServiceIntroductionActivity
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -64,6 +65,11 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
     private fun setupBinding() {
         with(binding) {
             viewModel = this@HomeSearchFragment.viewModel
+            clHomeBanner.setOnClickListener {
+                requireContext().startActivity<ServiceIntroductionActivity>(
+                    bundle = bundleOf(FOCUS_VIEW to true)
+                )
+            }
             rvHomeVisitedAptComplex.run {
                 addItemDecoration(SpaceItemDecoration(space = 8))
                 adapter = BaseSingleViewAdapter(
@@ -225,6 +231,7 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
     companion object {
 
         const val SELECTED_COMPLEX_INDEX = "selectedComplexIndex"
+        const val FOCUS_VIEW = "focusView"
 
         fun instance(): HomeSearchFragment = HomeSearchFragment()
     }
