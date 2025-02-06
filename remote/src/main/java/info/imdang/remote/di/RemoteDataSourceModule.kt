@@ -13,6 +13,7 @@ import info.imdang.data.datasource.remote.GoogleRemoteDataSource
 import info.imdang.data.datasource.remote.InsightRemoteDataSource
 import info.imdang.data.datasource.remote.MyInsightRemoteDataSource
 import info.imdang.data.datasource.remote.MyExchangeRemoteDataSource
+import info.imdang.data.datasource.remote.MyPageRemoteDataSource
 import info.imdang.remote.datasource.AptComplexRemoteDataSourceImpl
 import info.imdang.remote.datasource.AuthRemoteDataSourceImpl
 import info.imdang.remote.datasource.CouponRemoteDataSourceImpl
@@ -22,6 +23,7 @@ import info.imdang.remote.datasource.GoogleRemoteDataSourceImpl
 import info.imdang.remote.datasource.InsightRemoteDataSourceImpl
 import info.imdang.remote.datasource.MyInsightRemoteDataSourceImpl
 import info.imdang.remote.datasource.MyExchangeRemoteDataSourceImpl
+import info.imdang.remote.datasource.MyPageRemoteDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -81,4 +83,10 @@ internal abstract class RemoteDataSourceModule {
     abstract fun bindDistrictRemoteDatasource(
         districtRemoteDataSourceImpl: DistrictRemoteDataSourceImpl
     ): DistrictRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindMyPageRemoteDatasource(
+        myPageRemoteDataSourceImpl: MyPageRemoteDataSourceImpl
+    ): MyPageRemoteDataSource
 }

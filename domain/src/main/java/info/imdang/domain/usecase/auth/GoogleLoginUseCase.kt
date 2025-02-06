@@ -12,6 +12,8 @@ class GoogleLoginUseCase @Inject constructor(
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
     private val saveMemberIdUseCase: SaveMemberIdUseCase,
+    private val saveLoginTypeUseCase: SaveLoginTypeUseCase,
+    private val saveOriginAccessTokenUseCase: SaveOriginAccessTokenUseCase,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : UseCase<String, LoginDto>(coroutineDispatcher = dispatcher) {
 
@@ -20,6 +22,8 @@ class GoogleLoginUseCase @Inject constructor(
         saveAccessTokenUseCase(loginDto.accessToken)
         saveRefreshTokenUseCase(loginDto.refreshToken)
         saveMemberIdUseCase(loginDto.memberId)
+        saveLoginTypeUseCase("GOOGLE")
+        saveOriginAccessTokenUseCase(parameters)
         return loginDto
     }
 }
