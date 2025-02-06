@@ -13,6 +13,7 @@ import info.imdang.remote.service.GoogleService
 import info.imdang.remote.service.InsightService
 import info.imdang.remote.service.MyInsightService
 import info.imdang.remote.service.MyExchangeService
+import info.imdang.remote.service.MyPageService
 import retrofit2.Retrofit
 import retrofit2.create
 import javax.inject.Named
@@ -75,4 +76,10 @@ internal object ServiceModule {
     fun bindDistrictService(
         @Named("imdang") retrofit: Retrofit
     ): DistrictService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun bindMyPageService(
+        @Named("imdang") retrofit: Retrofit
+    ): MyPageService = retrofit.create()
 }
