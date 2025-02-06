@@ -9,4 +9,6 @@ interface MyPageRepository {
     ): MyPageDto
 
     suspend fun withdrawalKakao(accessToken: String)
+
+    suspend fun withdrawalGoogle(accessToken: String)
 }

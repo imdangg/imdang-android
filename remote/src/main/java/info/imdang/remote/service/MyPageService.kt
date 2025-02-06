@@ -21,4 +21,10 @@ internal interface MyPageService {
     suspend fun withdrawalKakao(
         @Body withdrawRequest: WithdrawRequest
     ): Response<Unit>
+
+    /** 구글 회원 탈퇴 API */
+    @POST("members/withdrawal/google")
+    suspend fun withdrawalGoogle(
+        @Body withdrawRequest: WithdrawRequest
+    ): Response<Unit>
 }

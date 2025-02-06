@@ -21,4 +21,10 @@ class MyPageRepositoryImpl @Inject constructor(
             WithdrawRequest(token = accessToken)
         )
     }
+
+    override suspend fun withdrawalGoogle(accessToken: String) {
+        myPageRemoteDataSource.withdrawalGoogle(
+            WithdrawRequest(token = accessToken)
+        )
+    }
 }

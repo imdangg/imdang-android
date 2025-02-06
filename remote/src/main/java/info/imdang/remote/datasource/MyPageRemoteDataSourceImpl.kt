@@ -19,4 +19,7 @@ internal class MyPageRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun withdrawalKakao(withdrawRequest: WithdrawRequest): Response<Unit> =
         myPageService.withdrawalKakao(withdrawRequest)
+
+    override suspend fun withdrawalGoogle(withdrawRequest: WithdrawRequest): Response<Unit> =
+        myPageService.withdrawalGoogle(withdrawRequest)
 }

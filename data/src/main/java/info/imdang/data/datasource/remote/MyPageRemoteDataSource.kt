@@ -11,4 +11,6 @@ interface MyPageRemoteDataSource {
     ): MyPageResponse
 
     suspend fun withdrawalKakao(withdrawRequest: WithdrawRequest): Response<Unit>
+
+    suspend fun withdrawalGoogle(withdrawRequest: WithdrawRequest): Response<Unit>
 }
