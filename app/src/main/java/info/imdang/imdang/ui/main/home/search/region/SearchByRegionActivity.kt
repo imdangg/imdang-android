@@ -4,16 +4,21 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
+import info.imdang.imdang.common.bindingadapter.BaseSingleViewPagingAdapter
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivitySearchByRegionBinding
-import info.imdang.imdang.model.address.RegionVo
+import info.imdang.imdang.model.district.DistrictVo
 import info.imdang.imdang.ui.main.home.search.map.SearchByMapActivity
 import info.imdang.imdang.ui.main.home.search.region.list.InsightListActivity
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
@@ -22,11 +27,14 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
 
     private val viewModel by viewModels<SearchByRegionViewModel>()
 
+    private lateinit var adapter: BaseSingleViewPagingAdapter<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setupBinding()
         setupListener()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -37,32 +45,32 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
                     layoutResourceId = R.layout.item_region_gu,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@SearchByRegionActivity.viewModel),
-                    diffUtil = object : DiffUtil.ItemCallback<RegionVo>() {
+                    diffUtil = object : DiffUtil.ItemCallback<DistrictVo>() {
                         override fun areItemsTheSame(
-                            oldItem: RegionVo,
-                            newItem: RegionVo
-                        ): Boolean = oldItem.hashCode() == newItem.hashCode()
+                            oldItem: DistrictVo,
+                            newItem: DistrictVo
+                        ): Boolean = oldItem.code == newItem.code
 
                         override fun areContentsTheSame(
-                            oldItem: RegionVo,
-                            newItem: RegionVo
+                            oldItem: DistrictVo,
+                            newItem: DistrictVo
                         ): Boolean {
                             return oldItem == newItem
                         }
                     }
                 ).apply {
                     itemClickListener = { item, index ->
-                        if (item is RegionVo) {
+                        if (item is DistrictVo) {
                             this@SearchByRegionActivity.viewModel.selectGu(index)
                         }
                     }
                 }
             }
             rvDong.run {
-                adapter = BaseSingleViewAdapter(
+                this@SearchByRegionActivity.adapter = BaseSingleViewPagingAdapter(
                     layoutResourceId = R.layout.item_region_dong,
                     bindingItemId = BR.item,
-                    viewModel = mapOf(BR.viewModel to this@SearchByRegionActivity.viewModel),
+                    viewModel = emptyMap(),
                     diffUtil = object : DiffUtil.ItemCallback<String>() {
                         override fun areItemsTheSame(
                             oldItem: String,
@@ -81,11 +89,24 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
                         if (item is String) {
                             val selectedGu = this@SearchByRegionActivity.viewModel.getSelectedGu()
                             startActivity<InsightListActivity>(
-                                bundle = bundleOf(REGION to "$selectedGu $item")
+                                bundle = bundleOf(
+                                    SI_GUN_GU to selectedGu,
+                                    EUP_MYEON_DONG to item
+                                )
                             )
                         }
                     }
+                    setupLoadStateListener(
+                        scope = lifecycleScope,
+                        onLoading = {
+                            this@SearchByRegionActivity.viewModel.updatePagingState(isLoading = it)
+                        },
+                        onError = {
+                            this@SearchByRegionActivity.viewModel.updatePagingState(error = it)
+                        }
+                    )
                 }
+                adapter = this@SearchByRegionActivity.adapter
             }
         }
     }
@@ -101,7 +122,23 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
         }
     }
 
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            viewModel.event.collectLatest { event ->
+                when (event) {
+                    is SearchByRegionEvent.UpdateInsights -> {
+                        adapter.submitData(event.insights)
+                    }
+                    SearchByRegionEvent.ClearData -> {
+                        adapter.submitData(PagingData.empty())
+                    }
+                }
+            }
+        }
+    }
+
     companion object {
-        const val REGION = "region"
+        const val SI_GUN_GU = "siGunGu"
+        const val EUP_MYEON_DONG = "eupMyeonDong"
     }
 }

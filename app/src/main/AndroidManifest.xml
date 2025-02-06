@@ -59,6 +59,7 @@
         <activity android:name=".ui.my.term.ServiceTermActivity" />
         <activity android:name=".ui.my.withdraw.WithdrawActivity" />
         <activity android:name=".ui.write.address.KakaoAddressActivity" />
+        <activity android:name=".ui.my.introduction.ServiceIntroductionActivity" />
         <activity
             android:name=".ui.write.summary.WriteInsightSummaryActivity"
             android:windowSoftInputMode="adjustResize" />

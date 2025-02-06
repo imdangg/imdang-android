@@ -57,6 +57,16 @@ interface InsightRepository {
         totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>>
 
+    suspend fun getInsightsByAddress(
+        siGunGu: String,
+        eupMyeonDong: String,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
+    ): Flow<PagingData<InsightDto>>
+
     suspend fun getInsightDetail(insightId: String): InsightDetailDto
 
     suspend fun recommendInsight(

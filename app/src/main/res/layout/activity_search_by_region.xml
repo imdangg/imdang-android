@@ -108,7 +108,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_dong"
-            bindItemList="@{viewModel.dongList}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -14,7 +14,7 @@ interface MyInsightRepository {
 
     suspend fun getComplexesByAddress(address: AddressDto): List<AptComplexDto>
 
-    suspend fun getInsightsByAddress(
+    suspend fun getMyInsightsByAddress(
         address: AddressDto,
         aptComplexName: String?,
         onlyMine: Boolean?,

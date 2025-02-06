@@ -6,12 +6,14 @@ import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import info.imdang.imdang.BuildConfig
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityMyBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.login.LoginActivity
+import info.imdang.imdang.ui.my.introduction.ServiceIntroductionActivity
 import info.imdang.imdang.ui.my.term.ServiceTermActivity
 import info.imdang.imdang.ui.my.withdraw.WithdrawActivity
 import kotlinx.coroutines.launch
@@ -32,6 +34,10 @@ class MyActivity : BaseActivity<ActivityMyBinding>(R.layout.activity_my) {
     private fun setupBinding() {
         with(binding) {
             viewModel = this@MyActivity.viewModel
+            tvMyCurrentVersionInfo.text = getString(
+                info.imdang.component.R.string.current_version_info,
+                BuildConfig.VERSION_NAME
+            )
         }
     }
 
@@ -50,6 +56,9 @@ class MyActivity : BaseActivity<ActivityMyBinding>(R.layout.activity_my) {
                         this@MyActivity.viewModel.logout()
                     }
                 )
+            }
+            clMyServiceIntroduction.setOnClickListener {
+                startActivity<ServiceIntroductionActivity>()
             }
             clMyServiceTerm.setOnClickListener {
                 startActivity<ServiceTermActivity>()
