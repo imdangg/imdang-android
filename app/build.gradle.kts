@@ -81,6 +81,7 @@ android {
             applicationIdSuffix = ".dev"
             addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to DevConfig.KAKAO_NATIVE_KEY))
             addManifestPlaceholders(mapOf("NAVER_CLIENT_ID" to DevConfig.NAVER_CLIENT_ID))
+            addManifestPlaceholders(mapOf("APP_SCHEME" to DevConfig.APP_SCHEME))
             buildConfigField(
                 "String",
                 "KAKAO_NATIVE_KEY",
@@ -101,11 +102,17 @@ android {
                 "KAKAO_ADDRESS_SEARCH_SERVER",
                 "\"${DevConfig.KAKAO_ADDRESS_SEARCH_SERVER}\""
             )
+            buildConfigField(
+                "String",
+                "APP_SCHEME",
+                "\"${DevConfig.APP_SCHEME}\""
+            )
         }
         create("product") {
             dimension = "server"
             addManifestPlaceholders(mapOf("KAKAO_NATIVE_KEY" to ProductConfig.KAKAO_NATIVE_KEY))
             addManifestPlaceholders(mapOf("NAVER_CLIENT_ID" to ProductConfig.NAVER_CLIENT_ID))
+            addManifestPlaceholders(mapOf("APP_SCHEME" to ProductConfig.APP_SCHEME))
             buildConfigField(
                 "String",
                 "KAKAO_NATIVE_KEY",
@@ -125,6 +132,16 @@ android {
                 "String",
                 "KAKAO_ADDRESS_SEARCH_SERVER",
                 "\"${DevConfig.KAKAO_ADDRESS_SEARCH_SERVER}\""
+            )
+            buildConfigField(
+                "String",
+                "KAKAO_NATIVE_KEY",
+                "\"${ProductConfig.KAKAO_NATIVE_KEY}\""
+            )
+            buildConfigField(
+                "String",
+                "APP_SCHEME",
+                "\"${ProductConfig.APP_SCHEME}\""
             )
         }
     }
@@ -163,6 +180,7 @@ dependencies {
 
     // kakao
     implementation(libs.kakao.login)
+    implementation(libs.kakao.share)
 
     // naver
     implementation(libs.naver.map)
