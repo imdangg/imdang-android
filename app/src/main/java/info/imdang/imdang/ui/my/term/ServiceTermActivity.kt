@@ -27,7 +27,7 @@ class ServiceTermActivity :
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("https://www.notion.so/4d557e465d6143a3abc133397966c3d1?pvs=4")
+                        Uri.parse("https://principled-cry-2aa.notion.site/4d557e465d6143a3abc133397966c3d1")
                     )
                 )
             }
@@ -35,7 +35,7 @@ class ServiceTermActivity :
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("https://www.notion.so/54dd2a7ccd5a4c8193e06df782d02119?pvs=4")
+                        Uri.parse("https://principled-cry-2aa.notion.site/54dd2a7ccd5a4c8193e06df782d02119")
                     )
                 )
             }
