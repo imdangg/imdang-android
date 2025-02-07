@@ -8,17 +8,21 @@ import info.imdang.domain.usecase.home.GetCloseTimeOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.GetFirstDateOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.SetCloseTimeOfHomeFreePassUseCase
 import info.imdang.domain.usecase.home.SetFirstDateOfHomeFreePassUseCase
+import info.imdang.domain.usecase.mypage.GetMyPageInfoUseCase
 import info.imdang.imdang.common.util.diffDays
 import info.imdang.imdang.common.util.isToday
 import info.imdang.imdang.common.util.toLocalDate
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCouponUseCase: GetCouponUseCase,
+    private val getMyPageInfoUseCase: GetMyPageInfoUseCase,
     private val getFirstDateOfHomeFreePassUseCase: GetFirstDateOfHomeFreePassUseCase,
     private val setFirstDateOfHomeFreePassUseCase: SetFirstDateOfHomeFreePassUseCase,
     private val getCloseTimeOfHomeFreePassUseCase: GetCloseTimeOfHomeFreePassUseCase,
@@ -28,6 +32,9 @@ class HomeViewModel @Inject constructor(
     private val _event = MutableSharedFlow<HomeEvent>()
     val event = _event.asSharedFlow()
 
+    private val _nickname = MutableStateFlow("")
+    val nickname = _nickname.asStateFlow()
+
     init {
         fetchCoupon()
     }
@@ -35,7 +42,8 @@ class HomeViewModel @Inject constructor(
     private fun fetchCoupon() {
         viewModelScope.launch {
             val couponCount = getCouponUseCase(Unit)?.couponCount ?: 0
-            if (couponCount == 0) showFreePassPopup()
+            _nickname.value = getMyPageInfoUseCase(Unit)?.nickname ?: ""
+            if (couponCount == 0 && nickname.value.isNotBlank()) showFreePassPopup()
         }
     }
 

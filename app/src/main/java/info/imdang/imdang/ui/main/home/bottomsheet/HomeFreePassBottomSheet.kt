@@ -2,16 +2,20 @@ package info.imdang.imdang.ui.main.home.bottomsheet
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseBottomSheetDialogFragment
 import info.imdang.imdang.databinding.BottomSheetHomeFreePassBinding
+import info.imdang.imdang.ui.main.home.HomeViewModel
 import java.io.Serializable
 
 @AndroidEntryPoint
 class HomeFreePassBottomSheet : BaseBottomSheetDialogFragment<BottomSheetHomeFreePassBinding>(
     R.layout.bottom_sheet_home_free_pass
 ) {
+
+    private val viewModel by activityViewModels<HomeViewModel>()
 
     private lateinit var listener: HomeFreePassBottomSheetListener
 
@@ -25,6 +29,7 @@ class HomeFreePassBottomSheet : BaseBottomSheetDialogFragment<BottomSheetHomeFre
 
     private fun setupBinding() {
         with(binding) {
+            viewModel = this@HomeFreePassBottomSheet.viewModel
             ivClose.setOnClickListener { dismiss() }
             tvNotShowToday.setOnClickListener {
                 listener.onClickNotShowTodayButton()
