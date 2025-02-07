@@ -300,7 +300,7 @@ class WriteInsightBasicInfoFragment :
     }
 
     private fun createImageFile(): File? {
-        val imageFileName = "imdang_${nowDateTimeToString("yyyy_MM_dd_HH_mm_ss")}"
+        val imageFileName = "imdang_${nowDateTimeToString("yyyy_MM_dd_HH_mm_ss")}.jpg"
         return File.createTempFile(
             imageFileName,
             ".jpg",
@@ -316,7 +316,7 @@ class WriteInsightBasicInfoFragment :
     }
 
     private fun getFileFromContentUri(contentUri: Uri): File? {
-        val fileName = "imdang_${nowDateTimeToString("yyyy_MM_dd_HH_mm_ss")}"
+        val fileName = "imdang_${nowDateTimeToString("yyyy_MM_dd_HH_mm_ss")}.jpg"
         val tempFile = File(requireContext().cacheDir, fileName)
 
         try {
