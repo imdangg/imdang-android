@@ -76,8 +76,9 @@ class MainViewModel @Inject constructor(
                     memberId = memberId,
                     couponId = welcomeCouponId
                 )
-            )
-            _isShowTooltip.value = true
+            )?.let {
+                _isShowTooltip.value = true
+            }
         }
     }
 
