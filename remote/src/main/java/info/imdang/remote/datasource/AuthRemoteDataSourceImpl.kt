@@ -3,6 +3,7 @@ package info.imdang.remote.datasource
 import info.imdang.data.datasource.remote.AuthRemoteDataSource
 import info.imdang.data.model.request.auth.LoginRequest
 import info.imdang.data.model.request.auth.OnboardingRequest
+import info.imdang.data.model.request.auth.ReissueTokenRequest
 import info.imdang.data.model.response.auth.LoginResponse
 import info.imdang.data.model.response.auth.TokenResponse
 import info.imdang.remote.service.AuthService
@@ -24,5 +25,10 @@ internal class AuthRemoteDataSourceImpl @Inject constructor(
     ): Response<Unit> =
         authService.onboardingJoin(onboardingRequest)
 
-    override suspend fun reissueToken(): TokenResponse = authService.reissueToken()
+    override suspend fun reissueToken(reissueTokenRequest: ReissueTokenRequest): TokenResponse? =
+        try {
+            authService.reissueToken(reissueTokenRequest)
+        } catch (e: Exception) {
+            null
+        }
 }
