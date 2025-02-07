@@ -5,4 +5,5 @@ object ProductConfig {
         "838985514590-rsb1g12vd0h4rr7sv447hterg6gj3trk.apps.googleusercontent.com"
     const val NAVER_CLIENT_ID = "pdh1r07b6j"
     const val KAKAO_ADDRESS_SEARCH_SERVER = "https://imdangg.github.io/kakao-postcode-aos/"
+    const val APP_SCHEME = "imdang"
 }

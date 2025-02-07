@@ -1,10 +1,12 @@
 package info.imdang.imdang.ui.main
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,6 +17,8 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.databinding.ActivityMainBinding
 import info.imdang.imdang.ui.common.showCommonDialog
+import info.imdang.imdang.ui.insight.InsightDetailActivity
+import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
 import info.imdang.imdang.ui.login.LoginActivity
 import info.imdang.imdang.ui.main.home.HomeFragment
 import info.imdang.imdang.ui.main.storage.StorageFragment
@@ -46,6 +50,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setupFragment()
         setupCollect()
         setupExtra()
+
+        intent?.let(::onNewIntent)
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        intent.data?.getQueryParameter(INSIGHT_ID)?.let {
+            startActivity<InsightDetailActivity>(
+                bundle = bundleOf(INSIGHT_ID to it)
+            )
+        }
     }
 
     private fun setupBinding() {

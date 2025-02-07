@@ -15,6 +15,7 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.DividerItemDecoration
 import info.imdang.imdang.common.bindingadapter.ViewHolderType
 import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.util.shareKakao
 import info.imdang.imdang.databinding.ActivityInsightDetailBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.insight.bottomsheet.ExchangeItemsBottomSheet
@@ -80,6 +81,12 @@ class InsightDetailActivity :
                         }
                     )
                 }
+            }
+            ivShare.setOnClickListener {
+                shareKakao(
+                    context = this@InsightDetailActivity,
+                    insight = this@InsightDetailActivity.viewModel.insight.value
+                )
             }
             tlInsightDetail.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {

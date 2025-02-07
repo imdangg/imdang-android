@@ -5,4 +5,5 @@ object DevConfig {
         "999413225080-k2rugvbe1sn71gr8qka5n2jmuq7u692v.apps.googleusercontent.com"
     const val NAVER_CLIENT_ID = "pdh1r07b6j"
     const val KAKAO_ADDRESS_SEARCH_SERVER = "https://imdangg.github.io/kakao-postcode-aos/"
+    const val APP_SCHEME = "imdangdev"
 }
