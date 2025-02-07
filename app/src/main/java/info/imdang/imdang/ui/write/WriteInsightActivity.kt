@@ -55,7 +55,7 @@ class WriteInsightActivity :
             val drawable = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
                 setColor(
-                    if (isEnabled) {
+                    if (viewModel.isButtonEnabled.value) {
                         getColor(info.imdang.component.R.color.orange_500)
                     } else {
                         getColor(
@@ -81,7 +81,7 @@ class WriteInsightActivity :
             val drawable = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
                 setColor(
-                    if (isEnabled) {
+                    if (viewModel.isButtonEnabled.value) {
                         getColor(info.imdang.component.R.color.orange_500)
                     } else {
                         getColor(
