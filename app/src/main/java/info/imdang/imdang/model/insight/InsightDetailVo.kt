@@ -223,7 +223,7 @@ data class GoodNewsVo(
     val goodNewsReview: String
 ) : Parcelable
 
-fun InsightDetailDto.mapper(memberId: String): InsightDetailVo = InsightDetailVo(
+fun InsightDetailDto.mapper(memberId: String? = null): InsightDetailVo = InsightDetailVo(
     memberId = this.memberId,
     nickname = memberNickname,
     insightId = insightId,

@@ -57,7 +57,7 @@ class InsightDetailViewModel @Inject constructor(
     private val reportInsightUseCase: ReportInsightUseCase
 ) : BaseViewModel() {
 
-    private val insightId = savedStateHandle.getStateFlow(INSIGHT_ID, "")
+    val insightId = savedStateHandle[INSIGHT_ID] ?: ""
 
     private val memberId = getMemberIdUseCase()
 
@@ -92,9 +92,7 @@ class InsightDetailViewModel @Inject constructor(
 
     private fun fetchInsightDetail() {
         viewModelScope.launch {
-            _insight.value = getInsightDetailUseCase(
-                insightId.value
-            )?.mapper(memberId) ?: return@launch
+            _insight.value = getInsightDetailUseCase(insightId)?.mapper(memberId) ?: return@launch
             _insightDetails.value =
                 if (insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE ||
                     insight.value.insightDetailStatus == InsightDetailStatus.MY_INSIGHT

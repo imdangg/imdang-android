@@ -206,6 +206,7 @@ class WriteInsightActivity :
             launch {
                 viewModel.event.collect {
                     when (it) {
+                        WriteInsightEvent.UpdateButtonState -> updateButtonState(true)
                         is WriteInsightEvent.WriteInsightComplete -> {
                             showCommonDialog(
                                 message = getString(
@@ -263,5 +264,9 @@ class WriteInsightActivity :
             }
             background = drawable
         }
+    }
+
+    companion object {
+        const val INSIGHT_ID = "insightId"
     }
 }

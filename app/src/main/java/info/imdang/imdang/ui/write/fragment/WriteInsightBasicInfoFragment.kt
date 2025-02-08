@@ -158,7 +158,7 @@ class WriteInsightBasicInfoFragment :
                 parentLayout = tilDate,
                 onValidStateChanged = { isValid ->
                     with(this@WriteInsightBasicInfoFragment.viewModel) {
-                        updateInsightVisitDate(etDate.text.toString(), isValid)
+                        updateInsightVisitDate(etDate.text.toString())
                         updateInsightDateValid(isValid)
                     }
                     if (isValid) {

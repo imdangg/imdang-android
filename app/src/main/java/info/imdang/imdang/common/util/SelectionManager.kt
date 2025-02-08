@@ -48,6 +48,14 @@ class SelectionManager(private val isSingleSelection: Boolean = false) {
         }
     }
 
+    fun updateSelectedItems(items: Set<String>) {
+        _selectedItems.value = items
+    }
+
+    fun updateSelectedItem(item: String) {
+        _selectedItems.value = setOf(item)
+    }
+
     fun confirmReset(resetItem: String = "해당 없음") {
         _selectedItems.value = setOf(resetItem)
         _showResetDialog.value = false

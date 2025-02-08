@@ -5,5 +5,5 @@ enum class InsightDetailStatus(val text: String) {
     EXCHANGE_REQUESTED(text = ""),
     EXCHANGE_WAITING(text = "대기중"),
     EXCHANGE_COMPLETE(text = "교환 완료"),
-    MY_INSIGHT("")
+    MY_INSIGHT(text = "수정하기")
 }
