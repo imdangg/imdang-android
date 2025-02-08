@@ -8,6 +8,7 @@ import info.imdang.domain.model.insight.FavorableNewsDto
 import info.imdang.domain.model.insight.InfraDto
 
 data class WriteInsightDto(
+    val insightId: String? = null,
     val score: Int,
     val title: String,
     val address: AddressDto,

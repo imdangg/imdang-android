@@ -38,6 +38,24 @@ internal class InsightRepositoryImpl @Inject constructor(
         )
     ).mapper()
 
+    override suspend fun updateInsight(
+        writeInsightDto: WriteInsightDto,
+        mainImage: File?
+    ): InsightIdDto = insightRemoteDataSource.updateInsight(
+        updateInsightCommand = Gson().toJson(writeInsightDto).toRequestBody(
+            "application/json".toMediaTypeOrNull()
+        ),
+        mainImage = if (mainImage != null) {
+            MultipartBody.Part.createFormData(
+                "mainImage",
+                mainImage.name,
+                mainImage.asRequestBody()
+            )
+        } else {
+            null
+        }
+    ).mapper()
+
     override suspend fun getInsights(
         page: Int?,
         size: Int?,

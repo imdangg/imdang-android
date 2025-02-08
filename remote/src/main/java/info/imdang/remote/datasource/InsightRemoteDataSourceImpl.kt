@@ -25,6 +25,14 @@ internal class InsightRemoteDataSourceImpl @Inject constructor(
         mainImage = mainImage
     )
 
+    override suspend fun updateInsight(
+        updateInsightCommand: RequestBody,
+        mainImage: MultipartBody.Part?
+    ): InsightIdResponse = insightService.updateInsight(
+        updateInsightCommand = updateInsightCommand,
+        mainImage = mainImage
+    )
+
     override suspend fun getInsights(
         page: Int?,
         size: Int?,

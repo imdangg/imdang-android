@@ -11,13 +11,14 @@ import info.imdang.domain.model.insight.FavorableNewsDto
 import info.imdang.domain.model.insight.InfraDto
 import info.imdang.domain.model.insight.request.WriteInsightDto
 import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
+import info.imdang.domain.usecase.insight.UpdateInsightParams
+import info.imdang.domain.usecase.insight.UpdateInsightUseCase
 import info.imdang.domain.usecase.insight.WriteInsightParams
 import info.imdang.domain.usecase.insight.WriteInsightUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.util.SelectionManager
 import info.imdang.imdang.common.util.formatDate
 import info.imdang.imdang.common.util.formatSelectedItems
-import info.imdang.imdang.model.insight.InsightDetailVo
 import info.imdang.imdang.model.insight.mapper
 import info.imdang.imdang.ui.write.WriteInsightActivity.Companion.INSIGHT_ID
 import java.io.File
@@ -36,16 +37,14 @@ import javax.inject.Inject
 class WriteInsightViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getInsightDetailUseCase: GetInsightDetailUseCase,
-    private val writeInsightUseCase: WriteInsightUseCase
+    private val writeInsightUseCase: WriteInsightUseCase,
+    private val updateInsightUseCase: UpdateInsightUseCase
 ) : BaseViewModel() {
 
     private val insightId: String? = savedStateHandle[INSIGHT_ID]
 
     private val _event = MutableSharedFlow<WriteInsightEvent>()
     val event = _event.asSharedFlow()
-
-    private val _insight = MutableStateFlow<InsightDetailVo?>(null)
-    val insight = _insight.asStateFlow()
 
     private val _progress = MutableStateFlow("00%")
     val progress = _progress.asStateFlow()
@@ -483,6 +482,7 @@ class WriteInsightViewModel @Inject constructor(
     fun writeInsight() {
         viewModelScope.launch {
             val writeInsightDto = WriteInsightDto(
+                insightId = insightId,
                 score = progress.value.replace("%", "").toInt(),
                 title = insightTitle.value,
                 address = AddressDto(
@@ -544,20 +544,40 @@ class WriteInsightViewModel @Inject constructor(
                 )
             )
 
-            writeInsightUseCase(
-                WriteInsightParams(
-                    writeInsightDto = writeInsightDto,
-                    mainImage = coverImageFile.value ?: return@launch
-                ),
-                onError = {
-                    it.message?.let {
-                        launch {
-                            _event.emit(WriteInsightEvent.ShowToast(it))
+            if (insightId == null) {
+                // 인사이트 작성
+                writeInsightUseCase(
+                    WriteInsightParams(
+                        writeInsightDto = writeInsightDto,
+                        mainImage = coverImageFile.value ?: return@launch
+                    ),
+                    onError = {
+                        it.message?.let {
+                            launch {
+                                _event.emit(WriteInsightEvent.ShowToast(it))
+                            }
                         }
                     }
+                )?.let {
+                    _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
                 }
-            )?.let {
-                _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
+            } else {
+                // 인사이트 수정
+                updateInsightUseCase(
+                    UpdateInsightParams(
+                        writeInsightDto = writeInsightDto,
+                        mainImage = coverImageFile.value
+                    ),
+                    onError = {
+                        it.message?.let {
+                            launch {
+                                _event.emit(WriteInsightEvent.ShowToast(it))
+                            }
+                        }
+                    }
+                )?.let {
+                    _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
+                }
             }
         }
     }

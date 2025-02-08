@@ -17,6 +17,11 @@ interface InsightRemoteDataSource {
         mainImage: MultipartBody.Part
     ): InsightIdResponse
 
+    suspend fun updateInsight(
+        updateInsightCommand: RequestBody,
+        mainImage: MultipartBody.Part?
+    ): InsightIdResponse
+
     suspend fun getInsights(
         page: Int?,
         size: Int?,

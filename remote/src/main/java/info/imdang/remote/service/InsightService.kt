@@ -26,6 +26,14 @@ internal interface InsightService {
         @Part mainImage: MultipartBody.Part
     ): InsightIdResponse
 
+    /** 인사이트 수정 */
+    @Multipart
+    @POST("insights/update")
+    suspend fun updateInsight(
+        @Part("updateInsightCommand") updateInsightCommand: RequestBody,
+        @Part mainImage: MultipartBody.Part?
+    ): InsightIdResponse
+
     /** 오늘 새롭게 올라온 인사이트 목록 조회 */
     @GET("insights")
     suspend fun getInsights(

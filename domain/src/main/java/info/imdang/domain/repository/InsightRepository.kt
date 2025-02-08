@@ -13,6 +13,8 @@ interface InsightRepository {
 
     suspend fun writeInsight(writeInsightDto: WriteInsightDto, mainImage: File): InsightIdDto
 
+    suspend fun updateInsight(writeInsightDto: WriteInsightDto, mainImage: File?): InsightIdDto
+
     /**
      * 인사이트 목록 조회 (paging x)
      */
