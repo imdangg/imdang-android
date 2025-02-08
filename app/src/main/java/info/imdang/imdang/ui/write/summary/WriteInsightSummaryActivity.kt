@@ -2,15 +2,17 @@ package info.imdang.imdang.ui.write.summary
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.bindingadapter.bindVisible
-import info.imdang.imdang.common.ext.dpToPx
-import info.imdang.imdang.common.ext.screenHeight
+import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.databinding.ActivityWriteInsightSummaryBinding
 
 @AndroidEntryPoint
@@ -24,35 +26,36 @@ class WriteInsightSummaryActivity :
         setupExtra()
     }
 
-    @SuppressLint("ServiceCast", "InternalInsetResource", "DiscouragedApi")
     override fun onShowKeyboard(keyboardHeight: Int) {
         super.onShowKeyboard(keyboardHeight)
 
-        val inputHeight = screenHeight() - keyboardHeight - dpToPx(306)
-        val minHeight = dpToPx(142)
-        val maxHeight = dpToPx(180)
+        binding.svWriteInsightSummary.fullScroll(View.FOCUS_DOWN)
 
-        val layoutParams = binding.tilInsightSummary.layoutParams
-        layoutParams.height = when {
-            inputHeight < minHeight -> minHeight
-            inputHeight > maxHeight -> maxHeight
-            else -> inputHeight
-        }
-        binding.tilInsightSummary.layoutParams = layoutParams
+        setButtonDrawable(cornerRadius = 0f)
     }
 
     override fun onHideKeyboard() {
         super.onHideKeyboard()
 
-        val layoutParams = binding.tilInsightSummary.layoutParams
-        layoutParams.height = dpToPx(180)
-        binding.tilInsightSummary.layoutParams = layoutParams
+        setButtonDrawable(
+            cornerRadius = resources.getDimension(
+                info.imdang.component.R.dimen.default_corner_radius
+            )
+        )
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupListener() {
         with(binding) {
             ivBack.setOnClickListener {
                 finish()
+            }
+            etInsightSummary.setOnTouchListener { view, motionEvent ->
+                view.parent.requestDisallowInterceptTouchEvent(true)
+                if (motionEvent.action == MotionEvent.ACTION_UP) {
+                    view.parent.requestDisallowInterceptTouchEvent(false)
+                }
+                false
             }
             etInsightSummary.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -76,6 +79,7 @@ class WriteInsightSummaryActivity :
                     }
 
                     tvInsightSummaryConfirm.isEnabled = isValid
+                    setButtonDrawable(0f)
                 }
             })
             tvInsightSummaryConfirm.setOnClickListener {
@@ -97,6 +101,28 @@ class WriteInsightSummaryActivity :
                     setText(insightSummary)
                     setSelection(insightSummary.length)
                 }
+            }
+        }
+    }
+
+    private fun setButtonDrawable(cornerRadius: Float) {
+        with(binding.tvInsightSummaryConfirm) {
+            setMargin(
+                left = if (cornerRadius == 0f) 0 else 20,
+                right = if (cornerRadius == 0f) 0 else 20,
+                top = 0,
+                bottom = if (cornerRadius == 0f) 0 else 40
+            )
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(info.imdang.component.R.color.gray_100)
+                    }
+                )
+                this.cornerRadius = cornerRadius
             }
         }
     }
