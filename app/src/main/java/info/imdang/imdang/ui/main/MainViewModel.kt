@@ -70,7 +70,7 @@ class MainViewModel @Inject constructor(
 
     fun showTooltip() {
         viewModelScope.launch {
-            val welcomeCouponId = "4079f098-572c-4399-9728-a1e1e7f29d58"
+            val welcomeCouponId = "f79a5af2-8726-4f93-b3cb-f3432d252cd1"
             issueCouponUseCase(
                 IssueCouponParams(
                     memberId = memberId,
