@@ -107,7 +107,7 @@ class StorageViewModel @Inject constructor(
         _isCollapsed.value = isCollapsed
     }
 
-    fun getSelectedDong() = addresses.value.first { it.isSelected }.eupMyeonDong
+    fun getSelectedDong(): String = selectedAddress.value?.eupMyeonDong ?: ""
 
     fun selectInsightAddressPage(page: Int) {
         _selectedInsightAddressPage.value = page

@@ -87,13 +87,14 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
                 ).apply {
                     itemClickListener = { item, _ ->
                         if (item is String) {
-                            val selectedGu = this@SearchByRegionActivity.viewModel.getSelectedGu()
-                            startActivity<InsightListActivity>(
-                                bundle = bundleOf(
-                                    SI_GUN_GU to selectedGu,
-                                    EUP_MYEON_DONG to item
+                            this@SearchByRegionActivity.viewModel.getSelectedGu()?.let {
+                                startActivity<InsightListActivity>(
+                                    bundle = bundleOf(
+                                        SI_GUN_GU to it,
+                                        EUP_MYEON_DONG to item
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                     setupLoadStateListener(
