@@ -171,7 +171,7 @@
                     style="@style/T_600_16_22_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.myPageInfo.exchangeCount + `건`}"
+                    android:text="@{viewModel.myPageInfo.requestCount + `건`}"
                     android:textColor="@color/orange_500"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

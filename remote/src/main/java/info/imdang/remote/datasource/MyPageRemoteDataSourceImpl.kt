@@ -11,11 +11,7 @@ internal class MyPageRemoteDataSourceImpl @Inject constructor(
     private val myPageService: MyPageService
 ) : MyPageRemoteDataSource {
 
-    override suspend fun getMyPageInfo(
-        memberId: String
-    ): MyPageResponse = myPageService.getMyPageInfo(
-        memberId = memberId
-    )
+    override suspend fun getMyPageInfo(): MyPageResponse = myPageService.getMyPageInfo()
 
     override suspend fun withdrawalKakao(withdrawRequest: WithdrawRequest): Response<Unit> =
         myPageService.withdrawalKakao(withdrawRequest)

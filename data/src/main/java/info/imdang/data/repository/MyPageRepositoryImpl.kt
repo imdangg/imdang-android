@@ -10,11 +10,8 @@ class MyPageRepositoryImpl @Inject constructor(
     private val myPageRemoteDataSource: MyPageRemoteDataSource
 ) : MyPageRepository {
 
-    override suspend fun getMyPageInfo(
-        memberId: String
-    ): MyPageDto = myPageRemoteDataSource.getMyPageInfo(
-        memberId = memberId
-    ).mapper()
+    override suspend fun getMyPageInfo(): MyPageDto =
+        myPageRemoteDataSource.getMyPageInfo().mapper()
 
     override suspend fun withdrawalKakao(accessToken: String) {
         myPageRemoteDataSource.withdrawalKakao(
