@@ -11,6 +11,7 @@ import info.imdang.remote.service.DistrictService
 import info.imdang.remote.service.ExchangeService
 import info.imdang.remote.service.GoogleService
 import info.imdang.remote.service.InsightService
+import info.imdang.remote.service.MyCouponService
 import info.imdang.remote.service.MyInsightService
 import info.imdang.remote.service.MyExchangeService
 import info.imdang.remote.service.MyPageService
@@ -59,6 +60,12 @@ internal object ServiceModule {
     fun bindCouponService(
         @Named("imdang") retrofit: Retrofit
     ): CouponService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun bindMyCouponService(
+        @Named("imdang") retrofit: Retrofit
+    ): MyCouponService = retrofit.create()
 
     @Provides
     @Singleton

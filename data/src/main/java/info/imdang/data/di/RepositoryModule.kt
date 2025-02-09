@@ -12,6 +12,7 @@ import info.imdang.data.repository.ExchangeRepositoryImpl
 import info.imdang.data.repository.GoogleRepositoryImpl
 import info.imdang.data.repository.HomeRepositoryImpl
 import info.imdang.data.repository.InsightRepositoryImpl
+import info.imdang.data.repository.MyCouponRepositoryImpl
 import info.imdang.data.repository.MyInsightRepositoryImpl
 import info.imdang.data.repository.MyExchangeRepositoryImpl
 import info.imdang.data.repository.MyPageRepositoryImpl
@@ -24,6 +25,7 @@ import info.imdang.domain.repository.ExchangeRepository
 import info.imdang.domain.repository.GoogleRepository
 import info.imdang.domain.repository.HomeRepository
 import info.imdang.domain.repository.InsightRepository
+import info.imdang.domain.repository.MyCouponRepository
 import info.imdang.domain.repository.MyInsightRepository
 import info.imdang.domain.repository.MyExchangeRepository
 import info.imdang.domain.repository.MyPageRepository
@@ -75,6 +77,12 @@ internal abstract class RepositoryModule {
     abstract fun bindCouponRepository(
         couponRepositoryImpl: CouponRepositoryImpl
     ): CouponRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindMyCouponRepository(
+        myCouponRepositoryImpl: MyCouponRepositoryImpl
+    ): MyCouponRepository
 
     @Binds
     @Singleton

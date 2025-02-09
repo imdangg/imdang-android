@@ -11,6 +11,7 @@ import info.imdang.data.datasource.remote.DistrictRemoteDataSource
 import info.imdang.data.datasource.remote.ExchangeRemoteDataSource
 import info.imdang.data.datasource.remote.GoogleRemoteDataSource
 import info.imdang.data.datasource.remote.InsightRemoteDataSource
+import info.imdang.data.datasource.remote.MyCouponRemoteDataSource
 import info.imdang.data.datasource.remote.MyInsightRemoteDataSource
 import info.imdang.data.datasource.remote.MyExchangeRemoteDataSource
 import info.imdang.data.datasource.remote.MyPageRemoteDataSource
@@ -22,6 +23,7 @@ import info.imdang.remote.datasource.DistrictRemoteDataSourceImpl
 import info.imdang.remote.datasource.ExchangeRemoteDataSourceImpl
 import info.imdang.remote.datasource.GoogleRemoteDataSourceImpl
 import info.imdang.remote.datasource.InsightRemoteDataSourceImpl
+import info.imdang.remote.datasource.MyCouponRemoteDataSourceImpl
 import info.imdang.remote.datasource.MyInsightRemoteDataSourceImpl
 import info.imdang.remote.datasource.MyExchangeRemoteDataSourceImpl
 import info.imdang.remote.datasource.MyPageRemoteDataSourceImpl
@@ -67,6 +69,12 @@ internal abstract class RemoteDataSourceModule {
     abstract fun bindCouponRemoteDatasource(
         couponRemoteDataSourceImpl: CouponRemoteDataSourceImpl
     ): CouponRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindMyCouponRemoteDatasource(
+        myCouponRemoteDataSourceImpl: MyCouponRemoteDataSourceImpl
+    ): MyCouponRemoteDataSource
 
     @Binds
     @Singleton
