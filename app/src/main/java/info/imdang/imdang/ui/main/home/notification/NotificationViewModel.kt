@@ -86,7 +86,7 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch {
             when (category) {
                 NotificationCategory.REQUESTED -> {
-                    _event.emit(NotificationEvent.MoveInsightDetailActivity)
+                    // todo : 교환 수락
                 }
 
                 NotificationCategory.ACCEPTED -> {
@@ -97,6 +97,12 @@ class NotificationViewModel @Inject constructor(
                     _event.emit(NotificationEvent.MoveInsightDetailActivity)
                 }
             }
+        }
+    }
+
+    fun onClickAction2Button(category: NotificationCategory) {
+        if (category == NotificationCategory.REQUESTED) {
+            // todo : 교환 거절
         }
     }
 }
