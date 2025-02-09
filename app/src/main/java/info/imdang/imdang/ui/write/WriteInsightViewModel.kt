@@ -1,5 +1,6 @@
 package info.imdang.imdang.ui.write
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.AddressDto
@@ -9,12 +10,17 @@ import info.imdang.domain.model.insight.ComplexFacilityDto
 import info.imdang.domain.model.insight.FavorableNewsDto
 import info.imdang.domain.model.insight.InfraDto
 import info.imdang.domain.model.insight.request.WriteInsightDto
+import info.imdang.domain.usecase.insight.GetInsightDetailUseCase
+import info.imdang.domain.usecase.insight.UpdateInsightParams
+import info.imdang.domain.usecase.insight.UpdateInsightUseCase
 import info.imdang.domain.usecase.insight.WriteInsightParams
 import info.imdang.domain.usecase.insight.WriteInsightUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.util.SelectionManager
 import info.imdang.imdang.common.util.formatDate
 import info.imdang.imdang.common.util.formatSelectedItems
+import info.imdang.imdang.model.insight.mapper
+import info.imdang.imdang.ui.write.WriteInsightActivity.Companion.INSIGHT_ID
 import java.io.File
 import java.util.Locale
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -29,8 +35,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WriteInsightViewModel @Inject constructor(
-    private val writeInsightUseCase: WriteInsightUseCase
+    savedStateHandle: SavedStateHandle,
+    private val getInsightDetailUseCase: GetInsightDetailUseCase,
+    private val writeInsightUseCase: WriteInsightUseCase,
+    private val updateInsightUseCase: UpdateInsightUseCase
 ) : BaseViewModel() {
+
+    private val insightId: String? = savedStateHandle[INSIGHT_ID]
 
     private val _event = MutableSharedFlow<WriteInsightEvent>()
     val event = _event.asSharedFlow()
@@ -54,8 +65,14 @@ class WriteInsightViewModel @Inject constructor(
     private val _coverImageFile = MutableStateFlow<File?>(null)
     val coverImageFile = _coverImageFile.asStateFlow()
 
+    private val _coverImageUrl = MutableStateFlow<String?>(null)
+    val coverImageUrl = _coverImageUrl.asStateFlow()
+
+    private val _isCoverImageValid = MutableStateFlow(false)
+    val isCoverImageValid = _isCoverImageValid.asStateFlow()
+
     private val _insightTitle = MutableStateFlow("")
-    private val insightTitle = _insightTitle.asStateFlow()
+    val insightTitle = _insightTitle.asStateFlow()
 
     private val _isInsightTitleFocused = MutableStateFlow(false)
     val isInsightTitleFocused = _isInsightTitleFocused.asStateFlow()
@@ -79,7 +96,7 @@ class WriteInsightViewModel @Inject constructor(
     val isInsightAptAddressValid = _isInsightAptAddressValid.asStateFlow()
 
     private val _insightVisitDate = MutableStateFlow("")
-    private val insightVisitDate = _insightVisitDate.asStateFlow()
+    val insightVisitDate = _insightVisitDate.asStateFlow()
 
     private val _isInsightDateFocused = MutableStateFlow(false)
     val isInsightDateFocused = _isInsightDateFocused.asStateFlow()
@@ -215,7 +232,7 @@ class WriteInsightViewModel @Inject constructor(
     val goodNewsReviewValid = _goodNewsReview.isValid()
 
     private val basicInfoValid = listOf(
-        coverImageFile.isCheckVisible(),
+        isCoverImageValid,
         isInsightTitleValid,
         isInsightAptAddressValid,
         isInsightDateValid,
@@ -259,6 +276,75 @@ class WriteInsightViewModel @Inject constructor(
         goodNewsPolicyManager.selectedItems.isCheckVisible()
     )
 
+    init {
+        fetchInsightDetail()
+    }
+
+    private fun fetchInsightDetail() {
+        insightId ?: return
+        viewModelScope.launch {
+            val insight = getInsightDetailUseCase(insightId)?.mapper() ?: return@launch
+
+            // 기본 정보
+            _coverImageUrl.value = insight.mainImage
+            _isCoverImageValid.value = true
+            _insightTitle.value = insight.title
+            _isInsightTitleValid.value = true
+            _insightAptAddress.value = insight.address.toJibunAddress()
+            _isInsightAptAddressValid.value = true
+            _insightAptName.value = insight.aptComplex
+            _latitude.value = insight.address.latitude ?: 0.0
+            _longitude.value = insight.address.longitude ?: 0.0
+            _insightVisitDate.value = insight.visitAt
+            _isInsightDateValid.value = true
+            _insightSelectedTimes.value = insight.visitTimes.toSet()
+            _insightSelectedTraffics.value = insight.visitMethods.toSet()
+            _insightSelectedEntrances.value = insight.access
+            _insightSummary.value = insight.summary
+            // 인프라
+            insight.infra?.run {
+                infraTrafficManager.updateSelectedItems(traffics.toSet())
+                infraSchoolManager.updateSelectedItems(schools.toSet())
+                infraLivingAmenityManager.updateSelectedItems(lifeFacilities.toSet())
+                infraFacilitiesManager.updateSelectedItems(cultureFacilities.toSet())
+                infraEnvironmentManager.updateSelectedItems(surroundingEnvironments.toSet())
+                infraLandmarkManager.updateSelectedItems(landmarks.toSet())
+                infraAvoidFacilityManager.updateSelectedItems(avoidFacilities.toSet())
+                _infraReview.value = infraReview
+            }
+            // 단지 환경
+            insight.complexEnvironment?.run {
+                complexEnvironmentBuildingManager.updateSelectedItem(building)
+                complexEnvironmentSafetyManager.updateSelectedItem(safety)
+                complexEnvironmentChildrenFacilityManager.updateSelectedItem(childrenFacility)
+                complexEnvironmentSilverFacilityManager.updateSelectedItem(silverFacility)
+                _complexFacilityReview.value = complexEnvironmentReview
+            }
+            // 단지 시설
+            insight.complexFacility?.run {
+                complexFacilityFamilyManager.updateSelectedItems(familyFacilities.toSet())
+                complexFacilityMultiPurposeManager
+                    .updateSelectedItems(multipurposeFacilities.toSet())
+                complexFacilityLeisureManager.updateSelectedItems(leisureFacilities.toSet())
+                complexFacilityEnvironmentManager.updateSelectedItems(environments.toSet())
+                _complexFacilityReview.value = complexFacilityReview
+            }
+            // 호재
+            insight.goodNews?.run {
+                goodNewsTrafficManager.updateSelectedItems(traffics.toSet())
+                goodNewsDevelopmentManager.updateSelectedItems(developments.toSet())
+                goodNewsEducationManager.updateSelectedItems(educations.toSet())
+                goodNewsNaturalEnvironmentManager.updateSelectedItems(naturalEnvironments.toSet())
+                goodNewsCultureManager.updateSelectedItems(cultures.toSet())
+                goodNewsIndustryManager.updateSelectedItems(industries.toSet())
+                goodNewsPolicyManager.updateSelectedItems(policies.toSet())
+                _goodNewsReview.value = goodNewsReview
+            }
+
+            _event.emit(WriteInsightEvent.UpdateButtonState)
+        }
+    }
+
     fun updateProgress() {
         var progress = if (basicInfoValid.all { it.value }) 20 else 0
         progress += if (infraValid.all { it.value }) 10 else 0
@@ -288,6 +374,7 @@ class WriteInsightViewModel @Inject constructor(
 
     fun updateCoverImageFile(file: File?) {
         _coverImageFile.value = file
+        _isCoverImageValid.value = true
     }
 
     fun updateInsightTitle(title: String) {
@@ -322,15 +409,8 @@ class WriteInsightViewModel @Inject constructor(
         _isInsightAptAddressValid.value = isValid
     }
 
-    fun updateInsightVisitDate(visitDate: String, isValid: Boolean) {
-        _insightVisitDate.value = if (isValid) {
-            visitDate.formatDate(
-                fromFormat = "yyyy.MM.dd",
-                toFormat = "yyyy-MM-dd"
-            )
-        } else {
-            visitDate
-        }
+    fun updateInsightVisitDate(visitDate: String) {
+        _insightVisitDate.value = visitDate
     }
 
     fun updateInsightDateFocused(isFocused: Boolean) {
@@ -402,6 +482,7 @@ class WriteInsightViewModel @Inject constructor(
     fun writeInsight() {
         viewModelScope.launch {
             val writeInsightDto = WriteInsightDto(
+                insightId = insightId,
                 score = progress.value.replace("%", "").toInt(),
                 title = insightTitle.value,
                 address = AddressDto(
@@ -417,7 +498,10 @@ class WriteInsightViewModel @Inject constructor(
                 apartmentComplex = ApartmentComplexDto(
                     name = insightAptName.value
                 ),
-                visitAt = insightVisitDate.value,
+                visitAt = insightVisitDate.value.formatDate(
+                    fromFormat = "yyyy.MM.dd",
+                    toFormat = "yyyy-MM-dd"
+                ),
                 visitTimes = insightSelectedTimes.formatSelectedItems(),
                 visitMethods = insightSelectedTraffics.formatSelectedItems(),
                 access = insightSelectedEntrances.value?.replace(" ", "_") ?: "",
@@ -460,20 +544,40 @@ class WriteInsightViewModel @Inject constructor(
                 )
             )
 
-            writeInsightUseCase(
-                WriteInsightParams(
-                    writeInsightDto = writeInsightDto,
-                    mainImage = coverImageFile.value ?: return@launch
-                ),
-                onError = {
-                    it.message?.let {
-                        launch {
-                            _event.emit(WriteInsightEvent.ShowToast(it))
+            if (insightId == null) {
+                // 인사이트 작성
+                writeInsightUseCase(
+                    WriteInsightParams(
+                        writeInsightDto = writeInsightDto,
+                        mainImage = coverImageFile.value ?: return@launch
+                    ),
+                    onError = {
+                        it.message?.let {
+                            launch {
+                                _event.emit(WriteInsightEvent.ShowToast(it))
+                            }
                         }
                     }
+                )?.let {
+                    _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
                 }
-            )?.let {
-                _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
+            } else {
+                // 인사이트 수정
+                updateInsightUseCase(
+                    UpdateInsightParams(
+                        writeInsightDto = writeInsightDto,
+                        mainImage = coverImageFile.value
+                    ),
+                    onError = {
+                        it.message?.let {
+                            launch {
+                                _event.emit(WriteInsightEvent.ShowToast(it))
+                            }
+                        }
+                    }
+                )?.let {
+                    _event.emit(WriteInsightEvent.WriteInsightComplete(it.insightId))
+                }
             }
         }
     }

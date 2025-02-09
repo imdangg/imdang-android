@@ -6,7 +6,8 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.insight.InsightDto
-import info.imdang.domain.usecase.insight.GetInsightsWithPagingUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByDateParams
+import info.imdang.domain.usecase.insight.GetInsightsByDateWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.insight.mapper
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewInsightViewModel @Inject constructor(
-    private val getInsightsWithPagingUseCase: GetInsightsWithPagingUseCase
+    private val getInsightsByDateWithPagingUseCase: GetInsightsByDateWithPagingUseCase
 ) : BaseViewModel() {
 
     private val _event = MutableSharedFlow<NewInsightListEvent>()
@@ -34,11 +35,13 @@ class NewInsightViewModel @Inject constructor(
 
     private fun fetchInsights() {
         viewModelScope.launch {
-            getInsightsWithPagingUseCase(
-                PagingParams(
-                    totalCountListener = {
-                        updatePagingState(itemCount = it)
-                    }
+            getInsightsByDateWithPagingUseCase(
+                GetInsightsByDateParams(
+                    pagingParams = PagingParams(
+                        totalCountListener = {
+                            updatePagingState(itemCount = it)
+                        }
+                    )
                 )
             )
                 ?.cachedIn(this)

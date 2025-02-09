@@ -48,7 +48,7 @@
             <ImageView
                 android:id="@+id/iv_cover_image"
                 bindCornerRadius="@{4}"
-                bindImageFile="@{viewModel.coverImageFile}"
+                bindImage="@{viewModel.coverImageFile ?? viewModel.coverImageUrl}"
                 android:layout_width="140dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
@@ -58,7 +58,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_image_container"
-                bindVisible="@{viewModel.coverImageFile == null}"
+                bindVisible="@{!viewModel.isCoverImageValid}"
                 android:layout_width="140dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
@@ -79,7 +79,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_image_add"
-                bindVisible="@{viewModel.coverImageFile == null}"
+                bindVisible="@{!viewModel.isCoverImageValid}"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginStart="20dp"
@@ -116,7 +116,7 @@
             <TextView
                 android:id="@+id/tv_image_edit"
                 style="@style/T_600_12_16_8"
-                bindVisible="@{viewModel.coverImageFile != null}"
+                bindVisible="@{viewModel.isCoverImageValid}"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginStart="20dp"
@@ -206,6 +206,7 @@
                     android:maxLength="20"
                     android:padding="16dp"
                     android:singleLine="true"
+                    android:text="@{viewModel.insightTitle}"
                     android:textColor="@color/gray_900" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -342,6 +343,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_basic_information_edittext"
+                    android:text="@{viewModel.insightVisitDate}"
                     android:hint="@string/hint_date_of_visit"
                     android:inputType="number"
                     android:maxLength="10"

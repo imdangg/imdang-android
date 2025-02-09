@@ -23,6 +23,7 @@ import info.imdang.imdang.ui.insight.bottomsheet.MyInsightsBottomSheetListener
 import info.imdang.imdang.ui.main.MainActivity
 import info.imdang.imdang.ui.main.MainActivity.Companion.MOVE_EXCHANGE
 import info.imdang.imdang.ui.main.MainActivity.Companion.MOVE_STORAGE
+import info.imdang.imdang.ui.write.WriteInsightActivity
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -109,6 +110,13 @@ class InsightDetailActivity :
                         true
                     )
                 }
+            }
+            btnInsightDetailEdit.setOnClickListener {
+                startActivity<WriteInsightActivity>(
+                    bundle = bundleOf(
+                        INSIGHT_ID to this@InsightDetailActivity.viewModel.insightId
+                    )
+                )
             }
         }
     }

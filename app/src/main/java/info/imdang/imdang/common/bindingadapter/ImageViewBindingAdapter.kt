@@ -12,14 +12,13 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.model.insight.InsightDetailStatus
-import java.io.File
 
 @BindingAdapter(
     value = ["bindImage", "bindCornerRadius", "bindPlaceHolder"],
     requireAll = false
 )
 fun ImageView.bindImage(
-    url: String?,
+    image: Any?,
     cornerRadius: Int = 0,
     placeHolder: Drawable? = null
 ) {
@@ -29,31 +28,7 @@ fun ImageView.bindImage(
         RequestOptions().transform(CenterCrop())
     }
     Glide.with(context)
-        .load(url)
-        .apply(
-            requestOptions
-                .error(placeHolder)
-                .placeholder(placeHolder)
-        )
-        .into(this)
-}
-
-@BindingAdapter(
-    value = ["bindImageFile", "bindCornerRadius", "bindPlaceHolder"],
-    requireAll = false
-)
-fun ImageView.bindImageFile(
-    file: File?,
-    cornerRadius: Int = 0,
-    placeHolder: Drawable? = null
-) {
-    val requestOptions = if (cornerRadius > 0) {
-        RequestOptions().transform(CenterCrop(), RoundedCorners(context.dpToPx(cornerRadius)))
-    } else {
-        RequestOptions().transform(CenterCrop())
-    }
-    Glide.with(context)
-        .load(file)
+        .load(image)
         .apply(
             requestOptions
                 .error(placeHolder)

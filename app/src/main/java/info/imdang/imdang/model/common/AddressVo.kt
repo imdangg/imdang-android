@@ -15,6 +15,8 @@ data class AddressVo(
     val latitude: Double?,
     val longitude: Double?
 ) : Parcelable {
+    fun toJibunAddress() = "${toSiGuDong()} $buildingNumber"
+
     fun toSiGuDong() = "$siDo $siGunGu $eupMyeonDong"
 
     fun toGuDong() = "$siGunGu $eupMyeonDong"

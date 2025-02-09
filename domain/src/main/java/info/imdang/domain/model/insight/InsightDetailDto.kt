@@ -7,7 +7,7 @@ data class InsightDetailDto(
     val memberNickname: String,
     val insightId: String,
     val snapshotId: Long?,
-    val mainImage: String,
+    val mainImage: String?,
     val title: String,
     val address: AddressDto,
     val apartmentComplex: ApartmentComplexDto,
@@ -27,6 +27,7 @@ data class InsightDetailDto(
     val viewCount: Int?,
     val score: Int,
     val createdAt: String?,
+    val createdByMe: Boolean?,
     val exchangeRequestStatus: String?,
     val exchangeRequestCreatedByMe: Boolean?,
     val exchangeRequestId: String?

@@ -283,7 +283,6 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <View
-            bindVisible="@{viewModel.insight.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/gradient_gray25_100"
@@ -291,7 +290,6 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_insight_detail_buttons"
-            bindVisible="@{viewModel.insight.insightDetailStatus != InsightDetailStatus.MY_INSIGHT}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
@@ -310,6 +308,22 @@
                 android:stateListAnimator="@null"
                 android:text="@{viewModel.insight.insightDetailStatus.text}"
                 android:textColor="@color/color_white_gray500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="교환 요청" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_insight_detail_edit"
+                style="@style/T_600_16_22_4"
+                bindVisible="@{viewModel.insight.insightDetailStatus == InsightDetailStatus.MY_INSIGHT}"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@drawable/selector_white_orange500_all8"
+                android:clickable="true"
+                android:stateListAnimator="@null"
+                android:text="@{viewModel.insight.insightDetailStatus.text}"
+                android:textColor="@color/orange_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

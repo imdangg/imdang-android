@@ -13,7 +13,7 @@ internal interface NotificationService {
     suspend fun hasNewNotification(): Boolean
 
     /** 알림 목록 조회 */
-    @GET("notifications/checked")
+    @GET("notifications")
     suspend fun getNotifications(
         @Query("pageNumber") page: Int?,
         @Query("pageSize") size: Int?,
