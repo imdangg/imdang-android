@@ -70,11 +70,10 @@ class MainViewModel @Inject constructor(
 
     fun showTooltip() {
         viewModelScope.launch {
-            val welcomeCouponId = "f79a5af2-8726-4f93-b3cb-f3432d252cd1"
             issueCouponUseCase(
                 IssueCouponParams(
                     memberId = memberId,
-                    couponId = welcomeCouponId
+                    name = "Welcome"
                 )
             )?.let {
                 _isShowTooltip.value = true
