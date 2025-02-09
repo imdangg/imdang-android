@@ -3,7 +3,7 @@ package info.imdang.imdang.model.insight
 sealed class InsightDetailItem {
 
     data class BasicInfo(
-        val mainImage: String,
+        val mainImage: String?,
         val title: String,
         val address: String,
         val latitude: Double,

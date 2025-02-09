@@ -22,7 +22,7 @@ data class InsightDetailVo(
     val nickname: String,
     val insightId: String,
     val snapshotId: Long?,
-    val mainImage: String,
+    val mainImage: String?,
     val title: String,
     val address: AddressVo,
     val aptComplex: String,
@@ -42,6 +42,7 @@ data class InsightDetailVo(
     val viewCount: Int,
     val score: Int,
     val createdAt: String?,
+    val createdByMe: Boolean,
     val insightDetailStatus: InsightDetailStatus,
     val isMyExchangeRequest: Boolean,
     val exchangeRequestId: String?
@@ -90,6 +91,7 @@ data class InsightDetailVo(
             viewCount = 0,
             score = 0,
             createdAt = "",
+            createdByMe = true,
             insightDetailStatus = InsightDetailStatus.MY_INSIGHT,
             isMyExchangeRequest = false,
             exchangeRequestId = null
@@ -174,6 +176,7 @@ data class InsightDetailVo(
             viewCount = 10,
             score = 100,
             createdAt = "",
+            createdByMe = true,
             insightDetailStatus = InsightDetailStatus.EXCHANGE_REQUEST,
             isMyExchangeRequest = false,
             exchangeRequestId = null
@@ -248,6 +251,7 @@ fun InsightDetailDto.mapper(memberId: String? = null): InsightDetailVo = Insight
     viewCount = viewCount ?: 0,
     score = score,
     createdAt = createdAt,
+    createdByMe = createdByMe ?: false,
     insightDetailStatus = ExchangeRequestStatus
         .fromString(exchangeRequestStatus)
         .toInsightDetailStatus(

@@ -1,7 +1,7 @@
 package info.imdang.remote.datasource
 
 import info.imdang.data.datasource.remote.AptComplexRemoteDataSource
-import info.imdang.data.model.response.aptcomplex.VisitAptComplexResponse
+import info.imdang.data.model.response.insight.VisitAptComplexResponse
 import info.imdang.remote.service.AptComplexService
 import javax.inject.Inject
 

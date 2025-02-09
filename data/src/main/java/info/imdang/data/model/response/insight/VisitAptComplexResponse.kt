@@ -1,4 +1,4 @@
-package info.imdang.data.model.response.aptcomplex
+package info.imdang.data.model.response.insight
 
 import info.imdang.data.mapper.DataToDomainMapper
 import info.imdang.domain.model.aptcomplex.VisitAptComplexDto

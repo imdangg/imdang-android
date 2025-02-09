@@ -7,6 +7,8 @@ import info.imdang.domain.model.insight.InsightDto
 import info.imdang.domain.usecase.aptcomplex.GetVisitedAptComplexesUseCase
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexParams
 import info.imdang.domain.usecase.insight.GetInsightsByAptComplexUseCase
+import info.imdang.domain.usecase.insight.GetInsightsByDateParams
+import info.imdang.domain.usecase.insight.GetInsightsByDateUseCase
 import info.imdang.domain.usecase.insight.GetInsightsUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.ext.snakeToCamelCase
@@ -25,6 +27,7 @@ import javax.inject.Inject
 class HomeSearchViewModel @Inject constructor(
     private val getVisitedAptComplexesUseCase: GetVisitedAptComplexesUseCase,
     private val getInsightsByAptComplexUseCase: GetInsightsByAptComplexUseCase,
+    private val getInsightsByDateUseCase: GetInsightsByDateUseCase,
     private val getInsightsUseCase: GetInsightsUseCase
 ) : BaseViewModel() {
 
@@ -78,8 +81,8 @@ class HomeSearchViewModel @Inject constructor(
 
     private fun fetchInsights() {
         viewModelScope.launch {
-            _newInsights.value = getInsightsUseCase(
-                PagingParams(size = 5)
+            _newInsights.value = getInsightsByDateUseCase(
+                GetInsightsByDateParams(pagingParams = PagingParams(size = 5))
             )?.content?.map(InsightDto::mapper)?.take(5) ?: emptyList()
         }
     }

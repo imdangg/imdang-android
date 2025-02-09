@@ -7,6 +7,7 @@ import info.imdang.data.model.response.common.PagingResponse
 import info.imdang.data.model.response.insight.InsightDetailResponse
 import info.imdang.data.model.response.insight.InsightIdResponse
 import info.imdang.data.model.response.insight.InsightResponse
+import info.imdang.data.model.response.insight.VisitAptComplexResponse
 import info.imdang.domain.model.insight.InsightDto
 import info.imdang.remote.service.InsightService
 import okhttp3.MultipartBody
@@ -75,6 +76,20 @@ internal class InsightRemoteDataSourceImpl @Inject constructor(
         properties = properties
     )
 
+    override suspend fun getInsightsByDate(
+        date: String?,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?
+    ): PagingResponse<InsightResponse, InsightDto> = insightService.getInsightsByDate(
+        date = date,
+        page = page,
+        size = size,
+        direction = direction,
+        properties = properties
+    )
+
     override suspend fun getInsightDetail(insightId: String): InsightDetailResponse =
         insightService.getInsightDetail(insightId)
 
@@ -85,4 +100,7 @@ internal class InsightRemoteDataSourceImpl @Inject constructor(
     override suspend fun reportInsight(
         reportInsightRequest: ReportInsightRequest
     ): InsightIdResponse = insightService.reportInsight(reportInsightRequest)
+
+    override suspend fun getVisitedAptComplexes(): List<VisitAptComplexResponse> =
+        insightService.getVisitedAptComplexes()
 }

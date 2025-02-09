@@ -14,7 +14,7 @@ data class InsightDetailResponse(
     val memberNickname: String,
     val insightId: String,
     val snapshotId: Long?,
-    val mainImage: String,
+    val mainImage: String?,
     val title: String,
     val address: AddressResponse,
     val apartmentComplex: ApartmentComplexResponse,
@@ -34,6 +34,7 @@ data class InsightDetailResponse(
     val viewCount: Int?,
     val score: Int,
     val createdAt: String?,
+    val createdByMe: Boolean?,
     val exchangeRequestStatus: String?,
     val exchangeRequestCreatedByMe: Boolean?,
     val exchangeRequestId: String?
@@ -63,6 +64,7 @@ data class InsightDetailResponse(
         viewCount = viewCount,
         score = score,
         createdAt = createdAt,
+        createdByMe = createdByMe,
         exchangeRequestStatus = exchangeRequestStatus,
         exchangeRequestCreatedByMe = exchangeRequestCreatedByMe,
         exchangeRequestId = exchangeRequestId

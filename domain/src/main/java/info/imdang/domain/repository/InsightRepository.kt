@@ -1,6 +1,7 @@
 package info.imdang.domain.repository
 
 import androidx.paging.PagingData
+import info.imdang.domain.model.aptcomplex.VisitAptComplexDto
 import info.imdang.domain.model.common.PagingDto
 import info.imdang.domain.model.insight.InsightDetailDto
 import info.imdang.domain.model.insight.InsightDto
@@ -69,6 +70,24 @@ interface InsightRepository {
         totalCountListener: ((Int) -> Unit)?
     ): Flow<PagingData<InsightDto>>
 
+    suspend fun getInsightsByDate(
+        date: String?,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
+    ): PagingDto<InsightDto>
+
+    suspend fun getInsightsByDateWithPaging(
+        date: String?,
+        page: Int?,
+        size: Int?,
+        direction: String?,
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
+    ): Flow<PagingData<InsightDto>>
+
     suspend fun getInsightDetail(insightId: String): InsightDetailDto
 
     suspend fun recommendInsight(
@@ -80,4 +99,6 @@ interface InsightRepository {
         insightId: String,
         memberId: String
     ): InsightIdDto
+
+    suspend fun getVisitedAptComplexes(): List<VisitAptComplexDto>
 }

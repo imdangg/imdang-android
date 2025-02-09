@@ -1,6 +1,6 @@
 package info.imdang.remote.service
 
-import info.imdang.data.model.response.aptcomplex.VisitAptComplexResponse
+import info.imdang.data.model.response.insight.VisitAptComplexResponse
 import retrofit2.http.GET
 
 internal interface AptComplexService {
