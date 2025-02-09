@@ -45,77 +45,84 @@
             android:background="@color/gray_100"
             app:layout_constraintTop_toBottomOf="@id/cl_write_overall_review_top_bar" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
+            android:id="@+id/sv_write_overall_review"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="20dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_overall_review_confirm"
             app:layout_constraintTop_toBottomOf="@id/view_divider">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_insight_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/tv_overall_review_subject"
-                    style="@style/T_600_14_19_6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/gray_700"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/infra_review" />
-
-                <TextView
-                    style="@style/T_500_12_16_8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/insight_summary_input_count_guide"
-                    android:textColor="@color/gray_500"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_overall_review_subject"
-                    app:layout_constraintEnd_toStartOf="@id/tv_overall_review_count"
-                    app:layout_constraintTop_toTopOf="@id/tv_overall_review_subject" />
-
-                <TextView
-                    android:id="@+id/tv_overall_review_count"
-                    style="@style/T_500_12_16_8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/orange_500"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_overall_review_subject"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_overall_review_subject"
-                    tools:text=" (21/200)" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_overall_review"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_insight_summary"
                     android:layout_width="match_parent"
-                    android:layout_height="290dp"
-                    android:layout_marginTop="8dp"
-                    android:textColorHint="@color/gray_400"
-                    app:hintEnabled="false"
-                    app:hintTextAppearance="@style/T_500_16_22_4"
-                    app:layout_constraintTop_toBottomOf="@id/tv_overall_review_subject">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_overall_review"
-                        style="@style/T_500_16_22_4"
+                    <TextView
+                        android:id="@+id/tv_overall_review_subject"
+                        style="@style/T_600_14_19_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/gray_700"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/infra_review" />
+
+                    <TextView
+                        style="@style/T_500_12_16_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/insight_summary_input_count_guide"
+                        android:textColor="@color/gray_500"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_overall_review_subject"
+                        app:layout_constraintEnd_toStartOf="@id/tv_overall_review_count"
+                        app:layout_constraintTop_toTopOf="@id/tv_overall_review_subject" />
+
+                    <TextView
+                        android:id="@+id/tv_overall_review_count"
+                        style="@style/T_500_12_16_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/orange_500"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_overall_review_subject"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_overall_review_subject"
+                        tools:text=" (21/200)" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_overall_review"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_basic_information_edittext"
-                        android:gravity="top"
-                        android:maxLength="200"
-                        android:padding="16dp"
-                        android:textColor="@color/gray_900">
+                        android:layout_height="290dp"
+                        android:layout_marginTop="8dp"
+                        android:textColorHint="@color/gray_400"
+                        app:hintEnabled="false"
+                        app:hintTextAppearance="@style/T_500_16_22_4"
+                        app:layout_constraintTop_toBottomOf="@id/tv_overall_review_subject">
 
-                        <requestFocus />
-                    </com.google.android.material.textfield.TextInputEditText>
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_overall_review"
+                            style="@style/T_500_16_22_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_basic_information_edittext"
+                            android:gravity="top"
+                            android:maxLength="200"
+                            android:padding="16dp"
+                            android:textColor="@color/gray_900">
+
+                            <requestFocus />
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <TextView
             android:id="@+id/tv_overall_review_confirm"

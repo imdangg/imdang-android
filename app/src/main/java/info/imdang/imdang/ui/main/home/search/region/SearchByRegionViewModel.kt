@@ -61,7 +61,7 @@ class SearchByRegionViewModel @Inject constructor(
             _event.emit(SearchByRegionEvent.ClearData)
             getEupMyeonDongUseCase(
                 parameters = GetEupMyeonDongParams(
-                    siGunGu = getSelectedGu(),
+                    siGunGu = getSelectedGu() ?: return@launch,
                     pagingParams = PagingParams(size = 30)
                 )
             )
@@ -74,7 +74,7 @@ class SearchByRegionViewModel @Inject constructor(
         }
     }
 
-    fun getSelectedGu(): String = guList.value.first { it.isSelected }.siGunGu
+    fun getSelectedGu(): String? = guList.value.firstOrNull { it.isSelected }?.siGunGu
 
     fun updatePagingState(
         isLoading: Boolean? = null,

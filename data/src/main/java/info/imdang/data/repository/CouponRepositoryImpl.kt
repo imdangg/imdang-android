@@ -15,11 +15,11 @@ internal class CouponRepositoryImpl @Inject constructor(
 
     override suspend fun issueCoupon(
         memberId: String,
-        couponId: String
+        name: String
     ) = couponRemoteDataSource.issueCoupon(
         IssueCouponRequest(
             memberId = memberId,
-            couponId = couponId
+            name = name
         )
     )
 }

@@ -2,5 +2,5 @@ package info.imdang.data.model.request.coupon
 
 data class IssueCouponRequest(
     val memberId: String,
-    val couponId: String
+    val name: String
 )

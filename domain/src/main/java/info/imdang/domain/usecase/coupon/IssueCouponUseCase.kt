@@ -13,11 +13,11 @@ class IssueCouponUseCase @Inject constructor(
 
     override suspend fun execute(parameters: IssueCouponParams) = couponRepository.issueCoupon(
         memberId = parameters.memberId,
-        couponId = parameters.couponId
+        name = parameters.name
     )
 }
 
 data class IssueCouponParams(
     val memberId: String,
-    val couponId: String
+    val name: String
 )

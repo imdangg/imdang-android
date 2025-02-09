@@ -2,15 +2,16 @@ package info.imdang.imdang.ui.write.review
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.bindingadapter.bindVisible
-import info.imdang.imdang.common.ext.dpToPx
-import info.imdang.imdang.common.ext.screenHeight
+import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.databinding.ActivityWriteOverallReviewBinding
 
 @AndroidEntryPoint
@@ -27,30 +28,31 @@ class WriteOverallReviewActivity :
     override fun onShowKeyboard(keyboardHeight: Int) {
         super.onShowKeyboard(keyboardHeight)
 
-        val inputHeight = screenHeight() - dpToPx(194)
-        val maxHeight = dpToPx(290)
-
-        val layoutParams = binding.tilOverallReview.layoutParams
-        layoutParams.height = if (inputHeight > maxHeight) {
-            maxHeight
-        } else {
-            inputHeight
-        }
-        binding.tilOverallReview.layoutParams = layoutParams
+        setButtonDrawable(cornerRadius = 0f)
     }
 
     override fun onHideKeyboard() {
         super.onHideKeyboard()
 
-        val layoutParams = binding.tilOverallReview.layoutParams
-        layoutParams.height = dpToPx(290)
-        binding.tilOverallReview.layoutParams = layoutParams
+        setButtonDrawable(
+            cornerRadius = resources.getDimension(
+                info.imdang.component.R.dimen.default_corner_radius
+            )
+        )
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupListener() {
         with(binding) {
             ivBack.setOnClickListener {
                 finish()
+            }
+            etOverallReview.setOnTouchListener { view, motionEvent ->
+                view.parent.requestDisallowInterceptTouchEvent(true)
+                if (motionEvent.action == MotionEvent.ACTION_UP) {
+                    view.parent.requestDisallowInterceptTouchEvent(false)
+                }
+                false
             }
             etOverallReview.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -74,6 +76,7 @@ class WriteOverallReviewActivity :
                     }
 
                     tvOverallReviewConfirm.isEnabled = isValid
+                    setButtonDrawable(0f)
                 }
             })
             tvOverallReviewConfirm.setOnClickListener {
@@ -101,6 +104,28 @@ class WriteOverallReviewActivity :
                     setText(insightSummary)
                     setSelection(insightSummary.length)
                 }
+            }
+        }
+    }
+
+    private fun setButtonDrawable(cornerRadius: Float) {
+        with(binding.tvOverallReviewConfirm) {
+            setMargin(
+                left = if (cornerRadius == 0f) 0 else 20,
+                right = if (cornerRadius == 0f) 0 else 20,
+                top = 0,
+                bottom = if (cornerRadius == 0f) 0 else 40
+            )
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    if (isEnabled) {
+                        getColor(info.imdang.component.R.color.orange_500)
+                    } else {
+                        getColor(info.imdang.component.R.color.gray_100)
+                    }
+                )
+                this.cornerRadius = cornerRadius
             }
         }
     }
