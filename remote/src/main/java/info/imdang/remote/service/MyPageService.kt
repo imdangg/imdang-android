@@ -6,15 +6,12 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 internal interface MyPageService {
 
     /** 마이 페이지 정보 조회 */
-    @GET("members/info")
-    suspend fun getMyPageInfo(
-        @Query("memberId") memberId: String
-    ): MyPageResponse
+    @GET("members/detail")
+    suspend fun getMyPageInfo(): MyPageResponse
 
     /** 카카오 회원 탈퇴 API */
     @POST("members/withdrawal/kakao")

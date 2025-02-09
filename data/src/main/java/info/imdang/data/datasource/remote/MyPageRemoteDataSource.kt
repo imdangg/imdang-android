@@ -6,9 +6,7 @@ import retrofit2.Response
 
 interface MyPageRemoteDataSource {
 
-    suspend fun getMyPageInfo(
-        memberId: String
-    ): MyPageResponse
+    suspend fun getMyPageInfo(): MyPageResponse
 
     suspend fun withdrawalKakao(withdrawRequest: WithdrawRequest): Response<Unit>
 
