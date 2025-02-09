@@ -1,6 +1,7 @@
 package info.imdang.imdang.ui.join.bottomsheet
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -45,6 +46,19 @@ class ServiceTermBottomSheet : BaseBottomSheetDialogFragment<BottomSheetServiceT
 
     private fun setupListener() {
         with(binding) {
+            clRequiredServiceTerm.setOnClickListener {
+                val url = "https://principled-cry-2aa.notion.site/54dd2a7ccd5a4c8193e06df782d02119"
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+            clRequiredPrivacyTerm.setOnClickListener {
+                val url = "https://principled-cry-2aa.notion.site/4d557e465d6143a3abc133397966c3d1"
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+            clOptionalMarketingAndNotifications.setOnClickListener {
+                val url = "https://principled-cry-2aa.notion.site/15518cb101a5803ea628dc2f0822711d"
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+
             tvAgreeAndContinueButton.setOnClickListener {
                 dismiss()
                 listener.onClickAgreeContinueButton()
