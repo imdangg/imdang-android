@@ -15,7 +15,7 @@ class ReissueTokenUseCase @Inject constructor(
     override suspend fun execute(parameters: Unit): TokenDto? {
         val tokenDto = repository.reissueToken(
             memberId = repository.getMemberId(),
-            refreshToken = repository.getRefreshToken(),
+            refreshToken = repository.getRefreshToken()
         )
         tokenDto?.let {
             repository.saveAccessToken(tokenDto.accessToken)
