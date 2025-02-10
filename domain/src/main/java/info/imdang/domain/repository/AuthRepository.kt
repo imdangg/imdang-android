@@ -2,6 +2,7 @@ package info.imdang.domain.repository
 
 import info.imdang.domain.model.auth.LoginDto
 import info.imdang.domain.model.auth.OnboardingDto
+import info.imdang.domain.model.auth.TokenDto
 
 interface AuthRepository {
 
@@ -20,6 +21,8 @@ interface AuthRepository {
     suspend fun removeToken()
 
     suspend fun onboardingJoin(onboardingRequest: OnboardingDto)
+
+    suspend fun reissueToken(memberId: String, refreshToken: String): TokenDto?
 
     fun saveMemberId(memberId: String)
 
