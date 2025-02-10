@@ -3,6 +3,7 @@ package info.imdang.imdang.ui.splash
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.usecase.auth.GetTokenUseCase
+import info.imdang.domain.usecase.auth.ReissueTokenUseCase
 import info.imdang.imdang.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val getTokenUseCase: GetTokenUseCase
+    private val getTokenUseCase: GetTokenUseCase,
+    private val reissueTokenUseCase: ReissueTokenUseCase
 ) : BaseViewModel() {
 
     private val _event = MutableSharedFlow<SplashEvent>()
@@ -26,7 +28,9 @@ class SplashViewModel @Inject constructor(
                 if (accessToken.isNullOrBlank()) {
                     SplashEvent.MoveLoginActivity
                 } else {
-                    SplashEvent.MoveMainActivity
+                    reissueTokenUseCase(Unit)?.let {
+                        SplashEvent.MoveMainActivity
+                    } ?: SplashEvent.MoveLoginActivity
                 }
             )
         }
