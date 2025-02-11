@@ -14,15 +14,17 @@ class SpaceItemDecoration(private var space: Int) : RecyclerView.ItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
+        val position = parent.getChildAdapterPosition(view)
+        val isLast = position == parent.adapter?.itemCount?.minus(1)
         when (val layoutManager = parent.layoutManager) {
             is LinearLayoutManager -> {
                 when (layoutManager.orientation) {
                     RecyclerView.HORIZONTAL -> {
-                        outRect.right += getSpaceByLocation(layoutManager, view, space)
+                        outRect.right += getSpaceByLocation(isLast, view.context.dpToPx(space))
                     }
 
                     RecyclerView.VERTICAL -> {
-                        outRect.bottom += getSpaceByLocation(layoutManager, view, space)
+                        outRect.bottom += getSpaceByLocation(isLast, view.context.dpToPx(space))
                     }
                 }
             }
@@ -30,11 +32,7 @@ class SpaceItemDecoration(private var space: Int) : RecyclerView.ItemDecoration(
     }
 
     private fun getSpaceByLocation(
-        layoutManager: LinearLayoutManager,
-        view: View,
+        isLast: Boolean,
         space: Int
-    ): Int {
-        val isLast = layoutManager.getPosition(view) == layoutManager.itemCount - 1
-        return if (isLast) 0 else view.context.dpToPx(space)
-    }
+    ): Int = if (isLast) 0 else space
 }
