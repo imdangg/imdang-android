@@ -21,12 +21,12 @@ fun logScreen(screenName: String, screenClass: String) {
 fun logEvent(
     event: String,
     category: String,
-    action: String,
+    action: String? = null,
     label: String? = null
 ) {
     Firebase.analytics.logEvent(event) {
         param(CATEGORY, category)
-        param(ACTION, action)
+        action?.let { param(ACTION, it) }
         label?.let { param(LABEL, it) }
     }
 }

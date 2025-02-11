@@ -19,6 +19,7 @@ import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.databinding.FragmentHomeSearchBinding
 import info.imdang.imdang.model.aptcomplex.VisitAptComplexVo
 import info.imdang.imdang.model.insight.InsightVo
@@ -92,6 +93,12 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                 ).apply {
                     itemClickListener = { item, _ ->
                         if (item is VisitAptComplexVo) {
+                            logEvent(
+                                event = "내가 작성한 단지 인사이트(단지명)",
+                                category = "홈_탐색",
+                                action = "내가 작성_단지_click",
+                                label = item.aptComplexName
+                            )
                             this@HomeSearchFragment.viewModel.onClickVisitedAptComplex(item)
                         }
                     }
@@ -120,6 +127,12 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                     itemClickListener = { item, _ ->
                         mainViewModel.hideTooltip()
                         if (item is InsightVo) {
+                            logEvent(
+                                event = "내가 작성한 단지 인사이트(인사이트)",
+                                category = "홈_탐색",
+                                action = "내가 작성_인사이트_click",
+                                label = item.title
+                            )
                             requireContext().startActivity<InsightDetailActivity>(
                                 bundle = bundleOf(INSIGHT_ID to item.insightId)
                             )
@@ -150,6 +163,12 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                     itemClickListener = { item, _ ->
                         mainViewModel.hideTooltip()
                         if (item is InsightVo) {
+                            logEvent(
+                                event = "오늘 새롭게 올라온 인사이트(인사이트)",
+                                category = "홈_탐색",
+                                action = "신규_인사이트_click",
+                                label = item.title
+                            )
                             requireContext().startActivity<InsightDetailActivity>(
                                 bundle = bundleOf(INSIGHT_ID to item.insightId)
                             )
@@ -171,15 +190,38 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
     private fun setupListener() {
         with(binding) {
             clHomeSearch.setOnClickListener {
+                logEvent(
+                    event = "인사이트 탐색",
+                    category = "홈_탐색",
+                    action = "지역별 인사이트 탐색_click"
+                )
                 requireContext().startActivity<SearchByRegionActivity>()
             }
             clHomeMap.setOnClickListener {
+                logEvent(
+                    event = "지도(탐색)",
+                    category = "홈_탐색",
+                    action = "홈_지도_click"
+                )
                 requireContext().startActivity<SearchByMapActivity>()
+            }
+            clHomeBanner.setOnClickListener {
+                logEvent(
+                    event = "메인배너",
+                    category = "홈_탐색",
+                    action = "메인배너_click"
+                )
+                // todo : 서비스 소개 화면으로 이동
             }
             nsvHomeSearch.setOnScrollChangeListener { _, _, _, _, _ ->
                 mainViewModel.hideTooltip()
             }
             tvHomeVisitedAptComplexInsightSeeAll.setOnClickListener {
+                logEvent(
+                    event = "내가 작성한 단지 인사이트(전체보기)",
+                    category = "홈_탐색",
+                    action = "내가 작성_전체보기_click"
+                )
                 val viewModel = this@HomeSearchFragment.viewModel
                 if (viewModel.visitedAptComplexes.value.isNotEmpty()) {
                     mainViewModel.hideTooltip()
@@ -197,6 +239,11 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                 }
             }
             tvHomeNewInsightSeeAll.setOnClickListener {
+                logEvent(
+                    event = "오늘 새롭게 올라온 인사이트(전체보기)",
+                    category = "홈_탐색",
+                    action = "신규_전체보기_click"
+                )
                 mainViewModel.hideTooltip()
                 requireContext().startActivity<NewInsightListActivity>()
             }
@@ -210,6 +257,12 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
                 insights = this@HomeSearchFragment.viewModel.recommendInsights.value,
                 listener = object : RecommendInsightsListener {
                     override fun onClickInsight(insightVo: InsightVo) {
+                        logEvent(
+                            event = "추천수 Top10 인사이트(인사이트)",
+                            category = "홈_탐색",
+                            action = "추천_인사이트_click",
+                            label = insightVo.title
+                        )
                         mainViewModel.hideTooltip()
                         requireContext().startActivity<InsightDetailActivity>(
                             bundle = bundleOf(INSIGHT_ID to insightVo.insightId)
@@ -221,6 +274,11 @@ class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.frag
             registerOnPageChangeCallback(object : OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    logEvent(
+                        event = "추천수 Top10 인사이트(스와이프)",
+                        category = "홈_탐색",
+                        action = "추천_인사이트_swipe"
+                    )
                     mainViewModel.hideTooltip()
                     viewModel.selectRecommendInsightPage(position)
                 }

@@ -15,6 +15,7 @@ import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.common.ext.screenHeight
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.databinding.BottomSheetComplexBinding
 import info.imdang.imdang.model.myinsight.AptComplexVo
 import info.imdang.imdang.ui.main.storage.StorageViewModel
@@ -93,6 +94,12 @@ class ComplexBottomSheet :
                 ).apply {
                     itemClickListener = { item, _ ->
                         if (item is AptComplexVo) {
+                            logEvent(
+                                event = "인사이트 보관 리스트(단지)",
+                                category = "보관함",
+                                action = "보관함_단지_click",
+                                label = item.aptComplexName
+                            )
                             this@ComplexBottomSheet.viewModel.updateSelectedComplex(item)
                             dismiss()
                         }

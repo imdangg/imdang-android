@@ -13,6 +13,7 @@ import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.SpaceItemDecoration
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.databinding.FragmentHomeHistoryRequestedBinding
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
@@ -60,7 +61,21 @@ class HomeHistoryRequestedFragment :
                     }
                 ).apply {
                     itemClickListener = { item, _ ->
+                        val event = when (type) {
+                            ExchangeType.REQUESTED -> "내가 요청한 내역(인사이트)"
+                            ExchangeType.RECEIVED -> "요청 받은 내역(인사이트)"
+                        }
+                        val action = when (type) {
+                            ExchangeType.REQUESTED -> "요청한내역_인사이트_click"
+                            ExchangeType.RECEIVED -> "요청받은내역_인사이트_click"
+                        }
                         if (item is InsightVo) {
+                            logEvent(
+                                event = event,
+                                category = "홈_교환소",
+                                action = action,
+                                label = item.title
+                            )
                             requireContext().startActivity<InsightDetailActivity>(
                                 bundle = bundleOf(INSIGHT_ID to item.insightId)
                             )
