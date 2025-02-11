@@ -40,7 +40,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            binding.bnvMain.selectedItemId = R.id.menu_storage
+            val isMoveStorage = result.data?.getBooleanExtra(MOVE_STORAGE, false) ?: false
+            setupFragment()
+            if (isMoveStorage) {
+                lifecycleScope.launch {
+                    delay(100)
+                    binding.bnvMain.selectedItemId = R.id.menu_storage
+                }
+            }
         }
     }
 
@@ -144,7 +151,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             commit()
         }
         replaceFragment(homeFragment, storageFragment)
-        logScreen("메인_탐색", homeFragment::class.java.simpleName)
     }
 
     private fun replaceFragment(showFragment: Fragment, hideFragment: Fragment) {
