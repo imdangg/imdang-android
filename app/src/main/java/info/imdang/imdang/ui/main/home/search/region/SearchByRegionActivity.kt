@@ -32,6 +32,7 @@ class SearchByRegionActivity : BaseActivity<ActivitySearchByRegionBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("지역으로 찾기")
         setupBinding()
         setupListener()
         setupCollect()

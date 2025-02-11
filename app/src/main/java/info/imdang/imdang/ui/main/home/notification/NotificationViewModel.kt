@@ -6,6 +6,7 @@ import info.imdang.domain.model.common.PagingParams
 import info.imdang.domain.model.notification.NotificationDto
 import info.imdang.domain.usecase.notification.GetNotificationsUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.model.notification.NotificationCategory
 import info.imdang.imdang.model.notification.NotificationItem
 import info.imdang.imdang.model.notification.NotificationListType
@@ -78,6 +79,16 @@ class NotificationViewModel @Inject constructor(
     }
 
     fun onClickNotificationType(notificationListType: NotificationListType) {
+        logEvent(
+            event = "알림",
+            category = "알림",
+            action = "알림_카테고리_click",
+            label = when (notificationListType) {
+                NotificationListType.ALL -> "전체"
+                NotificationListType.REQUEST_HISTORY -> "내가요청한내역"
+                NotificationListType.REQUESTED_HISTORY -> "다른사람이요청한내역"
+            }
+        )
         _selectedNotificationListType.value = notificationListType
         fetchNotifications()
     }

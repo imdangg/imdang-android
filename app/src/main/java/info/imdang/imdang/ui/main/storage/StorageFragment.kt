@@ -21,6 +21,7 @@ import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
 import info.imdang.imdang.common.bindingadapter.BaseSingleViewPagingAdapter
 import info.imdang.imdang.common.ext.dpToPx
 import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.databinding.FragmentStorageBinding
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.myinsight.MyInsightAddressVo
@@ -82,6 +83,12 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                 ).apply {
                     itemClickListener = { item, _ ->
                         if (item is InsightVo) {
+                            logEvent(
+                                event = "인사이트 보관 리스트(인사이트)",
+                                category = "보관함",
+                                action = "보관함_인사이트_click",
+                                label = item.title
+                            )
                             requireContext().startActivity<InsightDetailActivity>(
                                 bundle = bundleOf(INSIGHT_ID to item.insightId)
                             )
@@ -145,6 +152,11 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
     private fun setupListener() {
         with(binding) {
             clStorageMap.setOnClickListener {
+                logEvent(
+                    event = "지도(보관)",
+                    category = "보관함",
+                    action = "보관함_지도_click"
+                )
                 requireContext().startActivity<StorageByMapActivity>()
             }
             clStorageTitle.setOnClickListener {
@@ -158,6 +170,11 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                 )
             }
             tvInsightAddressSeeAll.setOnClickListener {
+                logEvent(
+                    event = "보관 단지 및 인사이트 수",
+                    category = "보관함",
+                    action = "지역_전체보기_click"
+                )
                 addressResult.launch(
                     Intent(requireContext(), InsightAddressActivity::class.java).apply {
                         putExtra(
@@ -171,6 +188,11 @@ class StorageFragment : BaseFragment<FragmentStorageBinding>(R.layout.fragment_s
                 object : OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
+                        logEvent(
+                            event = "보관 단지 및 인사이트 수(지역)",
+                            category = "보관함",
+                            action = "지역_swipe"
+                        )
                         this@StorageFragment.viewModel.selectInsightAddressPage(position)
                     }
                 }

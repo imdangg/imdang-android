@@ -29,6 +29,7 @@ class BasicInformationActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("기본정보입력")
         init()
         showServiceTermBottomSheet()
     }

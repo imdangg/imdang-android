@@ -24,6 +24,7 @@ import info.imdang.domain.usecase.insight.ReportInsightUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsWithPagingUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.model.coupon.CouponVo
 import info.imdang.imdang.model.coupon.mapper
 import info.imdang.imdang.model.insight.ExchangeItem
@@ -176,6 +177,12 @@ class InsightDetailViewModel @Inject constructor(
         if (insight.value.isRecommended) return
 
         if (insight.value.insightDetailStatus == InsightDetailStatus.EXCHANGE_COMPLETE) {
+            logEvent(
+                event = "인사이트 상세 추천",
+                category = "인사이트_상세",
+                action = "인사이트상세_추천_click",
+                label = "추천 ${if (!insight.value.isRecommended) "on" else "off"}"
+            )
             viewModelScope.launch {
                 recommendInsightUseCase(
                     RecommendInsightParams(
@@ -212,6 +219,12 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun onClickRejectButton() {
+        logEvent(
+            event = "인사이트 교환",
+            category = "인사이트_상세",
+            action = "인사이트상세_상태_click",
+            label = "거절"
+        )
         viewModelScope.launch {
             rejectExchangeUseCase(
                 ResponseExchangeParams(
@@ -230,6 +243,12 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun onClickAcceptButton() {
+        logEvent(
+            event = "인사이트 교환",
+            category = "인사이트_상세",
+            action = "인사이트상세_상태_click",
+            label = "수락"
+        )
         viewModelScope.launch {
             acceptExchangeUseCase(
                 ResponseExchangeParams(
@@ -253,6 +272,12 @@ class InsightDetailViewModel @Inject constructor(
     }
 
     fun requestExchange() {
+        logEvent(
+            event = "인사이트 교환",
+            category = "인사이트_상세",
+            action = "인사이트상세_상태_click",
+            label = "요청"
+        )
         viewModelScope.launch {
             val selectedExchangeItem = selectedExchangeItem.value
             requestExchangeUseCase(

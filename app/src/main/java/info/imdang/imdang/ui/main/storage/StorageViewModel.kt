@@ -12,6 +12,7 @@ import info.imdang.domain.usecase.myinsight.GetComplexesByAddressUseCase
 import info.imdang.domain.usecase.myinsight.GetMyInsightsByAddressParams
 import info.imdang.domain.usecase.myinsight.GetMyInsightsByAddressUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.myinsight.AptComplexVo
 import info.imdang.imdang.model.myinsight.mapper
@@ -120,6 +121,10 @@ class StorageViewModel @Inject constructor(
     }
 
     fun toggleMyInsightOnly() {
+        // off -> on 일 때만 수집
+        if (!isSeeOnlyMyInsight.value) {
+            logEvent(event = "인사이트 보관 리스트(필터)", category = "보관함", action = "필터_click")
+        }
         _isSeeOnlyMyInsight.value = !isSeeOnlyMyInsight.value
         fetchInsightsByAddress()
     }

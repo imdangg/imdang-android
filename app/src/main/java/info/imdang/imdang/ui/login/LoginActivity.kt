@@ -74,6 +74,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        setName("로그인")
         userApiClient = UserApiClient.instance
         signInClient = Identity.getSignInClient(this)
         firebaseAuth = Firebase.auth

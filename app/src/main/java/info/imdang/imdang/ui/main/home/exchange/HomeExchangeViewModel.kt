@@ -9,6 +9,7 @@ import info.imdang.domain.usecase.coupon.GetCouponUseCase
 import info.imdang.domain.usecase.myexchange.GetMyExchangeUseCase
 import info.imdang.domain.usecase.myexchange.GetOthersExchangeUseCase
 import info.imdang.imdang.base.BaseViewModel
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.model.coupon.CouponVo
 import info.imdang.imdang.model.coupon.mapper
 import info.imdang.imdang.model.insight.ExchangeRequestStatus
@@ -57,10 +58,27 @@ class HomeExchangeViewModel @Inject constructor(
     fun onChipClicked(chipId: Int) {
         _selectedChipId.value = chipId
 
+        val event = when (currentExchangeType.value) {
+            ExchangeType.REQUESTED -> "내가 요청한 내역(교환상태)"
+            ExchangeType.RECEIVED -> "요청 받은 내역(교환상태)"
+        }
+        val action = when (currentExchangeType.value) {
+            ExchangeType.REQUESTED -> "요청한내역_상태_click"
+            ExchangeType.RECEIVED -> "요청받은내역_상태_click"
+        }
         val status = when (chipId) {
-            1 -> ExchangeRequestStatus.PENDING
-            2 -> ExchangeRequestStatus.REJECTED
-            3 -> ExchangeRequestStatus.ACCEPTED
+            1 -> {
+                logEvent(event = event, category = "홈_교환소", action = action, label = "대기중")
+                ExchangeRequestStatus.PENDING
+            }
+            2 -> {
+                logEvent(event = event, category = "홈_교환소", action = action, label = "거절")
+                ExchangeRequestStatus.REJECTED
+            }
+            3 -> {
+                logEvent(event = event, category = "홈_교환소", action = action, label = "교환완료")
+                ExchangeRequestStatus.ACCEPTED
+            }
             else -> null
         }
 

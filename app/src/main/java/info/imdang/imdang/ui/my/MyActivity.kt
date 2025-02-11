@@ -26,6 +26,7 @@ class MyActivity : BaseActivity<ActivityMyBinding>(R.layout.activity_my) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("마이페이지")
         setupBinding()
         setupListener()
         setupCollect()

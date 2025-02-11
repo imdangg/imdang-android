@@ -25,6 +25,7 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>(R.layout.acti
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("온보딩")
         window.statusBarColor = getColor(info.imdang.component.R.color.gray_50)
 
         setupBinding()

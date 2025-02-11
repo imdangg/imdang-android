@@ -14,6 +14,7 @@ import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.hideKeyboard
 import info.imdang.imdang.common.ext.setMargin
 import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.databinding.ActivityWriteInsightBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.insight.InsightDetailActivity
@@ -33,6 +34,7 @@ class WriteInsightActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("인사이트 작성")
         showCommonDialog(
             message = getString(info.imdang.component.R.string.write_insight_message),
             positiveButtonText = getString(info.imdang.component.R.string.confirm)
@@ -153,6 +155,11 @@ class WriteInsightActivity :
                                 vpWriteInsight.currentItem = selectedPage.value + 1
                                 this@WriteInsightActivity.viewModel.updateProgress()
                             } else {
+                                logEvent(
+                                    event = "인사이트 작성완료",
+                                    category = "인사이트_작성_상세",
+                                    action = "작성완료_click"
+                                )
                                 this@WriteInsightActivity.viewModel.writeInsight()
                             }
                         } else {

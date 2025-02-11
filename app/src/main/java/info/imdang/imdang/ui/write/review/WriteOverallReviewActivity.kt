@@ -21,6 +21,7 @@ class WriteOverallReviewActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        intent.getStringExtra(OVERALL_REVIEW_TITLE)?.let(::setName)
         setupListener()
         setupExtra()
     }

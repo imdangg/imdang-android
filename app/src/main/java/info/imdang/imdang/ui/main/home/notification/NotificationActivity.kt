@@ -25,6 +25,7 @@ class NotificationActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("알림")
         setupBinding()
         setupListener()
         setupCollect()

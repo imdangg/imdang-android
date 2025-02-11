@@ -15,6 +15,8 @@ import info.imdang.imdang.ActivityTracker
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseActivity
 import info.imdang.imdang.common.ext.startActivity
+import info.imdang.imdang.common.util.logEvent
+import info.imdang.imdang.common.util.logScreen
 import info.imdang.imdang.databinding.ActivityMainBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.insight.InsightDetailActivity
@@ -74,17 +76,58 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun setupListener() {
         with(binding) {
             fabMain.setOnClickListener {
+                val event = if (bnvMain.selectedItemId == R.id.menu_home) {
+                    "GNB_bottom_home"
+                } else {
+                    "GNB_bottom(보관함)"
+                }
+                val category = if (bnvMain.selectedItemId == R.id.menu_home) {
+                    if (homeFragment.currentPage() == 0) "홈_탐색" else "홈_교환소"
+                } else {
+                    "보관함"
+                }
+                logEvent(
+                    event = event,
+                    category = category,
+                    action = "GNB_bottom_click",
+                    label = "작성"
+                )
                 this@MainActivity.viewModel.hideTooltip()
                 writeInsightResult.launch(
                     Intent(this@MainActivity, WriteInsightActivity::class.java)
                 )
             }
             bnvMain.setOnItemSelectedListener { item ->
+                val event = if (bnvMain.selectedItemId == R.id.menu_home) {
+                    "GNB_bottom_home"
+                } else {
+                    "GNB_bottom(보관함)"
+                }
+                val category = if (bnvMain.selectedItemId == R.id.menu_home) {
+                    if (homeFragment.currentPage() == 0) "홈_탐색" else "홈_교환소"
+                } else {
+                    "보관함"
+                }
                 when (item.itemId) {
-                    R.id.menu_home -> replaceFragment(homeFragment, storageFragment)
+                    R.id.menu_home -> {
+                        logEvent(
+                            event = event,
+                            category = category,
+                            action = "GNB_bottom_click",
+                            label = "홈"
+                        )
+                        replaceFragment(homeFragment, storageFragment)
+                    }
                     R.id.menu_storage -> {
+                        logEvent(
+                            event = event,
+                            category = category,
+                            action = "GNB_bottom_click",
+                            label = "보관함"
+                        )
                         this@MainActivity.viewModel.hideTooltip()
                         replaceFragment(storageFragment, homeFragment)
+                        logScreen("보관함", homeFragment::class.java.simpleName)
                     }
                 }
                 true
@@ -101,6 +144,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             commit()
         }
         replaceFragment(homeFragment, storageFragment)
+        logScreen("메인_탐색", homeFragment::class.java.simpleName)
     }
 
     private fun replaceFragment(showFragment: Fragment, hideFragment: Fragment) {

@@ -15,6 +15,7 @@ class ServiceTermActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("서비스 이용 약관")
         setupListener()
     }
 

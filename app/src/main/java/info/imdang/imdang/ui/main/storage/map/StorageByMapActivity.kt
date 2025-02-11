@@ -13,6 +13,7 @@ class StorageByMapActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setName("지도로 찾기")
         setupListener()
     }
 
