@@ -223,6 +223,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_home_new_insight"
+                    bindVisible="@{viewModel.newInsights.size() > 0}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="32dp"
@@ -272,6 +273,7 @@
 
                 <View
                     android:id="@+id/view_divider_2"
+                    bindVisible="@{viewModel.newInsights.size() > 0}"
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
                     android:background="@color/gray_50"
