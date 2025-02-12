@@ -1,5 +1,6 @@
 package info.imdang.imdang.ui.write
 
+import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.activity.addCallback
@@ -18,7 +19,7 @@ import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.databinding.ActivityWriteInsightBinding
 import info.imdang.imdang.ui.common.showCommonDialog
 import info.imdang.imdang.ui.insight.InsightDetailActivity
-import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
+import info.imdang.imdang.ui.main.MainActivity.Companion.MOVE_STORAGE
 import info.imdang.imdang.ui.write.fragment.WriteInsightBasicInfoFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
@@ -227,10 +228,16 @@ class WriteInsightActivity :
                                     startActivity<InsightDetailActivity>(
                                         bundle = bundleOf(INSIGHT_ID to it.insightId)
                                     )
+                                    setResult(RESULT_OK)
                                     finish()
                                 },
                                 onClickSubButton = {
-                                    setResult(RESULT_OK)
+                                    setResult(
+                                        RESULT_OK,
+                                        Intent().apply {
+                                            putExtra(MOVE_STORAGE, true)
+                                        }
+                                    )
                                     finish()
                                 }
                             )
