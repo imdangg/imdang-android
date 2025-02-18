@@ -81,17 +81,27 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/tv_nickname_essential"
+                        style="@style/T_600_14_19_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/essential"
+                        android:textColor="@color/red"
+                        app:layout_constraintStart_toEndOf="@+id/tv_nickname"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageView
                         android:id="@+id/iv_nick_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="4dp"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_check"
                         android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
-                        app:layout_constraintStart_toEndOf="@+id/tv_nickname"
-                        app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_nickname_essential"
+                        app:layout_constraintStart_toEndOf="@+id/tv_nickname_essential"
+                        app:layout_constraintTop_toTopOf="@+id/tv_nickname_essential" />
 
                     <TextView
                         style="@style/T_500_12_16_8"

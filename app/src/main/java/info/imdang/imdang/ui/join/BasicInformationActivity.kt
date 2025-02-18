@@ -138,6 +138,17 @@ class BasicInformationActivity :
                 }
             }
 
+            tlBirthDate.setEndIconOnClickListener {
+                etBirthDate.text?.clear()
+                if (etBirthDate.isFocused) {
+                    updateButtonState(basicInformationViewModel.isBirthDateValid.value)
+                    checkButtonEnabled()
+                } else {
+                    updateButtonState(basicInformationViewModel.isFinalButtonEnabled.value)
+                    checkButtonEnabled()
+                }
+            }
+
             etBirthDate.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     lifecycleScope.launch {
@@ -209,16 +220,27 @@ class BasicInformationActivity :
                     }
                 } else {
                     val nickname = binding.etNickName.text.toString()
-                    val birthDate = binding.etBirthDate.text.toString()
-                    val gender = if (binding.btnGenderMan.background.constantState ==
-                        ContextCompat.getDrawable(
-                            this@BasicInformationActivity,
-                            info.imdang.component.R.drawable.sr_orange50_orange500_all8
-                        )?.constantState
-                    ) {
-                        "MALE"
-                    } else {
-                        "FEMALE"
+                    var birthDate = binding.etBirthDate.text.toString()
+                    val gender = when {
+                        binding.btnGenderMan.background.constantState ==
+                            ContextCompat.getDrawable(
+                                this@BasicInformationActivity,
+                                info.imdang.component.R.drawable.sr_orange50_orange500_all8
+                            )?.constantState -> "MALE"
+
+                        binding.btnGenderWoman.background.constantState ==
+                            ContextCompat.getDrawable(
+                                this@BasicInformationActivity,
+                                info.imdang.component.R.drawable.sr_orange50_orange500_all8
+                            )?.constantState -> "FEMALE"
+
+                        else -> null
+                    }
+
+                    val isBirthDateValid = basicInformationViewModel.finalBirthDateValid.value
+
+                    if (!isBirthDateValid) {
+                        birthDate = ""
                     }
 
                     FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
