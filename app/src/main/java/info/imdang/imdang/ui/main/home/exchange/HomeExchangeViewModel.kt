@@ -1,6 +1,8 @@
 package info.imdang.imdang.ui.main.home.exchange
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.imdang.domain.model.common.MyExchangesParams
 import info.imdang.domain.model.common.PagingParams
@@ -10,13 +12,15 @@ import info.imdang.domain.usecase.myexchange.GetMyExchangeUseCase
 import info.imdang.domain.usecase.myexchange.GetOthersExchangeUseCase
 import info.imdang.imdang.base.BaseViewModel
 import info.imdang.imdang.common.util.logEvent
+import info.imdang.imdang.model.common.PagingState
 import info.imdang.imdang.model.coupon.CouponVo
 import info.imdang.imdang.model.coupon.mapper
 import info.imdang.imdang.model.insight.ExchangeRequestStatus
-import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.model.insight.mapper
 import info.imdang.imdang.ui.main.home.history.ExchangeType
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,26 +32,20 @@ class HomeExchangeViewModel @Inject constructor(
     private val getCouponCountUseCase: GetCouponUseCase
 ) : BaseViewModel() {
 
+    private val _event = MutableSharedFlow<HomeExchangeEvent>()
+    val event = _event.asSharedFlow()
+
     private val _currentExchangeType = MutableStateFlow(ExchangeType.REQUESTED)
     val currentExchangeType = _currentExchangeType.asStateFlow()
 
     private val _selectedChipId = MutableStateFlow(1)
     val selectedChipId = _selectedChipId.asStateFlow()
 
-    private val _mySelectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
-    val mySelectedChipCounts = _mySelectedChipCounts.asStateFlow()
-
-    private val _othersSelectedChipCounts = MutableStateFlow(mapOf<ExchangeRequestStatus, Int>())
-    val othersSelectedChipCounts = _othersSelectedChipCounts.asStateFlow()
-
-    private val _myExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
-    val myExchanges = _myExchanges.asStateFlow()
-
-    private val _othersExchanges = MutableStateFlow<List<InsightVo>>(emptyList())
-    val othersExchanges = _othersExchanges.asStateFlow()
-
     private val _coupon = MutableStateFlow(CouponVo.init())
     val coupon = _coupon.asStateFlow()
+
+    private val _pagingState = MutableStateFlow(PagingState())
+    val pagingState = _pagingState.asStateFlow()
 
     init {
         fetchMyExchange(ExchangeRequestStatus.PENDING)
@@ -96,37 +94,39 @@ class HomeExchangeViewModel @Inject constructor(
 
     private fun fetchMyExchange(exchangeRequestStatus: ExchangeRequestStatus) {
         viewModelScope.launch {
-            val response = getMyExchangeUseCase(
+            getMyExchangeUseCase(
                 MyExchangesParams(
                     exchangeRequestStatus = exchangeRequestStatus.name,
-                    pagingParams = PagingParams()
+                    pagingParams = PagingParams(
+                        totalCountListener = {
+                            updatePagingState(itemCount = it)
+                        }
+                    )
                 )
             )
-
-            val totalCount = response?.totalElements ?: 0
-            _mySelectedChipCounts.value = _mySelectedChipCounts.value.toMutableMap().apply {
-                this[exchangeRequestStatus] = totalCount
-            }
-
-            _myExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
+                ?.cachedIn(this)
+                ?.collect {
+                    _event.emit(HomeExchangeEvent.UpdateMyExchanges(it.map(InsightDto::mapper)))
+                }
         }
     }
 
     private fun fetchOthersExchange(exchangeRequestStatus: ExchangeRequestStatus) {
         viewModelScope.launch {
-            val response = getOthersExchangeUseCase(
+            getOthersExchangeUseCase(
                 MyExchangesParams(
                     exchangeRequestStatus = exchangeRequestStatus.name,
-                    pagingParams = PagingParams()
+                    pagingParams = PagingParams(
+                        totalCountListener = {
+                            updatePagingState(itemCount = it)
+                        }
+                    )
                 )
             )
-
-            val totalCount = response?.totalElements ?: 0
-            _othersSelectedChipCounts.value = _othersSelectedChipCounts.value.toMutableMap().apply {
-                this[exchangeRequestStatus] = totalCount
-            }
-
-            _othersExchanges.value = response?.content?.map(InsightDto::mapper) ?: emptyList()
+                ?.cachedIn(this)
+                ?.collect {
+                    _event.emit(HomeExchangeEvent.UpdateOthersExchanges(it.map(InsightDto::mapper)))
+                }
         }
     }
 
@@ -136,5 +136,17 @@ class HomeExchangeViewModel @Inject constructor(
                 _coupon.value = it.mapper()
             }
         }
+    }
+
+    fun updatePagingState(
+        isLoading: Boolean? = null,
+        itemCount: Int? = null,
+        error: String? = null
+    ) {
+        _pagingState.value = pagingState.value.copy(
+            isLoading = isLoading ?: pagingState.value.isLoading,
+            itemCount = itemCount ?: pagingState.value.itemCount,
+            error = error ?: pagingState.value.error
+        )
     }
 }

@@ -30,15 +30,13 @@ fun TextView.bindSpan(text: String, spanText: String) {
     value = ["bindChipSelectedId", "bindChipSelectedCounts"],
     requireAll = true
 )
-fun TextView.bindChipAlarmDescription(chipId: Int, chipCounts: Map<ExchangeRequestStatus, Int>?) {
+fun TextView.bindChipAlarmDescription(chipId: Int, count: Int) {
     val status = when (chipId) {
         1 -> ExchangeRequestStatus.PENDING
         2 -> ExchangeRequestStatus.REJECTED
         3 -> ExchangeRequestStatus.ACCEPTED
         else -> null
     }
-
-    val count = status?.let { chipCounts?.get(it) } ?: 0
 
     val description = when (status) {
         ExchangeRequestStatus.PENDING -> if (count > 0) {

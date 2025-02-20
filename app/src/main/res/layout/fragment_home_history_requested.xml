@@ -38,7 +38,7 @@
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 1}"
-                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.pagingState.itemCount : viewModel.pagingState.itemCount}"
                     bindChipSelected="@{viewModel.selectedChipId == 1}"
                     bindChipStatus="@{ExchangeRequestStatus.PENDING}"
                     android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 2}"
-                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.pagingState.itemCount : viewModel.pagingState.itemCount}"
                     bindChipSelected="@{viewModel.selectedChipId == 2}"
                     bindChipStatus="@{ExchangeRequestStatus.REJECTED}"
                     android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
 
                 <com.google.android.material.chip.Chip
                     bindChipBackground="@{viewModel.selectedChipId == 3}"
-                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                    bindChipCount="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.pagingState.itemCount : viewModel.pagingState.itemCount}"
                     bindChipSelected="@{viewModel.selectedChipId == 3}"
                     bindChipStatus="@{ExchangeRequestStatus.ACCEPTED}"
                     android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
 
             <TextView
                 style="@style/T_500_14_19_6"
-                bindChipSelectedCounts="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.mySelectedChipCounts : viewModel.othersSelectedChipCounts}"
+                bindChipSelectedCounts="@{viewModel.currentExchangeType == ExchangeType.REQUESTED ? viewModel.pagingState.itemCount : viewModel.pagingState.itemCount}"
                 bindChipSelectedId="@{viewModel.selectedChipId}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -129,6 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_requested_alarm"
