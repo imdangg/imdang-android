@@ -26,18 +26,20 @@ class BasicInformationViewModel @Inject constructor(
 
     private val finalNickNameValid = MutableStateFlow(false)
 
-    private val finalBirthDateValid = MutableStateFlow(false)
+    val finalBirthDateValid = MutableStateFlow(false)
 
     private val finalGenderValid = MutableStateFlow(false)
 
-    val isFinalButtonEnabled =
-        combine(
-            finalNickNameValid,
-            finalBirthDateValid,
-            finalGenderValid
-        ) { nicknameValid, birthDateValid, genderValid ->
-            nicknameValid && birthDateValid && genderValid
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val isFinalButtonEnabled = finalNickNameValid
+//    todo : 추후에 기존꺼 쓸 수 도 있음
+//    val isFinalButtonEnabled =
+//        combine(
+//            finalNickNameValid,
+//            finalBirthDateValid,
+//            finalGenderValid
+//        ) { nicknameValid, birthDateValid, genderValid ->
+//            nicknameValid && birthDateValid && genderValid
+//        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     private val _isRequireTermChecked = MutableStateFlow(false)
     val isRequireTermChecked = _isRequireTermChecked.asStateFlow()
@@ -82,7 +84,7 @@ class BasicInformationViewModel @Inject constructor(
         finalGenderValid.value = isValid
     }
 
-    fun onboardingJoin(nickname: String, birthDate: String, gender: String, deviceToken: String) {
+    fun onboardingJoin(nickname: String, birthDate: String, gender: String?, deviceToken: String) {
         val onboardingDto = OnboardingDto(
             nickname = nickname,
             birthDate = birthDate,

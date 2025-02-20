@@ -5,7 +5,7 @@ import info.imdang.domain.model.auth.OnboardingDto
 data class OnboardingRequest(
     val nickname: String,
     val birthDate: String,
-    val gender: String,
+    val gender: String?,
     val deviceToken: String
 ) {
     companion object {
