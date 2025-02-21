@@ -11,13 +11,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import info.imdang.imdang.R
 import info.imdang.imdang.base.BaseFragment
 import info.imdang.imdang.common.SpaceItemDecoration
-import info.imdang.imdang.common.bindingadapter.BaseSingleViewAdapter
+import info.imdang.imdang.common.bindingadapter.BaseSingleViewPagingAdapter
 import info.imdang.imdang.common.ext.startActivity
 import info.imdang.imdang.common.util.logEvent
 import info.imdang.imdang.databinding.FragmentHomeHistoryRequestedBinding
 import info.imdang.imdang.model.insight.InsightVo
 import info.imdang.imdang.ui.insight.InsightDetailActivity
 import info.imdang.imdang.ui.insight.InsightDetailActivity.Companion.INSIGHT_ID
+import info.imdang.imdang.ui.main.home.exchange.HomeExchangeEvent
 import info.imdang.imdang.ui.main.home.exchange.HomeExchangeViewModel
 import kotlinx.coroutines.launch
 
@@ -29,11 +30,14 @@ class HomeHistoryRequestedFragment :
 
     private var type: ExchangeType = ExchangeType.REQUESTED
 
+    private lateinit var adapter: BaseSingleViewPagingAdapter<InsightVo>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.updateExchangeType(type)
         setupBinding()
+        setupCollect()
     }
 
     private fun setupBinding() {
@@ -42,7 +46,7 @@ class HomeHistoryRequestedFragment :
 
             rvHomeHistoryRequested.run {
                 addItemDecoration(SpaceItemDecoration(space = 12))
-                adapter = BaseSingleViewAdapter(
+                this@HomeHistoryRequestedFragment.adapter = BaseSingleViewPagingAdapter(
                     layoutResourceId = R.layout.item_insight_horizontal,
                     bindingItemId = BR.item,
                     viewModel = mapOf(BR.viewModel to this@HomeHistoryRequestedFragment.viewModel),
@@ -81,21 +85,61 @@ class HomeHistoryRequestedFragment :
                             )
                         }
                     }
+                    when (type) {
+                        ExchangeType.REQUESTED -> {
+                            setupLoadStateListener(
+                                scope = lifecycleScope,
+                                onLoading = {
+                                    this@HomeHistoryRequestedFragment.viewModel.updatePagingState(
+                                        isLoading = it
+                                    )
+                                },
+                                onError = {
+                                    this@HomeHistoryRequestedFragment.viewModel.updatePagingState(
+                                        error = it
+                                    )
+                                }
+                            )
+                        }
+
+                        ExchangeType.RECEIVED -> {
+                            setupLoadStateListener(
+                                scope = lifecycleScope,
+                                onLoading = {
+                                    this@HomeHistoryRequestedFragment.viewModel.updatePagingState(
+                                        isLoading = it
+                                    )
+                                },
+                                onError = {
+                                    this@HomeHistoryRequestedFragment.viewModel.updatePagingState(
+                                        error = it
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+                adapter = this@HomeHistoryRequestedFragment.adapter
+            }
+        }
+    }
+
+    private fun setupCollect() {
+        lifecycleScope.launch {
+            when (type) {
+                ExchangeType.REQUESTED -> {
+                    viewModel.event.collect { event ->
+                        if (event is HomeExchangeEvent.UpdateMyExchanges) {
+                            adapter.submitData(lifecycle, event.exchanges)
+                        }
+                    }
                 }
 
-                val dataObserve = when (type) {
-                    ExchangeType.REQUESTED -> {
-                        this@HomeHistoryRequestedFragment.viewModel.myExchanges
-                    }
-
-                    ExchangeType.RECEIVED -> {
-                        this@HomeHistoryRequestedFragment.viewModel.othersExchanges
-                    }
-                }
-
-                lifecycleScope.launch {
-                    dataObserve.collect { items ->
-                        (adapter as BaseSingleViewAdapter<InsightVo>).submitList(items)
+                ExchangeType.RECEIVED -> {
+                    viewModel.event.collect { event ->
+                        if (event is HomeExchangeEvent.UpdateOthersExchanges) {
+                            adapter.submitData(lifecycle, event.exchanges)
+                        }
                     }
                 }
             }

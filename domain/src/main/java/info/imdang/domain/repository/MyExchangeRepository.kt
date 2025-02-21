@@ -1,7 +1,8 @@
 package info.imdang.domain.repository
 
-import info.imdang.domain.model.common.PagingDto
+import androidx.paging.PagingData
 import info.imdang.domain.model.insight.InsightDto
+import kotlinx.coroutines.flow.Flow
 
 interface MyExchangeRepository {
 
@@ -11,8 +12,9 @@ interface MyExchangeRepository {
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
-    ): PagingDto<InsightDto>
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
+    ): Flow<PagingData<InsightDto>>
 
     suspend fun getRequestedOthersExchanges(
         requestedMemberId: String,
@@ -20,6 +22,7 @@ interface MyExchangeRepository {
         page: Int?,
         size: Int?,
         direction: String?,
-        properties: List<String>?
-    ): PagingDto<InsightDto>
+        properties: List<String>?,
+        totalCountListener: ((Int) -> Unit)?
+    ): Flow<PagingData<InsightDto>>
 }
