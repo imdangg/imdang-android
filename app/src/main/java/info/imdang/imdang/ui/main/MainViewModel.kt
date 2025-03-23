@@ -3,13 +3,11 @@ package info.imdang.imdang.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.imdang.domain.usecase.auth.GetMemberIdUseCase
-import info.imdang.domain.usecase.coupon.IssueCouponParams
-import info.imdang.domain.usecase.coupon.IssueCouponUseCase
 import info.imdang.data.constant.ErrorCode
 import info.imdang.data.constant.ErrorMessage
 import info.imdang.data.model.response.common.ErrorResponse
 import info.imdang.domain.usecase.auth.RemoveTokenUseCase
+import info.imdang.domain.usecase.coupon.IssueCouponUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,7 +18,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    getMemberIdUseCase: GetMemberIdUseCase,
     private val issueCouponUseCase: IssueCouponUseCase,
     private val networkErrorResponse: SharedFlow<ErrorResponse>,
     private val removeTokenUseCase: RemoveTokenUseCase
@@ -28,8 +25,6 @@ class MainViewModel @Inject constructor(
 
     private val _event = MutableSharedFlow<MainEvent>()
     val event = _event.asSharedFlow()
-
-    private val memberId = getMemberIdUseCase()
 
     private val _isShowTooltip = MutableStateFlow(false)
     val isShowTooltip = _isShowTooltip.asStateFlow()
@@ -70,12 +65,7 @@ class MainViewModel @Inject constructor(
 
     fun showTooltip() {
         viewModelScope.launch {
-            issueCouponUseCase(
-                IssueCouponParams(
-                    memberId = memberId,
-                    name = "Welcome"
-                )
-            )?.let {
+            issueCouponUseCase(Unit)?.let {
                 _isShowTooltip.value = true
             }
         }
