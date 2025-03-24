@@ -151,17 +151,17 @@ class WriteInsightActivity :
                     hideKeyboard()
                 } else {
                     with(this@WriteInsightActivity.viewModel) {
-                        if (this@WriteInsightActivity.viewModel.isButtonEnabled.value) {
+                        if (isButtonEnabled.value) {
                             if (selectedPage.value < 4) {
                                 vpWriteInsight.currentItem = selectedPage.value + 1
-                                this@WriteInsightActivity.viewModel.updateProgress()
+                                updateProgress()
                             } else {
                                 logEvent(
                                     event = "인사이트 작성완료",
                                     category = "인사이트_작성_상세",
                                     action = "작성완료_click"
                                 )
-                                this@WriteInsightActivity.viewModel.writeInsight()
+                                writeInsight()
                             }
                         } else {
                             showToast(message = "필수 항목을 모두 작성해주세요")

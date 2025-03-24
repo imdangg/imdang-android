@@ -481,6 +481,7 @@ class WriteInsightViewModel @Inject constructor(
 
     fun writeInsight() {
         viewModelScope.launch {
+            _isButtonEnabled.value = false
             val writeInsightDto = WriteInsightDto(
                 insightId = insightId,
                 score = progress.value.replace("%", "").toInt(),
@@ -552,6 +553,7 @@ class WriteInsightViewModel @Inject constructor(
                         mainImage = coverImageFile.value ?: return@launch
                     ),
                     onError = {
+                        _isButtonEnabled.value = true
                         it.message?.let {
                             launch {
                                 _event.emit(WriteInsightEvent.ShowToast(it))
@@ -569,6 +571,7 @@ class WriteInsightViewModel @Inject constructor(
                         mainImage = coverImageFile.value
                     ),
                     onError = {
+                        _isButtonEnabled.value = true
                         it.message?.let {
                             launch {
                                 _event.emit(WriteInsightEvent.ShowToast(it))
