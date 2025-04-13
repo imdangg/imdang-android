@@ -296,5 +296,5 @@
     <string name="essential">(필수)</string>
 
     <string name="hint_home_search">어떤 지역의 인사이트를 찾으시나요?</string>
-    <string name="hint_date_of_visit">예시) 2024.01.01</string>
+    <string name="hint_date_of_visit">예시) %1$s</string>
 </resources>
