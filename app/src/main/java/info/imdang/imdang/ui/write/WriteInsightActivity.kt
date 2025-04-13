@@ -3,6 +3,7 @@ package info.imdang.imdang.ui.write
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.view.View
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
@@ -156,6 +157,7 @@ class WriteInsightActivity :
                                 vpWriteInsight.currentItem = selectedPage.value + 1
                                 updateProgress()
                             } else {
+                                showLoading(true)
                                 logEvent(
                                     event = "인사이트 작성완료",
                                     category = "인사이트_작성_상세",
@@ -216,6 +218,7 @@ class WriteInsightActivity :
                     when (it) {
                         WriteInsightEvent.UpdateButtonState -> updateButtonState(true)
                         is WriteInsightEvent.WriteInsightComplete -> {
+                            showLoading(false)
                             showCommonDialog(
                                 message = getString(
                                     info.imdang.component.R.string.write_insight_complete_message
@@ -278,6 +281,12 @@ class WriteInsightActivity :
             }
             background = drawable
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.pbWriteInsight.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.vpWriteInsight.visibility = if (isLoading) View.GONE else View.VISIBLE
+        binding.clWriteButton.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
     companion object {
